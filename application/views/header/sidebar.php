@@ -15,19 +15,19 @@
 					</li>
 					
 					<li>
-						<a href="calendar.php" class="dropdown-toggle no-arrow">
+						<a href="<?php echo site_url() ?>/downtime" class="dropdown-toggle no-arrow">
 							<span class="fa fa-chevron-circle-down"></span><span class="mtext">DOWNTIME</span>
 						</a>
 					</li>
 					<li>
-						<a href="calendar.php" class="dropdown-toggle no-arrow">
+						<a href="<?php echo site_url() ?>/defect" class="dropdown-toggle no-arrow">
 							<span class="fa fa-times"></span><span class="mtext">DEFECT</span>
 						</a>
 					</li>
 
 					<li>
 						<a href="calendar.php" class="dropdown-toggle no-arrow">
-							<span class="fa fa-times"></span><span class="mtext">SUMMARY</span>
+							<span class="fas fa-chart-bar"></span><span class="mtext">SUMMARY</span>
 						</a>
 					</li>
 
