@@ -8,27 +8,33 @@
 			<div class="sidebar-menu">
 				<ul id="accordion-menu">
 					<li class="dropdown">
-						<a href="javascript:;" class="dropdown-toggle">
+						<a href="javascript:;" class="dropdown-toggle no-arrow">
 							<span class="fa fa-home"></span><span class="mtext">DASHBOARD</span>
 						</a>
-						<ul class="submenu">
-							<li><a href="index.php">Dashboard style 1</a></li>
-							<li><a href="index2.php">Dashboard style 2</a></li>
-						</ul>
+						
 					</li>
-					<li class="dropdown">
+					
+					<li>
+						<a href="calendar.php" class="dropdown-toggle no-arrow">
+							<span class="fa fa-chevron-circle-down"></span><span class="mtext">DOWNTIME</span>
+						</a>
+					</li>
+					<li>
+						<a href="calendar.php" class="dropdown-toggle no-arrow">
+							<span class="fa fa-times"></span><span class="mtext">DEFECT</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="calendar.php" class="dropdown-toggle no-arrow">
+							<span class="fa fa-times"></span><span class="mtext">SUMMARY</span>
+						</a>
+					</li>
+
+					<!-- <li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="fa fa-pencil"></span><span class="mtext">DOWNTIME</span>
 						</a>
-						<ul class="submenu">
-							<li><a href="form-basic.php">Form Basic</a></li>
-							<li><a href="advanced-components.php">Advanced Components</a></li>
-							<li><a href="form-wizard.php">Form Wizard</a></li>
-							<li><a href="html5-editor.php">HTML5 Editor</a></li>
-							<li><a href="form-pickers.php">Form Pickers</a></li>
-							<li><a href="image-cropper.php">Image Cropper</a></li>
-							<li><a href="image-dropzone.php">Image Dropzone</a></li>
-						</ul>
 					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
@@ -38,12 +44,8 @@
 							<li><a href="basic-table.php">Basic Tables</a></li>
 							<li><a href="datatable.php">DataTables</a></li>
 						</ul>
-					</li>
-					<li>
-						<a href="calendar.php" class="dropdown-toggle no-arrow">
-							<span class="fa fa-calendar-o"></span><span class="mtext">Summary</span>
-						</a>
-					</li>
+					</li> -->
+					
 					<!-- <li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 							<span class="fa fa-desktop"></span><span class="mtext"> UI Elements </span>
