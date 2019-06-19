@@ -27,24 +27,33 @@
 
 					<li>
 						<a href="calendar.php" class="dropdown-toggle no-arrow">
-							<span class="fas fa-chart-bar"></span><span class="mtext">SUMMARY</span>
+							<!-- <i class="fas fa-chart-area"></i> -->
+							<i class="icon-copy fa fa-line-chart" aria-hidden="true"></i><span class="mtext">SUMMARY</span>
 						</a>
 					</li>
 
-					<!-- <li class="dropdown">
-						<a href="javascript:;" class="dropdown-toggle">
-							<span class="fa fa-pencil"></span><span class="mtext">DOWNTIME</span>
-						</a>
-					</li>
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
-							<span class="fa fa-table"></span><span class="mtext">DEFECT</span>
+
+							<span class="fa fa-list-ol"></span><span class="mtext">Code Settings</span>
 						</a>
 						<ul class="submenu">
-							<li><a href="basic-table.php">Basic Tables</a></li>
-							<li><a href="datatable.php">DataTables</a></li>
+							<li><a href="<?php echo site_url() ?>/assycode">Assy</a></li>
+							<li><a href="<?php echo site_url() ?>/defectcode">Defect</a></li>
 						</ul>
-					</li> -->
+					</li>
+
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle">
+							<span class="fa fa-group"></span><span class="mtext">Labor</span>
+						</a>
+						<ul class="submenu">
+							<li><a href="<?php echo site_url() ?>/directlabor">Direct</a></li>
+							<li><a href="<?php echo site_url() ?>/indirectlabor">Indirect</a></li>
+						</ul>
+					</li>
+
+
 					
 					<!-- <li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
