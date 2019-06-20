@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 18, 2019 at 04:28 AM
+-- Generation Time: Jun 20, 2019 at 04:18 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 5.6.40
 
@@ -184,22 +184,21 @@ CREATE TABLE `lost_time` (
 
 CREATE TABLE `main_pdo` (
   `id` int(11) NOT NULL,
-  `id_direct` int(11) NOT NULL,
-  `id_indirect` int(11) NOT NULL,
   `id_shift` int(11) NOT NULL,
+  `id_users` int(11) NOT NULL,
   `cv` varchar(50) NOT NULL,
   `tanggal` datetime NOT NULL,
-  `mh_out` int(11) NOT NULL,
-  `mh_in_dl` int(11) NOT NULL,
-  `mh_in_idl` int(11) NOT NULL,
-  `direct_eff` int(11) NOT NULL,
-  `total_productiv` int(11) NOT NULL,
-  `jam_kerja` int(11) NOT NULL,
-  `line_speed` int(11) NOT NULL,
-  `loss_output` int(11) NOT NULL,
-  `p_loss_time` int(11) NOT NULL,
-  `jam_effective` int(11) NOT NULL,
-  `dpm_fa` int(11) NOT NULL
+  `mh_out` int(11) DEFAULT NULL,
+  `mh_in_dl` int(11) DEFAULT NULL,
+  `mh_in_idl` int(11) DEFAULT NULL,
+  `direct_eff` int(11) DEFAULT NULL,
+  `total_productiv` int(11) DEFAULT NULL,
+  `jam_kerja` int(11) DEFAULT NULL,
+  `line_speed` int(11) DEFAULT NULL,
+  `loss_output` int(11) DEFAULT NULL,
+  `p_loss_time` int(11) DEFAULT NULL,
+  `jam_effective` int(11) DEFAULT NULL,
+  `dpm_fa` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -229,7 +228,8 @@ CREATE TABLE `quality_control` (
   `id` int(11) NOT NULL,
   `id_pdo` int(11) NOT NULL,
   `id_jenisdeffect` int(11) NOT NULL,
-  `keterangan` varchar(250) NOT NULL
+  `keterangan` varchar(250) NOT NULL,
+  `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -255,8 +255,36 @@ CREATE TABLE `regulasi` (
 
 CREATE TABLE `shift` (
   `id` int(11) NOT NULL,
-  `keterangan` int(11) NOT NULL
+  `keterangan` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `shift`
+--
+
+INSERT INTO `shift` (`id`, `keterangan`) VALUES
+(1, 'A (Pagi)'),
+(2, 'B (Malam)');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(250) NOT NULL,
+  `password` varchar(250) NOT NULL,
+  `level` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `level`) VALUES
+(1, 'a1', 'ana', 1);
 
 --
 -- Indexes for dumped tables
@@ -286,7 +314,8 @@ ALTER TABLE `assembly`
 -- Indexes for table `direct_labor`
 --
 ALTER TABLE `direct_labor`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_pdo` (`id_pdo`);
 
 --
 -- Indexes for table `indirect_activity`
@@ -299,7 +328,8 @@ ALTER TABLE `indirect_activity`
 -- Indexes for table `indirect_labor`
 --
 ALTER TABLE `indirect_labor`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_pdo_indirect` (`id_pdo`);
 
 --
 -- Indexes for table `jenis_deffect`
@@ -340,8 +370,7 @@ ALTER TABLE `lost_time`
 ALTER TABLE `main_pdo`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_shift_tbl_shift` (`id_shift`),
-  ADD KEY `fk_iddirect_tbldirect` (`id_direct`),
-  ADD KEY `fk_idindirect_tblindirect` (`id_indirect`);
+  ADD KEY `fk_users` (`id_users`);
 
 --
 -- Indexes for table `output_control`
@@ -371,6 +400,12 @@ ALTER TABLE `regulasi`
 -- Indexes for table `shift`
 --
 ALTER TABLE `shift`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -447,7 +482,7 @@ ALTER TABLE `lost_time`
 -- AUTO_INCREMENT for table `main_pdo`
 --
 ALTER TABLE `main_pdo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `output_control`
@@ -471,7 +506,13 @@ ALTER TABLE `regulasi`
 -- AUTO_INCREMENT for table `shift`
 --
 ALTER TABLE `shift`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -490,10 +531,22 @@ ALTER TABLE `absen_pegawai`
   ADD CONSTRAINT `fk_absenpeg_directlabor` FOREIGN KEY (`id_directlabor`) REFERENCES `direct_labor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `direct_labor`
+--
+ALTER TABLE `direct_labor`
+  ADD CONSTRAINT `fk_pdo` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `indirect_activity`
 --
 ALTER TABLE `indirect_activity`
   ADD CONSTRAINT `fk_indirectactivity_directlabor` FOREIGN KEY (`id_directlabor`) REFERENCES `direct_labor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `indirect_labor`
+--
+ALTER TABLE `indirect_labor`
+  ADD CONSTRAINT `fk_pdo_indirect` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `lost_time`
@@ -507,8 +560,8 @@ ALTER TABLE `lost_time`
 -- Constraints for table `main_pdo`
 --
 ALTER TABLE `main_pdo`
-  ADD CONSTRAINT `fk_idindirect_tblindirect` FOREIGN KEY (`id_indirect`) REFERENCES `indirect_labor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_shift_tbl_shift` FOREIGN KEY (`id_shift`) REFERENCES `shift` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_shift_tbl_shift` FOREIGN KEY (`id_shift`) REFERENCES `shift` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_users` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `output_control`
