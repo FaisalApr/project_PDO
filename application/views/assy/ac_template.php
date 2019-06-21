@@ -9,16 +9,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-	<!-- Google Font -->
-	<link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 	<!-- CSS -->
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
+	
 	<script>
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
@@ -38,28 +34,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="row">
 						<div class="col-md-6 col-sm-12">
 							<div class="title">
-								<h4>Assembly Table</h4>
+								<h4>Assembly Code Table</h4>
 							</div>
 							<nav aria-label="breadcrumb" role="navigation">
 								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="index.php">Assy</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Assembly Table</li>
+									<li class="breadcrumb-item"><a href="index.php">Setting Kode</a></li>
+									<li class="breadcrumb-item active" aria-current="page">Assy</li>
 								</ol>
 							</nav>
 						</div>
-						<!-- <div class="col-md-6 col-sm-12 text-right">
-							<div class="dropdown">
-								<a class="btn btn-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-									January 2018
-								</a>
-								<div class="dropdown-menu dropdown-menu-right">
-									<a class="dropdown-item" href="#">Export List</a>
-									<a class="dropdown-item" href="#">Policies</a>
-									<a class="dropdown-item" href="#">View Assets</a>
-								</div>
-							</div>
-						</div>
-					</div> -->
 				</div>
 				<!-- Simple Datatable start -->
 				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
@@ -87,14 +70,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<h2 class="text-center mb-30">Assembly Code</h2>
 											<form>
 												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="Assy Code">
+													<input type="text" class="form-control" placeholder="Assy Code" id="i_code">
 													<div class="input-group-append custom">
 														<span class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></span>
 													</div>
 												</div>
 												
 												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="UMH">
+													<input type="text" class="form-control" placeholder="UMH" id="i_umh">
 													<div class="input-group-append custom">
 														<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
 													</div>
@@ -106,7 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																use code for form submit
 																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
 															-->
-															<a class="btn btn-primary btn-lg btn-block" href="index.php">Submit</a>
+															<a class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit">Submit</a>
 														</div>
 													</div>
 												</div>
@@ -128,47 +111,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<th class="datatable-nosort">Action</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td class="table-plus">Bopak</td>
-									<td>25</td>
-									<td>Sagittarius</td>
-									<td>
-										<div class="dropdown">
-											<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-												<i class="fa fa-ellipsis-h"></i>
-											</a>
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#"><i class="fa fa-eye"></i> Lihat</a>
-												<a class="dropdown-item" href="#"><i class="fa fa-pencil"></i> Edit</a>
-												<a class="dropdown-item" href="#"><i class="fa fa-trash"></i> Hapus</a>
-											</div>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td class="table-plus">Gloria F. Mead</td>
-									<td>25</td>
-									<td>aries</td>
-									<td>
-										<div class="dropdown">
-											<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-												<i class="fa fa-ellipsis-h"></i>
-											</a>
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#"><i class="fa fa-eye"></i> Lihat</a>
-												<a class="dropdown-item" href="#"><i class="fa fa-pencil"></i> Edit</a>
-												<a class="dropdown-item" href="#"><i class="fa fa-trash"></i> Hapus</a>
-											</div>
-										</div>
-									</td>
-								</tr>
+							<tbody id="tbl_body">
 								
 							</tbody>
 						</table>
 
 					
-					
+			<!-- Confirmation modal -->
+							<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-body text-center font-18">
+											<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
+											<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
+												<input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
+												<br>
+												<div class="col-6">
+													<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+													NO
+												</div>
+												<div class="col-6">
+													<button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
+													YES
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>					
 
 
 	</div>
@@ -190,6 +161,74 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script>
 		$('document').ready(function(){
+			
+			show();    
+            function show(){
+                    $.ajax({
+                        async :false,
+                        type  : 'ajax',
+                        url   : '<?php echo base_url();?>index.php/AssyCode/getAssyCode',
+                        dataType : 'JSON',
+                        success : function(data){
+                            var html = '';
+                            var i;
+
+                            for(i=0; i<data.length; i++){
+                                html += 
+
+                                '<tr>'+
+									'<td class="table-plus">'+(i+1)+'</td>'+
+									'<td>'+ data[i].kode_assy+'</td>'+
+									'<td>'+data[i].umh+'</td>'+
+									'<td>'+
+										'<div class="dropdown">'+
+											'<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+												'<i class="fa fa-ellipsis-h"></i>'+
+											'</a>'+											
+											'<div class="dropdown-menu dropdown-menu-right">'+
+												'<a class="dropdown-item item_edit" href="#"><i class="fa fa-pencil"></i> Edit </a>'+
+												'<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
+											'</div>'+
+										'</div>'+
+									'</td>'+
+								'</tr>';    
+                            }
+                            $('#tbl_body').html(html);    
+                            // $(".table").DataTable({
+                            //     "lengthMenu": [[5,10,15,25,-1],[5,10,15,25,"Semua"]]
+                            // });             
+                        }
+                    });
+
+            }
+
+			$('#btn_submit').click(function(){
+				var def_code = document.getElementById("i_code").value;
+				var def_umh = document.getElementById("i_umh").value;
+				// alert(def_code+","+def_ket);
+
+				$.ajax({
+					async : false,
+					type : "POST",
+					url : "<?php echo base_url() ?>index.php/Assycode/newAssyCode",
+					dataType : "JSON",
+					data : {
+						def_code:def_code,
+						def_umh:def_umh
+					},
+					success : function(response){
+							  $('#login-modal').modal('hide');
+						if(response.error){
+							// alert('error');
+						}else{
+							// alert(response.status);
+						}
+
+					}
+				});
+				show();
+			});
+
 			$('.data-table').DataTable({
 				scrollCollapse: true,
 				autoWidth: false,
@@ -204,38 +243,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					searchPlaceholder: "Search"
 				},
 			});
-			$('.data-table-export').DataTable({
-				scrollCollapse: true,
-				autoWidth: false,
-				responsive: true,
-				columnDefs: [{
-					targets: "datatable-nosort",
-					orderable: false,
-				}],
-				"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-				"language": {
-					"info": "_START_-_END_ of _TOTAL_ entries",
-					searchPlaceholder: "Search"
-				},
-				dom: 'Bfrtip',
-				buttons: [
-				'copy', 'csv', 'pdf', 'print'
-				]
-			});
-			var table = $('.select-row').DataTable();
-			$('.select-row tbody').on('click', 'tr', function () {
-				if ($(this).hasClass('selected')) {
-					$(this).removeClass('selected');
-				}
-				else {
-					table.$('tr.selected').removeClass('selected');
-					$(this).addClass('selected');
-				}
-			});
-			var multipletable = $('.multiple-select-row').DataTable();
-			$('.multiple-select-row tbody').on('click', 'tr', function () {
-				$(this).toggleClass('selected');
-			});
+
+			// ===================   Delete Record ===============================================
+            //get data for delete record show prompt
+            $('#tbl_body').on('click','.item_delete',function(){
+                // alert($(this).data('id'))
+                var id = $(this).data('id');
+                // var tanggal = $(this).data('tanggal');
+                // var judul = $(this).data('judul');
+                // var pengumuman = $(this).data('isi');
+               
+                $('[name="id_dc_delete"]').val(id);  
+                $('#confirmation-modal').modal('show');
+                // document.getElementById("namaPengumuman_hapus").innerHTML=" '"+judul+"' ";
+                
+                
+               
+                // alert('oke');
+            });
+
+            //delete record to database
+
+            $('#btn_del').on('click',function(){
+                var id_dc_delete = $('#id_dc_delete').val();
+                // alert(id_dc_delete)
+                $.ajax({
+                    type : "POST",
+                    url  : "<?php echo site_url(); ?>/AssyCode/delAssyCode",
+                    dataType : "JSON",
+                    data : {id:id_dc_delete},
+                    success: function(){
+                        $('[name="id_dc_delete"]').val("");
+                        $('#confirmation-modal').modal('hide');
+                        // refresh()
+                        
+                show();
+                    }
+                });
+                return false;
+
+            });
+			 //   ========================  END DELETE RECORD ====================================
+
 		});
 	</script>
 

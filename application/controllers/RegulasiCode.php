@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class DefectCode extends CI_Controller {
+class RegulasiCode extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
@@ -10,15 +10,15 @@ class DefectCode extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('defect/dc_template');
+		$this->load->view('code/regulasiCode_');
 	}
 
-	public function newDefectCode()
+	public function newRegulasiCode()
 	{
 		# code...
 		// init
 		$output = array('error' => false);
-
+		
 		//data new
 		$dataDefectCode = array(
 			'code' => $this->input->post('def_code'),
@@ -34,24 +34,9 @@ class DefectCode extends CI_Controller {
 			$output['error'] = true;
 		}
 		echo json_encode($output);
-	}
 
-	public function getDefectCode()
-	{
-		# code...
-		$data= $this->DefectCode_model->getDcode();
-		echo json_encode($data);
-	}
-
-	public function delDefectCode()
-	{
-		# code...
-		$id = $this->input->post('id');
-
-		$data = $this->DefectCode_model->delDcode($id);
-			echo json_encode($data);
 	}
 }
 
-/* End of file defectCode.php */
-/* Location: ./application/controllers/defectCode.php */
+/* End of file regulasiCode.php */
+/* Location: ./application/controllers/regulasiCode.php */

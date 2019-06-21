@@ -27,7 +27,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
 		<!-- top icon dasboard -->
 		<div class="row clearfix progress-box">
-
 			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
 				<div class="card box-shadow">
 					<h5 class="card-header text-center weight-500">Output</h5>

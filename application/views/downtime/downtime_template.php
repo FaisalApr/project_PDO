@@ -33,6 +33,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
+		
+		<!-- top icon dasboard -->
+		<div class="row clearfix progress-box">
+			
+			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
+				<div class="card box-shadow">
+					<h5 class="card-header text-center weight-500">Prosentase Losstime</h5>
+					<div class="card-body"> 
+						<div class="project-info-progress">
+							<center>
+							<span class="col-sm-12 align-content-center text-blue weight-800"><font size="56">89%</font></span>
+							</center>
+						</div>
+					</div> 
+				</div>
+			</div>
+
+			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
+				<div class="card box-shadow">
+					<h5 class="card-header text-center weight-500">Total Losstime</h5>
+					<div class="card-body"> 
+						<center>
+							<span class="col-sm-10 align-content-center weight-800"><font size="56">56</font></span>
+							<span class="col-sm-2 align-content-center weight-800"><font size="10">jam</font></span>
+						</center>	
+					</div> 
+				</div>
+			</div>
+			
+			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
+				<div class="card box-shadow">
+					<h5 class="card-header text-center weight-500">Total Exclude</h5>
+					<div class="card-body"> 
+						<center>
+							<span class="col-sm-10 align-content-center weight-800"><font size="56">56</font></span>
+							<span class="col-sm-2 align-content-center weight-800"><font size="10">jam</font></span>
+						</center>	
+					</div> 
+				</div>
+			</div>
+
+		</div>
+			<!-- end of top icon dashboard -->
+
 		<div class="min-height-200px">
 				<div class="page-header">
 					<div class="row">
@@ -48,6 +92,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</nav>
 						</div>
 				</div>
+
 				<!-- Simple Datatable start -->
 				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
 					<div class="clearfix mb-20">

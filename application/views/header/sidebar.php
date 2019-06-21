@@ -8,7 +8,7 @@
 			<div class="sidebar-menu">
 				<ul id="accordion-menu">
 					<li class="dropdown">
-						<a href="javascript:;" class="dropdown-toggle no-arrow">
+						<a href="<?php echo site_url() ?>/dasboard" class="dropdown-toggle no-arrow">
 							<span class="fa fa-home"></span><span class="mtext">DASHBOARD</span>
 						</a>
 						
@@ -35,11 +35,16 @@
 					<li class="dropdown">
 						<a href="javascript:;" class="dropdown-toggle">
 
-							<span class="fa fa-list-ol"></span><span class="mtext">Code Settings</span>
+							<span class="fa fa-list-ol"></span><span class="mtext">SETTING KODE</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="<?php echo site_url() ?>/assycode">Assy</a></li>
 							<li><a href="<?php echo site_url() ?>/defectcode">Defect</a></li>
+
+							<li><a href="<?php echo site_url() ?>/errcode">Error</a></li>
+							<li><a href="<?php echo site_url() ?>/losstimecode">Losstime</a></li>
+							<li><a href="<?php echo site_url() ?>/regulasicode">regulasi</a></li>
+							<li><a href="<?php echo site_url() ?>/conveyorscode">Conveyors</a></li>
 						</ul>
 					</li>
 
@@ -52,7 +57,16 @@
 							<li><a href="<?php echo site_url() ?>/indirectlabor">Indirect</a></li>
 						</ul>
 					</li>
+					
+					<li class="dropdown">
+						<a href="javascript:;" class="dropdown-toggle no-arrow">
 
+							<span class="fa fa-list-ol"></span><span class="mtext">User</span>
+						</a>
+						<ul class="submenu">
+							<!-- <li><a href="<?php echo site_url() ?>/conveyorscode">Kelola User</a></li> -->
+						</ul>
+					</li>
 
 					
 					<!-- <li class="dropdown">
