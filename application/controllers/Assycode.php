@@ -14,10 +14,11 @@ class Assycode extends CI_Controller {
 		$this->load->view('assy/ac_template');
 	}
 
+
+// ===========   AJAX ===============
 	public function newAssyCode()
 	{
-		# code...
-		# code...
+		# code... 
 		// init
 		$output = array('error' => false);
 
@@ -53,6 +54,13 @@ class Assycode extends CI_Controller {
 		$data = $this->AssyCode_model->delAcode($id);
 		echo json_encode($data);
 	}
+
+	public function getAssyCodeDasboard()
+	{
+		$data = $this->AssyCode_model->getAcodeDasboard();
+		echo json_encode($data);
+	}
+
 
 }
 

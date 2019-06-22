@@ -289,26 +289,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						var dl_otidl = document.getElementById("f_idl_ot").value;
 						// activity
 						// console.log(stddl+","+regdl+","+jam_otdl+","+dl_otdl+",&idl:"+stdidl+","+regidl+","+jam_otidl+","+dl_otidl);
-						// for (var i = 0; i < activ.length; i++) {
-						// 	console.log(activ[i].item+":"+activ[i].menit);
-						// }
+						 
 						$.ajax({
 			            	async : false,
 			                type : "POST",
-			                url   : '<?php echo base_url();?>index.php/Login/ceklogin',
+			                url   : '<?php echo base_url();?>index.php/Welcome/newPdo',
 			                dataType : "JSON",
-			                data : {arr_actv:activ,password:password},
+			                data : {
+			                		stddl:stddl,
+			                		regdl:regdl,
+			                		jam_otdl:jam_otdl,
+			                		dl_otdl:dl_otdl,
+
+			                		stdidl:stdidl,
+			                		regidl:regidl,
+			                		jam_otidl:jam_otidl,
+			                		dl_otidl:dl_otidl,
+			                		
+			                		arr_actv:activ
+			                	},
 			                success: function(response){ 
 			                	// jika terdapat error / user pass salah
-								if(response.error){ 
-
+								if(response.error || response.error1 || response.error2 ){ 
+									console.log("Ada error")
 								}
 								else{
-
+									console.log("Semua Bahagia");
 								}
 
 			                }
 			            }); 
+
 
 
 					}else{

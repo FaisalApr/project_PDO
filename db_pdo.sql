@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 20, 2019 at 04:18 AM
+-- Generation Time: Jun 23, 2019 at 01:39 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 5.6.40
 
@@ -61,8 +61,53 @@ CREATE TABLE `absen_pegawai` (
 CREATE TABLE `assembly` (
   `id` int(11) NOT NULL,
   `kode_assy` varchar(50) NOT NULL,
-  `umh` int(11) NOT NULL
+  `umh` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `assembly`
+--
+
+INSERT INTO `assembly` (`id`, `kode_assy`, `umh`) VALUES
+(6, '58860', 3.1746),
+(7, '58880', 2.9967),
+(9, '58A30', 3.0555),
+(10, '58820', 3.2858),
+(11, '58A20', 2.915),
+(14, '58890', 3.1325);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `build_assy`
+--
+
+CREATE TABLE `build_assy` (
+  `id` int(11) NOT NULL,
+  `id_outputcontrol` int(11) NOT NULL,
+  `id_pdo` int(11) NOT NULL,
+  `id_assy` int(11) NOT NULL,
+  `actual` int(11) NOT NULL,
+  `time` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `build_assy`
+--
+
+INSERT INTO `build_assy` (`id`, `id_outputcontrol`, `id_pdo`, `id_assy`, `actual`, `time`) VALUES
+(46, 22, 1, 7, 3, '2019-06-22 20:26:48');
+
+--
+-- Triggers `build_assy`
+--
+DELIMITER $$
+CREATE TRIGGER `updt_act` AFTER UPDATE ON `build_assy` FOR EACH ROW BEGIN
+	UPDATE output_control SET actual=(SELECT sum(actual) FROM build_assy WHERE id_outputcontrol=NEW.id_outputcontrol)
+    WHERE id=NEW.id_outputcontrol;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -79,8 +124,16 @@ CREATE TABLE `direct_labor` (
   `jam_ot` int(11) NOT NULL,
   `dl_ot` int(11) NOT NULL,
   `mh_reg` int(11) NOT NULL,
-  `mh_ot` int(11) NOT NULL
+  `mh_ot` int(11) NOT NULL,
+  `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `direct_labor`
+--
+
+INSERT INTO `direct_labor` (`id`, `id_pdo`, `std_dl`, `reg_dl`, `jam_reg`, `jam_ot`, `dl_ot`, `mh_reg`, `mh_ot`, `total`) VALUES
+(1, 1, 56, 56, 8, 2, 56, 448, 112, 560);
 
 -- --------------------------------------------------------
 
@@ -112,8 +165,16 @@ CREATE TABLE `indirect_labor` (
   `jam_ot` int(11) NOT NULL,
   `dl_ot` int(11) NOT NULL,
   `mh_reg` int(11) NOT NULL,
-  `mh_ot` int(11) NOT NULL
+  `mh_ot` int(11) NOT NULL,
+  `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `indirect_labor`
+--
+
+INSERT INTO `indirect_labor` (`id`, `id_pdo`, `std_idl`, `reg_idl`, `jam_reg`, `jam_ot`, `dl_ot`, `mh_reg`, `mh_ot`, `total`) VALUES
+(1, 1, 3, 2, 8, 2, 2, 16, 4, 20);
 
 -- --------------------------------------------------------
 
@@ -123,8 +184,19 @@ CREATE TABLE `indirect_labor` (
 
 CREATE TABLE `jenis_deffect` (
   `id` int(11) NOT NULL,
+  `code` varchar(50) NOT NULL,
   `keterangan` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jenis_deffect`
+--
+
+INSERT INTO `jenis_deffect` (`id`, `code`, `keterangan`) VALUES
+(3, 'CROSS CCT', 'CROSS CIRCUIT'),
+(7, 'MISS PARTS', 'MISSING PARTS'),
+(8, 'DMG PARTS', 'DAMAGED PARTS'),
+(9, 'OTHERS ', 'LAIN-LAIN');
 
 -- --------------------------------------------------------
 
@@ -137,6 +209,23 @@ CREATE TABLE `jenis_error` (
   `kode` varchar(50) NOT NULL,
   `keterangan` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jenis_error`
+--
+
+INSERT INTO `jenis_error` (`id`, `kode`, `keterangan`) VALUES
+(2, '1A', '4M (MANPOWER BARU)'),
+(3, '1B', '4M (PENGGANTI MP ABSEN)'),
+(4, '1C', 'BELUM CUTTING / OP RUMP UP (<3 BULAN)'),
+(5, '1D', 'BELUM CUTTING  / OP RUMP UP (>3 BULAN)'),
+(6, '1E', 'PROSES PENGERJAAN KANBAN TIDAK FIFO'),
+(7, '1F', 'BELUM PROSES MANUAL TWIST'),
+(8, '1G', 'BELUM PROSES MANUAL SHIELD'),
+(9, '1H', 'BELUM PROSES MANUAL BONDER'),
+(10, '1I', 'BELUM PROSES MANUAL RAYCAM'),
+(11, '1J', 'BELUM PROSES MANUAL JOINT'),
+(12, '1K', 'BELUM PROSES MANUAL CRIMPING');
 
 -- --------------------------------------------------------
 
@@ -201,6 +290,13 @@ CREATE TABLE `main_pdo` (
   `dpm_fa` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `main_pdo`
+--
+
+INSERT INTO `main_pdo` (`id`, `id_shift`, `id_users`, `cv`, `tanggal`, `mh_out`, `mh_in_dl`, `mh_in_idl`, `direct_eff`, `total_productiv`, `jam_kerja`, `line_speed`, `loss_output`, `p_loss_time`, `jam_effective`, `dpm_fa`) VALUES
+(1, 1, 1, '12A', '2019-06-21 14:05:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -210,13 +306,18 @@ CREATE TABLE `main_pdo` (
 CREATE TABLE `output_control` (
   `id` int(11) NOT NULL,
   `id_pdo` int(11) NOT NULL,
-  `id_assy` int(11) NOT NULL,
   `plan` int(11) NOT NULL,
   `actual` int(11) NOT NULL,
-  `jumlah_plan` int(11) NOT NULL,
-  `jumlah_actual` int(11) NOT NULL,
-  `jam_ke` int(11) NOT NULL
+  `jam_ke` int(11) NOT NULL,
+  `time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `output_control`
+--
+
+INSERT INTO `output_control` (`id`, `id_pdo`, `plan`, `actual`, `jam_ke`, `time`) VALUES
+(22, 1, 36, 7, 1, '2019-06-22 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -311,6 +412,15 @@ ALTER TABLE `assembly`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `build_assy`
+--
+ALTER TABLE `build_assy`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_idassy_tblassembly` (`id_assy`),
+  ADD KEY `fk_idoc_tblOc` (`id_outputcontrol`),
+  ADD KEY `fk_pdo_tblPDO` (`id_pdo`);
+
+--
 -- Indexes for table `direct_labor`
 --
 ALTER TABLE `direct_labor`
@@ -377,7 +487,6 @@ ALTER TABLE `main_pdo`
 --
 ALTER TABLE `output_control`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_idassy` (`id_assy`),
   ADD KEY `fk_idpdo_tblmainpdo` (`id_pdo`);
 
 --
@@ -428,13 +537,19 @@ ALTER TABLE `absen_pegawai`
 -- AUTO_INCREMENT for table `assembly`
 --
 ALTER TABLE `assembly`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `build_assy`
+--
+ALTER TABLE `build_assy`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `direct_labor`
 --
 ALTER TABLE `direct_labor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `indirect_activity`
@@ -446,19 +561,19 @@ ALTER TABLE `indirect_activity`
 -- AUTO_INCREMENT for table `indirect_labor`
 --
 ALTER TABLE `indirect_labor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `jenis_deffect`
 --
 ALTER TABLE `jenis_deffect`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `jenis_error`
 --
 ALTER TABLE `jenis_error`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `jenis_losttime`
@@ -482,13 +597,13 @@ ALTER TABLE `lost_time`
 -- AUTO_INCREMENT for table `main_pdo`
 --
 ALTER TABLE `main_pdo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `output_control`
 --
 ALTER TABLE `output_control`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `quality_control`
@@ -531,6 +646,14 @@ ALTER TABLE `absen_pegawai`
   ADD CONSTRAINT `fk_absenpeg_directlabor` FOREIGN KEY (`id_directlabor`) REFERENCES `direct_labor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `build_assy`
+--
+ALTER TABLE `build_assy`
+  ADD CONSTRAINT `fk_idassy_tblassembly` FOREIGN KEY (`id_assy`) REFERENCES `assembly` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_idoc_tblOc` FOREIGN KEY (`id_outputcontrol`) REFERENCES `output_control` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_pdo_tblPDO` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `direct_labor`
 --
 ALTER TABLE `direct_labor`
@@ -567,7 +690,6 @@ ALTER TABLE `main_pdo`
 -- Constraints for table `output_control`
 --
 ALTER TABLE `output_control`
-  ADD CONSTRAINT `fk_idassy` FOREIGN KEY (`id_assy`) REFERENCES `assembly` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_idpdo_tblmainpdo` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

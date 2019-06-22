@@ -19,6 +19,16 @@ class AssyCode_model extends CI_Model {
 		return $query->result();
 	}
 
+	public function getAcodeDasboard()
+	{
+		# code...
+		// urut berdasarkan abjad
+		$this->db->order_by('kode_assy','asc');
+		// get data
+		$query = $this->db->get('assembly');
+		return $query->result();
+	}
+
 	public function delAcode($id)
 	{
 		# code...
@@ -26,6 +36,8 @@ class AssyCode_model extends CI_Model {
 		$result = $this->db->delete('assembly');
 		return $result;
 	}
+
+
 
 }
 
