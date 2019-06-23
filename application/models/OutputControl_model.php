@@ -87,7 +87,15 @@ class OutputControl_model extends CI_Model {
         return  $data1;
 	}
 
-
+	public function updatePlanOC()
+	{
+		//data new
+		$dataUpdatePdo = array( 
+			'plan' => $this->input->post('plan')
+		);
+		$this->db->where('id', $this->input->post('id'));
+		return $this->db->update('output_control',$dataUpdatePdo);
+	}
 
 
 }

@@ -42,7 +42,8 @@ class Welcome extends CI_Controller {
 			'id_shift' => 1, 
 			'id_users' => 1, 
 			'cv' => '12A', 
-			'tanggal' => date("Y-m-d H:i:s")
+			'tanggal' => date("Y-m-d H:i:s"),
+			'line_speed' => 0
 		);
 		// insert data new pdo
 		$result = $this->Pdo_model->createPdo($dataPdo);

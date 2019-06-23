@@ -76,6 +76,11 @@ class OutputControl extends CI_Controller {
 		echo json_encode($result);
 	}
 
+	public function updatePlanControl()
+	{ 
+		echo json_encode($this->OutputControl_model->updatePlanOC());
+	}	
+
 
 }
 

@@ -32,6 +32,22 @@
 				<span></span> 
 			</div>
   			
+  			<div class="row">
+  				<div style="margin-left: 50px;">
+	  				<font size="46">Line:</font> 
+					<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -20px;"><font size="56">12A</font></span>
+	  			</div>
+
+	  			<div style="margin-left: 50px;">
+	  				<font size="46">Shift:</font> 
+					<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -10px;"><font size="56">A</font></span>
+	  			</div>
+
+	  			<div style="margin-left: 50px;">
+	  				<font size="46">Speed:</font> 
+					<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -10px;"><font size="56"><?php echo $pdo->line_speed ?></font><a href="#" data-toggle="modal" data-target="#scv_modal" ><i class="fa fa-cog" aria-hidden="true"></i></a></span>
+	  			</div>	
+  			</div>
   			 
 			
 

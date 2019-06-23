@@ -18,14 +18,80 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!-- CSS -->
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
+	<!-- bootstrap-touchspin css -->
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css">
 
 </head>
 <body>
-<?php $this->load->view('header/header'); ?>
+<input id="id_pdo" type="hidden" class="form-control" value="<?php echo $pdo->id ?>"> 
+
+<?php $this->load->view('header/header_user'); ?>
 <?php $this->load->view('header/sidebar'); ?>
  
- <!-- Modall -->
+<!--    Modall AREA    -->
 
+<!--  Modal  Speed Conveyor -->
+<div class="modal fade" id="scv_modal">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Ubah Kecepatan Conveyor</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+        	<div class="clearfix device-usage-chart">
+				<div class="width-50-p pull-left">
+					<div id="spd_cv" style="min-width: 160px; max-width: 180px; height: 200px; margin: 0 auto"></div>
+				</div>
+				<div class="width-50-p pull-right">
+					<div class="form-group">
+						<label>Speed</label>
+						<input id="demo1" type="number" value="<?php echo $pdo->line_speed ?>" name="speed_edit"> 
+					</div>
+					<br> 
+					<div class="input-group"> 
+						<a class="btn btn-primary btn-lg btn-block" id="btn_update_speed" href="#">update</a>
+					</div>
+
+				</div>
+			</div>
+
+        </div> 
+        
+      </div>
+    </div>
+</div>
+<!--  Modal  Speed Conveyor -->
+<div class="modal fade" id="updtplan_modal">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content">
+	        <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+				<h2 class="text-center mb-30">Edit Plan</h2>
+				<form> 
+					<div class="input-group custom input-group-lg">
+						<input type="number" id="plan_editfom" class="form-control">
+						<input type="hidden" id="id_plan_editfom" class="form-control">
+						<div class="input-group-append custom">
+							<span class="input-group-text"><i class="icon-copy fa fa-check-square-o" aria-hidden="true"></i></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="input-group"> 
+								<a class="btn btn-primary btn-lg btn-block" id="btn_update_plan" href="#">update</a>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+      </div>
+    </div>
+</div>
  <!-- modal edit per items (login-modal) -->
 <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
@@ -55,7 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <!-- Modal Add Build -->
 <div class="modal fade" id="modalnewbuild">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<form id="fomaddbuild">
 				<div class="modal-header">
@@ -81,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <!-- Modal Add new Jam ke -->
 <div class="modal fade" id="modaladdjamke">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Pindah Jam </h4>
@@ -91,7 +157,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="input-group custom input-group-lg" >
 					<center><H3 id="id_labeljam"></H3></center>
 					<input id="terus_jam_ke" type="hidden" class="form-control"> 
-					<input id="id_pdo" type="text" class="form-control"> 
 				</div> 
 				<div class="form-group">
 					<label>Jumlah Plan</label>
@@ -221,7 +286,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			
 		<!-- Tabel -->
 		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30"> 
-			<table class="table table-responsive table-striped table-bordered" style="padding-bottom: 20px;">
+			<table class="table table-responsive table-striped table-bordered" style="padding-bottom: 25px;">
 				<thead id="thead_outputt"> 
 					 
 				</thead>
@@ -242,6 +307,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script> 
 	<!-- add sweet alert js & css in footer -->
 	<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>  
+	<!-- Spedometer charts -->
+	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
+	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
+	<!-- TOuch SPIN -->
+	<script src="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"></script>
 
 	<script> 
 		$('document').ready(function(){
@@ -263,8 +333,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     type  : 'ajax',
                     url   : '<?php echo base_url();?>index.php/OutputControl/getDataOutputControl',
                     dataType : 'JSON',
-                    success : function(data){ 
-                    	$('#id_pdo').val(data[0].id_pdo);
+                    success : function(data){  
                         var html = '';
                         var t_plan=0;
                         var t_act=0;
@@ -317,8 +386,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         	html +=  
                             '<tr>'+
-								'<th scope="row" colspan="2" style="text-align: center;">'+data[i].jam_ke+'</th>'+
-								'<td>'+data[i].plan+'</td>'+
+								'<th scope="row" colspan="2" style="text-align: center;">'+data[i].jam_ke+'</th>';
+							var tm ='';
+
+							if ((i+1)==data.length) {
+								tm='<td><a href="#" class="plan_edit" data-idr="'+data[i].id+'" data-jum="'+data[i].plan+'">'+data[i].plan+'</a></td>';
+							}else{
+								tm='<td>'+data[i].plan+'</td>';
+							} 
+							html +=	
+								tm+
 								'<td>'+data[i].actual+'</td>'; 
 
                         	// Data detail per row 
@@ -374,7 +451,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				                	if(response.length==0 && (i+1)==data.length){
 				                		for (var ir = 0; ir < db_head.length; ir++) {
 				                			html += 
-				                				'<td><a href="#" class="item_newassy" data-kodeassy="'+db_head[ir].kode_assy+'" data-baris="'+(i+1)+'" data-idrow="'+data[i].id+'" data-idcol="'+db_head[ir].id+'">+</a></td>'; 
+				                				'<td><a href="#" class="item_newassy btn btn-outline-success btn-sm" data-kodeassy="'+db_head[ir].kode_assy+'" data-baris="'+(i+1)+'" data-idrow="'+data[i].id+'" data-idcol="'+db_head[ir].id+'">+</a></td>'; 
 				                		}
 				                	}
 				                }
@@ -410,7 +487,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							// hitungan total builder assy & umh
 							htmltotalbawah +=  '<th scope="row">'+atot+'</th>'; 
 							var tumh= (Number(db_head[ir].umh)*atot);
-							if (tumh!=0) { tumh = tumh.toFixed(3)}
+							if (tumh!=0 && tumh.toString().split('.')[1].length>3) { 
+								tumh = tumh.toFixed(4);
+							}
 							htmltotalbawahMhOt +=  '<th scope="row">'+tumh+'</th>';
 						}
   
@@ -547,6 +626,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				showdata(); 
 			});
 
+			// ========== START EVENT edit PLAN  =====================
+			$('#tbody_outputt').on('click','.plan_edit',function(){
+				var id = $(this).data('idr');
+				var jplan = $(this).data('jum');
+
+				$('#plan_editfom').val(jplan);
+				$('#id_plan_editfom').val(id); 
+
+				$('#updtplan_modal').modal("show");
+			});
+			$('#btn_update_plan').on('click',function(){
+				var id = $('#id_plan_editfom').val();
+				var jplan = $('#plan_editfom').val();
+ 
+				$.ajax({
+					async : false,
+					type: "POST",
+					url: "<?php echo site_url('OutputControl/updatePlanControl')?>",
+					dataType: "JSON",
+					data: {
+							id:id,
+							plan:jplan
+						},
+					success: function(data){
+						// jika sukses
+						if (data) {
+							console.log("Berhasil update plan");
+						}else{
+							Swal.fire({
+							  title: 'Error!',
+							  text: 'Gagal Update',
+							  type: 'error',
+							  confirmButtonText: 'Ok',
+							  allowOutsideClick: false
+							})
+							console.log("Ada error");
+						}
+						showdata();  
+						$('#updtplan_modal').modal("hide");
+					}
+				});
+			});
+			// ==========   END EVENT edit PLAN  =====================
+
 			// ========== start event edit click =====================
 			$('#tbody_outputt').on('click','.item_edit',function(){
             	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
@@ -583,7 +706,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                	}else{
 	                		Swal.fire({
 							  title: 'Error!',
-							  text: 'Pastikan Inputan benar',
+							  text: 'Gagal Update',
 							  type: 'error',
 							  confirmButtonText: 'Ok',
 							  allowOutsideClick: false
@@ -658,6 +781,153 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             });
 			// ========== END event new assy Bottom + click ===================== 
+
+ 
+			// gauge chart
+			Highcharts.chart('spd_cv', {
+
+				chart: {
+					type: 'gauge',
+					plotBackgroundColor: null,
+					plotBackgroundImage: null,
+					plotBorderWidth: 0,
+					plotShadow: false
+				},
+				title: {
+					text: ''
+				},
+				credits: {
+					enabled: false
+				},
+				pane: {
+					startAngle: -150,
+					endAngle: 150,
+					background: [{
+						borderWidth: 0,
+						outerRadius: '109%'
+					}, {
+						borderWidth: 0,
+						outerRadius: '107%'
+					}, {
+					}, {
+						backgroundColor: '#fff',
+						borderWidth: 0,
+						outerRadius: '105%',
+						innerRadius: '103%'
+					}]
+				},
+
+				yAxis: {
+					min: 0,
+					max: 200,
+
+					minorTickInterval: 'auto',
+					minorTickWidth: 1,
+					minorTickLength: 10,
+					minorTickPosition: 'inside',
+					minorTickColor: '#666',
+
+					tickPixelInterval: 30,
+					tickWidth: 2,
+					tickPosition: 'inside',
+					tickLength: 10,
+					tickColor: '#666',
+					labels: {
+						step: 2,
+						rotation: 'auto'
+					},
+					title: {
+						text: '...'
+					},
+					plotBands: [{
+						from: 0,
+						to: 120,
+						color: '#55BF3B'
+					}, {
+						from: 120,
+						to: 160,
+						color: '#DDDF0D'
+					}, {
+						from: 160,
+						to: 200,
+						color: '#DF5353'
+					}]
+				},
+
+				series: [{
+					name: 'Speed',
+					data: [1],
+					tooltip: {
+						valueSuffix: '  dtk/Min'
+					}
+				}]
+			});
+			
+
+			// touch spin
+			$("input[name='speed_edit']").TouchSpin({
+				min: 0,
+				max: 200,
+				step: 1,
+				decimals: 0,
+				boostat: 5,
+				maxboostedstep: 10,
+				postfix: 'speed'
+			});
+			// update gauge
+			let spdi = Number($("input[name='speed_edit']").val());  
+			$('#spd_cv').highcharts().series[0].points[0].update(spdi);
+
+			// event on change value touchspin
+			$("input[name='speed_edit']").on('touchspin.on.startspin', function () {
+				// get speed data
+				let spd = Number($("input[name='speed_edit']").val()); 
+				// update gauge
+				$('#spd_cv').highcharts().series[0].points[0].update(spd);
+			});
+
+
+			// update speed submit event 
+			$('#btn_update_speed').click(function(){
+				var sped = $("input[name='speed_edit']").val();
+				var idp = $("#id_pdo").val();
+ 
+				$.ajax({
+					async : false,
+					type : "POST",
+					url : "<?php echo site_url('PDO_Controler/updateSpeed') ?>",
+					dataType : "JSON",
+					data : {
+						id:idp,
+						spd:sped
+					},
+					success: function(data){
+						$('#scv_modal').modal('hide');
+						if (data) {
+							Swal.fire(
+						      'Berhasil !',
+						      'Update Speed',
+						      'success'
+						    ).then(function(){
+						    	document.location.reload(true);
+						    }); 
+
+							console.log("berhasil Update Speed");
+						}else{
+							Swal.fire({
+							  title: 'Error!',
+							  text: 'Gagal update speed',
+							  type: 'error',
+							  confirmButtonText: 'Ok',
+							  allowOutsideClick: false
+							})
+							console.log("Ada error saat update speed");
+						}
+					}
+				}); 
+
+			});
+ 
 
 		});
 	</script>
