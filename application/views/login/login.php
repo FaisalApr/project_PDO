@@ -1,55 +1,40 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
 	<title>Login Page</title>
-   <!--Made with love by Mutiullah Samim -->
-   
-	<!--Bootsrap 4 CDN-->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    
-    <!--Fontawesome CDN-->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-
+ 
+	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">  
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
 	<!--Custom styles-->
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/vendors/styles/login_styles.css">
 </head>
-<body>
+<body style="background-image: url(<?php echo base_url('assets/src/wp/wp.jpg') ?>);">
 <div class="container">
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
-				<h3>Sign In</h3>
-				<div class="d-flex justify-content-end social_icon">
-					<span><i class="fab fa-facebook-square"></i></span>
-					<span><i class="fab fa-google-plus-square"></i></span>
-					<span><i class="fab fa-twitter-square"></i></span>
-				</div>
+				<h3>Sign In</h3> 
 			</div>
 			<div class="card-body">
 				<form>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-user"></i></span>
+							<span class="input-group-text"><i class="icon-copy fa fa-user"></i></span>
 						</div>
-						<input type="text" class="form-control" placeholder="username">
+						<input id="un_input" type="text" class="form-control" placeholder="username">
 						
 					</div>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-key"></i></span>
+							<span class="input-group-text"><i class="icon-copy fa fa-key" aria-hidden="true"></i></span>
 						</div>
-						<input type="password" class="form-control" placeholder="password">
+						<input id="pwd_input" type="password" class="form-control" placeholder="password">
 					</div>
 					<div class="row align-items-center remember">
 						<input type="checkbox">Remember Me
 					</div>
 					<div class="form-group">
-						<input type="submit" value="Login" class="btn float-right login_btn">
+						<a id="btn_login"  class="btn float-right login_btn">Login</a> 
 					</div>
 				</form>
 			</div>
@@ -65,4 +50,76 @@
 	</div>
 </div>
 </body>
+<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script> 
+<!-- add sweet alert js & css in footer -->
+<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>  
+<script type="text/javascript">
+	$(document).ready(function(){
+
+
+		$('#btn_login').click(function(){
+			var u = $('#un_input').val();
+			var pwd = $('#pwd_input').val();
+
+			if (u.length==0 || pwd.length==0) {
+				return;
+			}
+			Swal.fire({
+			  position: 'center',
+			  title: 'Mohon Tunggu..',
+			  type: 'info',
+			  text: 'Permintaan sedang di Proses...',  
+			  showConfirmButton: false,
+			  allowOutsideClick: false
+			})
+
+			$.ajax({
+				async: false,
+				type : "POST",
+				url:'<?php echo site_url('Login/cekLogin') ?>',
+				dataType: "JSON",
+				data: {
+					usr: u,
+					pwd: pwd
+				},
+				success: function(data){ 
+
+					// jika tidak error / pass benar
+					if (!data.error) {
+						Swal.close();
+						Swal.fire({
+						  position: 'center',
+						  title: 'Mohon Tunggu..',
+						  type: 'info',
+						  text: data.message ,  
+						  showConfirmButton: false,
+						  allowOutsideClick: false
+						})
+						setTimeout(function(){
+							
+							setTimeout(' window.location.href = "<?php echo site_url('Welcome'); ?>" ');
+						},2000);
+						console.log("pass");
+					}else{
+						Swal.close();
+						Swal.fire({
+						  title: 'Username & Password Salah !',
+						  text: 'Pastikan username dan password yang anda masukkan benar.',
+						  type: 'error',
+						  confirmButtonText: 'Ok',
+						  allowOutsideClick: false
+						}) 
+
+						console.log("worng pass");
+						// setTimeout(function(){
+
+						// },2000);
+					}
+				}
+			});
+
+		});
+
+	});
+</script>
 </html>

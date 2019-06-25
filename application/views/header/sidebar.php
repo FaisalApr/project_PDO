@@ -1,3 +1,14 @@
+<style>
+	.aktip{
+	  background-color: #DDF2FF;
+	  color: #0099FF;
+	}
+	.aktip:hover {
+	  background-color: #DDF2FF;
+	  color: #0099FF;
+	}
+</style>
+
 	<div class="left-side-bar">
 		<div class="brand-logo">
 			<a href="index.php">
@@ -7,27 +18,26 @@
 		<div class="menu-block customscroll">
 			<div class="sidebar-menu">
 				<ul id="accordion-menu">
-					<li class="dropdown">
-						<a href="<?php echo site_url() ?>/dasboard" class="dropdown-toggle no-arrow">
+					<li class="dropdown <?php echo $this->uri->segment(1) == 'Dasboard' ? 'aktip': '' ?>">
+						<a href="<?php echo site_url() ?>/Dasboard" class="dropdown-toggle no-arrow">
 							<span class="fa fa-home"></span><span class="mtext">DASHBOARD</span>
 						</a>
 						
 					</li>
 					
-					<li>
+					<li class=" <?php echo $this->uri->segment(1) == 'downtime' ? 'aktip': '' ?>">
 						<a href="<?php echo site_url() ?>/downtime" class="dropdown-toggle no-arrow">
 							<span class="fa fa-chevron-circle-down"></span><span class="mtext">DOWNTIME</span>
 						</a>
 					</li>
-					<li>
+					<li class=" <?php echo $this->uri->segment(1) == 'defect' ? 'aktip': '' ?>">
 						<a href="<?php echo site_url() ?>/defect" class="dropdown-toggle no-arrow">
 							<span class="fa fa-times"></span><span class="mtext">DEFECT</span>
 						</a>
 					</li>
 
-					<li>
-						<a href="calendar.php" class="dropdown-toggle no-arrow">
-							<!-- <i class="fas fa-chart-area"></i> -->
+					<li class=" <?php echo $this->uri->segment(1) == 'Summary' ? 'aktip': '' ?>">
+						<a href="<?php echo site_url() ?>/Summary" class="dropdown-toggle no-arrow"> 
 							<i class="icon-copy fa fa-line-chart" aria-hidden="true"></i><span class="mtext">SUMMARY</span>
 						</a>
 					</li>

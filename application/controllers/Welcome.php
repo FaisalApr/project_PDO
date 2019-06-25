@@ -9,18 +9,29 @@ class Welcome extends CI_Controller {
 		$this->load->model('DirectLabor_Model');
 		$this->load->model('InDirectLabor_Model');
 		date_default_timezone_set("Asia/Jakarta");
+		
+		// jika tidak memiliki sesi		
+		if (!$this->session->userdata('pdo_logged')) {
+			redirect('Login','refresh');
+		}
 	}
 
 	public function index()
 	{ 
-		$username = "1sss"; //$this->input->post('username');
-		$shift =  "c" ;//$this->input->post('password');
-		$tanggal = date("Y-m-d");  
+		// get sesion
+		$session_data = $this->session->userdata('pdo_logged'); 
 
-		$result = $this->Pdo_model->cariPdo($username,$shift,$tanggal);
+		// init data
+		$id_user = $session_data['id_user'];  
+		$shift =  "1" ; 
+		$tanggal = date("Y-m-d");  //"2019-06-22";
+
+		// jika user sudah ada data pdo
+		$result = $this->Pdo_model->cariPdo($id_user,$shift,$tanggal);
 		if ($result) { 
 			redirect('Dasboard','refresh');
 		}else {  
+
 			$this->load->view('welcome_message');
 		}
 
@@ -34,13 +45,15 @@ class Welcome extends CI_Controller {
 	  
 	public function newPdo()
 	{
+		// get sesion
+		$session_data = $this->session->userdata('pdo_logged');
 		// init
-		$output = array('error' => false,'error1' => false,'error2' => false); 
+		$output = array('error' => false,'error1' => false,'error2' => false);  
 
 		// data new PDO
 		$dataPdo = array(
 			'id_shift' => 1, 
-			'id_users' => 1, 
+			'id_users' => $session_data['id_user'], 
 			'cv' => '12A', 
 			'tanggal' => date("Y-m-d H:i:s"),
 			'line_speed' => 0
@@ -48,7 +61,8 @@ class Welcome extends CI_Controller {
 		// insert data new pdo
 		$result = $this->Pdo_model->createPdo($dataPdo);
 		if ($result) {
-			$pdo = $this->Pdo_model->cariPdoItems(1,1,date("Y-m-d"));
+			// mencari pdo yang sudah di insert
+			$pdo = $this->Pdo_model->cariPdoItems($session_data['id_user'],1,date("Y-m-d"));
  			
  			// hitungan
  			$mhreg = ($this->input->post('regdl')*8);
@@ -92,12 +106,15 @@ class Welcome extends CI_Controller {
 	        // jika direct labor sukses
 	        if ($result1) { 
 
+	        	// mencari id DIRECT LABOR
+	        	$dl = $this->DirectLabor_Model->cariDirectLabor($pdo->id);
+	        	$output['id_dl'] = $dl->id; 
 	        }else{
 	        	$output['error1'] = true;
 	        }
-	        // jika In Direct Labor Sukses
+	        // jika In-Direct Labor Sukses
         	if ($result2) {
- 
+ 				// tidak perlu mencari
         	}else{
         		$output['error2'] = true;	
         	}

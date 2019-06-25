@@ -1,8 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dasboard extends CI_Controller {
- 
+class Summary extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
@@ -28,7 +27,7 @@ class Dasboard extends CI_Controller {
 		if ($result) { 
 			
 			$data['pdo'] = $this->Pdo_model->cariPdoItems($username,$shift,$tanggal);
-			$this->load->view('dasboard/dasboard_home',$data);
+			$this->load->view('summary/sum_user',$data);
 		}else {  
 			// jika tidak punya data pdo
 			redirect('Welcome','refresh');
@@ -38,5 +37,7 @@ class Dasboard extends CI_Controller {
 
 
 
-
 }
+
+/* End of file summary.php */
+/* Location: ./application/controllers/summary.php */

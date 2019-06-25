@@ -8,6 +8,7 @@ class OutputControl_model extends CI_Model {
 	{
 		$this->db->select('*');
 		$this->db->from('output_control');
+		$this->db->where('id_pdo',$this->input->post('id_pdo'));
 		$this->db->order_by('jam_ke', 'asc');
         $query= $this->db->get();
        	return $query->result();

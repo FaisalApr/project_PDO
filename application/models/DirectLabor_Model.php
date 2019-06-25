@@ -9,4 +9,32 @@ class DirectLabor_Model extends CI_Model {
 	}
  
 
+
+	public function arrayInsertDirectActivity()
+	{
+		$new = array(
+				'id_directlabor' => $this->input->post('iddl'),
+				'item' => $this->input->post('activity'),
+				'qty_mp' => $this->input->post('qty'),
+				'menit' => $this->input->post('menit'),
+				'total' => $this->input->post('total')
+			);
+		$result = $this->db->insert('indirect_activity',$new);
+
+		return $result;
+	}
+
+
+	public function cariDirectLabor($iddl) 
+	{
+		$this->db->select('*');
+		$this->db->from('direct_labor');
+		$this->db->where('id_pdo',$iddl);   
+		$query=$this->db->get();
+
+		return $query->first_row();
+	}
+	
+
+
 } 

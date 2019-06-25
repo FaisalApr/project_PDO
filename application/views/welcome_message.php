@@ -152,6 +152,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</center>
 				</div>
 			</div>
+ 
+		 
 
 		</div>
 	</div> 
@@ -254,6 +256,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</script>
 	<script>
 		$('document').ready(function(){ 
+ 			// deklarasi nama bulan
+ 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+
+			let today = new Date();
+			var currentMonth = today.getMonth();
+			var currentYear = today.getFullYear();
+			var currDate = today.getDate();
+
+			$('#slect_date').val('  '+currDate+' '+monthName[currentMonth]+' '+currentYear);
+ 
+			$('.date-picker').datepicker({   
+			    onSelect: function(selected,evnt) {
+			    	let tod = new Date(selected);
+			    	alert(tod);
+			    }
+			});
+
+
 			//new direct Activity 
 			var activ = []; 
 			var a1 = { item:"5S + Yoidon", menit:0 };
@@ -304,17 +324,53 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                		stdidl:stdidl,
 			                		regidl:regidl,
 			                		jam_otidl:jam_otidl,
-			                		dl_otidl:dl_otidl,
-			                		
-			                		arr_actv:activ
+			                		dl_otidl:dl_otidl
 			                	},
 			                success: function(response){ 
 			                	// jika terdapat error / user pass salah
-								if(response.error || response.error1 || response.error2 ){ 
-									console.log("Ada error")
+								if(response.error || response.error1 || response.error2 ){  
+									Swal.fire({
+									  title: 'Error!',
+									  text: 'Terjadi kesalahan pengiriman data',
+									  type: 'error',
+									  confirmButtonText: 'Ok',
+									  allowOutsideClick: false
+									}).then(function(){
+								    	document.location.reload(true);
+								    }); 
+
 								}
-								else{
-									console.log("Semua Bahagia");
+								else{ 
+									 
+									// perulangan insert activity
+									for (var ls = 0; ls < activ.length; ls++) {
+ 										var to = (regdl*activ[ls].menit);
+
+										$.ajax({
+											async: false,
+											type: "POST",
+											url: '<?php echo site_url('DirectLabor/anInsertActivity') ?>',
+											dataType: "JSON",
+											data:{
+												iddl: response.id_dl,
+												activity: activ[ls].item,
+												qty: regdl,
+												menit: activ[ls].menit,
+												total: to
+											},
+											success: function(data){
+
+											} 
+										});
+
+									}  
+									Swal.fire(
+								      'Berhasil !',
+								      'Membuat Planning',
+								      'success'
+								    ).then(function(){
+								    	document.location.reload(true);
+								    }); 
 								}
 
 			                }
@@ -407,6 +463,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 document.getElementById("panel_newplann").style.display="none";
 			});
  			
+			$('#btn_test').click(function(){
+				$.ajax({
+					async : false,
+					type : "POST",
+					url: '<?php echo site_url('DirectLabor/arInsertActivity') ?>',
+					dataType : "JSON",
+					data:{
+						aray:activ
+					},
+					success: function(data){
+						console.log("sukses");
+					}
+				});
+			});
+
 
 
 		});

@@ -22,9 +22,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css">
 
 </head>
-<body>
+<body> 
 <input id="id_pdo" type="hidden" class="form-control" value="<?php echo $pdo->id ?>"> 
-
 <?php $this->load->view('header/header_user'); ?>
 <?php $this->load->view('header/sidebar'); ?>
  
@@ -51,6 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label>Speed</label>
 						<input id="demo1" type="number" value="<?php echo $pdo->line_speed ?>" name="speed_edit"> 
+						<input  type="hidden" value="<?php echo $pdo->line_speed ?>" name="speed_edit_temp"> 
 					</div>
 					<br> 
 					<div class="input-group"> 
@@ -285,7 +285,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 			
 		<!-- Tabel -->
-		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30"> 
+		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">  
 			<table class="table table-responsive table-striped table-bordered" style="padding-bottom: 25px;">
 				<thead id="thead_outputt"> 
 					 
@@ -315,8 +315,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script> 
 		$('document').ready(function(){
+			// deklarasi nama bulan
+ 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+
+ 			let today = new Date();
+			var currentMonth = today.getMonth();
+			var currentYear = today.getFullYear();
+			var currDate = today.getDate();
+ 
+            document.getElementById('slect_date').value=currDate+' '+monthName[currentMonth]+' '+currentYear;
+
 			// auto load
-			showdata();  
+			showdata();   
+
+
+			$('.date-pickerrr').datepicker({   
+				language: "en",
+				firstDay: 1,  
+			    onSelect: function(selected, d, calendar) {
+			    	let tod = new Date(selected); 
+			    	document.getElementById('slect_date').value=tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+			    	calendar.hide();
+			    }
+			});
+
 
 			function showdata() { 
 				var htmlhead1 = '';
@@ -330,9 +352,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // get data per pdo
 				$.ajax({
                     async : false,
-                    type  : 'ajax',
+                    type  : 'POST',
                     url   : '<?php echo base_url();?>index.php/OutputControl/getDataOutputControl',
                     dataType : 'JSON',
+                    data:{
+                    	id_pdo:$('#id_pdo').val()
+                    },
                     success : function(data){  
                         var html = '';
                         var t_plan=0;
@@ -886,6 +911,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$('#spd_cv').highcharts().series[0].points[0].update(spd);
 			});
 
+			// btn show speed modal
+			$('#btn_changesped').click(function(){
+				let spdi = Number($("input[name='speed_edit_temp']").val());  
+				$("input[name='speed_edit']").val(spdi);
+				$('#spd_cv').highcharts().series[0].points[0].update(spdi);
+				
+				$('#scv_modal').modal('show'); 
+			});
 
 			// update speed submit event 
 			$('#btn_update_speed').click(function(){
