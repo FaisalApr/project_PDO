@@ -29,6 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
+		
 		<!-- Data Table Start -->
 		<div class="min-height-200px">
 				<div class="page-header">
@@ -45,19 +46,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</nav>
 						</div>
 				</div>
+
 				<!-- Simple Datatable start -->
 				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
 					<div class="clearfix mb-20">
 						<div class="pull-left">
 							<h5 class="text-blue" style="font-size: 50px">Defect Code Data Table</h5>
-							<!-- <p class="font-14">you can find more options <a class="text-primary" href="https://datatables.net/" target="_blank">Click Here</a></p> -->
+							
 						</div>
 					</div>
+					
+					<!-- start row -->
 					<div class="row">
 						<div class="card-body">
 
 							<div class="pull-right">
-						<div class="row clearfix">	
+							<!-- button tambah -->
+							<div class="row clearfix">	
 								<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#login-modal" style="margin-right: 25px; width: 193px">
 									<span class="fa fa-plus"></span> Tambah </a>
 								</div>
@@ -68,21 +73,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="modal-content">
 										<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-											<!-- <img src="vendors/images/login-img.png" alt="login" class="login-img"> -->
-
+											
 											<h2 class="text-center mb-30">Defect Code</h2>
-											<form>
+										<form id="form_Dcode">
 												<div class="input-group custom input-group-lg">
 													<input type="text" class="form-control" placeholder="Defect Code" id="i_code">
 													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></span>
+														<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
 													</div>
 												</div>
 												
 												<div class="input-group custom input-group-lg">
 													<input type="text" class="form-control" placeholder="Keterangan" id="i_ket">
 													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+														<span class="input-group-text"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 													</div>
 												</div>
 
@@ -94,6 +98,53 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
 															-->
 															<a class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit">Submit</a>
+														</div>
+													</div>
+												</div>
+											
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<!-- update modal -->
+							
+
+							<div class="modal fade" id="Modal_upd" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered">
+									<div class="modal-content">
+										<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+											<!-- <img src="vendors/images/login-img.png" alt="login" class="login-img"> -->
+
+											<h2 class="text-center mb-30">Assembly Code</h2>
+											<form id="formupdate">
+												<div class="input-group custom input-group-lg">
+													
+													<input type="text" class="form-control" placeholder="Defect Code" name="kodeupdt" id="kodeupdt">
+													<input type="hidden" class="form-control" placeholder="Defect Code" name="id_k" id="id_k">
+													<div class="input-group-append custom">
+														<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+													</div>
+												</div>
+												
+												<div class="input-group custom input-group-lg">
+													<input type="text" class="form-control" placeholder="Keterangan" id="keterangan_id" name="keterangan_name">
+													<div class="input-group-append custom">
+
+														<span class="input-group-text"><i class="fa fa-money" aria-hidden="true"></i></span>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<div class="input-group">
+															<!--
+																use code for form submit
+																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+															-->
+															<a id="btn_update" type="submit" class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit">Update</a>
 														</div>
 													</div>
 												</div>
@@ -126,6 +177,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 								</div>
 							</div>
+
+
 						</div>
 					
 
@@ -195,17 +248,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												'<i class="fa fa-ellipsis-h"></i>'+
 											'</a>'+											
 											'<div class="dropdown-menu dropdown-menu-right">'+
-												'<a class="dropdown-item item_edit" href="#"><i class="fa fa-pencil"></i> Edit </a>'+
+												'<a class="dropdown-item item_edit" href="#" data-id ="'+data[i].id+'" data-kode_defect="'+data[i].code+'" data-keterangan ="'+data[i].keterangan+'"><i class="fa fa-pencil"></i> Edit </a>'+
 												'<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
 											'</div>'+
 										'</div>'+
 									'</td>'+
 								'</tr>';    
                             }
-                            $('#tbl_body').html(html);    
-                            // $(".table").DataTable({
-                            //     "lengthMenu": [[5,10,15,25,-1],[5,10,15,25,"Semua"]]
-                            // });             
+                            $('#tbl_body').html(html);
                         }
                     });
 
@@ -232,7 +282,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}else{
 							// alert(response.status);
 						}
-
+						document.getElementById("form_Dcode").reset();
 					}
 				});
 				show();
@@ -267,9 +317,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $('[name="id_dc_delete"]').val(id);  
                 $('#confirmation-modal').modal('show');
                 // document.getElementById("namaPengumuman_hapus").innerHTML=" '"+judul+"' ";
-                
-                
-               
                 // alert('oke');
             });
 
@@ -295,6 +342,66 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             });
 			 //   ========================  END DELETE RECORD ====================================
+
+
+			 //  ===================  START UPDATE Record ===============================================
+            //get data for UPDATE record show prompt
+            $('#tbl_body').on('click','.item_edit',function(){
+            	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
+                // variabel = list datatable
+                var idd = $(this).data('id');
+                var kode = $(this).data('kode_defect'); 
+                var ket = $(this).data('keterangan');
+
+                // memasukkan data ke form updatean
+                // name inputan . variabel
+				$('[name="id_k"]').val(idd);
+				$('[name="kodeupdt"]').val(kode);
+				$('[name="keterangan_name"]').val(ket);
+				
+				// // data dropdown
+				// for(var i=0; i < document.getElementById('levelup').options.length; i++){
+				//     if(document.getElementById('levelup').options[i].value == level) {
+				//       document.getElementById('levelup').selectedIndex = i;
+				//       break;
+				//     }
+				//  }
+				// $('[name="level"]').val(level);
+
+                $('#Modal_upd').modal('show');
+                
+            });
+            
+            //UPDATE record to database (submit button)
+
+            $('#btn_update').on('click',function(){
+            	// variabel = name inputan
+                var idkode = $('[name="id_k"]').val();
+				var kodeup = $('[name="kodeupdt"]').val();
+				var ketup = $('[name="keterangan_name"]').val();
+				
+				// alert(ketup);
+                $.ajax({
+                    type : "POST",
+                    url  : "<?php echo site_url(); ?>/DefectCode/updateDefectCode",
+                    dataType : "JSON",
+                    data : { 
+                    	//post controller : variabel
+                    		id:idkode,
+                    		code:kodeup,
+                    		keterangan:ketup},
+
+                    success: function(data){
+                    	$('#Modal_upd').modal('hide'); 
+                        // refresh();
+                        show();
+                    }
+                });
+
+                
+
+            });
+ //   ========================  END UPDATE RECORD ====================================
 
 		});
 

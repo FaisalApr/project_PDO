@@ -60,7 +60,16 @@ class Assycode extends CI_Controller {
 		$data = $this->AssyCode_model->getAcodeDasboard();
 		echo json_encode($data);
 	}
+	public function updateAssyCode()
+	{
+		# code...
+		$id = $this->input->post('id');
+		$kode = $this->input->post('kode_assy');
+		$umh = $this->input->post('umh');
 
+		$result = $this->AssyCode_model->updateACode($id,$kode,$umh);
+		echo json_encode($result);
+	}
 
 }
 

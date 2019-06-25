@@ -106,36 +106,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 											<h2 class="text-center mb-30">Defect</h2>
 											<form>
-												
 												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="Jam ke">
+												<div class="input-group custom input-group-lg">
+													<select class="custom-select col-12" name="levelupp" id="i_jam">
+														<option disabled selected> Pilih Jam ke</option>
+																<?php foreach ($pdo as $key) { ?>
+																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
+																<?php }  ?>
+															</select>
+													</select>
+												</div>
 													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></span>
+														<span class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
 													</div>
 												</div>
 
 												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="Keterangan">
+													<select class="custom-select col-12" name="levelup" id="i_select">
+														<option disabled selected> Pilih Jenis Defect</option>
+																<?php foreach ($defect as $key) { ?>
+																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->code .'('.$key->keterangan.')' ?> </option>
+																<?php }  ?>
+															</select>
+													</select>
+												</div>
+
+												<div class="input-group custom input-group-lg">
+													<input id="i_ket" type="text" class="form-control" placeholder="Keterangan">
 													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></span>
+														<span class="input-group-text"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 													</div>
 												</div>
 												
 												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="Total">
+													<input type="text" class="form-control" placeholder="Total" id="i_total">
 													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+														<span class="input-group-text"><i class="fa fa-database" aria-hidden="true"></i></span>
 													</div>
 												</div>
 
-												<div class="input-group custom input-group-lg">
-														<select class="custom-select col-12">
-															<option selected="">Choose...</option>
-															<option value="1">One</option>
-															<option value="2">Two</option>
-															<option value="3">Three</option>
-														</select>
-													</div>
 												
 												
 												<div class="row">
@@ -145,7 +154,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																use code for form submit
 																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
 															-->
-															<a class="btn btn-primary btn-lg btn-block" href="index.php">Submit</a>
+															<a id="btn_submit" class="btn btn-primary btn-lg btn-block" href="#">Submit</a>
 														</div>
 													</div>
 												</div>
@@ -169,45 +178,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<th class="datatable-nosort">Action</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td class="table-plus">Gloria F. Mead</td>
-									<td>25</td>
-									<td>Sagittarius</td>
-									<td>2829 Trainer Avenue Peoria, IL 61602 </td>
-									
-									<td>
-										<div class="dropdown">
-											<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-												<i class="fa fa-ellipsis-h"></i>
-											</a>
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#"><i class="fa fa-eye"></i> Lihat</a>
-												<a class="dropdown-item" href="#"><i class="fa fa-pencil"></i> Edit</a>
-												<a class="dropdown-item" href="#"><i class="fa fa-trash"></i> Hapus</a>
-											</div>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td class="table-plus">Gloria F. Mead</td>
-									<td>25</td>
-									<td>Sagittarius</td>
-									<td>2829 Trainer Avenue Peoria, IL 61602 </td>
-									
-									<td>
-										<div class="dropdown">
-											<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-												<i class="fa fa-ellipsis-h"></i>
-											</a>
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#"><i class="fa fa-eye"></i> Lihat</a>
-												<a class="dropdown-item" href="#"><i class="fa fa-pencil"></i> Edit</a>
-												<a class="dropdown-item" href="#"><i class="fa fa-trash"></i> Hapus</a>
-											</div>
-										</div>
-									</td>
-								</tr>
+							<tbody id="tbl_body">
+
+								
 								
 							</tbody>
 						</table>
@@ -249,6 +222,80 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					searchPlaceholder: "Search"
 				},
 			});
+
+			show();    
+            function show(){
+                    $.ajax({
+                        async :false,
+                        type  : 'ajax',
+                        url   : '<?php echo base_url();?>index.php/Defect/getDefects',
+                        dataType : 'json',
+                        success : function(data){
+                            var html = '';
+                            var i;
+
+                            for(i=0; i<data.length; i++){
+                                html += 
+
+
+
+                                '<tr>'+
+									'<td class="table-plus">'+(i+1)+'</td>'+
+									'<td>'+ data[i].code+'</td>'+
+									'<td>'+data[i].keterangan+'</td>'+
+									'<td>'+
+										'<div class="dropdown">'+
+											'<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+												'<i class="fa fa-ellipsis-h"></i>'+
+											'</a>'+											
+											'<div class="dropdown-menu dropdown-menu-right">'+
+												'<a class="dropdown-item item_edit" href="#" data-id ="'+data[i].id+'" data-kode_defect="'+data[i].code+'" data-keterangan ="'+data[i].keterangan+'"><i class="fa fa-pencil"></i> Edit </a>'+
+												'<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
+											'</div>'+
+										'</div>'+
+									'</td>'+
+								'</tr>';    
+                            }
+                            $('#tbl_body').html(html);
+                        }
+                    });
+
+            }
+
+
+   			$('#btn_submit').click(function(){
+
+				var def_jam = document.getElementById("i_jam").value;
+				var def_ket = document.getElementById("i_ket").value;
+				var def_total = document.getElementById("i_total").value;
+				var levelupp = $('select[name=levelupp]').val()
+				var levelup = $('select[name=levelup]').val()
+				alert(def_jam+","+def_ket+","+def_total+","+levelup+","+levelupp);
+
+				// $.ajax({
+				// 	async : false,
+				// 	type : "POST",
+				// 	url : "<?php echo base_url() ?>index.php/Defect/newDefect",
+				
+				// 	dataType : "JSON",
+				// 	data : {
+				// 		def_code:def_code,
+				// 		def_ket:def_ket
+				// 	},
+				// 	success : function(response){
+				// 			  $('#login-modal').modal('hide');
+				// 		if(response.error){
+				// 			// alert('error');
+				// 		}else{
+				// 			// alert(response.status);
+				// 		}
+				// 		document.getElementById("form_Dcode").reset();
+				// 	}
+				// });
+				// show();
+			});
+
+
 			$('.data-table-export').DataTable({
 				scrollCollapse: true,
 				autoWidth: false,
@@ -281,6 +328,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('.multiple-select-row tbody').on('click', 'tr', function () {
 				$(this).toggleClass('selected');
 			});
+
+
+
 		});
 	</script>
 

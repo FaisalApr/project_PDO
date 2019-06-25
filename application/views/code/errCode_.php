@@ -47,6 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</nav>
 						</div>
 					</div>
+
 				<!-- Simple Datatable start -->
 				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
 					<div class="clearfix mb-20">
@@ -73,12 +74,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 												<h2 class="text-center mb-30">Error Code</h2>
 												
-												<form>
+												<form id="form_errorCode">
 													
 													<div class="input-group custom input-group-lg">
-														<input type="text" class="form-control" placeholder="UMH">
+														<input type="text" class="form-control" placeholder="Kode" id="i_code">
 														<div class="input-group-append custom">
-															<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+															<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+														</div>
+													</div>
+
+													<div class="input-group custom input-group-lg">
+														<input type="text" class="form-control" placeholder="Keterangan Error" id="i_ket">
+														<div class="input-group-append custom">
+															<span class="input-group-text"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 														</div>
 													</div>
 													
@@ -89,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																	use code for form submit
 																	<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
 																-->
-																<a class="btn btn-primary btn-lg btn-block" href="index.php">Submit</a>
+																<a class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit">Submit</a>
 															</div>
 														</div>
 													</div>
@@ -104,6 +112,80 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 						</div>	
 						
+
+						<!-- update modal -->
+							
+
+							<div class="modal fade" id="Modal_upd" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered">
+									<div class="modal-content">
+										<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+											<!-- <img src="vendors/images/login-img.png" alt="login" class="login-img"> -->
+
+											<h2 class="text-center mb-30">Assembly Code</h2>
+											<form id="formupdate">
+												<div class="input-group custom input-group-lg">
+													
+													<input type="text" class="form-control" placeholder="Defect Code" name="kodeupdt" id="kodeupdt">
+													<input type="hidden" class="form-control" placeholder="Defect Code" name="id_k" id="id_k">
+													<div class="input-group-append custom">
+														<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+													</div>
+												</div>
+												
+												<div class="input-group custom input-group-lg">
+													<input type="text" class="form-control" placeholder="Keterangan" id="keterangan_id" name="keterangan_name">
+													<div class="input-group-append custom">
+
+														<span class="input-group-text"><i class="fa fa-money" aria-hidden="true"></i></span>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<div class="input-group">
+															<!--
+																use code for form submit
+																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+															-->
+															<a id="btn_update" type="submit" class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit">Update</a>
+														</div>
+													</div>
+												</div>
+											
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+
+						<!-- Confirmation modal -->
+							<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-body text-center font-18">
+											<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
+											<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
+												<input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
+												<br>
+												<div class="col-6">
+													<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+													NO
+												</div>
+												<div class="col-6">
+													<button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
+													YES
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+
 						<!-- simple data table start -->
 						<table class="data-table stripe hover nowrap">
 							<thead>
@@ -114,25 +196,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<th class="datatable-nosort">Action</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="tbl_body">
 								
-								<tr>
-									<td class="table-plus">1</td>
-									<td>bla</td>
-									<td>aries</td>
-									<td>
-										<div class="dropdown">
-											<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-												<i class="fa fa-ellipsis-h"></i>
-											</a>
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#"><i class="fa fa-eye"></i> Lihat</a>
-												<a class="dropdown-item" href="#"><i class="fa fa-pencil"></i> Edit</a>
-												<a class="dropdown-item" href="#"><i class="fa fa-trash"></i> Hapus</a>
-											</div>
-										</div>
-									</td>
-								</tr>
 								
 							</tbody>
 						</table>
@@ -157,6 +222,72 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script>
 		$('document').ready(function(){
+			
+			show();    
+            function show(){
+                    $.ajax({
+                        async :false,
+                        type  : 'ajax',
+                        url   : '<?php echo base_url();?>index.php/ErrCode/getErrorCode',
+                        dataType : 'json',
+                        success : function(data){
+                            var html = '';
+                            var i;
+
+                            for(i=0; i<data.length; i++){
+                                html += 
+
+                                '<tr>'+
+									'<td class="table-plus">'+(i+1)+'</td>'+
+									'<td>'+ data[i].kode+'</td>'+
+									'<td>'+data[i].keterangan+'</td>'+
+									'<td>'+
+										'<div class="dropdown">'+
+											'<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+												'<i class="fa fa-ellipsis-h"></i>'+
+											'</a>'+											
+											'<div class="dropdown-menu dropdown-menu-right">'+
+												'<a class="dropdown-item item_edit" href="#" data-id ="'+data[i].id+'" data-kode_defect="'+data[i].kode+'" data-keterangan ="'+data[i].keterangan+'"><i class="fa fa-pencil"></i> Edit </a>'+
+												'<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
+											'</div>'+
+										'</div>'+
+									'</td>'+
+								'</tr>';    
+                            }
+                            $('#tbl_body').html(html);
+                        }
+                    });
+
+            }
+
+   			$('#btn_submit').click(function(){
+				var def_code = document.getElementById("i_code").value;
+				var def_ket = document.getElementById("i_ket").value;
+				// alert(def_code+","+def_ket);
+
+				$.ajax({
+					async : false,
+					type : "POST",
+					url : "<?php echo base_url() ?>index.php/ErrCode/newErrorCode",
+					dataType : "JSON",
+					data : {
+						def_code:def_code,
+						def_ket:def_ket
+					},
+					success : function(response){
+							  $('#login-modal').modal('hide');
+						if(response.error){
+							// alert('error');
+						}else{
+							// alert(response.status);
+						}
+						document.getElementById("form_errorCode").reset();
+					}
+				});
+				show();
+			});
+
+
 			$('.data-table').DataTable({
 				scrollCollapse: true,
 				autoWidth: false,
@@ -165,13 +296,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					targets: "datatable-nosort",
 					orderable: false,
 				}],
-				"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+				"lengthMenu": [[5, 25, 50, -1], [5, 25, 50, "All"]],
 				"language": {
 					"info": "_START_-_END_ of _TOTAL_ entries",
 					searchPlaceholder: "Search"
 				},
 			});
-			$('.data-table-export').DataTable({
+
+			//  ===================   Delete Record ===============================================
+            //get data for delete record show prompt
+            $('#tbl_body').on('click','.item_delete',function(){
+                // alert($(this).data('id'))
+                var id = $(this).data('id');
+                // var tanggal = $(this).data('tanggal');
+                // var judul = $(this).data('judul');
+                // var pengumuman = $(this).data('isi');
+               
+                $('[name="id_dc_delete"]').val(id);  
+                $('#confirmation-modal').modal('show');
+                // document.getElementById("namaPengumuman_hapus").innerHTML=" '"+judul+"' ";
+                // alert('oke');
+            });
+
+            //delete record to database
+
+            $('#btn_del').on('click',function(){
+                var id_dc_delete = $('#id_dc_delete').val();
+                // alert(id_dc_delete)
+                $.ajax({
+                    type : "POST",
+                    url  : "<?php echo site_url(); ?>/ErrCode/delErrorCode",
+                    dataType : "JSON",
+                    data : {id:id_dc_delete},
+                    success: function(){
+                        $('[name="id_dc_delete"]').val("");
+                        $('#confirmation-modal').modal('hide');
+                        // refresh()
+                        
+                show();
+                    }
+                });
+                return false;
+
+            });
+			 //   ========================  END DELETE RECORD ====================================
+
+			 $('.data-table-export').DataTable({
 				scrollCollapse: true,
 				autoWidth: false,
 				responsive: true,
@@ -179,7 +349,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					targets: "datatable-nosort",
 					orderable: false,
 				}],
-				"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+				"lengthMenu": [[5, 25, 50, -1], [5, 25, 50, "All"]],
 				"language": {
 					"info": "_START_-_END_ of _TOTAL_ entries",
 					searchPlaceholder: "Search"
@@ -203,6 +373,67 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('.multiple-select-row tbody').on('click', 'tr', function () {
 				$(this).toggleClass('selected');
 			});
+
+			 //  ===================  START UPDATE Record ===============================================
+            //get data for UPDATE record show prompt
+            $('#tbl_body').on('click','.item_edit',function(){
+            	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
+                // variabel = list datatable
+                var idd = $(this).data('id');
+                var kode = $(this).data('kode_defect'); 
+                var ket = $(this).data('keterangan');
+
+                // memasukkan data ke form updatean
+                // name inputan . variabel
+				$('[name="id_k"]').val(idd);
+				$('[name="kodeupdt"]').val(kode);
+				$('[name="keterangan_name"]').val(ket);
+				
+				// // data dropdown
+				// for(var i=0; i < document.getElementById('levelup').options.length; i++){
+				//     if(document.getElementById('levelup').options[i].value == level) {
+				//       document.getElementById('levelup').selectedIndex = i;
+				//       break;
+				//     }
+				//  }
+				// $('[name="level"]').val(level);
+
+                $('#Modal_upd').modal('show');
+                
+            });
+            
+            //UPDATE record to database (submit button)
+
+            $('#btn_update').on('click',function(){
+            	// variabel = name inputan
+                var idkode = $('[name="id_k"]').val();
+				var kodeup = $('[name="kodeupdt"]').val();
+				var ketup = $('[name="keterangan_name"]').val();
+				
+				// alert(ketup);
+                $.ajax({
+                    type : "POST",
+                    url  : "<?php echo site_url(); ?>/ErrCode/updateErrorCode",
+                    dataType : "JSON",
+                    data : { 
+                    	//post controller : variabel
+                    		id:idkode,
+                    		code:kodeup,
+                    		keterangan:ketup},
+
+                    success: function(data){
+                    	$('#Modal_upd').modal('hide'); 
+                        // refresh();
+                        show();
+                    }
+                });
+
+                
+
+            });
+ //   ========================  END UPDATE RECORD ====================================
+
+
 		});
 	</script>
 
