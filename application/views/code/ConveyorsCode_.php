@@ -71,14 +71,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="modal-content">
 											<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
 												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-												<h2 class="text-center mb-30">Assembly Code</h2>
+												<h2 class="text-center mb-30">Conveyors</h2>
 												
 												<form>
 													
 													<div class="input-group custom input-group-lg">
-														<input type="text" class="form-control" placeholder="UMH">
+														<input type="text" class="form-control" placeholder="Kode">
 														<div class="input-group-append custom">
-															<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+															<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
 														</div>
 													</div>
 													

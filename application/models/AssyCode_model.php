@@ -37,7 +37,17 @@ class AssyCode_model extends CI_Model {
 		return $result;
 	}
 
+	public function updateACode($id,$kode,$umh)
+	{
+		# code...
+		$data = array(
+			'kode_assy' => $kode,
+			'umh' => $umh
+ 		);
 
+ 		$this->db->where('id',$id);
+ 		return $this->db->update('assembly', $data);
+	}
 
 }
 

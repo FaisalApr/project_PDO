@@ -30,8 +30,17 @@ class DefectCode_model extends CI_Model {
         return $result;
 	}
 
+	public function updateDcode($id,$code,$ket)
+	{
+		# code...
+		$data = array(
+			'code' => $code,
+			'keterangan' => $ket
+		);
 
-
+		$this->db->where('id',$id);
+		return $this->db->update('jenis_deffect', $data);
+	}
 
 }
 

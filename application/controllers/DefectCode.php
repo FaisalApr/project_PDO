@@ -51,6 +51,17 @@ class DefectCode extends CI_Controller {
 		$data = $this->DefectCode_model->delDcode($id);
 			echo json_encode($data);
 	}
+
+	public function updateDefectCode()
+	{
+		# code...
+		$id = $this->input->post('id');
+		$kode = $this->input->post('code');
+		$ket = $this->input->post('keterangan');
+		$result = $this->DefectCode_model->updateDcode($id,$kode,$ket);
+		echo json_encode($result);
+	}
+
 }
 
 /* End of file defectCode.php */

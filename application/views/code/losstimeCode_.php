@@ -75,12 +75,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												
 												<form>
 													
-													<div class="input-group custom input-group-lg">
-														<input type="text" class="form-control" placeholder="UMH">
-														<div class="input-group-append custom">
-															<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
-														</div>
+												<!-- radio button start -->
+												<div class="col-md-6 col-sm-12">
+													<label class="weight-600">Jenis Losstime</label>
+													<div class="custom-control custom-radio mb-5">
+														<input value="Losstime" type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+														<label class="custom-control-label" for="customRadio1">Losstime</label>
 													</div>
+													<div class="custom-control custom-radio mb-5">
+														<input value="Exclude" type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+														<label class="custom-control-label" for="customRadio2">Exclude</label>
+													</div>
+													
+												</div>
+												<!-- radio button end -->
 													
 													<div class="row">
 														<div class="col-sm-12">
@@ -89,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																	use code for form submit
 																	<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
 																-->
-																<a class="btn btn-primary btn-lg btn-block" href="index.php">Submit</a>
+																<a class="btn btn-primary btn-lg btn-block" id="btn_submit" href="#">Submit</a>
 															</div>
 														</div>
 													</div>
@@ -201,6 +209,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('.multiple-select-row tbody').on('click', 'tr', function () {
 				$(this).toggleClass('selected');
 			});
+
+			$('#btn_submit').click(function(){
+				var a = document.querySelector('input[name="customRadio"]:checked').value;
+				alert(a);
+			});
+
+
 		});
 	</script>
 

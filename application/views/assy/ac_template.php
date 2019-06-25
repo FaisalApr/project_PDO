@@ -68,18 +68,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<!-- <img src="vendors/images/login-img.png" alt="login" class="login-img"> -->
 
 											<h2 class="text-center mb-30">Assembly Code</h2>
-											<form>
+											<form id="form_assy">
 												<div class="input-group custom input-group-lg">
 													<input type="text" class="form-control" placeholder="Assy Code" id="i_code">
 													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></span>
+														<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
 													</div>
 												</div>
 												
 												<div class="input-group custom input-group-lg">
 													<input type="text" class="form-control" placeholder="UMH" id="i_umh">
 													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+
+														<span class="input-group-text"><i class="fa fa-money" aria-hidden="true"></i></span>
 													</div>
 												</div>
 												<div class="row">
@@ -99,6 +100,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 								</div>
 							</div>
+
+							<!-- update modal -->
+							
+
+							<div class="modal fade" id="Modal_upd" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered">
+									<div class="modal-content">
+										<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+											<!-- <img src="vendors/images/login-img.png" alt="login" class="login-img"> -->
+
+											<h2 class="text-center mb-30">Assembly Code</h2>
+											<form id="formupdate">
+												<div class="input-group custom input-group-lg">
+													
+													<input type="text" class="form-control" placeholder="Assy Code" name="kodeupdt" id="kodeupdt">
+													<input type="hidden" class="form-control" placeholder="Assy Code" name="id_k" id="id_k">
+													<div class="input-group-append custom">
+														<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+													</div>
+												</div>
+												
+												<div class="input-group custom input-group-lg">
+													<input type="text" class="form-control" placeholder="UMH" id="umhupdt" name="umhupdt">
+													<div class="input-group-append custom">
+
+														<span class="input-group-text"><i class="fa fa-money" aria-hidden="true"></i></span>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<div class="input-group">
+															<!--
+																use code for form submit
+																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+															-->
+															<a id="btn_update" type="submit" class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit">Update</a>
+														</div>
+													</div>
+												</div>
+											
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
 						</div>
 					</div></div>
 
@@ -124,7 +173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="modal-body text-center font-18">
 											<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
 											<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
-												<input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
+												<input type="text" name="id_dc_delete" id="id_dc_delete" class="form-control">
 												<br>
 												<div class="col-6">
 													<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
@@ -186,7 +235,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												'<i class="fa fa-ellipsis-h"></i>'+
 											'</a>'+											
 											'<div class="dropdown-menu dropdown-menu-right">'+
-												'<a class="dropdown-item item_edit" href="#"><i class="fa fa-pencil"></i> Edit </a>'+
+												'<a class="dropdown-item item_edit" href="#" data-id="'+data[i].id+'" data-kode_assy="'+data[i].kode_assy+'" data-umh="'+data[i].umh+'" ><i class="fa fa-pencil"></i> Edit </a>'+
 												'<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
 											'</div>'+
 										'</div>'+
@@ -201,6 +250,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     });
 
             }
+
+
 
 			$('#btn_submit').click(function(){
 				var def_code = document.getElementById("i_code").value;
@@ -223,11 +274,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}else{
 							// alert(response.status);
 						}
-
+						document.getElementById("form_assy").reset();
 					}
 				});
 				show();
 			});
+
+
 
 			$('.data-table').DataTable({
 				scrollCollapse: true,
@@ -284,6 +337,99 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             });
 			 //   ========================  END DELETE RECORD ====================================
+
+
+			 //  ===================  START UPDATE Record ===============================================
+            //get data for UPDATE record show prompt
+            $('#tbl_body').on('click','.item_edit',function(){
+            	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
+                var idd = $(this).data('id');
+                var kode = $(this).data('kode_assy'); 
+                var umh = $(this).data('umh');
+
+                // memasukkan data ke form updatean
+				$('[name="id_k"]').val(idd);
+				$('[name="kodeupdt"]').val(kode);
+				$('[name="umhupdt"]').val(umh);
+				
+				// // data dropdown
+				// for(var i=0; i < document.getElementById('levelup').options.length; i++){
+				//     if(document.getElementById('levelup').options[i].value == level) {
+				//       document.getElementById('levelup').selectedIndex = i;
+				//       break;
+				//     }
+				//  }
+				// $('[name="level"]').val(level);
+
+                $('#Modal_upd').modal('show');
+                
+            });
+            
+            //UPDATE record to database (submit button)
+
+            $('#btn_update').on('click',function(){
+                var idkode = $('[name="id_k"]').val();
+				var kodeup = $('[name="kodeupdt"]').val();
+				var umhup = $('[name="umhupdt"]').val();
+				
+				// alert(umhup);
+                $.ajax({
+                    type : "POST",
+                    url  : "<?php echo site_url(); ?>/Assycode/updateAssyCode",
+                    dataType : "JSON",
+                    data : { 
+                    		id:idkode,
+                    		kode_assy:kodeup,
+                    		umh:umhup},
+
+                    success: function(data){
+                    	$('#Modal_upd').modal('hide'); 
+                        // refresh();
+                        show();
+                    }
+                });
+
+                
+
+            });
+ //   ========================  END UPDATE RECORD ====================================
+
+
+
+ 		$('.data-table-export').DataTable({
+				scrollCollapse: true,
+				autoWidth: false,
+				responsive: true,
+				columnDefs: [{
+					targets: "datatable-nosort",
+					orderable: false,
+				}],
+				"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+				"language": {
+					"info": "_START_-_END_ of _TOTAL_ entries",
+					searchPlaceholder: "Search"
+				},
+				dom: 'Bfrtip',
+				buttons: [
+				'copy', 'csv', 'pdf', 'print'
+				]
+			});
+			var table = $('.select-row').DataTable();
+			$('.select-row tbody').on('click', 'tr', function () {
+				if ($(this).hasClass('selected')) {
+					$(this).removeClass('selected');
+				}
+				else {
+					table.$('tr.selected').removeClass('selected');
+					$(this).addClass('selected');
+				}
+			});
+			var multipletable = $('.multiple-select-row').DataTable();
+			$('.multiple-select-row tbody').on('click', 'tr', function () {
+				$(this).toggleClass('selected');
+			});
+
+
 
 		});
 	</script>
