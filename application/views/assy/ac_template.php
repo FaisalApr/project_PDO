@@ -243,9 +243,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								'</tr>';    
                             }
                             $('#tbl_body').html(html);    
-                            // $(".table").DataTable({
-                            //     "lengthMenu": [[5,10,15,25,-1],[5,10,15,25,"Semua"]]
-                            // });             
+                            
                         }
                     });
 
@@ -297,6 +295,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				},
 			});
 
+
+
 			// ===================   Delete Record ===============================================
             //get data for delete record show prompt
             $('#tbl_body').on('click','.item_delete',function(){
@@ -337,6 +337,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             });
 			 //   ========================  END DELETE RECORD ====================================
+
+
 
 
 			 //  ===================  START UPDATE Record ===============================================

@@ -15,21 +15,28 @@ class Defect_Model extends CI_Model {
         return $query->result();
     }
 
-    public function get_all_record()
+    public function get_all_record_by_id($id)
     {
     	# code...
-    	$query = $this->db->get('output_control');
+    	$query = $this->db->get_where('output_control', array('id_pdo' => $id));
     	return $query->result();
+
     }
 
-    public function getDefCode()
+    public function getDefCodeUser($i)	
     {
     	# code...
     	// urut berdasarkan abjad
-		$this->db->order_by('keterangan','asc');
-		// get data
-		$query = $this->db->get('quality_control');
-		return $query->result();
+		$q = $this->db->query('SELECT quality_control.id , quality_control.keterangan as item, output_control.jam_ke,jenis_deffect.keterangan, quality_control.total  FROM quality_control join output_control on quality_control.id_oc = output_control.id join jenis_deffect on quality_control.id_jenisdeffect = jenis_deffect.id where quality_control.id_pdo='.$i.' order BY output_control.jam_ke');
+		return $q->result();
+    }
+
+    public function delDefects($id)
+    {
+    	# code...
+    	$this->db->where('id',$id);
+    	$result = $this->db->delete('quality_control');
+    	return $result;
     }
 
 }

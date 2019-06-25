@@ -6,21 +6,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<meta charset="utf-8">
 	<title>DeskApp Dashboard</title>
 
-	<!-- Site Favicon -->
-	<link rel="shortcut icon" href="<?php echo base_url() ?>assets/images/favicon.ico">
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-	<!-- Google Font -->
-	<link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 	<!-- CSS -->
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
+	
 	<script>
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
@@ -30,12 +24,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</script>
 </head>
 <body>
+<input type="hidden" id="id_pdo" value="<?php echo $pdo->id ?>">
 <?php $this->load->view('header/header'); ?>
 <?php $this->load->view('header/sidebar'); ?>
  
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
-		
+
 		<div class="min-height-200px">
 				<div class="page-header">
 					<div class="row">
@@ -102,15 +97,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="modal-content">
 										<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-											<!-- <img src="vendors/images/login-img.png" alt="login" class="login-img"> -->
-
+											
 											<h2 class="text-center mb-30">Defect</h2>
-											<form>
+											<form id="formDefect">
 												<div class="input-group custom input-group-lg">
 												<div class="input-group custom input-group-lg">
 													<select class="custom-select col-12" name="levelupp" id="i_jam">
 														<option disabled selected> Pilih Jam ke</option>
-																<?php foreach ($pdo as $key) { ?>
+																<?php foreach ($data_oc as $key) { ?>
 																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
 																<?php }  ?>
 															</select>
@@ -166,6 +160,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 						</div>
 					</div></div>
+						
+
+
 
 						<table class="data-table stripe hover nowrap">
 							<thead>
@@ -185,7 +182,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</tbody>
 						</table>
 
-					
+					<!-- Confirmation modal -->
+							<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-body text-center font-18">
+											<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
+											<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
+												<input type="text" name="id_dc_delete" id="id_dc_delete" class="form-control">
+												<br>
+												<div class="col-6">
+													<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+													NO
+												</div>
+												<div class="col-6">
+													<button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
+													YES
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>				
+						
 					
 
 
@@ -223,13 +243,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				},
 			});
 
+			// =================== Read Record ===============================================
 			show();    
             function show(){
                     $.ajax({
                         async :false,
-                        type  : 'ajax',
-                        url   : '<?php echo base_url();?>index.php/Defect/getDefects',
+                        type  : 'POST',
+                        url   : '<?php echo base_url();?>index.php/Defect/getDefectsUser',
                         dataType : 'json',
+                        data : {id_pdo:$('#id_pdo').val()},
                         success : function(data){
                             var html = '';
                             var i;
@@ -240,16 +262,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
                                 '<tr>'+
-									'<td class="table-plus">'+(i+1)+'</td>'+
-									'<td>'+ data[i].code+'</td>'+
+									'<td class="table-plus">'+data[i].jam_ke+'</td>'+
+									'<td>'+ data[i].item+'</td>'+
 									'<td>'+data[i].keterangan+'</td>'+
+									'<td>'+data[i].total+'</td>'+
 									'<td>'+
 										'<div class="dropdown">'+
 											'<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
 												'<i class="fa fa-ellipsis-h"></i>'+
 											'</a>'+											
 											'<div class="dropdown-menu dropdown-menu-right">'+
-												'<a class="dropdown-item item_edit" href="#" data-id ="'+data[i].id+'" data-kode_defect="'+data[i].code+'" data-keterangan ="'+data[i].keterangan+'"><i class="fa fa-pencil"></i> Edit </a>'+
+												'<a class="dropdown-item item_edit" href="#" data-id ="'+data[i].id+'"><i class="fa fa-pencil"></i> Edit </a>'+
 												'<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
 											'</div>'+
 										'</div>'+
@@ -261,39 +284,88 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     });
 
             }
+            // =================== End Read Record ===============================================
 
-
+            // =================== Create Record ===============================================
    			$('#btn_submit').click(function(){
 
 				var def_jam = document.getElementById("i_jam").value;
 				var def_ket = document.getElementById("i_ket").value;
 				var def_total = document.getElementById("i_total").value;
-				var levelupp = $('select[name=levelupp]').val()
 				var levelup = $('select[name=levelup]').val()
-				alert(def_jam+","+def_ket+","+def_total+","+levelup+","+levelupp);
+				// alert(def_jam+","+def_ket+","+def_total+","+levelup);
+				// alert($('#id_pdo').val());
 
-				// $.ajax({
-				// 	async : false,
-				// 	type : "POST",
-				// 	url : "<?php echo base_url() ?>index.php/Defect/newDefect",
+
+				$.ajax({
+					async : false,
+					type : "POST",
+					url : "<?php echo base_url() ?>index.php/Defect/newDefect",
 				
-				// 	dataType : "JSON",
-				// 	data : {
-				// 		def_code:def_code,
-				// 		def_ket:def_ket
-				// 	},
-				// 	success : function(response){
-				// 			  $('#login-modal').modal('hide');
-				// 		if(response.error){
-				// 			// alert('error');
-				// 		}else{
-				// 			// alert(response.status);
-				// 		}
-				// 		document.getElementById("form_Dcode").reset();
-				// 	}
-				// });
-				// show();
+					dataType : "JSON",
+					data : {
+						def_id_pdo:$('#id_pdo').val(),
+						def_id_oc: def_jam,
+						def_id_jenisdeffect:levelup,
+						def_ket:def_ket,
+						def_total:def_total
+					},
+					success : function(response){
+							  $('#login-modal').modal('hide');
+						if(response.error){
+							// alert('error');
+						}else{
+							// alert(response.status);
+						}
+						document.getElementById("formDefect").reset();
+					}
+				});
+				show();
 			});
+			// =================== End Create Record ===============================================
+
+   			// ===================   Delete Record ===============================================
+            //get data for delete record show prompt
+            $('#tbl_body').on('click','.item_delete',function(){
+                // alert($(this).data('id'))
+                var id = $(this).data('id');
+                // var tanggal = $(this).data('tanggal');
+                // var judul = $(this).data('judul');
+                // var pengumuman = $(this).data('isi');
+               
+                $('[name="id_dc_delete"]').val(id);  
+                $('#confirmation-modal').modal('show');
+                // document.getElementById("namaPengumuman_hapus").innerHTML=" '"+judul+"' ";
+                
+                
+               
+                // alert('oke');
+            });
+
+            //delete record to database
+
+            $('#btn_del').on('click',function(){
+                var id_dc_delete = $('#id_dc_delete').val();
+                // alert(id_dc_delete)
+                $.ajax({
+                    type : "POST",
+                    url  : "<?php echo site_url(); ?>/Defect/delDefect",
+                    dataType : "JSON",
+                    data : {id:id_dc_delete},
+                    success: function(){
+                        $('[name="id_dc_delete"]').val("");
+                        $('#confirmation-modal').modal('hide');
+                        // refresh()
+                        
+                show();
+                    }
+                });
+                return false;
+
+            });
+			 //   ========================  END DELETE RECORD ====================================
+
+
 
 
 			$('.data-table-export').DataTable({

@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</script>
 </head>
 <body>
+	<input type="hidden" id="id_pdo" value="<?php echo $pdo->id ?>">
 <?php $this->load->view('header/header'); ?>
 <?php $this->load->view('header/sidebar'); ?>
  
@@ -110,50 +111,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 											<h2 class="text-center mb-30">Downtime</h2>
-											<form>
+											<form id="form_losstime">
 												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="Jam ke">
-													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></span>
-													</div>
+													<select class="custom-select col-12" name="levelupp" id="i_jam">
+														<option disabled selected> Jam ke</option>
+																<?php foreach ($data_oc as $key) { ?>
+																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
+																<?php }  ?>
+															</select>
+													</select>
 												</div>
 
-												<div class="form-group">
-													<label>Problem</label>
-													<select class="custom-select2 form-control" name="state" style="width: 100%; height: 38px;">
-														<optgroup label="Alaskan/Hawaiian Time Zone">
-															<option value="AK">Alaska</option>
-															<option value="HI">Hawaii</option>
-														</optgroup>
+
+												<div class="input-group custom input-group-lg">
+													<select class="custom-select col-12" name="levelupp" id="i_problem">
+														<option disabled selected> Problem</option>
+																<?php foreach ($data_error as $key) { ?>
+																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
+																<?php }  ?>
+															</select>
 													</select>
 												</div>
 
 												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="NO UJUNG, CTRL, STATION, OTHER">
+													<input type="text" class="form-control" placeholder="KETERANGAN" id="i_ket">
 													<div class="input-group-append custom">
 														<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
 													</div>
 												</div>
 
 												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="Time">
-													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
-													</div>
+													<select class="custom-select col-12" name="levelupp" id="i_jenis">
+														<option disabled selected> Pilih Jenis Downtime</option>
+																<?php foreach ($data_losttime as $key) { ?>
+																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
+																<?php }  ?>
+															</select>
+													</select>
 												</div>
 
-												<div class="col-md-6 col-sm-12" style="margin-left: 2px">
-													<label class="weight-600 " >Jenis Downtime</label>
-													<div class="row">
-
-													<div class="custom-control custom-radio col-md-5" style="margin-right: 15px">
-														<input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
-														<label class="custom-control-label" for="customRadio1">Exclude</label>
-													</div>
-													<div class="custom-control custom-radio col-md-5" style="margin-left: 10px">
-														<input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
-														<label class="custom-control-label" for="customRadio2">Losstime</label>
-													</div>
+												<div class="input-group custom input-group-lg">
+													<input type="text" class="form-control" placeholder="Time" id="i_time">
+													<div class="input-group-append custom">
+														<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
 													</div>
 												</div>
 													
@@ -166,7 +166,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																use code for form submit
 																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
 															-->
-															<a class="btn btn-primary btn-lg btn-block" href="index.php">Submit</a>
+															<a class="btn btn-primary btn-lg btn-block" id="btn_submit" href="#">Submit</a>
 														</div>
 													</div>
 												</div>
@@ -183,38 +183,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<thead>
 								<tr>
 									<th class="table-plus datatable-nosort">Jam ke</th>
+									<th>Code</th>
 									<th>problem</th>
 									<th>Keterangan</th>
+									<th>Jenis</th>
 									<th>Time</th>
 									
 									<th class="datatable-nosort">Action</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="tbl_body">
 								<tr>
-									<td class="table-plus">Gloria F. Mead</td>
-									<td>25</td>
+									<td class="table-plus">1</td>
+									<td>1A</td>
 									<td>Sagittarius</td>
-									<td>2829 Trainer Avenue Peoria, IL 61602 </td>
-									
-									<td>
-										<div class="dropdown">
-											<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-												<i class="fa fa-ellipsis-h"></i>
-											</a>
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#"><i class="fa fa-eye"></i> Lihat</a>
-												<a class="dropdown-item" href="#"><i class="fa fa-pencil"></i> Edit</a>
-												<a class="dropdown-item" href="#"><i class="fa fa-trash"></i> Hapus</a>
-											</div>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td class="table-plus">Gloria F. Mead</td>
-									<td>25</td>
-									<td>Sagittarius</td>
-									<td>2829 Trainer Avenue Peoria, IL 61602 </td>
+									<td>rusak</td>
+									<td>Exclude</td>
+									<td>3 menit</td>
 									
 									<td>
 										<div class="dropdown">
@@ -230,11 +215,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</td>
 								</tr>
 								
+								
 							</tbody>
 						</table>
 
 					
-					
+					<!-- Confirmation modal -->
+							<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-body text-center font-18">
+											<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
+											<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
+												<input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
+												<br>
+												<div class="col-6">
+													<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+													NO
+												</div>
+												<div class="col-6">
+													<button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
+													YES
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 
 
 	</div>
@@ -270,6 +278,137 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					searchPlaceholder: "Search"
 				},
 			});
+
+
+			// =================== Read Record ===============================================
+			show();    
+            function show(){
+                    $.ajax({
+                        async :false,
+                        type  : 'POST',
+                        url   : '<?php echo base_url();?>index.php/Losstime/getLosstimeUser',
+                        dataType : 'json',
+                        data : {id_pdo:$('#id_pdo').val()},
+                        success : function(data){
+                            var html = '';
+                            var i;
+
+                            for(i=0; i<data.length; i++){
+                                html += 
+
+                                '<tr>'+
+									'<td class="table-plus">'+data[i].jam_ke+'</td>'+
+									'<td>'+ data[i].kode+'</td>'+
+									'<td>'+data[i].problem+'</td>'+
+									'<td>'+data[i].jenis+'</td>'+
+									'<td>'+data[i].keterangan+'</td>'+
+									'<td>'+data[i].durasi+'</td>'+
+									'<td>'+
+										'<div class="dropdown">'+
+											'<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+												'<i class="fa fa-ellipsis-h"></i>'+
+											'</a>'+											
+											'<div class="dropdown-menu dropdown-menu-right">'+
+												'<a class="dropdown-item item_edit" href="#" data-id ="'+data[i].id+'"><i class="fa fa-pencil"></i> Edit </a>'+
+												'<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
+											'</div>'+
+										'</div>'+
+									'</td>'+
+								'</tr>';    
+                            }
+                            $('#tbl_body').html(html);
+                        }
+                    });
+
+            }
+            // =================== End Read Record ============================================
+
+            // =================== Create Record ===============================================
+   			$('#btn_submit').click(function(){
+
+
+
+				var down_jam = document.getElementById("i_jam").value;
+				var down_problem = document.getElementById("i_problem").value;
+				var down_ket = document.getElementById("i_ket").value;
+				var down_jenis = document.getElementById("i_jenis").value;
+				var down_time = document.getElementById("i_time").value;
+
+				// alert(down_jam+","+down_problem+","+down_ket+","+down_jenis+","+down_time);
+				// alert($('#id_pdo').val());
+
+
+				$.ajax({
+					async : false,
+					type : "POST",
+					url : "<?php echo base_url() ?>index.php/Losstime/newLosstime",
+				
+					dataType : "JSON",
+					data : {
+						down_id_pdo:$('#id_pdo').val(),
+						down_id_error:down_problem,
+						down_id_oc:down_jam,
+						down_id_jenisloss:down_jenis,
+						down_ket:down_ket,
+						down_durasi:down_time
+					},
+					success : function(response){
+							  $('#login-modal').modal('hide');
+						if(response.error){
+							alert('error');
+						}else{
+							alert(response.status);
+						}
+						document.getElementById("form_losstime").reset();
+					}
+				});
+				show();
+			});
+			// =================== End Create Record ===============================================
+
+   			// ===================   Delete Record ===============================================
+            //get data for delete record show prompt
+            $('#tbl_body').on('click','.item_delete',function(){
+                // alert($(this).data('id'))
+                var id = $(this).data('id');
+                // var tanggal = $(this).data('tanggal');
+                // var judul = $(this).data('judul');
+                // var pengumuman = $(this).data('isi');
+               
+                $('[name="id_dc_delete"]').val(id);  
+                $('#confirmation-modal').modal('show');
+                // document.getElementById("namaPengumuman_hapus").innerHTML=" '"+judul+"' ";
+                
+                
+               
+                // alert('oke');
+            });
+
+            //delete record to database
+
+            $('#btn_del').on('click',function(){
+                var id_dc_delete = $('#id_dc_delete').val();
+                // alert(id_dc_delete)
+                $.ajax({
+                    type : "POST",
+                    url  : "<?php echo site_url(); ?>/Losstime/delLosstime",
+                    dataType : "JSON",
+                    data : {id:id_dc_delete},
+                    success: function(){
+                        $('[name="id_dc_delete"]').val("");
+                        $('#confirmation-modal').modal('hide');
+                        // refresh()
+                        
+                show();
+                    }
+                });
+                return false;
+
+            });
+			 //   ========================  END DELETE RECORD ====================================
+
+
+
 			$('.data-table-export').DataTable({
 				scrollCollapse: true,
 				autoWidth: false,

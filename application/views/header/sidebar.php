@@ -26,7 +26,7 @@
 					</li>
 					
 					<li class=" <?php echo $this->uri->segment(1) == 'downtime' ? 'aktip': '' ?>">
-						<a href="<?php echo site_url() ?>/downtime" class="dropdown-toggle no-arrow">
+						<a href="<?php echo site_url() ?>/losstime" class="dropdown-toggle no-arrow">
 							<span class="fa fa-chevron-circle-down"></span><span class="mtext">DOWNTIME</span>
 						</a>
 					</li>

@@ -6,13 +6,35 @@ class Defect extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('Defect_model');
+		$this->load->model('Pdo_model');
+		if (!$this->session->userdata('pdo_logged')) {
+			redirect('Login','refresh');
+		}
 	}
 
 	public function index()
 	{
-		$data['pdo'] = $this->Defect_model->get_all_record();
-		$data['defect'] = $this->Defect_model->get_all_level();
-		$this->load->view('defect/defect_templ', $data);
+		// get sesion
+		$session_data = $this->session->userdata('pdo_logged'); 
+
+		// init data
+		$iduser = $session_data['id_user'];  
+		$shift =  "1" ; 
+		$tanggal = date("Y-m-d"); 
+
+		// jika user sudah ada data pdo
+		$result = $this->Pdo_model->cariPdo($iduser,$shift,$tanggal);
+		if ($result) { 
+			
+			$pdo = $this->Pdo_model->cariPdoItems($iduser,$shift,$tanggal);
+			$data['pdo'] = $pdo;
+			$data['data_oc'] = $this->Defect_model->get_all_record_by_id($pdo->id);
+			$data['defect'] = $this->Defect_model->get_all_level();
+			$this->load->view('defect/defect_templ', $data);
+		}else {  
+			// jika tidak punya data pdo
+			redirect('Welcome','refresh');
+		}
 
 	}
 
@@ -25,6 +47,7 @@ class Defect extends CI_Controller {
 		//data new
 		$dataDefect = array(
 			'id_pdo' => $this->input->post('def_id_pdo'),
+			'id_oc' => $this->input->post('def_id_oc'),
 			'id_jenisdeffect' => $this->input->post('def_id_jenisdeffect'),
 			'keterangan' => $this->input->post('def_ket'),
 			'total' => $this->input->post('def_total') 
@@ -36,16 +59,28 @@ class Defect extends CI_Controller {
 			// $output ['status'] = "ok";
 			
 		}else{
-			$output['error'] = true;
+			// $output['error'] = true;j
 		}
 		echo json_encode($output);
 	}
 
-	public function getDefects()
+	public function getDefectsUser()
 	{
 		# code...
-		$data = $this->Defect_model->getDefCode();
+		$id =$this->input->post('id_pdo');
+		$data = $this->Defect_model->getDefCodeUser($id);
+
 		echo json_encode($data);
+	}
+
+	public function delDefect()
+	{
+		# code...
+		$id = $this->input->post('id');
+
+		$data = $this->Defect_model->delDefects($id);
+		echo json_encode($data);
+
 	}
 
 }
