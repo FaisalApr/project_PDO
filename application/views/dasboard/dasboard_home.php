@@ -24,153 +24,154 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body> 
 <input id="id_pdo" type="hidden" class="form-control" value="<?php echo $pdo->id ?>"> 
-<?php $this->load->view('header/header_user'); ?>
-<?php $this->load->view('header/sidebar'); ?>
+<?php $this->load->view('header/header_users'); ?>
+<?php $this->load->view('header/sidebar_users'); ?>
  
 <!--    Modall AREA    -->
-
-<!--  Modal  Speed Conveyor -->
-<div class="modal fade" id="scv_modal">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-      <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Ubah Kecepatan Conveyor</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-        	<div class="clearfix device-usage-chart">
-				<div class="width-50-p pull-left">
-					<div id="spd_cv" style="min-width: 160px; max-width: 180px; height: 200px; margin: 0 auto"></div>
-				</div>
-				<div class="width-50-p pull-right">
-					<div class="form-group">
-						<label>Speed</label>
-						<input id="demo1" type="number" value="<?php echo $pdo->line_speed ?>" name="speed_edit"> 
-						<input  type="hidden" value="<?php echo $pdo->line_speed ?>" name="speed_edit_temp"> 
+<div>
+	<!--  Modal  Speed Conveyor -->
+	<div class="modal fade" id="scv_modal">
+	    <div class="modal-dialog modal-dialog-centered modal-md">
+	      <div class="modal-content">
+	      
+	        <!-- Modal Header -->
+	        <div class="modal-header">
+	          <h4 class="modal-title">Ubah Kecepatan Conveyor</h4>
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        </div>
+	        
+	        <!-- Modal body -->
+	        <div class="modal-body">
+	        	<div class="clearfix device-usage-chart">
+					<div class="width-50-p pull-left">
+						<div id="spd_cv" style="min-width: 160px; max-width: 180px; height: 200px; margin: 0 auto"></div>
 					</div>
-					<br> 
-					<div class="input-group"> 
-						<a class="btn btn-primary btn-lg btn-block" id="btn_update_speed" href="#">update</a>
-					</div>
-
-				</div>
-			</div>
-
-        </div> 
-        
-      </div>
-    </div>
-</div>
-<!--  Modal  Speed Conveyor -->
-<div class="modal fade" id="updtplan_modal">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div class="modal-content">
-	        <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-				<h2 class="text-center mb-30">Edit Plan</h2>
-				<form> 
-					<div class="input-group custom input-group-lg">
-						<input type="number" id="plan_editfom" class="form-control">
-						<input type="hidden" id="id_plan_editfom" class="form-control">
-						<div class="input-group-append custom">
-							<span class="input-group-text"><i class="icon-copy fa fa-check-square-o" aria-hidden="true"></i></span>
+					<div class="width-50-p pull-right">
+						<div class="form-group">
+							<label>Speed</label>
+							<input id="demo1" type="number" value="<?php echo $pdo->line_speed ?>" name="speed_edit"> 
+							<input  type="hidden" value="<?php echo $pdo->line_speed ?>" name="speed_edit_temp"> 
 						</div>
+						<br> 
+						<div class="input-group"> 
+							<a class="btn btn-primary btn-lg btn-block" id="btn_update_speed" href="#">update</a>
+						</div>
+
 					</div>
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="input-group"> 
-								<a class="btn btn-primary btn-lg btn-block" id="btn_update_plan" href="#">update</a>
+				</div>
+
+	        </div> 
+	        
+	      </div>
+	    </div>
+	</div>
+	<!--  Modal  Speed Conveyor -->
+	<div class="modal fade" id="updtplan_modal">
+	    <div class="modal-dialog modal-dialog-centered modal-sm">
+	      <div class="modal-content">
+		        <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+					<h2 class="text-center mb-30">Edit Plan</h2>
+					<form> 
+						<div class="input-group custom input-group-lg">
+							<input type="number" id="plan_editfom" class="form-control">
+							<input type="hidden" id="id_plan_editfom" class="form-control">
+							<div class="input-group-append custom">
+								<span class="input-group-text"><i class="icon-copy fa fa-check-square-o" aria-hidden="true"></i></span>
 							</div>
 						</div>
-					</div>
-				</form>
-			</div>
-      </div>
-    </div>
-</div>
- <!-- modal edit per items (login-modal) -->
-<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-				<h2 class="text-center mb-30">Edit Actual</h2>
-				<form> 
-					<div class="input-group custom input-group-lg">
-						<input type="number" id="act_editfom" class="form-control">
-						<input type="hidden" id="id_act_editfom" class="form-control">
-						<div class="input-group-append custom">
-							<span class="input-group-text"><i class="icon-copy fa fa-tasks" aria-hidden="true"></i></span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="input-group"> 
-								<a class="btn btn-primary btn-lg btn-block" id="btn_update_act" href="#">update</a>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group"> 
+									<a class="btn btn-primary btn-lg btn-block" id="btn_update_plan" href="#">update</a>
+								</div>
 							</div>
 						</div>
+					</form>
+				</div>
+	      </div>
+	    </div>
+	</div>
+	 <!-- modal edit per items (login-modal) -->
+	<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+					<h2 class="text-center mb-30">Edit Actual</h2>
+					<form> 
+						<div class="input-group custom input-group-lg">
+							<input type="number" id="act_editfom" class="form-control">
+							<input type="hidden" id="id_act_editfom" class="form-control">
+							<div class="input-group-append custom">
+								<span class="input-group-text"><i class="icon-copy fa fa-tasks" aria-hidden="true"></i></span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group"> 
+									<a class="btn btn-primary btn-lg btn-block" id="btn_update_act" href="#">update</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Add Build -->
+	<div class="modal fade" id="modalnewbuild">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<form id="fomaddbuild">
+					<div class="modal-header">
+						<h4 class="modal-title">Build Assy Baru</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+					</div>
+					<div class="modal-body"> 
+						<div class="form-group">
+							<label>Assy Number</label>
+							<select class="custom-select2 form-control" name="state" id="pilihasy" style="width: 100%; height: 38px;">
+								  
+							</select>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<input id="idjamke" type="hidden" class="form-control" > 
+						<button type="button" class="btn btn-primary" id="btn_newbuildassy">Tambahkan</button>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
-</div>
-<!-- Modal Add Build -->
-<div class="modal fade" id="modalnewbuild">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<form id="fomaddbuild">
+	<!-- Modal Add new Jam ke -->
+	<div class="modal fade" id="modaladdjamke">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">Build Assy Baru</h4>
+					<h4 class="modal-title">Pindah Jam </h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
 				</div>
-				<div class="modal-body"> 
+				<div class="modal-body">
+					<div class="input-group custom input-group-lg" >
+						<center><H3 id="id_labeljam"></H3></center>
+						<input id="terus_jam_ke" type="hidden" class="form-control"> 
+					</div> 
 					<div class="form-group">
-						<label>Assy Number</label>
-						<select class="custom-select2 form-control" name="state" id="pilihasy" style="width: 100%; height: 38px;">
-							  
-						</select>
+						<label>Jumlah Plan</label>
+						<input id="jum_plann" type="number" class="form-control"> 
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<input id="idjamke" type="hidden" class="form-control" > 
-					<button type="button" class="btn btn-primary" id="btn_newbuildassy">Tambahkan</button>
+					<button type="button" class="btn btn-primary" id="btn_pindahjam">Pindah Jam</button>
 				</div>
-			</form>
-		</div>
-	</div>
-</div>
-<!-- Modal Add new Jam ke -->
-<div class="modal fade" id="modaladdjamke">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">Pindah Jam </h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
-			</div>
-			<div class="modal-body">
-				<div class="input-group custom input-group-lg" >
-					<center><H3 id="id_labeljam"></H3></center>
-					<input id="terus_jam_ke" type="hidden" class="form-control"> 
-				</div> 
-				<div class="form-group">
-					<label>Jumlah Plan</label>
-					<input id="jum_plann" type="number" class="form-control"> 
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary" id="btn_pindahjam">Pindah Jam</button>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- End Modal -->
+<!-- End Modal --> 
 
 <!-- main container -->
 <div class="main-container">
@@ -185,13 +186,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="project-info-progress">
 							<div class="row clearfix">
 								<div class="col-sm-6 text-muted weight-500">Plan</div> 
-								<span class="col-sm-6 no text-right text-blue weight-500 font-16">120</span>
+								<span class="col-sm-6 no text-right text-blue weight-500 font-16" id="tot_plan"></span>
 								 
 								<div class="col-sm-6 text-muted weight-500">Act</div>
-								<div class="col-sm-6 text-right weight-500 font-14 text-muted">87</div>
+								<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="tot_actual"></div>
 							</div>
-							<div class="progress" style="height: 10px; margin-top: 10px;">
-								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" style="width: 40%;" aria-valuenow="87" aria-valuemin="0" aria-valuemax="120"></div>
+							<div class="progress" style="height: 20px; margin-top: 10px;">
+								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" id="id_progres_output" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">90%</div>
 							</div>
 						</div>
 					</div> 
@@ -208,9 +209,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<span class="col-sm-6 no text-right text-blue weight-500 font-16">120</span>
 								 
 								<div class="col-sm-6 text-muted weight-500">Act</div>
-								<div class="col-sm-6 text-right weight-500 font-14 text-muted">87</div>
+								<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="id_act_mhout"></div>
 							</div>
-							<div class="progress" style="height: 10px; margin-top: 10px;">
+							<div class="progress" style="height: 20px; margin-top: 10px;">
 								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" style="width: 40%;" aria-valuenow="87" aria-valuemin="0" aria-valuemax="120"></div>
 							</div>
 						</div>
@@ -230,7 +231,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-sm-6 text-muted weight-500">Act</div>
 								<div class="col-sm-6 text-right weight-500 font-14 text-muted">87</div>
 							</div>
-							<div class="progress" style="height: 10px; margin-top: 10px;">
+							<div class="progress" style="height: 20px; margin-top: 10px;">
 								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" style="width: 40%;" aria-valuenow="87" aria-valuemin="0" aria-valuemax="120"></div>
 							</div>
 						</div>
@@ -250,7 +251,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-sm-6 text-muted weight-500">Act</div>
 								<div class="col-sm-6 text-right weight-500 font-14 text-muted">82%</div>
 							</div>
-							<div class="progress" style="height: 10px; margin-top: 10px;">
+							<div class="progress" style="height: 20px; margin-top: 10px;">
 								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" style="width: 40%;" aria-valuenow="98" aria-valuemin="0" aria-valuemax="98"></div>
 							</div>
 						</div>
@@ -483,15 +484,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			                }); 
                             
-  							// total
-  							t_plan += Number(data[i].plan);
+  							// TOTAL PLANNING & ACTUAL
+  							t_plan += Number(data[i].plan); 
   							t_act += Number(data[i].actual); 
+
   							id_jamke = data[i].id;
   							jam_ke ++; 
                         }
 
-                        
-
+                        // set tulisan WIDGET
+                        document.getElementById('tot_plan').innerHTML= t_plan;
+                        document.getElementById('tot_actual').innerHTML= t_act;    
+                        var per_op = (t_act/t_plan)*100; 
+                        document.getElementById('id_progres_output').style.width= per_op.toFixed(0)+'%';
+                        document.getElementById('id_progres_output').innerHTML= per_op.toFixed(0)+'%';
 
                         // bottom Tabel 
                         html +=
@@ -501,22 +507,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								'<th scope="row">Total</th>'+
 								'<th scope="row">'+t_plan+'</th>'+
 								'<th scope="row">'+t_act+'</th>';
+						
 						// penggabungan counter total actual per assy
+						var tot_mhout= 0;
 						for (var ir = 0; ir < db_head.length; ir++) {  
-							var atot = 0;
-							for (var i = 0; i < totActual.length; i++) {
-								if (totActual[i][0]==db_head[ir].id_assy) {
-									atot += Number(totActual[i][1]);
+								var atot = 0;
+								for (var i = 0; i < totActual.length; i++) {
+									if (totActual[i][0]==db_head[ir].id_assy) {
+										atot += Number(totActual[i][1]);
+									}
 								}
-							}
-							// hitungan total builder assy & umh
-							htmltotalbawah +=  '<th scope="row">'+atot+'</th>'; 
-							var tumh= (Number(db_head[ir].umh)*atot);
-							if (tumh!=0 && tumh.toString().split('.')[1].length>3) { 
-								tumh = tumh.toFixed(4);
-							}
-							htmltotalbawahMhOt +=  '<th scope="row">'+tumh+'</th>';
+								// hitungan total builder assy & umh
+							htmltotalbawah +=  
+										'<th scope="row">'+atot+'</th>'; 
+								// perkalian total perassy * umh
+								var tumh= (Number(db_head[ir].umh)*atot);
+								tot_mhout+=Number(tumh);
+								// pembulatan 
+								if (tumh!=0 && tumh.toString().split('.')[1].length>2) { 
+									tumh = tumh.toFixed(2);
+								}
+							htmltotalbawahMhOt +=  
+										'<th scope="row">'+tumh+'</th>';
 						}
+						// set TULISAN WIDGET MHOUT
+						document.getElementById('id_act_mhout').innerHTML= tot_mhout.toFixed(2);
+
   
 						html +=
 							htmltotalbawah+

@@ -56,7 +56,8 @@ class Welcome extends CI_Controller {
 			'id_users' => $session_data['id_user'], 
 			'cv' => '12A', 
 			'tanggal' => date("Y-m-d H:i:s"),
-			'line_speed' => 0
+			'line_speed' => 0,
+			'jam_kerja' => (8+$this->input->post('jam_otdl'))
 		);
 		// insert data new pdo
 		$result = $this->Pdo_model->createPdo($dataPdo);

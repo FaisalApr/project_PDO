@@ -34,7 +34,7 @@
 
 			<div class="brand-logo">
 				<a href="index.php">
-					<img src="<?php echo base_url() ?>assets/vendors/images/logo.png" alt="" class="mobile-logo">
+					<img src="<?php echo base_url() ?>assets/vendors/images/ico.png" alt="" class="mobile-logo">
 				</a>
 			</div>
 
