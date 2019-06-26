@@ -69,8 +69,8 @@ class Losstime extends CI_Controller {
 	{
 		# code...
 		$id =$this->input->post('id_pdo');
-		$data = $this->Losstime_model->getLosstimeUserrrr($id);
-
+		$data['data_downtime'] = $this->Losstime_model->getLosstimeUserrrr($id);
+		$data['widgettt'] = $this->Losstime_model->getLosstimeWidget($id);
 		echo json_encode($data);
 	}
 

@@ -34,6 +34,13 @@ class Losstime_model extends CI_Model {
     	return $q->result();
     }
 
+    public function getLosstimeWidget($id)
+    {
+        # code...
+        $quer = $this->db->query('SELECT (SELECT (SELECT (SELECT (SELECT sum(durasi) FROM lost_time WHERE id_pdo='.$id.')/60)/(SELECT (SELECT jam_kerja FROM main_pdo WHERE id='.$id.')-(SELECT ((select sum(menit) as durasi FROM indirect_activity WHERE id_directlabor=(SELECT id FROM direct_labor WHERE id_pdo='.$id.'))/60)as jam)))*100) as losspercent , (SELECT (SELECT jam_kerja FROM main_pdo WHERE id='.$id.')-(SELECT ((select sum(menit) as durasi FROM indirect_activity WHERE id_directlabor=(SELECT id FROM direct_labor WHERE id_pdo='.$id.'))/60)as jam)) as jam_iff');
+        return $quer->result();
+    }
+
     public function delLosstime($id)
     {
     	# code...

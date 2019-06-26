@@ -36,11 +36,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			
 			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
 				<div class="card box-shadow">
+					<h5 class="card-header text-center weight-500">Jam Effective</h5>
+					<div class="card-body"> 
+						<div class="project-info-progress">
+							<center>
+							<span class="col-sm-12 align-content-center text-blue weight-800"><font size="46" id="id_jam_efff"></font>jam</span>
+							</center>
+						</div>
+					</div> 
+				</div>
+			</div>
+
+			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
+				<div class="card box-shadow">
 					<h5 class="card-header text-center weight-500">Prosentase Losstime</h5>
 					<div class="card-body"> 
 						<div class="project-info-progress">
 							<center>
-							<span class="col-sm-12 align-content-center text-blue weight-800"><font size="56">89%</font></span>
+							<span class="col-sm-12 align-content-center text-blue weight-800"><font size="46" id="id_prcent_loss"></font>%</span>
 							</center>
 						</div>
 					</div> 
@@ -364,9 +377,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         url   : '<?php echo base_url();?>index.php/Losstime/getLosstimeUser',
                         dataType : 'json',
                         data : {id_pdo:$('#id_pdo').val()},
-                        success : function(data){
+                        success : function(respon){
                             var html = '';
                             var i;
+                            var data = respon.data_downtime;
+                            var widget = respon.widgettt;
 
                             for(i=0; i<data.length; i++){
                                 html += 
@@ -407,8 +422,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									searchPlaceholder: "Search"
 								},
 							});
+ 
+                            // setting WIdget
+							document.getElementById('id_jam_efff').innerHTML= parseFloat(widget[0].jam_iff).toFixed(1);
+							document.getElementById('id_prcent_loss').innerHTML= parseFloat(widget[0].losspercent).toFixed(2);
                         }
                     });
+
 
             }
             // =================== End Read Record ============================================
