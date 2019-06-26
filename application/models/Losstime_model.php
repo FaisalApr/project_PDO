@@ -42,6 +42,21 @@ class Losstime_model extends CI_Model {
     	return $result;
     }
 
+    public function updateLosstime($id,$id_error,$id_oc,$id_jenisloss,$keterangan,$durasi)
+    {
+    	# code...
+    	$data = array(
+    		'id_error' => $id_error,
+    		'id_oc' => $id_oc,
+    		'id_jenisloss' => $id_jenisloss,
+    		'keterangan' => $keterangan,
+    		'durasi' => $durasi
+    	);
+    	$this->db->where('id',$id);
+    	return $this->db->update('lost_time', $data);
+    	
+    }
+
 }
 
 /* End of file losstime_model.php */

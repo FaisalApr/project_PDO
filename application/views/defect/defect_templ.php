@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>DeskApp Dashboard</title>
+	<title>PDO Dashboard</title>
 
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -81,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="clearfix mb-20">
 						<div class="pull-left">
 							<h5 class="text-blue" style="font-size: 50px">Defect Data Table</h5>
-							<!-- <p class="font-14">you can find more options <a class="text-primary" href="https://datatables.net/" target="_blank">Click Here</a></p> -->
+							
 						</div>
 					</div>
 					<div class="row">
@@ -92,6 +92,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#login-modal" style="margin-right: 25px; width: 193px">
 									<span class="fa fa-plus"></span> Tambah </a>
 								</div>
+
+								<!-- input modal -->
 							<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered">
 									<div class="modal-content">
@@ -163,8 +165,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 
 
-
-						<table class="data-table stripe hover nowrap">
+ 
+						<table class="data-table stripe hover nowrap" id="t_user">
 							<thead>
 								<tr>
 									<th class="table-plus datatable-nosort">Jam ke</th>
@@ -181,6 +183,78 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								
 							</tbody>
 						</table>
+
+						
+					
+					<!-- update modal -->
+							<div class="modal fade" id="modal_upd" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered">
+									<div class="modal-content">
+										<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+											
+											<h2 class="text-center mb-30">Defect</h2>
+											<form id="formDefect">
+												<div class="input-group custom input-group-lg">
+												<div class="input-group custom input-group-lg">
+													<select class="custom-select col-12" name="levelupp" name="jam_updt" id="jam_update">
+														<option disabled selected> Pilih Jam ke</option>
+																<?php foreach ($data_oc as $key) { ?>
+																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
+																<?php }  ?>
+													</select>
+													<input type="hidden" class="form-control" placeholder="Defect" name="id_updt" id="id_update">
+												</div>
+													<div class="input-group-append custom">
+														<span class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+													</div>
+												</div>
+
+												<div class="input-group custom input-group-lg">
+													<select class="custom-select col-12" name="jenis_updt" id="jenis_update">
+														<option disabled selected> Pilih Jenis Defect</option>
+																<?php foreach ($defect as $key) { ?>
+																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->code .'('.$key->keterangan.')' ?> </option>
+																<?php }  ?>
+													</select>
+												</div>
+
+												<div class="input-group custom input-group-lg">
+													<input id="ket_updt" name="ket_update" type="text" class="form-control" placeholder="Keterangan">
+													<div class="input-group-append custom">
+														<span class="input-group-text"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+													</div>
+												</div>
+												
+												<div class="input-group custom input-group-lg">
+													<input type="text" class="form-control" placeholder="Total" id="total_update" name="total_updt">
+													<div class="input-group-append custom">
+														<span class="input-group-text"><i class="fa fa-database" aria-hidden="true"></i></span>
+													</div>
+												</div>
+
+												
+												
+												<div class="row">
+													<div class="col-sm-12">
+														<div class="input-group">
+															<!--
+																use code for form submit
+																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+															-->
+															<a id="btn_update" class="btn btn-primary btn-lg btn-block" href="#">Update</a>
+														</div>
+													</div>
+												</div>
+											
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div></div>
+
 
 					<!-- Confirmation modal -->
 							<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -228,20 +302,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script>
 		$('document').ready(function(){
-			$('.data-table').DataTable({
-				scrollCollapse: true,
-				autoWidth: false,
-				responsive: true,
-				columnDefs: [{
-					targets: "datatable-nosort",
-					orderable: false,
-				}],
-				"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-				"language": {
-					"info": "_START_-_END_ of _TOTAL_ entries",
-					searchPlaceholder: "Search"
-				},
-			});
+			
 
 			// =================== Read Record ===============================================
 			show();    
@@ -272,14 +333,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												'<i class="fa fa-ellipsis-h"></i>'+
 											'</a>'+											
 											'<div class="dropdown-menu dropdown-menu-right">'+
-												'<a class="dropdown-item item_edit" href="#" data-id ="'+data[i].id+'"><i class="fa fa-pencil"></i> Edit </a>'+
+												'<a class="dropdown-item item_edit" href="#" data-id ="'+data[i].id+'" data-id_pdo="'+data[i].id_pdo+'" data-id_oc="'+data[i].id_oc+'" data-id_jenisdeffect="'+data[i].id_jenis_defect+'" data-keterangan="'+data[i].keterangan+'" data-total="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
 												'<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
 											'</div>'+
 										'</div>'+
 									'</td>'+
 								'</tr>';    
                             }
+                            $('#t_user').DataTable().destroy();
                             $('#tbl_body').html(html);
+                        	$('#t_user').DataTable({
+								scrollCollapse: true,
+								autoWidth: false,
+								responsive: true,
+								columnDefs: [{
+									targets: "datatable-nosort",
+									orderable: false,
+								}],
+								"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+								"language": {
+									"info": "_START_-_END_ of _TOTAL_ entries",
+									searchPlaceholder: "Search"
+								},
+							});
                         }
                     });
 
@@ -364,6 +440,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             });
 			 //   ========================  END DELETE RECORD ====================================
+
+
+
+			 //  ===================  START UPDATE Record ===============================================
+            //get data for UPDATE record show prompt
+            $('#tbl_body').on('click','.item_edit',function(){
+            	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
+                var id = $(this).data('id');
+                
+                // memasukkan data ke form updatean
+				$('[name="id_updt"]').val(id);
+				
+                $('#update_modal').modal('show');
+                
+            });
+            
+            //UPDATE record to database (submit button)
+
+            $('#btn_update').on('click',function(){
+                var idup = $('[name="id_updt"]').val();
+                
+
+				// alert(umhup);
+                $.ajax({
+                    type : "POST",
+                    url  : "<?php echo site_url(); ?>/Defect/updateDefect",
+                    dataType : "JSON",
+                    data : { 
+
+                    		id:idup,
+                    		
+                    	},
+
+                    success: function(data){
+                    	$('#update_modal').modal('hide'); 
+                        // refresh();
+                        show();
+                    }
+                });
+              });
+
+
+
+
+			 // ========================  END UPDATE RECORD ====================================
 
 
 

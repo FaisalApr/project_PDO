@@ -57,7 +57,7 @@ class Losstime extends CI_Controller {
 		// insert data new defect
 		$result = $this->Losstime_model->createLosstime($dataLosstime);
 		if($result){
-			$output ['status'] = "ok";
+			// $output ['status'] = "ok";
 			
 		}else{
 			$output['error'] = true;
@@ -80,6 +80,20 @@ class Losstime extends CI_Controller {
 		$id = $this->input->post('id');
 		$data = $this->Losstime_model->delLosstime($id);
 		echo json_encode($data);
+	}
+	public function updateLosstime()
+	{
+		# code...
+		$id = $this->input->post('id');
+		$id_error = $this->input->post('id_error');
+		$id_oc = $this->input->post('id_oc');
+		$id_jenisloss = $this->input->post('id_jenisloss');
+		$keterangan = $this->input->post('keterangan');
+		$durasi = $this->input->post('durasi');
+
+
+		$result = $this->Losstime_model->updateLosstime($id,$id_error,$id_oc,$id_jenisloss,$keterangan,$durasi);
+		echo json_encode($result);
 	}
 
 }

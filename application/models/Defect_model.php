@@ -39,6 +39,19 @@ class Defect_Model extends CI_Model {
     	return $result;
     }
 
+    public function updateDefect($id,$id_oc,$id_jenisdeffect,$keterangan,$total)
+    {
+        # code...
+        $data = array(
+            'id_oc' => $id_oc,
+            'id_jenisdeffect' => $id_jenisdeffect,
+            'keterangan' => $keterangan,
+            'total' => $total
+        );
+        $this->db->where('id',$id);
+        return $this->db->update('quality_control', $data);
+    }
+
 }
 
 /* End of file defectModel.php */

@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>DeskApp Dashboard</title>
+	<title>PDO Dashboard</title>
 
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -136,7 +136,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																use code for form submit
 																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
 															-->
-															<a id="btn_update" type="submit" class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit">Update</a>
+															<a id="btn_update" type="submit" class="btn btn-primary btn-lg btn-block" href="#" >Update</a>
 														</div>
 													</div>
 												</div>

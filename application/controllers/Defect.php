@@ -83,6 +83,19 @@ class Defect extends CI_Controller {
 
 	}
 
+	public function updateDefect()
+	{
+		# code...
+		$id = $this->input->post('id');
+		$id_oc = $this->input->post('id_oc');
+		$id_jenisdeffect = $this->input->post('id_jenisdeffect');
+		$keterangan = $this->input->post('keterangan');
+		$total = $this->input->post('total');
+
+		$result = $this->Defect_model->updateDefect($id,$id_oc,$id_jenisdeffect,$keterangan,$total);
+		echo json_encode($result);
+	}
+
 }
 
 /* End of file defect_form.php */

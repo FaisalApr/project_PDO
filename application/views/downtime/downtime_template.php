@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>DeskApp Dashboard</title>
+	<title>PDO Dashboard</title>
 
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -105,6 +105,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#login-modal" style="margin-right: 25px; width: 193px">
 									<span class="fa fa-plus"></span> Tambah </a>
 								</div>
+							
+							<!-- input modal -->
 							<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered">
 									<div class="modal-content">
@@ -176,17 +178,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 								</div>
 							</div>
-						</div>
-					</div></div>
+							</div></div></div>
+							
 
-						<table class="data-table stripe hover nowrap">
+							
+
+
+						<table id="t_user" class="data-table stripe hover nowrap">
 							<thead>
 								<tr>
 									<th class="table-plus datatable-nosort">Jam ke</th>
 									<th>Code</th>
 									<th>problem</th>
-									<th>Keterangan</th>
 									<th>Jenis</th>
+									<th>Keterangan</th>
 									<th>Time</th>
 									
 									<th class="datatable-nosort">Action</th>
@@ -218,6 +223,85 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								
 							</tbody>
 						</table>
+</div></div></div></div></div>
+
+							<!-- update modal -->
+							<div class="modal fade" id="update_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered">
+									<div class="modal-content">
+										<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+											<h2 class="text-center mb-30">Downtime</h2>
+											<form id="form_losstime_updt">
+												<div class="input-group custom input-group-lg">
+													<input type="hidden" class="form-control" placeholder="Assy Code" name="id_updt" id="id_update">
+													<select class="custom-select col-12" name="jam_updt" id="jam_update">
+														<option disabled selected> Jam ke</option>
+																<?php foreach ($data_oc as $key) { ?>
+																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
+																<?php }  ?>
+															
+													</select>
+												</div>
+
+
+												<div class="input-group custom input-group-lg">
+													<select class="custom-select col-12" name="problem_updt" id="problem_update">
+														<option disabled selected> Problem</option>
+																<?php foreach ($data_error as $key) { ?>
+																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
+																<?php }  ?>
+															</select>
+													</select>
+												</div>
+
+												<div class="input-group custom input-group-lg">
+													<input type="text" class="form-control" placeholder="KETERANGAN" name="ket_updt" id="ket_update">
+													<div class="input-group-append custom">
+														<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+													</div>
+												</div>
+
+												<div class="input-group custom input-group-lg">
+													<select class="custom-select col-12" name="jenis_updt" id="jenis_update">
+														<option disabled selected> Pilih Jenis Downtime</option>
+																<?php foreach ($data_losttime as $key) { ?>
+																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
+																<?php }  ?>
+															</select>
+													</select>
+												</div>
+
+												<div class="input-group custom input-group-lg">
+													<input type="text" class="form-control" placeholder="Time" name="time_updt" id="time_update">
+													<div class="input-group-append custom">
+														<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+													</div>
+												</div>
+													
+												<br>
+												
+												<div class="row">
+													<div class="col-sm-12">
+														<div class="input-group">
+															<!--
+																use code for form submit
+																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+															-->
+															<a class="btn btn-primary btn-lg btn-block" id="btn_update" href="#">Update</a>
+														</div>
+													</div>
+												</div>
+											
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+					</div></div>
 
 					
 					<!-- Confirmation modal -->
@@ -243,7 +327,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 							</div>
 						</div>
+						
 
+							
 
 	</div>
 </div>
@@ -263,21 +349,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/vfs_fonts.js"></script>
 
 	<script>
+		
+
 		$('document').ready(function(){
-			$('.data-table').DataTable({
-				scrollCollapse: true,
-				autoWidth: false,
-				responsive: true,
-				columnDefs: [{
-					targets: "datatable-nosort",
-					orderable: false,
-				}],
-				"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-				"language": {
-					"info": "_START_-_END_ of _TOTAL_ entries",
-					searchPlaceholder: "Search"
-				},
-			});
+			
 
 
 			// =================== Read Record ===============================================
@@ -309,19 +384,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												'<i class="fa fa-ellipsis-h"></i>'+
 											'</a>'+											
 											'<div class="dropdown-menu dropdown-menu-right">'+
-												'<a class="dropdown-item item_edit" href="#" data-id ="'+data[i].id+'"><i class="fa fa-pencil"></i> Edit </a>'+
+												'<a class="dropdown-item item_edit" href="#" data-id ="'+data[i].id+'" data-id_pdo="'+data[i].id_pdo+'" data-id_error="'+data[i].id_error+'" data-id_oc="'+data[i].id_oc+'" data-id_jenisloss="'+data[i]. id_jenisloss+'" data-keterangan="'+data[i].keterangan+'" data-durasi="'+data[i].durasi+'"><i class="fa fa-pencil"></i> Edit </a>'+
 												'<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
 											'</div>'+
 										'</div>'+
 									'</td>'+
 								'</tr>';    
                             }
+                            $('#t_user').DataTable().destroy();
                             $('#tbl_body').html(html);
+                            $('#t_user').DataTable({
+								scrollCollapse: true,
+								autoWidth: false,
+								responsive: true,
+								columnDefs: [{
+									targets: "datatable-nosort",
+									orderable: false,
+								}],
+								"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+								"language": {
+									"info": "_START_-_END_ of _TOTAL_ entries",
+									searchPlaceholder: "Search"
+								},
+							});
                         }
                     });
 
             }
             // =================== End Read Record ============================================
+
+            
 
             // =================== Create Record ===============================================
    			$('#btn_submit').click(function(){
@@ -355,9 +447,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					success : function(response){
 							  $('#login-modal').modal('hide');
 						if(response.error){
-							alert('error');
+							// alert('error');
 						}else{
-							alert(response.status);
+							// alert(response.status);
 						}
 						document.getElementById("form_losstime").reset();
 					}
@@ -409,6 +501,68 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 
+			 //  ===================  START UPDATE Record ===============================================
+            //get data for UPDATE record show prompt
+            $('#tbl_body').on('click','.item_edit',function(){
+            	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
+                var id = $(this).data('id');
+                var id_error = $(this).data('id_error');
+                var id_oc = $(this).data('id_oc');
+                var id_jenisloss = $(this).data('id_jenisloss');
+                var keterangan = $(this).data('keterangan');
+                var durasi = $(this).data('durasi');
+
+                // memasukkan data ke form updatean
+				$('[name="id_updt"]').val(id);
+				$('[name="problem_updt"]').val(id_error);
+				$('[name="jam_updt"]').val(id_oc);
+				$('[name="jenis_updt"]').val(id_jenisloss);
+				$('[name="ket_updt"]').val(keterangan);
+				$('[name="time_updt"]').val(durasi);
+
+
+
+                $('#update_modal').modal('show');
+                
+            });
+            
+            //UPDATE record to database (submit button)
+
+            $('#btn_update').on('click',function(){
+                var idup = $('[name="id_updt"]').val();
+                var iderrorup = $('[name="problem_updt"]').val();
+                var idocup = $('[name="jam_updt"]').val();
+                var idjenislossup = $('[name="jenis_updt"]').val();
+                var ketup = $('[name="ket_updt"]').val();
+                var durasiup = $('[name="time_updt"]').val();
+
+				// alert(umhup);
+                $.ajax({
+                    type : "POST",
+                    url  : "<?php echo site_url(); ?>/Losstime/updateLosstime",
+                    dataType : "JSON",
+                    data : { 
+
+                    		id:idup,
+                    		id_error:iderrorup,
+                    		id_oc:idocup,
+                    		id_jenisloss:idjenislossup,
+                    		keterangan:ketup,
+                    		durasi:durasiup
+                    	},
+
+                    success: function(data){
+                    	$('#update_modal').modal('hide'); 
+                        // refresh();
+                        show();
+                    }
+                });
+              });
+
+
+
+
+			 // ========================  END UPDATE RECORD ====================================
 			$('.data-table-export').DataTable({
 				scrollCollapse: true,
 				autoWidth: false,
@@ -442,6 +596,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$(this).toggleClass('selected');
 			});
 		});
+
+
 	</script>
 
 </body>
