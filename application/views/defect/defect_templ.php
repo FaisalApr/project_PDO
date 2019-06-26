@@ -170,7 +170,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<thead>
 								<tr>
 									<th class="table-plus datatable-nosort">Jam ke</th>
-									<th>Item</th>
+									<th>Jenis</th>
 									<th>Keterangan</th>
 									<th>Total</th>
 									
@@ -197,13 +197,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<form id="formDefect">
 												<div class="input-group custom input-group-lg">
 												<div class="input-group custom input-group-lg">
-													<select class="custom-select col-12" name="levelupp" name="jam_updt" id="jam_update">
+													<input type="hidden" class="form-control" placeholder="Defect" name="id_updt" id="id_update">
+													<select class="custom-select col-12" name="jam_updt" id="jam_update">
 														<option disabled selected> Pilih Jam ke</option>
 																<?php foreach ($data_oc as $key) { ?>
 																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
 																<?php }  ?>
 													</select>
-													<input type="hidden" class="form-control" placeholder="Defect" name="id_updt" id="id_update">
+													
 												</div>
 													<div class="input-group-append custom">
 														<span class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
@@ -220,7 +221,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												</div>
 
 												<div class="input-group custom input-group-lg">
-													<input id="ket_updt" name="ket_update" type="text" class="form-control" placeholder="Keterangan">
+													<input id="ket_update" name="ket_updt" type="text" class="form-control" placeholder="Keterangan">
 													<div class="input-group-append custom">
 														<span class="input-group-text"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 													</div>
@@ -324,8 +325,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                 '<tr>'+
 									'<td class="table-plus">'+data[i].jam_ke+'</td>'+
-									'<td>'+ data[i].item+'</td>'+
 									'<td>'+data[i].keterangan+'</td>'+
+									'<td>'+data[i].item+'</td>'+
 									'<td>'+data[i].total+'</td>'+
 									'<td>'+
 										'<div class="dropdown">'+
@@ -333,7 +334,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												'<i class="fa fa-ellipsis-h"></i>'+
 											'</a>'+											
 											'<div class="dropdown-menu dropdown-menu-right">'+
-												'<a class="dropdown-item item_edit" href="#" data-id ="'+data[i].id+'" data-id_pdo="'+data[i].id_pdo+'" data-id_oc="'+data[i].id_oc+'" data-id_jenisdeffect="'+data[i].id_jenis_defect+'" data-keterangan="'+data[i].keterangan+'" data-total="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
+												'<a class="dropdown-item item_edit" href="#" data-id="'+data[i].id+'" data-id_pdo="'+data[i].id_pdo+'" data-id_oc="'+data[i].id_oc+'" data-id_jenisdeffect="'+data[i].id_jenisdeffect+'" data-keterangan="'+data[i].item+'" data-total="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
 												'<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
 											'</div>'+
 										'</div>'+
@@ -448,11 +449,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('#tbl_body').on('click','.item_edit',function(){
             	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
                 var id = $(this).data('id');
+                var id_oc = $(this).data('id_oc');
+                var id_jenis_defect = $(this).data('id_jenisdeffect');
+                var keterangan = $(this).data('keterangan');
+                var total = $(this).data('total');
                 
+                alert(keterangan,id_jenis_defect,id_oc);
                 // memasukkan data ke form updatean
 				$('[name="id_updt"]').val(id);
-				
-                $('#update_modal').modal('show');
+				$('[name="jam_updt"]').val(id_oc);
+				$('[name="jenis_updt"]').val(id_jenis_defect);
+				$('[name="ket_updt"]').val(keterangan);
+				$('[name="total_updt"]').val(total);
+
+                $('#modal_upd').modal('show');
                 
             });
             
@@ -460,7 +470,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             $('#btn_update').on('click',function(){
                 var idup = $('[name="id_updt"]').val();
-                
+                var id_oc_up = $('[name="jam_updt"]').val();
+                var id_jenis_up = $('[name="jenis_updt"]').val();
+                var ketup = $('[name="ket_updt"]').val();
+                var totalup = $('[name="total_updt"]').val();
 
 				// alert(umhup);
                 $.ajax({
@@ -470,11 +483,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     data : { 
 
                     		id:idup,
-                    		
+                    		id_oc:id_oc_up,
+                    		id_jenisdeffect:id_jenis_up,
+                    		keterangan:ketup,
+                    		total:totalup
                     	},
 
                     success: function(data){
-                    	$('#update_modal').modal('hide'); 
+                    	$('#modal_upd').modal('hide'); 
                         // refresh();
                         show();
                     }
