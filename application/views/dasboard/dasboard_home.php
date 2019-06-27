@@ -11,10 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-	<!-- Google Font -->
-	<!-- <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"> -->
+ 
 	<!-- CSS -->
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
@@ -229,7 +226,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<span class="col-sm-6 no text-right text-blue weight-500 font-16">120</span>
 								 
 								<div class="col-sm-6 text-muted weight-500">Act</div>
-								<div class="col-sm-6 text-right weight-500 font-14 text-muted">87</div>
+								<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="id_mhinact">0</div>
 							</div>
 							<div class="progress" style="height: 20px; margin-top: 10px;">
 								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" style="width: 40%;" aria-valuenow="87" aria-valuemin="0" aria-valuemax="120"></div>
@@ -246,13 +243,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="project-info-progress">
 							<div class="row clearfix">
 								<div class="col-sm-6 text-muted weight-500">Plan</div> 
-								<span class="col-sm-6 no text-right text-blue weight-500 font-16">98%</span>
+								<span class="col-sm-6 no text-right text-blue weight-500 font-16">100%</span>
 								 
 								<div class="col-sm-6 text-muted weight-500">Act</div>
-								<div class="col-sm-6 text-right weight-500 font-14 text-muted">82%</div>
+								<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="id_act_eff">0%</div>
 							</div>
 							<div class="progress" style="height: 20px; margin-top: 10px;">
-								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" style="width: 40%;" aria-valuenow="98" aria-valuemin="0" aria-valuemax="98"></div>
+								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" id="id_act_eff_progres"></div>
 							</div>
 						</div>
 					</div> 
@@ -265,7 +262,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="card-body"> 
 						<div class="project-info-progress">
 							<center>
-							<span class="col-sm-12 align-content-center text-blue weight-800"><font size="56">89%</font></span>
+							<span class="col-sm-12 align-content-center text-blue weight-800"><font size="56" id="id_prod_percent">0</font>%</span>
 							</center>
 						</div>
 					</div> 
@@ -277,7 +274,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<h5 class="card-header text-center weight-500">Man Power</h5>
 					<div class="card-body"> 
 						<center>
-							<span class="col-sm-12 align-content-center text-red weight-800"><font size="56">56</font></span>
+							<span class="col-sm-12 align-content-center text-red weight-800"><font size="56" id="id_mp_act">0</font></span>
 							<i class="icon-copy fi-torsos-male-female"></i>
 						</center>	
 					</div> 
@@ -359,12 +356,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     data:{
                     	id_pdo:$('#id_pdo').val()
                     },
-                    success : function(data){  
+                    success : function(res){  
                         var html = '';
                         var t_plan=0;
                         var t_act=0;
                         var id_jamke;
                         var jam_ke=0;
+                        // 
+                        var data = res.data;
 
                         // header
                         htmlhead1 +=
@@ -492,12 +491,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   							jam_ke ++; 
                         }
 
-                        // set tulisan WIDGET
-                        document.getElementById('tot_plan').innerHTML= t_plan;
-                        document.getElementById('tot_actual').innerHTML= t_act;    
-                        var per_op = (t_act/t_plan)*100; 
-                        document.getElementById('id_progres_output').style.width= per_op.toFixed(0)+'%';
-                        document.getElementById('id_progres_output').innerHTML= per_op.toFixed(0)+'%';
+                        
 
                         // bottom Tabel 
                         html +=
@@ -530,9 +524,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							htmltotalbawahMhOt +=  
 										'<th scope="row">'+tumh+'</th>';
 						}
+						
+
+						// set tulisan WIDGET
+                        document.getElementById('tot_plan').innerHTML= t_plan;
+                        document.getElementById('tot_actual').innerHTML= t_act;    
+                        var per_op = (t_act/t_plan)*100; 
+                        document.getElementById('id_progres_output').style.width= parseFloat(per_op).toFixed(0)+'%';
+                        document.getElementById('id_progres_output').innerHTML= parseFloat(per_op).toFixed(0)+'%';
+                        document.getElementById('id_mhinact').innerHTML= parseFloat(res.mhin_tot.mhin_dlidl).toFixed(1); 
 						// set TULISAN WIDGET MHOUT
 						document.getElementById('id_act_mhout').innerHTML= tot_mhout.toFixed(2);
-
+						// eff actual
+						var eff = (parseFloat(tot_mhout)/parseFloat(res.mhin.mhin))*100; 
+						document.getElementById('id_act_eff').innerHTML= eff.toFixed(1)+"%"; 
+						document.getElementById('id_act_eff_progres').style.width= eff.toFixed(0)+'%';
+                        document.getElementById('id_act_eff_progres').innerHTML= eff.toFixed(0)+'%';
+                        // productivity 
+                        var prod = ((tot_mhout)/parseFloat(res.mhin_tot.mhin_dlidl))*100;
+                        document.getElementById('id_prod_percent').innerHTML= prod.toFixed(1); 
+                        // manpower 
+                        document.getElementById('id_mp_act').innerHTML= res.mp.reg_dl; 
   
 						html +=
 							htmltotalbawah+

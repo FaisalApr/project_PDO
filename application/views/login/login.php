@@ -9,7 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/vendors/styles/login_styles.css">
 </head>
 <body style="background-image: url(<?php echo base_url('assets/src/wp/wp.jpg') ?>);">
-<div class="container">
+<div class="container" id="id_content">
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
@@ -72,7 +72,8 @@
 			  showConfirmButton: false,
 			  allowOutsideClick: false
 			})
-
+			// hidden contenr
+			document.getElementById('id_content').style.display = 'none';
 			$.ajax({
 				async: false,
 				type : "POST",
@@ -108,12 +109,10 @@
 						  type: 'error',
 						  confirmButtonText: 'Ok',
 						  allowOutsideClick: false
-						}) 
-
-						console.log("worng pass");
-						// setTimeout(function(){
-
-						// },2000);
+						}).then(function(){
+							// hidden contenr
+							document.getElementById('id_content').style.display = 'block';
+						}); 
 					}
 				}
 			});

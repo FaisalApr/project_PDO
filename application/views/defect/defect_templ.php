@@ -14,14 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
-	
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'UA-119386393-1');
-	</script>
+	 
 </head>
 <body>
 <input type="hidden" id="id_pdo" value="<?php echo $pdo->id ?>">
@@ -31,260 +24,202 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
 
-		<div class="min-height-200px">
-				<div class="page-header">
-					<div class="row">
-						<div class="col-md-6 col-sm-12">
-							<div class="title">
-								<h4>Defect Table</h4>
-							</div>
-							<nav aria-label="breadcrumb" role="navigation">
-								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="index.php">Defect</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Defect Table</li>
-								</ol>
-							</nav>
-						</div>
-						
-				</div>
-				
-				<!-- top icon dasboard -->
-		<div class="row clearfix progress-box">
-
+		<!-- top icon dasboard -->
+		<div class="row clearfix progress-box"> 
 			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
 				<div class="card box-shadow">
 					<h5 class="card-header text-center weight-500">Total</h5>
 					<div class="card-body"> 
 						<center>
-							<span class="col-sm-12 align-content-center text-red weight-800"><font size="56">0</font></span>
+							<span class="col-sm-12 align-content-center text-red weight-800"><font size="46" id="id_totaldeff"></font></span>
 						</center>	
 					</div> 
 				</div>
-			</div>
-			
-			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
+			</div> 
+			<div class="col-lg-4 col-md-6 col-sm-12 mb-30">
 				<div class="card box-shadow">
 					<h5 class="card-header text-center weight-500">DPM</h5>
 					<div class="card-body"> 
 						<center>
-							<span class="col-sm-12 align-content-center text-red weight-800"><font size="56">0</font></span>
+							<span class="col-sm-12 align-content-center text-red weight-800"><font size="56" id="id_tot_dpm">0</font></span>
 						</center>	
 					</div> 
 				</div>
-			</div>
-
+			</div> 
 		</div>	
 
+		<!-- BODY CONTAINER --> 
+		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30"> 
+			<div class="pull-left">
+				<h5 class="text-blue" style="font-size: 46px">Defect Data Table</h5> 	
+			</div>
+			<div class="pull-right">
+				<div class="row clearfix">	
+					<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#login-modal" style="margin-right: 25px; width: 193px"><span class="fa fa-plus"></span> Tambah </a>
+				</div>
+			</div>
+			<br><br><br>
 
-				<!-- Simple Datatable start -->
-				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-					<div class="clearfix mb-20">
-						<div class="pull-left">
-							<h5 class="text-blue" style="font-size: 50px">Defect Data Table</h5>
-							
-						</div>
-					</div>
-					<div class="row">
-						<div class="card-body">
-
-							<div class="pull-right">
-						<div class="row clearfix">	
-								<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#login-modal" style="margin-right: 25px; width: 193px">
-									<span class="fa fa-plus"></span> Tambah </a>
-								</div>
-
-								<!-- input modal -->
-							<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered">
-									<div class="modal-content">
-										<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-											
-											<h2 class="text-center mb-30">Defect</h2>
-											<form id="formDefect">
-												<div class="input-group custom input-group-lg">
-												<div class="input-group custom input-group-lg">
-													<select class="custom-select col-12" name="levelupp" id="i_jam">
-														<option disabled selected> Pilih Jam ke</option>
-																<?php foreach ($data_oc as $key) { ?>
-																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
-																<?php }  ?>
-															</select>
-													</select>
-												</div>
-													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
-													</div>
-												</div>
-
-												<div class="input-group custom input-group-lg">
-													<select class="custom-select col-12" name="levelup" id="i_select">
-														<option disabled selected> Pilih Jenis Defect</option>
-																<?php foreach ($defect as $key) { ?>
-																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->code .'('.$key->keterangan.')' ?> </option>
-																<?php }  ?>
-															</select>
-													</select>
-												</div>
-
-												<div class="input-group custom input-group-lg">
-													<input id="i_ket" type="text" class="form-control" placeholder="Keterangan">
-													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-													</div>
-												</div>
-												
-												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="Total" id="i_total">
-													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-database" aria-hidden="true"></i></span>
-													</div>
-												</div>
-
-												
-												
-												<div class="row">
-													<div class="col-sm-12">
-														<div class="input-group">
-															<!--
-																use code for form submit
-																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
-															-->
-															<a id="btn_submit" class="btn btn-primary btn-lg btn-block" href="#">Submit</a>
-														</div>
-													</div>
-												</div>
-											
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div></div>
+			<!-- TABEL -->
+			<table class="data-table stripe hover nowrap" id="t_user">
+				<thead>
+					<tr>
+						<th class="table-plus datatable-nosort">Jam ke</th>
+						<th>Jenis</th>
+						<th>Keterangan</th>
+						<th>Total</th>
 						
-
-
- 
-						<table class="data-table stripe hover nowrap" id="t_user">
-							<thead>
-								<tr>
-									<th class="table-plus datatable-nosort">Jam ke</th>
-									<th>Jenis</th>
-									<th>Keterangan</th>
-									<th>Total</th>
-									
-									<th class="datatable-nosort">Action</th>
-								</tr>
-							</thead>
-							<tbody id="tbl_body">
-
-								
-								
-							</tbody>
-						</table>
-
-						
-					
-					<!-- update modal -->
-							<div class="modal fade" id="modal_upd" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered">
-									<div class="modal-content">
-										<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-											
-											<h2 class="text-center mb-30">Defect</h2>
-											<form id="formDefect">
-												<div class="input-group custom input-group-lg">
-												<div class="input-group custom input-group-lg">
-													<input type="hidden" class="form-control" placeholder="Defect" name="id_updt" id="id_update">
-													<select class="custom-select col-12" name="jam_updt" id="jam_update">
-														<option disabled selected> Pilih Jam ke</option>
-																<?php foreach ($data_oc as $key) { ?>
-																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
-																<?php }  ?>
-													</select>
-													
-												</div>
-													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
-													</div>
-												</div>
-
-												<div class="input-group custom input-group-lg">
-													<select class="custom-select col-12" name="jenis_updt" id="jenis_update">
-														<option disabled selected> Pilih Jenis Defect</option>
-																<?php foreach ($defect as $key) { ?>
-																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->code .'('.$key->keterangan.')' ?> </option>
-																<?php }  ?>
-													</select>
-												</div>
-
-												<div class="input-group custom input-group-lg">
-													<input id="ket_update" name="ket_updt" type="text" class="form-control" placeholder="Keterangan">
-													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-													</div>
-												</div>
-												
-												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="Total" id="total_update" name="total_updt">
-													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-database" aria-hidden="true"></i></span>
-													</div>
-												</div>
-
-												
-												
-												<div class="row">
-													<div class="col-sm-12">
-														<div class="input-group">
-															<!--
-																use code for form submit
-																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
-															-->
-															<a id="btn_update" class="btn btn-primary btn-lg btn-block" href="#">Update</a>
-														</div>
-													</div>
-												</div>
-											
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div></div>
-
-
-					<!-- Confirmation modal -->
-							<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered" role="document">
-									<div class="modal-content">
-										<div class="modal-body text-center font-18">
-											<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
-											<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
-												<input type="text" name="id_dc_delete" id="id_dc_delete" class="form-control">
-												<br>
-												<div class="col-6">
-													<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
-													NO
-												</div>
-												<div class="col-6">
-													<button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
-													YES
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>				
-						
-					
-
+						<th class="datatable-nosort">Action</th>
+					</tr>
+				</thead>
+				<tbody id="tbl_body"> 	
+				</tbody>
+			</table>
+			
+		</div>
 
 	</div>
+</div>
+
+
+<!-- KUMPPULAN MODAL -->
+<div>
+	<!-- input modal -->
+	<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+					<h2 class="text-center mb-30">Defect</h2>
+					<form id="formDefect">
+						<div class="input-group custom input-group-lg">
+						<div class="input-group custom input-group-lg">
+							<select class="custom-select col-12" name="levelupp" id="i_jam">
+								<option disabled selected> Pilih Jam ke</option>
+										<?php foreach ($data_oc as $key) { ?>
+											<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
+										<?php }  ?>
+									</select>
+							</select>
+						</div>
+							<div class="input-group-append custom">
+								<span class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+							</div>
+						</div> 
+						<div class="input-group custom input-group-lg">
+							<select class="custom-select col-12" name="levelup" id="i_select">
+								<option disabled selected> Pilih Jenis Defect</option>
+										<?php foreach ($defect as $key) { ?>
+											<option value="<?php  echo $key->id ?>"> <?php  echo $key->code .'('.$key->keterangan.')' ?> </option>
+										<?php }  ?>
+									</select>
+							</select>
+						</div> 
+						<div class="input-group custom input-group-lg">
+							<input id="i_ket" type="text" class="form-control" placeholder="Keterangan">
+							<div class="input-group-append custom">
+								<span class="input-group-text"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+							</div>
+						</div> 
+						<div class="input-group custom input-group-lg">
+							<input type="text" class="form-control" placeholder="Total" id="i_total">
+							<div class="input-group-append custom">
+								<span class="input-group-text"><i class="fa fa-database" aria-hidden="true"></i></span>
+							</div>
+						</div> 
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group">
+									<!--
+										use code for form submit
+										<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+									-->
+									<a id="btn_submit" class="btn btn-primary btn-lg btn-block" href="#">Submit</a>
+								</div>
+							</div>
+						</div> 
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- update modal -->
+	<div class="modal fade" id="modal_upd" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+					<h2 class="text-center mb-30">Defect</h2>
+					
+					<form id="formDefect"> 
+						<div class="input-group custom input-group-lg">
+							<input type="hidden" class="form-control" placeholder="Defect" name="id_updt" id="id_update">
+							<select class="custom-select col-12" name="jam_updt" id="jam_update">
+								<option disabled selected> Pilih Jam ke</option>
+										<?php foreach ($data_oc as $key) { ?>
+											<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
+										<?php }  ?>
+							</select> 
+							<div class="input-group-append custom">
+								<span class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+							</div>
+						</div>  
+						<div class="input-group custom input-group-lg">
+							<select class="custom-select col-12" name="jenis_updt" id="jenis_update">
+								<option disabled selected> Pilih Jenis Defect</option>
+										<?php foreach ($defect as $key) { ?>
+											<option value="<?php  echo $key->id ?>"> <?php  echo $key->code .'('.$key->keterangan.')' ?> </option>
+										<?php }  ?>
+							</select>
+						</div> 
+						<div class="input-group custom input-group-lg">
+							<input id="ket_update" name="ket_updt" type="text" class="form-control" placeholder="Keterangan">
+							<div class="input-group-append custom">
+								<span class="input-group-text"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+							</div>
+						</div> 
+						<div class="input-group custom input-group-lg">
+							<input type="text" class="form-control" placeholder="Total" id="total_update" name="total_updt">
+							<div class="input-group-append custom">
+								<span class="input-group-text"><i class="fa fa-database" aria-hidden="true"></i></span>
+							</div>
+						</div> 
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group"> 
+									<a id="btn_update" class="btn btn-primary btn-lg btn-block" href="#">Update</a>
+								</div>
+							</div>
+						</div> 
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Confirmation modal -->
+	<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body text-center font-18">
+					<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
+					<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
+						<input type="text" name="id_dc_delete" id="id_dc_delete" class="form-control">
+						<br>
+						<div class="col-6">
+							<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+							NO
+						</div>
+						<div class="col-6">
+							<button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
+							YES
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> 	
 </div>
 
 <script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script>
@@ -314,15 +249,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         url   : '<?php echo base_url();?>index.php/Defect/getDefectsUser',
                         dataType : 'json',
                         data : {id_pdo:$('#id_pdo').val()},
-                        success : function(data){
+                        success : function(response){
                             var html = '';
                             var i;
 
+                            var data = response.alldefect; 
+
+                            // setting WIDGET
+                            document.getElementById('id_totaldeff').innerHTML= response.total.total;
+                            document.getElementById('id_tot_dpm').innerHTML= response.dpm.dpm;
+
                             for(i=0; i<data.length; i++){
-                                html += 
-
-
-
+                                html +=  
                                 '<tr>'+
 									'<td class="table-plus">'+data[i].jam_ke+'</td>'+
 									'<td>'+data[i].keterangan+'</td>'+

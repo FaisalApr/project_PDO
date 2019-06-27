@@ -31,6 +31,21 @@ class Defect_Model extends CI_Model {
 		return $q->result();
     }
 
+    public function getDPM($id)
+    {
+        $q = $this->db->query('SELECT ((SELECT COALESCE(SUM(total),0) FROM quality_control WHERE id_pdo='.$id.')/(SELECT COALESCE(SUM(actual),0) FROM output_control WHERE id_pdo='.$id.'))*1000000 as dpm');
+        // return $q->result();
+        return $q->first_row(); 
+    }
+
+    public function getTotal($id)
+    {
+        $q = $this->db->query('SELECT COALESCE(SUM(total),0)as total FROM quality_control WHERE id_pdo='.$id);
+        // return $q->result();
+        return $q->first_row(); 
+    }
+
+
     public function delDefects($id)
     {
     	# code...

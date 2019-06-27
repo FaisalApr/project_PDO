@@ -11,11 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-	<!-- Google Font -->
-	<!-- <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"> -->
-
+ 
 	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">   
@@ -213,7 +209,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="input-group"> 
-									<a class="btn btn-primary btn-lg btn-block" href="#" id="tambah_activedit">Tambah</a>
+									<a class="btn btn-primary btn-lg btn-block" href="#" id="tambah_activedit">Ubah</a>
 								</div>
 							</div>
 						</div>
@@ -344,7 +340,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									 
 									// perulangan insert activity
 									for (var ls = 0; ls < activ.length; ls++) {
- 										var to = (regdl*activ[ls].menit);
+ 										var durasijam = (activ[ls].menit/60);
+ 										var to = (regdl*durasijam); 
 
 										$.ajax({
 											async: false,
@@ -352,7 +349,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											url: '<?php echo site_url('DirectLabor/anInsertActivity') ?>',
 											dataType: "JSON",
 											data:{
-												iddl: response.id_dl,
+												idpdo: response.id_pdo,
 												activity: activ[ls].item,
 												qty: regdl,
 												menit: activ[ls].menit,

@@ -13,7 +13,7 @@ class DirectLabor_Model extends CI_Model {
 	public function arrayInsertDirectActivity()
 	{
 		$new = array(
-				'id_directlabor' => $this->input->post('iddl'),
+				'id_pdo' => $this->input->post('idpdo'),
 				'item' => $this->input->post('activity'),
 				'qty_mp' => $this->input->post('qty'),
 				'menit' => $this->input->post('menit'),

@@ -105,22 +105,17 @@ class Welcome extends CI_Controller {
 	        $result2 = $this->InDirectLabor_Model->createIDL($dataIdl);
 	        
 	        // jika direct labor sukses
-	        if ($result1) { 
-
-	        	// mencari id DIRECT LABOR
-	        	$dl = $this->DirectLabor_Model->cariDirectLabor($pdo->id);
-	        	$output['id_dl'] = $dl->id; 
+	        if ($result1) {  
 	        }else{
 	        	$output['error1'] = true;
 	        }
 	        // jika In-Direct Labor Sukses
-        	if ($result2) {
- 				// tidak perlu mencari
+        	if ($result2) { 
         	}else{
         		$output['error2'] = true;	
         	}
 
- 
+ 			$output['id_pdo'] = $pdo->id; 
 		}else{
 			$output['error'] = true;
 		} 

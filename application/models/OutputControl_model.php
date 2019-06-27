@@ -26,6 +26,27 @@ class OutputControl_model extends CI_Model {
         return $query->result();
 	}
 
+	public function getMHin()
+	{
+		$pdo = $this->input->post('id_pdo');
+		$query= $this->db->query("SELECT ((SELECT (SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=1 AND id_pdo=$pdo)+(SELECT COALESCE(SUM(total),0) FROM direct_labor WHERE id_pdo=$pdo))-(SELECT COALESCE(SUM(total),0) FROM absen_pegawai WHERE id_pdo=$pdo)-(SELECT COALESCE(SUM(total),0) FROM indirect_activity WHERE id_pdo=$pdo)-(SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=2 AND id_pdo=$pdo))as mhin ");
+        return $query->first_row();
+	}
+
+	public function getMHintot()
+	{
+		$pdo = $this->input->post('id_pdo');
+		$query= $this->db->query("SELECT (SELECT ((SELECT (SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=1 AND id_pdo=$pdo)+(SELECT COALESCE(SUM(total),0) FROM direct_labor WHERE id_pdo=$pdo))-(SELECT COALESCE(SUM(total),0) FROM absen_pegawai WHERE id_pdo=$pdo)-(SELECT COALESCE(SUM(total),0) FROM indirect_activity WHERE id_pdo=$pdo)-(SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=2 AND id_pdo=$pdo)))+(SELECT (SELECT COALESCE(SUM(total),0) FROM `indirect_labor` WHERE id_pdo=$pdo)+(SELECT COALESCE(SUM(total),0) FROM `absen_leader` WHERE id_pdo=$pdo)) as mhin_dlidl");
+        return $query->first_row();
+	}
+
+	public function getMP()
+	{
+		$pdo = $this->input->post('id_pdo');
+		$query= $this->db->query("SELECT reg_dl FROM direct_labor WHERE id_pdo=$pdo");
+        return $query->first_row();
+	}
+
 
 	public function createBuildAssy()
 	{
@@ -67,26 +88,7 @@ class OutputControl_model extends CI_Model {
 		);
 		return $this->db->insert('output_control',$dataOC);
 	}
-
-
-	//now is not used
-	public function getCountBeforeBuild()
-	{  
-		$this->db->select('*');
-        $this->db->from('build_assy');
-        $this->db->where('id_outputcontrol',12);
-        $this->db->order_by("time", "asc");
-        $query=$this->db->get(); 
-        $data = $query->first_row(); 
-
-		$this->db->select('count(*) as o');
-        $this->db->from('build_assy');
-        $this->db->where('time <',$data->time); 
-        $query=$this->db->get(); 
-        $data1 = $query->first_row();
-        
-        return  $data1;
-	}
+ 
 
 	public function updatePlanOC()
 	{

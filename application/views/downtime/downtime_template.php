@@ -4,350 +4,272 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>PDO Dashboard</title>
+	<title>PDO Downtime</title>
 
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
 	<!-- CSS -->
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
-
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'UA-119386393-1');
-	</script>
+ 
 </head>
 <body>
 	<input type="hidden" id="id_pdo" value="<?php echo $pdo->id ?>">
-<?php $this->load->view('header/header'); ?>
-<?php $this->load->view('header/sidebar'); ?>
+	<?php $this->load->view('header/header'); ?>
+	<?php $this->load->view('header/sidebar'); ?>
  
-<div class="main-container">
-	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
-		
-		<!-- top icon dasboard -->
-		<div class="row clearfix progress-box">
+	<div class="main-container">
+		<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
 			
-			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
-				<div class="card box-shadow">
-					<h5 class="card-header text-center weight-500">Jam Effective</h5>
-					<div class="card-body"> 
-						<div class="project-info-progress">
-							<center>
-							<span class="col-sm-12 align-content-center text-blue weight-800"><font size="46" id="id_jam_efff"></font>jam</span>
-							</center>
-						</div>
-					</div> 
-				</div>
-			</div>
-
-			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
-				<div class="card box-shadow">
-					<h5 class="card-header text-center weight-500">Prosentase Losstime</h5>
-					<div class="card-body"> 
-						<div class="project-info-progress">
-							<center>
-							<span class="col-sm-12 align-content-center text-blue weight-800"><font size="46" id="id_prcent_loss"></font>%</span>
-							</center>
-						</div>
-					</div> 
-				</div>
-			</div>
-
-			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
-				<div class="card box-shadow">
-					<h5 class="card-header text-center weight-500">Total Losstime</h5>
-					<div class="card-body"> 
-						<center>
-							<span class="col-sm-10 align-content-center weight-800"><font size="56">56</font></span>
-							<span class="col-sm-2 align-content-center weight-800"><font size="10">jam</font></span>
-						</center>	
-					</div> 
-				</div>
-			</div>
-			
-			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
-				<div class="card box-shadow">
-					<h5 class="card-header text-center weight-500">Total Exclude</h5>
-					<div class="card-body"> 
-						<center>
-							<span class="col-sm-10 align-content-center weight-800"><font size="56">56</font></span>
-							<span class="col-sm-2 align-content-center weight-800"><font size="10">jam</font></span>
-						</center>	
-					</div> 
-				</div>
-			</div>
-
-		</div>
-			<!-- end of top icon dashboard -->
-
-		<div class="min-height-200px">
-				<div class="page-header">
-					<div class="row">
-						<div class="col-md-6 col-sm-12">
-							<div class="title">
-								<h4>Downtime</h4>
+			<!-- top icon dasboard -->
+			<div class="row clearfix progress-box">
+				
+				<div class="col-lg-2 col-md-6 col-sm-12 mb-10">
+					<div class="card box-shadow">
+						<h5 class="card-header text-center weight-500">Jam Effective</h5>
+						<div class="card-body"> 
+							<div class="project-info-progress">
+								<center>
+								<span class="col-sm-12 align-content-center text-blue weight-800"><font size="46" id="id_jam_efff"></font>jam</span>
+								</center>
 							</div>
-							<nav aria-label="breadcrumb" role="navigation">
-								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="index.php">Downtime</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Downtime Table</li>
-								</ol>
-							</nav>
-						</div>
+						</div> 
+					</div>
 				</div>
 
-				<!-- Simple Datatable start -->
-				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-					<div class="clearfix mb-20">
-						<div class="pull-left">
-							<h5 class="text-blue" style="font-size: 40px">Downtime Data Table</h5>
+				<div class="col-lg-3 col-md-6 col-sm-12 mb-10">
+					<div class="card box-shadow">
+						<h5 class="card-header text-center weight-500">Prosentase Losstime</h5>
+						<div class="card-body"> 
+							<div class="project-info-progress">
+								<center>
+								<span class="col-sm-12 align-content-center text-blue weight-800"><font size="46" id="id_prcent_loss">0</font>%</span>
+								</center>
+							</div>
+						</div> 
+					</div>
+				</div>
+
+				<div class="col-lg-2 col-md-6 col-sm-12 mb-10">
+					<div class="card box-shadow">
+						<h5 class="card-header text-center weight-500">Total Losstime</h5>
+						<div class="card-body"> 
+							<center>
+								<span class="col-sm-10 align-content-center weight-800"><font size="46" id="id_tot_loss">0</font>Jam</span> 
+							</center>	
+						</div> 
+					</div>
+				</div>
+				
+				<div class="col-lg-2 col-md-6 col-sm-12 mb-10">
+					<div class="card box-shadow">
+						<h5 class="card-header text-center weight-500">Total Exclude</h5>
+						<div class="card-body"> 
+							<center>
+								<span class="col-sm-10 align-content-center weight-800"><font size="46" id="id_tot_exc">0</font>Jam</span> 
+							</center>	
+						</div> 
+					</div>
+				</div>
+
+			</div>
+				<!-- end of top icon dashboard -->
+	 		<!-- Simple Datatable start -->
+			<div class="pd-20 bg-white border-radius-4 box-shadow mb-10">
+				<div class="clearfix mb-20">
+					<div class="pull-left">
+						<h5 class="text-blue" style="font-size: 40px">Downtime Data Table</h5>
+					</div>
+					<div class="pull-right">
+						<div class="row clearfix">	
+								<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#login-modal" style="margin-right: 25px; width: 193px"><span class="fa fa-plus"></span> Tambah </a>
+						</div> 
+					</div>
+				</div> 
+
+				<table id="t_user" class="data-table stripe hover nowrap">
+					<thead>
+						<tr>
+							<th class="table-plus datatable-nosort">Jam ke</th>
+							<th>Code</th>
+							<th>problem</th>
+							<th>Jenis</th>
+							<th>Keterangan</th>
+							<th>Time(Menit)</th>
+							
+							<th class="datatable-nosort">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tbl_body"> 	
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+<!-- MODAL -->
+<div>
+	<!-- Confirmation modal -->
+	<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body text-center font-18">
+					<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
+					<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
+						<input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
+						<br>
+						<div class="col-6">
+							<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+							NO
+						</div>
+						<div class="col-6">
+							<button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
+							YES
 						</div>
 					</div>
-					<div class="row">
-						<div class="card-body">
-
-							<div class="pull-right">
-						<div class="row clearfix">	
-								<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#login-modal" style="margin-right: 25px; width: 193px">
-									<span class="fa fa-plus"></span> Tambah </a>
-								</div>
-							
-							<!-- input modal -->
-							<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered">
-									<div class="modal-content">
-										<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-											<h2 class="text-center mb-30">Downtime</h2>
-											<form id="form_losstime">
-												<div class="input-group custom input-group-lg">
-													<select class="custom-select col-12" name="levelupp" id="i_jam">
-														<option disabled selected> Jam ke</option>
-																<?php foreach ($data_oc as $key) { ?>
-																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
-																<?php }  ?>
-															</select>
-													</select>
-												</div>
-
-
-												<div class="input-group custom input-group-lg">
-													<select class="custom-select col-12" name="levelupp" id="i_problem">
-														<option disabled selected> Problem</option>
-																<?php foreach ($data_error as $key) { ?>
-																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
-																<?php }  ?>
-															</select>
-													</select>
-												</div>
-
-												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="KETERANGAN" id="i_ket">
-													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
-													</div>
-												</div>
-
-												<div class="input-group custom input-group-lg">
-													<select class="custom-select col-12" name="levelupp" id="i_jenis">
-														<option disabled selected> Pilih Jenis Downtime</option>
-																<?php foreach ($data_losttime as $key) { ?>
-																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
-																<?php }  ?>
-															</select>
-													</select>
-												</div>
-
-												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="Time" id="i_time">
-													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
-													</div>
-												</div>
-													
-												<br>
-												
-												<div class="row">
-													<div class="col-sm-12">
-														<div class="input-group">
-															<!--
-																use code for form submit
-																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
-															-->
-															<a class="btn btn-primary btn-lg btn-block" id="btn_submit" href="#">Submit</a>
-														</div>
-													</div>
-												</div>
-											
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-							</div></div></div>
-							
-
-							
-
-
-						<table id="t_user" class="data-table stripe hover nowrap">
-							<thead>
-								<tr>
-									<th class="table-plus datatable-nosort">Jam ke</th>
-									<th>Code</th>
-									<th>problem</th>
-									<th>Jenis</th>
-									<th>Keterangan</th>
-									<th>Time</th>
-									
-									<th class="datatable-nosort">Action</th>
-								</tr>
-							</thead>
-							<tbody id="tbl_body">
-								<tr>
-									<td class="table-plus">1</td>
-									<td>1A</td>
-									<td>Sagittarius</td>
-									<td>rusak</td>
-									<td>Exclude</td>
-									<td>3 menit</td>
-									
-									<td>
-										<div class="dropdown">
-											<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-												<i class="fa fa-ellipsis-h"></i>
-											</a>
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#"><i class="fa fa-eye"></i> Lihat</a>
-												<a class="dropdown-item" href="#"><i class="fa fa-pencil"></i> Edit</a>
-												<a class="dropdown-item" href="#"><i class="fa fa-trash"></i> Hapus</a>
-											</div>
-										</div>
-									</td>
-								</tr>
-								
-								
-							</tbody>
-						</table>
-</div></div></div></div></div>
-
-							<!-- update modal -->
-							<div class="modal fade" id="update_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered">
-									<div class="modal-content">
-										<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-											<h2 class="text-center mb-30">Downtime</h2>
-											<form id="form_losstime_updt">
-												<div class="input-group custom input-group-lg">
-													<input type="hidden" class="form-control" placeholder="Assy Code" name="id_updt" id="id_update">
-													<select class="custom-select col-12" name="jam_updt" id="jam_update">
-														<option disabled selected> Jam ke</option>
-																<?php foreach ($data_oc as $key) { ?>
-																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
-																<?php }  ?>
-															
-													</select>
-												</div>
-
-
-												<div class="input-group custom input-group-lg">
-													<select class="custom-select col-12" name="problem_updt" id="problem_update">
-														<option disabled selected> Problem</option>
-																<?php foreach ($data_error as $key) { ?>
-																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
-																<?php }  ?>
-															</select>
-													</select>
-												</div>
-
-												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="KETERANGAN" name="ket_updt" id="ket_update">
-													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
-													</div>
-												</div>
-
-												<div class="input-group custom input-group-lg">
-													<select class="custom-select col-12" name="jenis_updt" id="jenis_update">
-														<option disabled selected> Pilih Jenis Downtime</option>
-																<?php foreach ($data_losttime as $key) { ?>
-																	<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
-																<?php }  ?>
-															</select>
-													</select>
-												</div>
-
-												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="Time" name="time_updt" id="time_update">
-													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
-													</div>
-												</div>
-													
-												<br>
-												
-												<div class="row">
-													<div class="col-sm-12">
-														<div class="input-group">
-															<!--
-																use code for form submit
-																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
-															-->
-															<a class="btn btn-primary btn-lg btn-block" id="btn_update" href="#">Update</a>
-														</div>
-													</div>
-												</div>
-											
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-
-
-						</div>
-					</div></div>
-
-					
-					<!-- Confirmation modal -->
-							<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered" role="document">
-									<div class="modal-content">
-										<div class="modal-body text-center font-18">
-											<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
-											<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
-												<input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
-												<br>
-												<div class="col-6">
-													<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
-													NO
-												</div>
-												<div class="col-6">
-													<button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
-													YES
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						
-
-							
-
+				</div>
+			</div>
+		</div>
 	</div>
+	<!-- END Confirmation modal -->
+
+	<!-- update modal -->
+	<div class="modal fade" id="update_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h2 class="text-center mb-30">Downtime</h2>
+					<form id="form_losstime_updt">
+						<div class="input-group custom input-group-lg">
+							<input type="hidden" class="form-control" placeholder="Assy Code" name="id_updt" id="id_update">
+							<select class="custom-select col-12" name="jam_updt" id="jam_update">
+								<option disabled selected> Jam ke</option>
+										<?php foreach ($data_oc as $key) { ?>
+											<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
+										<?php }  ?>
+									
+							</select>
+						</div> 
+						
+						<div class="input-group custom input-group-lg">
+							<select class="custom-select col-12" name="problem_updt" id="problem_update">
+								<option disabled selected> Problem</option>
+										<?php foreach ($data_error as $key) { ?>
+											<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
+										<?php }  ?>
+									</select>
+							</select>
+						</div>
+
+						<div class="input-group custom input-group-lg">
+							<input type="text" class="form-control" placeholder="KETERANGAN" name="ket_updt" id="ket_update">
+							<div class="input-group-append custom">
+								<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+							</div>
+						</div>
+
+						<div class="input-group custom input-group-lg">
+							<select class="custom-select col-12" name="jenis_updt" id="jenis_update">
+								<option disabled selected> Pilih Jenis Downtime</option>
+										<?php foreach ($data_losttime as $key) { ?>
+											<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
+										<?php }  ?>
+									</select>
+							</select>
+						</div>
+
+						<div class="input-group custom input-group-lg">
+							<input type="number" class="form-control" placeholder="Time" name="time_updt" id="time_update">
+							<div class="input-group-append custom">
+								<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+							</div>
+						</div>
+							
+						<br>
+						
+						<div class="row">
+							<div class="col-sm-12"> 
+									<a class="btn btn-primary btn-lg btn-block" id="btn_update" href="#">Update</a>
+								</div>
+							</div>
+						</div>
+					
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END update modal -->
+
+
+	<!-- input modal -->
+	<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h2 class="text-center mb-30">Downtime</h2>
+					<form id="form_losstime">
+						<div class="input-group custom input-group-lg">
+							<select class="custom-select col-12" name="levelupp" id="i_jam">
+								<option disabled selected> Jam ke</option>
+										<?php foreach ($data_oc as $key) { ?>
+											<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
+										<?php }  ?>
+									</select>
+							</select>
+						</div> 
+						<div class="input-group custom input-group-lg">
+							<select class="custom-select col-12" name="levelupp" id="i_problem">
+								<option disabled selected> Problem</option>
+										<?php foreach ($data_error as $key) { ?>
+											<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
+										<?php }  ?>
+									</select>
+							</select>
+						</div> 
+						<div class="input-group custom input-group-lg">
+							<input type="text" class="form-control" placeholder="KETERANGAN" id="i_ket">
+							<div class="input-group-append custom">
+								<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+							</div>
+						</div> 
+						<div class="input-group custom input-group-lg">
+							<select class="custom-select col-12" name="levelupp" id="i_jenis">
+								<option disabled selected> Pilih Jenis Downtime</option>
+										<?php foreach ($data_losttime as $key) { ?>
+											<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
+										<?php }  ?>
+									</select>
+							</select>
+						</div> 
+						<div class="input-group custom input-group-lg">
+							<input type="number" class="form-control" placeholder="Time" id="i_time">
+							<div class="input-group-append custom">
+								<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+							</div>
+						</div> 
+						<br> 
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group"> 
+									<a class="btn btn-primary btn-lg btn-block" id="btn_submit" href="#">Submit</a>
+								</div>
+							</div>
+						</div> 
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END INPUT -->
+
 </div>
 
-<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script>
+	<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.bootstrap4.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.responsive.js"></script>
@@ -361,9 +283,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/pdfmake.min.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/vfs_fonts.js"></script>
 
-	<script>
-		
-
+	<script> 
 		$('document').ready(function(){
 			
 
@@ -371,6 +291,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			// =================== Read Record ===============================================
 			show();    
             function show(){
+
                     $.ajax({
                         async :false,
                         type  : 'POST',
@@ -423,9 +344,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								},
 							});
  
-                            // setting WIdget
-							document.getElementById('id_jam_efff').innerHTML= parseFloat(widget[0].jam_iff).toFixed(1);
-							document.getElementById('id_prcent_loss').innerHTML= parseFloat(widget[0].losspercent).toFixed(2);
+                            // setting WIdget  
+                            document.getElementById('id_jam_efff').innerHTML= parseFloat(widget[0].jam_iff).toFixed(1);
+                            document.getElementById('id_prcent_loss').innerHTML= parseFloat(widget[0].losspercent).toFixed(2);
+                            document.getElementById('id_tot_loss').innerHTML= ((widget[0].to_loss)/60).toFixed(2);
+                            document.getElementById('id_tot_exc').innerHTML= ((widget[0].to_exc)/60).toFixed(2);
+							
+							
                         }
                     });
 
@@ -615,9 +540,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('.multiple-select-row tbody').on('click', 'tr', function () {
 				$(this).toggleClass('selected');
 			});
-		});
-
-
+		
+		}); 
 	</script>
 
 </body>

@@ -68,7 +68,9 @@ class Defect extends CI_Controller {
 	{
 		# code...
 		$id =$this->input->post('id_pdo');
-		$data = $this->Defect_model->getDefCodeUser($id);
+		$data['alldefect'] = $this->Defect_model->getDefCodeUser($id);
+		$data['dpm'] = $this->Defect_model->getDPM($id);
+		$data['total'] = $this->Defect_model->getTotal($id);
 
 		echo json_encode($data);
 	}

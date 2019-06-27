@@ -22,7 +22,10 @@ class OutputControl extends CI_Controller {
 	public function getDataOutputControl()
 	{
 		# code...
-		$result = $this->OutputControl_model->getOutputControl();
+		$result['data'] = $this->OutputControl_model->getOutputControl();
+		$result['mhin_tot'] = $this->OutputControl_model->getMHintot();
+		$result['mhin'] = $this->OutputControl_model->getMHin();
+		$result['mp'] = $this->OutputControl_model->getMP();
 
 		echo json_encode($result);
 	}

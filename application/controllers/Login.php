@@ -43,7 +43,11 @@ class Login extends CI_Controller {
 				$sess_array = array(
 					'id_user' => $row->id,
 					'uname' => $row->username, 
-					'level' => $row->level
+					'level' => $row->level,
+					'id_shift' => $row->id_shift,
+					'id_line' => $row->id_line,
+					'keterangan' => $row->keterangan,
+					'nama_line' => $row->nama_line
 				);	 
 			} 
 			// set sesion logined
