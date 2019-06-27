@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
   <div class="row">
 
-    <div class="col-md-4 col-sm-12">
+    <div class="col-md-3 col-sm-12">
       <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
         <div class="pull-left">
         <h5 class="text-black" style="font-size: 20px; margin-left: 5px">A.</h5>
@@ -68,71 +68,69 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
           <tr>
             <th>JAM REG</th>
-            <th colspan="3" style="text-align: center">8 Jam</th>
+            <th colspan="3" style="text-align: center">8</th>
           </tr>
 
           <tr>
             <th width="50%">JAM OT</th>
             <th style="text-align: center" width="25%">1</th>
-            <th style="text-align: center" width="25%">jam</th>
           </tr>
 
           <tr>
             <th>DL OT</th>
             <th style="text-align: center">1</th>
-            <th style="text-align: center">jam</th>
           </tr>
       
       </table> 
         </div>
-      </div>
 
-    <div class="col-md-4 col-sm-12">
       <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
         <div class="pull-left">
         <h5 class="text-black" style="font-size: 20px; margin-left: 5px">B.</h5>
+        <br>
       </div>
 
       <!-- Table Start -->
       <table class="table table-bordered table-striped">
       
           <tr>
-            <th>MH REG (Act MP x Jam Reg)</th>
+            <th style="text-align: center">MH REG (Act MP x Jam Reg)</th>
             <th colspan="3" style="text-align: center">50</th>
             <th colspan="3" style="text-align: center">MH</th>
           </tr>
 
           <tr>
-            <th>MH OT (Act MP x Jam OT)</th>
+            <th style="text-align: center">MH OT (Act MP x Jam OT)</th>
             <th colspan="3" style="text-align: center">50</th>
             <th colspan="3" style="text-align: center">MH</th>
           </tr>
 
           <tr>
-            <th>Total</th>
+            <th style="text-align: center">Total</th>
             <th colspan="3" style="text-align: center">50</th>
             <th colspan="3" style="text-align: center">MH</th>
           </tr>
 
       </table>
       </div>
+
     </div>
+
 
     <div class="col-md-4 col-sm-12">
       <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
         <div class="pull-left">
         <h5 class="text-black" style="font-size: 20px; margin-left: 5px">C. NON OPERATING HOURS</h5>
-        <p class="text-black" style="font-size: 20px; margin-left: 5px">&nbsp&nbsp&nbsp Detail Non Operating Hours</p>
       </div>
 
       <!-- Table Start -->
       <table class="table table-bordered table-striped">
       
           <tr>
-            <th width="20%">ITEM</th>
-            <th width="20%">QTY MP</th>
-            <th width="20%">Jam</th>
-            <th colspan="2" width="35%">Total</th>
+            <th style="text-align: center;" width="30%">ITEM</th>
+            <th style="text-align: center;" width="10%">QTY MP</th>
+            <th style="text-align: center;" width="10%">Jam</th>
+            <th style="text-align: center;" colspan="2" width="20%">Total</th>
           </tr>
           
           <tr>
@@ -158,148 +156,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </tr>
 
           <tr>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th colspan="2">0</th>
-          </tr>
-
-          <tr>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th colspan="2">0</th>
-          </tr>
-
-          <tr>
-            <th></th>
-            <th colspan="2"> Total Non Operating Hours </th>
+            <th colspan="3" style="text-align: center;"> Total Non Operating Hours </th>
             <th style="vertical-align: middle;">0</th>
             <th style="text-align: center;vertical-align: middle;">MH</th>
           </tr>
 
       </table>
       </div>
-    </div>
-  </div>
-  
-<div class="row">
-    
-    <div class="col-md-7 col-sm-12">
-      <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-        <div class="pull-left">
-        <h5 class="text-black" style="font-size: 20px; margin-left: 5px">D. MP BANTUAN (IN) &amp; MP DIPERBANTUKAN (OUT) </h5>
-      <br>
-      </div>
-      
 
-      <!-- Table Start -->
-      <table class="table table-bordered table-striped">
-      
-          <tr>
-            <th width="5%">Jam ke</th>
-            <th width="20%">Posisi</th>
-            <th width="10%">Qty IN</th>
-            <th width="10%">Jam IN</th>
-            <th width="10%">Qty OUT</th>
-            <th width="10%">Jam OUT</th>
-            <th width="10%">IN (Qty X Jam)</th>
-            <th width="10%">OUT (Qty X Jam)</th>
-          </tr>
-          
-          <tr>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th>0</th>
-            <th>0</th>
-            
-          </tr>
-          
-          <tr>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th>0</th>
-            <th>0</th>
-          </tr>
-
-          <tr>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th>0</th>
-            <th>0</th>
-          </tr>
-
-          <tr>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th>0</th>
-            <th>0</th>
-          </tr>
-
-          <tr>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th>0</th>
-            <th>0</th>
-          </tr>
-
-          <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th>0</th>
-            <th>0</th>
-          </tr>
-          
-          <tr>
-            <th></th>
-            <th></th>
-            <th colspan="4"></th>
-            <th></th>
-            <th></th>
-          </tr>
-
-      </table>
-        </div>
-      </div>
-
-    <div class="col-md-5 col-sm-12">
       <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
         <div class="pull-left">
         <h5 class="text-black" style="font-size: 20px; margin-left: 5px">E. INDIRECT ACTIVITY</h5>
-        <br>
       </div>
 
       <!-- Table Start -->
       <table class="table table-striped table-bordered">
         <tr>
-            <th width="5%">ITEM</th>
-            <th width="20%">Qty MP</th>
-            <th width="10%">Jam</th>
-            <th width="10%" colspan="2">Total (Qty MP x Jam)</th>
+            <th style="text-align: center" width="5%">ITEM</th>
+            <th style="text-align: center" width="20%">Qty MP</th>
+            <th style="text-align: center" width="10%">Jam</th>
+            <th style="text-align: center" width="10%" colspan="2">Total (Qty MP x Jam)</th>
           </tr>
           
           <tr>
@@ -334,17 +210,123 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
       </table>
       </div>
+
+
     </div>
+
+    <div class="col-md-5 col-sm-12">
+      <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+        <div class="pull-left">
+        <h5 class="text-black" style="font-size: 20px; margin-left: 5px">D. MP BANTUAN (IN)</h5>
+      <br>
+      </div>
+      
+
+      <!-- Table Start -->
+      <table class="table table-bordered table-striped">
+      
+          <tr>
+            <th width="5%">Jam ke</th>
+            <th width="20%">Posisi</th>
+            <th width="10%">Qty IN</th>
+            <th width="10%">Jam IN</th>
+            <th width="10%">IN (Qty X Jam)</th>
+          </tr>
+          
+          <tr>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th>0</th>
+            <th>0</th>
+            
+          </tr>
+          
+          <tr>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th>0</th>
+            <th>0</th>
+          </tr>
+
+          <tr>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th>0</th>
+            <th>0</th>
+          </tr>
+          
+          <tr>
+            <th colspan="3"></th>
+            <th></th>
+            <th></th>
+          </tr>
+
+      </table>
+        </div>
+
+        <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+        <div class="pull-left">
+        <h5 class="text-black" style="font-size: 20px; margin-left: 5px">D. MP BANTUAN (OUT)</h5>
+      <br>
+      </div>
+      
+
+      <!-- Table Start -->
+      <table class="table table-bordered table-striped">
+      
+          <tr>
+            <th width="5%">Jam ke</th>
+            <th width="20%">Posisi</th>
+            <th width="10%">Qty OUT</th>
+            <th width="10%">Jam OUT</th>
+            <th width="10%">OUT (Qty X Jam)</th>
+          </tr>
+          
+          <tr>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th>0</th>
+            <th>0</th>
+            
+          </tr>
+          
+          <tr>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th>0</th>
+            <th>0</th>
+          </tr>
+
+          <tr>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th>0</th>
+            <th>0</th>
+          </tr>
+          
+          <tr>
+            <th colspan="3"></th>
+            <th></th>
+            <th></th>
+          </tr>
+
+      </table>
+        </div>
+
+      </div>
+
+
   </div>
+  
 
 
 
-
-
-
-  </div>
-</div>
-    
 
 
   </div>

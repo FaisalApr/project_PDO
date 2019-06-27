@@ -15,15 +15,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
 	
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'UA-119386393-1');
-	</script>
+	
 </head>
 <body>
+	<input id="id_pdo" type="hidden" class="form-control" value="<?php echo $pdo->id ?>"> 
 <?php $this->load->view('header/header'); ?>
 <?php $this->load->view('header/sidebar'); ?>
  
@@ -69,15 +64,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 											<h2 class="text-center mb-30">Assembly Code</h2>
 											<form id="form_assy">
+
 												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="Assy Code" id="i_code">
+													<input type="text" class="form-control" placeholder="Assy Code" id="i_code" required>
+													
+													<div class="valid-feedback"></div>
+    												<div class="invalid-feedback"><small id="kodeHelp" class="form-text text-muted">Kode Assy Harus di isi</small></div>
 													<div class="input-group-append custom">
 														<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
 													</div>
 												</div>
 												
 												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="UMH" id="i_umh">
+													<input type="text" class="form-control" placeholder="UMH" id="i_umh" required>
+													<small id="kodeHelp" class="form-text text-muted">UMH Harus di isi</small>
 													<div class="input-group-append custom">
 
 														<span class="input-group-text"><i class="fa fa-money" aria-hidden="true"></i></span>
@@ -173,7 +173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="modal-body text-center font-18">
 											<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
 											<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
-												<input type="text" name="id_dc_delete" id="id_dc_delete" class="form-control">
+												<input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
 												<br>
 												<div class="col-6">
 													<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
@@ -252,6 +252,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 			$('#btn_submit').click(function(){
+
 				var def_code = document.getElementById("i_code").value;
 				var def_umh = document.getElementById("i_umh").value;
 				// alert(def_code+","+def_ket);
@@ -278,6 +279,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				show();
 			});
 
+			
 
 
 			$('.data-table').DataTable({
@@ -296,6 +298,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			});
 
 
+			
 
 			// ===================   Delete Record ===============================================
             //get data for delete record show prompt
@@ -394,7 +397,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 
 
             });
- //   ========================  END UPDATE RECORD ====================================
+ 			//   ========================  END UPDATE RECORD ====================================
 
 
 
