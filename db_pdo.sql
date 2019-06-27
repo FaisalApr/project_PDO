@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.8.4
+-- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 25, 2019 at 11:32 AM
--- Server version: 10.1.19-MariaDB
--- PHP Version: 7.0.13
+-- Host: localhost
+-- Generation Time: Jun 27, 2019 at 06:04 AM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 5.6.40
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -28,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `absen_leader` (
   `id` int(11) NOT NULL,
-  `id_indirectlabor` int(11) NOT NULL,
+  `id_pdo` int(11) NOT NULL,
   `item` varchar(250) NOT NULL,
   `qty` int(11) NOT NULL,
   `jam` int(11) NOT NULL,
@@ -43,7 +45,7 @@ CREATE TABLE `absen_leader` (
 
 CREATE TABLE `absen_pegawai` (
   `id` int(11) NOT NULL,
-  `id_directlabor` int(11) NOT NULL,
+  `id_pdo` int(11) NOT NULL,
   `item` varchar(200) NOT NULL,
   `qty_mp` int(11) NOT NULL,
   `jumlah` int(11) NOT NULL,
@@ -95,7 +97,10 @@ CREATE TABLE `build_assy` (
 
 INSERT INTO `build_assy` (`id`, `id_outputcontrol`, `id_pdo`, `id_assy`, `actual`, `time`) VALUES
 (76, 39, 11, 7, 129, '2019-06-25 08:12:29'),
-(77, 40, 11, 6, 102, '2019-06-25 08:12:47');
+(77, 40, 11, 6, 102, '2019-06-25 08:12:47'),
+(78, 41, 12, 6, 34, '2019-06-26 20:11:56'),
+(79, 42, 12, 7, 16, '2019-06-26 20:12:17'),
+(84, 45, 17, 6, 4, '2019-06-27 10:49:20');
 
 --
 -- Triggers `build_assy`
@@ -132,7 +137,9 @@ CREATE TABLE `direct_labor` (
 --
 
 INSERT INTO `direct_labor` (`id`, `id_pdo`, `std_dl`, `reg_dl`, `jam_reg`, `jam_ot`, `dl_ot`, `mh_reg`, `mh_ot`, `total`) VALUES
-(11, 11, 32, 32, 8, 2, 32, 256, 64, 320);
+(11, 11, 32, 32, 8, 2, 32, 256, 64, 320),
+(12, 12, 58, 57, 8, 2, 57, 456, 114, 570),
+(17, 17, 34, 34, 8, 2, 34, 272, 68, 340);
 
 -- --------------------------------------------------------
 
@@ -142,20 +149,20 @@ INSERT INTO `direct_labor` (`id`, `id_pdo`, `std_dl`, `reg_dl`, `jam_reg`, `jam_
 
 CREATE TABLE `indirect_activity` (
   `id` int(11) NOT NULL,
-  `id_directlabor` int(11) NOT NULL,
+  `id_pdo` int(11) NOT NULL,
   `item` varchar(250) NOT NULL,
   `qty_mp` int(11) NOT NULL,
   `menit` int(11) NOT NULL,
-  `total` int(11) NOT NULL
+  `total` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `indirect_activity`
 --
 
-INSERT INTO `indirect_activity` (`id`, `id_directlabor`, `item`, `qty_mp`, `menit`, `total`) VALUES
-(9, 11, '5S + Yoidon', 32, 5, 160),
-(10, 11, 'Home Position', 32, 4, 128);
+INSERT INTO `indirect_activity` (`id`, `id_pdo`, `item`, `qty_mp`, `menit`, `total`) VALUES
+(21, 17, '5S + Yoidon', 34, 4, 2.26667),
+(22, 17, 'Home Position', 34, 2, 1.13333);
 
 -- --------------------------------------------------------
 
@@ -181,7 +188,9 @@ CREATE TABLE `indirect_labor` (
 --
 
 INSERT INTO `indirect_labor` (`id`, `id_pdo`, `std_idl`, `reg_idl`, `jam_reg`, `jam_ot`, `dl_ot`, `mh_reg`, `mh_ot`, `total`) VALUES
-(11, 11, 2, 2, 8, 2, 2, 16, 4, 20);
+(11, 11, 2, 2, 8, 2, 2, 16, 4, 20),
+(12, 12, 3, 3, 8, 2, 3, 24, 6, 30),
+(17, 17, 3, 3, 8, 2, 3, 24, 6, 30);
 
 -- --------------------------------------------------------
 
@@ -264,6 +273,14 @@ CREATE TABLE `jenis_regulasi` (
   `keterangan` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `jenis_regulasi`
+--
+
+INSERT INTO `jenis_regulasi` (`id`, `keterangan`) VALUES
+(1, 'IN'),
+(2, 'OUT');
+
 -- --------------------------------------------------------
 
 --
@@ -336,7 +353,9 @@ CREATE TABLE `main_pdo` (
 --
 
 INSERT INTO `main_pdo` (`id`, `id_shift`, `id_users`, `cv`, `tanggal`, `mh_out`, `mh_in_dl`, `mh_in_idl`, `direct_eff`, `total_productiv`, `jam_kerja`, `line_speed`, `loss_output`, `p_loss_time`, `jam_effective`, `dpm_fa`) VALUES
-(11, 1, 3, '12A', '2019-06-25 08:12:17', NULL, NULL, NULL, NULL, NULL, NULL, 123, NULL, NULL, NULL, NULL);
+(11, 1, 3, '12A', '2019-06-25 08:12:17', NULL, NULL, NULL, NULL, NULL, NULL, 123, NULL, NULL, NULL, NULL),
+(12, 1, 3, '12A', '2019-06-26 20:09:46', NULL, NULL, NULL, NULL, NULL, 10, 0, NULL, NULL, NULL, NULL),
+(17, 1, 3, '12A', '2019-06-27 10:25:57', NULL, NULL, NULL, NULL, NULL, 10, 0, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -359,7 +378,10 @@ CREATE TABLE `output_control` (
 
 INSERT INTO `output_control` (`id`, `id_pdo`, `plan`, `actual`, `jam_ke`, `time`) VALUES
 (39, 11, 222, 129, 1, '2019-06-25 08:12:24'),
-(40, 11, 148, 102, 2, '2019-06-25 08:12:41');
+(40, 11, 148, 102, 2, '2019-06-25 08:12:41'),
+(41, 12, 67, 34, 1, '2019-06-26 20:11:52'),
+(42, 12, 80, 16, 2, '2019-06-26 20:12:11'),
+(45, 17, 20, 4, 1, '2019-06-27 10:49:10');
 
 -- --------------------------------------------------------
 
@@ -392,11 +414,12 @@ INSERT INTO `quality_control` (`id`, `id_pdo`, `id_oc`, `id_jenisdeffect`, `kete
 
 CREATE TABLE `regulasi` (
   `id` int(11) NOT NULL,
-  `id_directlabor` int(11) NOT NULL,
+  `id_pdo` int(11) NOT NULL,
   `id_jenisreg` int(11) NOT NULL,
   `posisi` varchar(250) NOT NULL,
   `qty` int(11) NOT NULL,
-  `jam` int(11) NOT NULL
+  `jam` int(11) NOT NULL,
+  `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -450,14 +473,14 @@ INSERT INTO `users` (`id`, `username`, `password`, `level`, `id_shift`, `id_line
 --
 ALTER TABLE `absen_leader`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_idindirectlabor` (`id_indirectlabor`);
+  ADD KEY `fk_idindirectlabor` (`id_pdo`);
 
 --
 -- Indexes for table `absen_pegawai`
 --
 ALTER TABLE `absen_pegawai`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_absenpeg_directlabor` (`id_directlabor`);
+  ADD KEY `fk_absenpeg_directlabor` (`id_pdo`);
 
 --
 -- Indexes for table `assembly`
@@ -486,7 +509,7 @@ ALTER TABLE `direct_labor`
 --
 ALTER TABLE `indirect_activity`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_indirectactivity_directlabor` (`id_directlabor`);
+  ADD KEY `fk_indirectactivity_directlabor` (`id_pdo`);
 
 --
 -- Indexes for table `indirect_labor`
@@ -565,7 +588,7 @@ ALTER TABLE `quality_control`
 ALTER TABLE `regulasi`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_regulasijenis_jenis` (`id_jenisreg`),
-  ADD KEY `fk_iddirectlabor_labor` (`id_directlabor`);
+  ADD KEY `fk_iddirectlabor_labor` (`id_pdo`);
 
 --
 -- Indexes for table `shift`
@@ -590,96 +613,115 @@ ALTER TABLE `users`
 --
 ALTER TABLE `absen_leader`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `absen_pegawai`
 --
 ALTER TABLE `absen_pegawai`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `assembly`
 --
 ALTER TABLE `assembly`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
 --
 -- AUTO_INCREMENT for table `build_assy`
 --
 ALTER TABLE `build_assy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+
 --
 -- AUTO_INCREMENT for table `direct_labor`
 --
 ALTER TABLE `direct_labor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
 --
 -- AUTO_INCREMENT for table `indirect_activity`
 --
 ALTER TABLE `indirect_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
 --
 -- AUTO_INCREMENT for table `indirect_labor`
 --
 ALTER TABLE `indirect_labor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
 --
 -- AUTO_INCREMENT for table `jenis_deffect`
 --
 ALTER TABLE `jenis_deffect`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
 -- AUTO_INCREMENT for table `jenis_error`
 --
 ALTER TABLE `jenis_error`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
 --
 -- AUTO_INCREMENT for table `jenis_losttime`
 --
 ALTER TABLE `jenis_losttime`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `jenis_regulasi`
 --
 ALTER TABLE `jenis_regulasi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `line`
 --
 ALTER TABLE `line`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `lost_time`
 --
 ALTER TABLE `lost_time`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
 --
 -- AUTO_INCREMENT for table `main_pdo`
 --
 ALTER TABLE `main_pdo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
 --
 -- AUTO_INCREMENT for table `output_control`
 --
 ALTER TABLE `output_control`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+
 --
 -- AUTO_INCREMENT for table `quality_control`
 --
 ALTER TABLE `quality_control`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
 -- AUTO_INCREMENT for table `regulasi`
 --
 ALTER TABLE `regulasi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `shift`
 --
 ALTER TABLE `shift`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- Constraints for dumped tables
 --
@@ -688,13 +730,13 @@ ALTER TABLE `users`
 -- Constraints for table `absen_leader`
 --
 ALTER TABLE `absen_leader`
-  ADD CONSTRAINT `fk_idindirectlabor` FOREIGN KEY (`id_indirectlabor`) REFERENCES `indirect_labor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_idindirectlabor` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `absen_pegawai`
 --
 ALTER TABLE `absen_pegawai`
-  ADD CONSTRAINT `fk_absenpeg_directlabor` FOREIGN KEY (`id_directlabor`) REFERENCES `direct_labor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_absenpeg_directlabor` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `build_assy`
@@ -714,7 +756,7 @@ ALTER TABLE `direct_labor`
 -- Constraints for table `indirect_activity`
 --
 ALTER TABLE `indirect_activity`
-  ADD CONSTRAINT `fk_indirectactivity_directlabor` FOREIGN KEY (`id_directlabor`) REFERENCES `direct_labor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_indirectactivity_directlabor` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `indirect_labor`
@@ -756,7 +798,7 @@ ALTER TABLE `quality_control`
 -- Constraints for table `regulasi`
 --
 ALTER TABLE `regulasi`
-  ADD CONSTRAINT `fk_iddirectlabor_labor` FOREIGN KEY (`id_directlabor`) REFERENCES `direct_labor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_iddirectlabor_labor` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_regulasijenis_jenis` FOREIGN KEY (`id_jenisreg`) REFERENCES `jenis_regulasi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -765,6 +807,7 @@ ALTER TABLE `regulasi`
 ALTER TABLE `users`
   ADD CONSTRAINT `fk_line_tblline` FOREIGN KEY (`id_line`) REFERENCES `line` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_shift_tblshift` FOREIGN KEY (`id_shift`) REFERENCES `shift` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
