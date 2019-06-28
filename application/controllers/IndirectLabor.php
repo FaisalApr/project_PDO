@@ -52,7 +52,7 @@ class IndirectLabor extends CI_Controller {
 			'total' => $total
 		);
 
-		// insert data new defect
+		// insert data absen
 		$result = $this->InDirectLabor_Model->createAbsenLeader($dataAbsenLeader);
 		if($result){
 			// $output ['status'] = "ok";

@@ -25,16 +25,41 @@ class DirectLabor_Model extends CI_Model {
 	}
 
 
-	public function cariDirectLabor($iddl) 
+	public function createAbsenPegawai($data)
 	{
-		$this->db->select('*');
-		$this->db->from('direct_labor');
-		$this->db->where('id_pdo',$iddl);   
-		$query=$this->db->get();
-
-		return $query->first_row();
+		# code...
+		return $this->db->insert('absen_pegawai', $data);
 	}
-	
 
+	public function getAbsenPegawai()
+	{
+		# code...
+		// urut abjad
+		$this->db->order_by('item','asc');
+		// get data
+		$query = $this->db->get('absen_pegawai');
+		return $query->result();
+	}
+
+	public function delAbsenPegawai($id)
+	{
+		# code...
+		$this->db->where('id',$id);
+		$result = $this->db->delete('absen_pegawai');
+		return $result;
+	}
+
+	public function updateAbsenPegawai($id,$item,$qty,$jam,$total)
+	{
+		# code...
+		$data = array(
+			'item' => $item,
+			'qty' => $qty,
+			'jam' => $jam,
+			'total' => $total
+		);
+		$this->db->where('id',$id);
+		$result = $this->db->update('absen_pegawai', $data);
+	}
 
 } 
