@@ -41,17 +41,11 @@
 						<a href="<?php echo site_url() ?>/Summary" class="dropdown-toggle no-arrow"> 
 							<i class="icon-copy fa fa-line-chart" aria-hidden="true"></i><span class="mtext">SUMMARY</span>
 						</a>
-					</li> 
+					</li>  
 
-					<li class=" <?php echo $this->uri->segment(1) == 'Regulasi' ? 'aktip': '' ?>">
-						<a href="<?php echo site_url() ?>/Regulasi" class="dropdown-toggle no-arrow"> 
-							<i class="icon-copy fa fa-group" aria-hidden="true"></i><span class="mtext">REGULASI</span>
-						</a>
-					</li> 
-
-					<li class="dropdown">
+					<li class="dropdown <?php echo $this->uri->segment(1) == 'directlabor' ? 'aktip': '' ?> <?php echo $this->uri->segment(1) == 'indirectlabor' ? 'aktip': '' ?>">
 						<a href="javascript:;" class="dropdown-toggle">
-							<i class="icon-copy fa fa-gears" aria-hidden="true"></i><span class="mtext">SETTING</span>
+							<i class="icon-copy fa fa-group" aria-hidden="true"></i><span class="mtext">MAN POWER</span>
 						</a>
 						<ul class="submenu">
 							<li><a href="<?php echo site_url() ?>/directlabor">Direct</a></li>

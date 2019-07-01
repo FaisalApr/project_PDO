@@ -157,5 +157,22 @@ class DirectLabor_Model extends CI_Model {
 		$result = $this->db->update('regulasi', $data);
 	}
 
+
+	// get Direct Labor
+	public function getDl()
+	{
+		$id = $this->input->post('id_pdo');
+		$query = $this->db->get_where('direct_labor', array('id_pdo' => $id));
+    	return $query->first_row();
+	}
+
+	public function getDlPdo($id)
+	{ 
+		$query = $this->db->get_where('direct_labor', array('id_pdo' => $id));
+    	return $query->first_row();
+	}
+
+
+
 // indirect act
 } 

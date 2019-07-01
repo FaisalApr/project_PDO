@@ -1,6 +1,11 @@
 <?php 
 	$sesi = $this->session->userdata('pdo_logged'); 
  ?>
+<style>
+	.hidenn{
+	  display: none;
+	} 
+</style>
 
 	<div class="pre-loader"></div>
 	<div class="header clearfix">
@@ -57,7 +62,7 @@
 					<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -10px;"><font size="56"><?php echo $sesi['keterangan'] ?></font></span>
 	  			</div>
 
-	  			<div style="margin-left: 50px;">
+	  			<div style="margin-left: 50px;" class="<?php echo $this->uri->segment(1) != 'Dasboard' ? 'hidenn': '' ?>">
 	  				<font size="46">Speed:</font> 
 					<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -10px;"><font size="56"><?php echo $pdo->line_speed ?></font><a href="#" id="btn_changesped"><i class="fa fa-cog" aria-hidden="true"></i></a></span>
 	  			</div>	

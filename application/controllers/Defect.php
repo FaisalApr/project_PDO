@@ -5,8 +5,12 @@ class Defect extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('Defect_model');
 		$this->load->model('Pdo_model');
+		$this->load->model('OutputControl_model');
+		$this->load->model('DirectLabor_Model');
+		$this->load->model('Losstime_model');
+		$this->load->model('Defect_model');
+
 		if (!$this->session->userdata('pdo_logged')) {
 			redirect('Login','refresh');
 		}
@@ -19,7 +23,7 @@ class Defect extends CI_Controller {
 
 		// init data
 		$iduser = $session_data['id_user'];  
-		$shift =  "1" ; 
+		$shift =  $session_data['id_shift'] ; 
 		$tanggal = date("Y-m-d"); 
 
 		// jika user sudah ada data pdo
@@ -63,6 +67,9 @@ class Defect extends CI_Controller {
 		}else{
 			// $output['error'] = true;j
 		}
+		// refresh PDO
+		$refresh = $this->Pdo_model->refreshData($this->input->post('def_id_pdo'));
+
 		echo json_encode($output);
 	}
 
@@ -83,6 +90,8 @@ class Defect extends CI_Controller {
 		$id = $this->input->post('id');
 
 		$data = $this->Defect_model->delDefects($id);
+		// Refresh PDO
+		$refresh = $this->Pdo_model->refreshData($this->input->post('id_pdo'));
 		echo json_encode($data);
 
 	}
@@ -97,6 +106,9 @@ class Defect extends CI_Controller {
 		$total = $this->input->post('total');
 
 		$result = $this->Defect_model->updateDefect($id,$id_oc,$id_jenisdeffect,$keterangan,$total);
+		// Refresh PDO
+		$refresh = $this->Pdo_model->refreshData($this->input->post('id_pdo'));
+
 		echo json_encode($result);
 	}
 

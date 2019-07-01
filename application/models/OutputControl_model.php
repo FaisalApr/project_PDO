@@ -13,6 +13,25 @@ class OutputControl_model extends CI_Model {
         $query= $this->db->get();
        	return $query->result();
 	}
+
+	public function hapus_buildAssyAll($id,$pdo)
+	{
+		$this->db->where('id_assy',$id);
+		$this->db->where('id_pdo',$pdo);
+		$result = $this->db->delete('build_assy');
+		return $result;
+	}
+
+	public function updateAssyAll()
+	{    
+		$data = array( 
+			'id_assy' => $this->input->post('id_new')
+		);
+
+		$this->db->where('id_pdo', $this->input->post('id_pdo'));
+		$this->db->where('id_assy', $this->input->post('id_old'));
+		return $this->db->update('build_assy',$data);
+	}
 	
 	public function getBuildAssy($id)
 	{
@@ -30,6 +49,18 @@ class OutputControl_model extends CI_Model {
 	{
 		$pdo = $this->input->post('id_pdo');
 		$query= $this->db->query("SELECT ((SELECT (SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=1 AND id_pdo=$pdo)+(SELECT COALESCE(SUM(total),0) FROM direct_labor WHERE id_pdo=$pdo))-(SELECT COALESCE(SUM(total),0) FROM absen_pegawai WHERE id_pdo=$pdo)-(SELECT COALESCE(SUM(total),0) FROM indirect_activity WHERE id_pdo=$pdo)-(SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=2 AND id_pdo=$pdo))as mhin ");
+        return $query->first_row();
+	}
+
+	public function getMHin_dl($pdo)
+	{ 
+		$query= $this->db->query("SELECT ((SELECT (SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=1 AND id_pdo=$pdo)+(SELECT COALESCE(SUM(total),0) FROM direct_labor WHERE id_pdo=$pdo))-(SELECT COALESCE(SUM(total),0) FROM absen_pegawai WHERE id_pdo=$pdo)-(SELECT COALESCE(SUM(total),0) FROM indirect_activity WHERE id_pdo=$pdo)-(SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=2 AND id_pdo=$pdo))as mhin_dl");
+        return $query->first_row();
+	}
+
+	public function getMHin_idl($pdo)
+	{ 
+		$query= $this->db->query("SELECT (SELECT COALESCE(SUM(total),0) FROM `indirect_labor` WHERE id_pdo=$pdo)+(SELECT COALESCE(SUM(total),0) FROM `absen_leader` WHERE id_pdo=$pdo) as mh_in_idl");
         return $query->first_row();
 	}
 

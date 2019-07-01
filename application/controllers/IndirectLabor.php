@@ -20,7 +20,7 @@ class IndirectLabor extends CI_Controller {
 
 		// init data
 		$iduser = $session_data['id_user'];  
-		$shift =  "1" ; 
+		$shift =  $session_data['id_shift'] ; 
 		$tanggal = date("Y-m-d"); 
 
 		// jika user sudah ada data pdo

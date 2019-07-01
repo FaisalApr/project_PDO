@@ -38,7 +38,7 @@ class Losstime_model extends CI_Model {
     {
         # code...
         $quer = $this->db->query('SELECT (SELECT COALESCE(SUM(durasi),0) FROM lost_time WHERE id_jenisloss=1 AND id_pdo='.$id.')as to_loss,(SELECT COALESCE(SUM(durasi),0) FROM lost_time WHERE id_jenisloss=2 AND id_pdo='.$id.')as to_exc, (SELECT (SELECT jam_kerja FROM main_pdo WHERE id='.$id.')-(select (select COALESCE(SUM(menit),0) FROM indirect_activity WHERE id_pdo='.$id.')/60)) as jam_iff,(SELECT (SELECT (SELECT (SELECT COALESCE(SUM(durasi),0) FROM lost_time WHERE id_jenisloss=1 AND id_pdo='.$id.')/60)/(SELECT (SELECT jam_kerja FROM main_pdo WHERE id='.$id.')-(select (select COALESCE(SUM(menit),0) FROM indirect_activity WHERE id_pdo='.$id.')/60)))*100)as losspercent');
-        $wid = $quer->result();  
+        $wid = $quer->first_row();  
         return $wid;
     }
 

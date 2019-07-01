@@ -17,9 +17,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 
 </head>
 <body>
-<input type="hidden" id="id_pdo" value="<?php echo $pdo->id ?>">
-<?php $this->load->view('header/header'); ?>
-<?php $this->load->view('header/sidebar'); ?>
+	<input type="hidden" id="id_pdo" value="<?php echo $pdo->id ?>">
+	<?php $this->load->view('header/header_users'); ?>
+	<?php $this->load->view('header/sidebar_users'); ?>
  
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
@@ -202,7 +202,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="modal-body text-center font-18">
 					<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
 					<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
-						<input type="text" name="id_dc_delete" id="id_dc_delete" class="form-control">
+						<input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
 						<br>
 						<div class="col-6">
 							<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
@@ -223,15 +223,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.bootstrap4.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.responsive.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/responsive.bootstrap4.js"></script>
-	<!-- buttons for Export datatable -->
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/dataTables.buttons.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/buttons.bootstrap4.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/buttons.print.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/buttons.html5.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/buttons.flash.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/pdfmake.min.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/vfs_fonts.js"></script>
+	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/responsive.bootstrap4.js"></script> 
 
 	<script>
 		$('document').ready(function(){
@@ -357,19 +349,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             //delete record to database
 
             $('#btn_del').on('click',function(){
-                var id_dc_delete = $('#id_dc_delete').val();
-                // alert(id_dc_delete)
+                var id_dc_delete = $('#id_dc_delete').val(); 
+
                 $.ajax({
                     type : "POST",
                     url  : "<?php echo site_url(); ?>/Defect/delDefect",
                     dataType : "JSON",
-                    data : {id:id_dc_delete},
+                    data : {id:id_dc_delete,id_pdo:$('#id_pdo').val()},
                     success: function(){
                         $('[name="id_dc_delete"]').val("");
                         $('#confirmation-modal').modal('hide');
                         // refresh()
                         
-                show();
+                		show();
                     }
                 });
                 return false;
@@ -388,8 +380,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 var id_jenis_defect = $(this).data('id_jenisdeffect');
                 var keterangan = $(this).data('keterangan');
                 var total = $(this).data('total');
-                
-                alert(keterangan,id_jenis_defect,id_oc);
+                 
                 // memasukkan data ke form updatean
 				$('[name="id_updt"]').val(id);
 				$('[name="jam_updt"]').val(id_oc);
@@ -402,7 +393,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
             
             //UPDATE record to database (submit button)
-
             $('#btn_update').on('click',function(){
                 var idup = $('[name="id_updt"]').val();
                 var id_oc_up = $('[name="jam_updt"]').val();
@@ -416,7 +406,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     url  : "<?php echo site_url(); ?>/Defect/updateDefect",
                     dataType : "JSON",
                     data : { 
-
+                    		id_pdo:$('#id_pdo').val(),
                     		id:idup,
                     		id_oc:id_oc_up,
                     		id_jenisdeffect:id_jenis_up,
@@ -430,48 +420,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         show();
                     }
                 });
-              });
-
-
-
-
+              }); 
 			 // ========================  END UPDATE RECORD ====================================
 
 
-
-
-			$('.data-table-export').DataTable({
-				scrollCollapse: true,
-				autoWidth: false,
-				responsive: true,
-				columnDefs: [{
-					targets: "datatable-nosort",
-					orderable: false,
-				}],
-				"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-				"language": {
-					"info": "_START_-_END_ of _TOTAL_ entries",
-					searchPlaceholder: "Search"
-				},
-				dom: 'Bfrtip',
-				buttons: [
-				'copy', 'csv', 'pdf', 'print'
-				]
-			});
-			var table = $('.select-row').DataTable();
-			$('.select-row tbody').on('click', 'tr', function () {
-				if ($(this).hasClass('selected')) {
-					$(this).removeClass('selected');
-				}
-				else {
-					table.$('tr.selected').removeClass('selected');
-					$(this).addClass('selected');
-				}
-			});
-			var multipletable = $('.multiple-select-row').DataTable();
-			$('.multiple-select-row tbody').on('click', 'tr', function () {
-				$(this).toggleClass('selected');
-			});
+ 
 
 
 

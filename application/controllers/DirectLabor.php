@@ -20,7 +20,7 @@ class DirectLabor extends CI_Controller {
 
 		// init data
 		$iduser = $session_data['id_user'];  
-		$shift =  "1" ; 
+		$shift =  $session_data['id_shift'] ;  
 		$tanggal = date("Y-m-d"); 
 
 		// jika user sudah ada data pdo
@@ -237,6 +237,12 @@ class DirectLabor extends CI_Controller {
 	public function anInsertActivity()
 	{ 	
 		echo json_encode($this->DirectLabor_Model->arrayInsertDirectActivity());
+	}
+
+
+	public function getDirectLabor()
+	{
+		echo json_encode($this->DirectLabor_Model->getDl());
 	}
 
 }

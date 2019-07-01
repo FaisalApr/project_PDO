@@ -19,8 +19,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body> 
 <input id="id_pdo" type="hidden" class="form-control" value="<?php echo $pdo->id ?>"> 
-<?php $this->load->view('header/header'); ?>
-<?php $this->load->view('header/sidebar'); ?>
+<?php $this->load->view('header/header_users'); ?>
+<?php $this->load->view('header/sidebar_users'); ?>
 
 
 <!-- main container -->
@@ -48,117 +48,129 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script> 
 		$('document').ready(function(){
 
+			let today = new Date();
+			let currentMonth = today.getMonth();
+			let currentYear = today.getFullYear();
+
+			let firstDay = (new Date(currentYear, currentMonth)).getDay();
+	        let daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+
 			show();
 
 			function show() { 
-				$.ajax({
-                    async : false,
-                    type  : 'POST',
-                    url   : '<?php echo base_url();?>index.php/OutputControl/getDataOutputControl',
-                    dataType : 'JSON',
-                    data:{
-                    	id_pdo:$('#id_pdo').val()
-                    },
-                    success : function(data){  
 
-                    	// declare options
-                    	var options ={
-                    		title: {
-						        text: 'Efficiency Plan & Result'
-						    }, 
-						    chart: {
-						        renderTo: 'container',
-						        type: 'areaspline'
-						    }, 
-						    yAxis: {
-						        title: {
-						            text: 'Jumlah Plan'
-						        }
-						    },legend: {
-								layout: 'vertical',
-								align: 'left',
-								verticalAlign: 'top',
-								x: 70,
-								y: 20,
-								floating: true,
-								borderWidth: 1,
-								backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-							},
-						    xAxis: {
-						        categories: (
-						        	function(){
-							        	var dat = [];
-							        	for (var i = 0; i < data.length; i++) { 
-							        		dat.push('Jam ke-'+data[i].jam_ke);
-							        	}
-							        	return dat;
-						        	}()
-						        	)
-						        ,
-								plotBands: [{
-									from: 4.5,
-									to: 6.5,
-								}],
-								gridLineDashStyle: 'longdash',
-				                gridLineWidth: 1,
-				                crosshair: false
-						    },
-						    plotOptions: {
-						        series: {
-						            label: {
-						                connectorAllowed: false
-						            }
-						        }
-						    }, 
-						    series: [ 
-						    {
-						        name: 'Target Planing',
-						        data: (
-						        	function(){
-							        	var da = [];
-							        	for (var i = 0; i < data.length; i++) { 
-							        		da.push(Number(data[i].plan));
-							        	}
-							        	return da;
-						        	}()
-						        	)
-						    },{
-						        name: 'Actual',
-						        data: (
-						        	function(){
-							        	var da = [];
-							        	for (var i = 0; i < data.length; i++) { 
-							        		da.push(Number(data[i].actual));
-							        	}
-							        	return da;
-						        	}()
-						        	),
-						        color: '#3C9D3E'
-						    }],
-
-						    responsive: {
-						        rules: [{
-						            condition: {
-						                maxWidth: 500
-						            },
-						            chartOptions: {
-						                legend: {
-						                    layout: 'horizontal',
-						                    align: 'center',
-						                    verticalAlign: 'bottom'
-						                }
-						            }
-						        }]
+				// declare options
+            	var options ={
+            		title: {
+				        text: 'Efficiency Plan & Result'
+				    }, 
+				    chart: {
+				        renderTo: 'container'
+				    }, 
+				    yAxis: {
+				        title: {
+				            text: 'Jumlah Plan'
+				        }
+				    },legend: {
+						layout: 'vertical',
+						align: 'left',
+						verticalAlign: 'top',
+						x: 70,
+						y: 20,
+						floating: true,
+						borderWidth: 1,
+						backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+					},
+				    xAxis: {
+				    	type: 'datetime',
+						min: Date.UTC(currentYear, currentMonth, firstDay),
+						max: Date.UTC(currentYear, currentMonth, daysInMonth),
+						tickInterval: 24 * 3600 * 1000, // 1 day
+						labels: {
+							step: 1,
+						    style: {
+						      fontSize: '13px',
+						      fontFamily: 'Arial,sans-serif'
 						    }
-                    	};
+						}
+				    },
+				    series: [ 
+				    	{ 	
+				    		name: 'Target Planing',
+					        data: (
+					        	function(){
+						        	var da = [];  
+						        	$.ajax({ 
+						        		async : false,
+					                    type  : 'ajax',
+					                    url   : '<?php echo base_url();?>index.php/Target/getThisMonth',
+					                    dataType : 'JSON', 
+					                    success : function(res){  
+					                    	if (res) {  
+					                    		var i = firstDay;
+									        	for ( i ; i <= daysInMonth; i++) { 
 
-                    	var chart = new Highcharts.Chart(options);
+									        		var a = [Date.UTC(currentYear, currentMonth, i), parseFloat(res.efisiensi) ];
+									        		
+									        		da.push(a);
+									        	} 
+					                    	} 
+					                    }
+					                });  
+
+						        	return da;
+					        	}()
+					        )
+				    	},
+				    	{ 	
+				    		name: 'Shift A',
+					        data: (
+					        	function(){
+						        	var da = [];  
+						        	$.ajax({ 
+						        		async : false,
+					                    type  : 'ajax',
+					                    url   : '<?php echo base_url();?>index.php/Target/getThisMonth',
+					                    dataType : 'JSON', 
+					                    success : function(res){  
+					                    	if (res) {  
+					                    		var i = firstDay;
+									        	for ( i ; i <= daysInMonth; i++) { 
+
+									        		var a = [Date.UTC(currentYear, currentMonth, i), i ];
+									        		
+									        		da.push(a);
+									        	} 
+					                    	} 
+					                    }
+					                });  
+
+						        	return da;
+					        	}()
+					        )
+				    	} 
+				    ],
+ 					responsive: {
+				        rules: [{
+				            condition: {
+				                maxWidth: 500
+				            },
+				            chartOptions: {
+				                legend: {
+				                    layout: 'horizontal',
+				                    align: 'center',
+				                    verticalAlign: 'bottom'
+				                }
+				            }
+				        }]
+				    }
+            	};
+
+            	var chart = new Highcharts.Chart(options); 
+
+			}
 
 
-                    }
-                });
-
-			} 
 		});
 	</script>
 </html>

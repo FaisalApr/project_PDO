@@ -17,8 +17,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 	<input type="hidden" id="id_pdo" value="<?php echo $pdo->id ?>">
-	<?php $this->load->view('header/header'); ?>
-	<?php $this->load->view('header/sidebar'); ?>
+	<?php $this->load->view('header/header_users'); ?>
+	<?php $this->load->view('header/sidebar_users'); ?>
  
 	<div class="main-container">
 		<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
@@ -84,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 					<div class="pull-right">
 						<div class="row clearfix">	
-								<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#login-modal" style="margin-right: 25px; width: 193px"><span class="fa fa-plus"></span> Tambah </a>
+								<a href="#" id="btn_adddown" class="btn btn-success" style="margin-right: 25px; width: 193px"><span class="fa fa-plus"></span> Tambah </a>
 						</div> 
 					</div>
 				</div> 
@@ -285,7 +285,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script> 
 		$('document').ready(function(){
-			
+			// variabel global	
+			var submited = false;		
 
 
 			// =================== Read Record ===============================================
@@ -303,6 +304,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             var i;
                             var data = respon.data_downtime;
                             var widget = respon.widgettt;
+
+                            submited = respon.pdo.status; 
 
                             for(i=0; i<data.length; i++){
                                 html += 
@@ -345,10 +348,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							});
  
                             // setting WIdget  
-                            document.getElementById('id_jam_efff').innerHTML= parseFloat(widget[0].jam_iff).toFixed(1);
-                            document.getElementById('id_prcent_loss').innerHTML= parseFloat(widget[0].losspercent).toFixed(2);
-                            document.getElementById('id_tot_loss').innerHTML= ((widget[0].to_loss)/60).toFixed(2);
-                            document.getElementById('id_tot_exc').innerHTML= ((widget[0].to_exc)/60).toFixed(2);
+                            document.getElementById('id_jam_efff').innerHTML= parseFloat(widget.jam_iff).toFixed(1);
+                            document.getElementById('id_prcent_loss').innerHTML= parseFloat(widget.losspercent).toFixed(2);
+                            document.getElementById('id_tot_loss').innerHTML= ((widget.to_loss)/60).toFixed(2);
+                            document.getElementById('id_tot_exc').innerHTML= ((widget.to_exc)/60).toFixed(2);
 							
 							
                         }
@@ -430,7 +433,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     type : "POST",
                     url  : "<?php echo site_url(); ?>/Losstime/delLosstime",
                     dataType : "JSON",
-                    data : {id:id_dc_delete},
+                    data : {id:id_dc_delete,id_pdo:$('#id_pdo').val()},
                     success: function(){
                         $('[name="id_dc_delete"]').val("");
                         $('#confirmation-modal').modal('hide');
@@ -487,7 +490,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     url  : "<?php echo site_url(); ?>/Losstime/updateLosstime",
                     dataType : "JSON",
                     data : { 
-
+                    		id_pdo:$('#id_pdo').val(),
                     		id:idup,
                     		id_error:iderrorup,
                     		id_oc:idocup,
@@ -540,7 +543,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('.multiple-select-row tbody').on('click', 'tr', function () {
 				$(this).toggleClass('selected');
 			});
-		
+			
+
+			$('#btn_adddown').on('click',function(){
+				$('#login-modal').modal('show');
+			});
 		}); 
 	</script>
 

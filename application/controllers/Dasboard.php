@@ -20,14 +20,13 @@ class Dasboard extends CI_Controller {
 
 		// init data
 		$username = $session_data['id_user'];  
-		$shift =  "1" ; 
+		$shift =  $session_data['id_shift'] ; 
 		$tanggal = date("Y-m-d"); 
  		
  		// jika user sudah ada data pdo
 		$result = $this->Pdo_model->cariPdo($username,$shift,$tanggal);
 		if ($result) { 
-			
-			$data['pdo'] = $this->Pdo_model->cariPdoItems($username,$shift,$tanggal);
+			$data['pdo'] = $this->Pdo_model->cariPdoItems($username,$shift,$tanggal); 
 			$this->load->view('dasboard/dasboard_home',$data);
 		}else {  
 			// jika tidak punya data pdo

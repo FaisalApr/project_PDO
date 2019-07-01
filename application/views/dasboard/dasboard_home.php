@@ -27,6 +27,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  
 <!--    Modall AREA    -->
 <div>
+	<!--  Modal Edit ASSSY  -->
+	<div class="modal fade" id="modal_ubah_assy">
+	    <div class="modal-dialog modal-dialog-centered modal-md">
+	      <div class="modal-content">
+	      
+	        <!-- Modal Header -->
+	        <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+				<h2 class="text-center mb-10" id="heder_assy">Edit Assy</h2>
+			</div>
+	        
+	        <!-- Modal body -->
+	        <div class="modal-body"> 
+				<div class="form-group">
+					<label>Ubah ke Assy Number</label>
+					<select class="custom-select2 form-control" name="state" id="pilihasy1" style="width: 100%; height: 38px;">
+						  
+					</select>
+				</div>
+				<input type="hidden" name="id_assy_old">
+
+			</div>
+			<center>
+				<button type="button" class="btn btn-danger" style="margin-right: 30px;" id="btn_hapus_assy">Hapus Assy</button>  
+				<button type="button" class="btn btn-primary" id="btn_pindah_assy" >Pindahkan</button>
+			</center>
+			<br> 
+	      </div>
+	    </div>
+	</div>
 	<!--  Modal  Speed Conveyor -->
 	<div class="modal fade" id="scv_modal">
 	    <div class="modal-dialog modal-dialog-centered modal-md">
@@ -63,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	      </div>
 	    </div>
 	</div>
-	<!--  Modal  Speed Conveyor -->
+	<!--  Modal  Plan -->
 	<div class="modal fade" id="updtplan_modal">
 	    <div class="modal-dialog modal-dialog-centered modal-sm">
 	      <div class="modal-content">
@@ -322,12 +352,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>
 
+	<!-- Modal Submit Hari Ini-->
+	<div class="modal fade" id="modal_submit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+				<div class="bg-white box-shadow pd-ltr-20 border-radius-5"> 
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+					<h2 class="text-center mb-30">Akhiri PDO Hari ini</h2> 
+					<div class="alert alert-success" role="alert">
+						<h4 class="alert-heading">Well done!</h4>
+						<p>Anda Akan mengakhiri Record PDO Hari ini. Supervisior akan memeriksa hasil record Hari ini.</p>
+						<hr>
+						<div class="alert alert-danger" role="alert">
+							Data Yang Telah di Submit Tidak bisa Di ubah.
+						</div>
+					</div>
+					<br>
+					<center><button class="btn btn-primary btn-block" id="btn_submit_pdo">Submit</button></center>
+					<br>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>
 <!-- End Modal --> 
 
 <!-- main container -->
 <div class="main-container">
-	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
+	<div class="pd-ltr-20 customscroll  xs-pd-20-10">
 		<!-- top icon dasboard -->
 		<div class="row clearfix progress-box">
 
@@ -460,7 +513,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 			
 		<!-- Tabel -->
-		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">  
+		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" style="margin-top: -10px">  
 			<table class="table table-responsive table-striped table-bordered" style="padding-bottom: 25px;">
 				<thead id="thead_outputt"> 
 					 
@@ -505,7 +558,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			var tot_mhout = 0; //witget mhout actual
 			var tot_mhinall = 0 ; //for widget mhin actual total
 			var eff_actual = 0; //for widget eff actual
-			var edittarget= false;
+			var edittarget= false; // jika target sudah ada maka bisa diedit
+			var max_jamkerja = 0; 
  
             document.getElementById('slect_date').value=currDate+' '+monthName[currentMonth]+' '+currentYear;
 
@@ -539,7 +593,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$.ajax({
                     async : false,
                     type  : 'POST',
-                    url   : '<?php echo base_url();?>index.php/OutputControl/getDataOutputControl',
+                    url   : '<?php echo site_url("OutputControl/getDataOutputControl");?>',
                     dataType : 'JSON',
                     data:{
                     	id_pdo:$('#id_pdo').val()
@@ -550,9 +604,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         var t_act=0;
                         var id_jamke;
                         var jam_ke=0;
-                        // 
+
+                        // isi ke variabel
                         var data = res.data;
                         total_loss_detik = res.to_lossdetik.tot_loss_detik;
+                        max_jamkerja = Number(res.data_dl.jam_reg)+Number(res.data_dl.jam_ot);  
 
                         // header
                         htmlhead1 +=
@@ -585,7 +641,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			                	for (var a = 0; a < response.length; a++) { 
 				                		htmlhead1 +=
-				                			'<th>'+response[a].kode_assy+'</th>';
+				                			'<th><a href="#" class="btn_changeassy" data-id_assy="'+response[a].id_assy+'" data-kode="'+response[a].kode_assy+'">'+response[a].kode_assy+'</a></th>';
 				                		htmlhead2 +=
 				                			'<th>'+response[a].umh+'</th>';
 				                		htmlhead3 +=
@@ -605,21 +661,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							var tm ='';
 
 							// iff last row PLanning bisa diganti
-							if ((i+1)==data.length) {
-								tm='<td><a href="#" class="plan_edit" data-idr="'+data[i].id+'" data-jum="'+data[i].plan+'">'+data[i].plan+'</a></td>';
-							}else{
-								tm='<td>'+data[i].plan+'</td>';
-							} 
+							tm='<td><a href="#" class="plan_edit" data-idr="'+data[i].id+'" data-jum="'+data[i].plan+'">'+data[i].plan+'</a></td>';
+
 							// jika output tidak sesuai
-							if (data[i].actual<data[i].plan) {
+							if (Number(data[i].actual)<Number(data[i].plan)) {
 								tm+=
 								'<td scope="row" bgcolor="#FF525B">'+data[i].actual+'</td>'; 
 								output_sesuai = false;
-								loss_output += data[i].plan - data[i].actual;
+								loss_output += data[i].plan - data[i].actual; 
 							}else {
 								tm+=
 								'<td>'+data[i].actual+'</td>'; 
-								output_sesuai = true;
+								output_sesuai = true; 
 							}
 							html +=	tm;
 								
@@ -634,6 +687,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				                data : { id:data[i].id },
 				                success: function(response){    
 
+				                	
 				                	// mengulang sebanyak head
 				                	for (var ir = 0; ir < db_head.length; ir++) {  
 				                		var urutan = ir;
@@ -644,14 +698,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				                			// menyocokkan kolom table head 
 			                				if (db_head[ir].id_assy==response[a].id_assy ) {
-			                					// edit hanya di last row
-			                					if ((i+1)==data.length) {
-			                						tmphtml = 
-				                				'<td><a href="#" class="item_edit" data-actual="'+response[a].actual+'" data-ida="'+response[a].id+'">'+response[a].actual+'</a></td>'; 	
-			                					}else{
-			                						tmphtml = 
-				                				'<td>'+response[a].actual+'</td>'; 	
-			                					}
+
+			                					tmphtml = 
+				                				'<td><a href="#" class="item_edit" data-actual="'+response[a].actual+'" data-ida="'+response[a].id+'">'+response[a].actual+'</a></td>'; 
 			                					
 				                				found = true; 
 				                				// counter jumlah Act 
@@ -659,16 +708,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						                		totActual.push([db_head[ir].id_assy,Number(response[a].actual)]);  
 
 			                				} else if(db_head[ir].id_assy!=response[a].id_assy && found==false){
-			                					// jikadata berada di line terahir
-			                					if ((i+1)==data.length) {
-			                						tmphtml =  '<td><a href="#" class="item_newassy btn btn-outline-success btn-sm" data-kodeassy="'+db_head[ir].kode_assy+'" data-baris="'+(i+1)+'" data-idrow="'+data[i].id+'" data-idcol="'+db_head[ir].id+'">+</a></td>'; 
-			                					}else{
-			                						tmphtml =  '<td style="border:none"></td>'; 
-			                					}   
+
+			                					tmphtml =  '<td><a href="#" class="item_newassy btn btn-outline-success btn-sm" data-kodeassy="'+db_head[ir].kode_assy+'" data-baris="'+(i+1)+'" data-idrow="'+data[i].id+'" data-idcol="'+db_head[ir].id+'">+</a></td>'; 	
 			                					found = true;
 			                				}
 			                				 
 				                		}
+
+				                		// jika tidak ada data sama sekali di row Tengah"
+				                		if (response.length==0 && (i+1)!=data.length) { 
+				                			tmphtml =  '<td><a href="#" class="item_newassy btn btn-outline-success btn-sm" data-kodeassy="'+db_head[ir].kode_assy+'" data-baris="'+(i+1)+'" data-idrow="'+data[i].id+'" data-idcol="'+db_head[ir].id+'">+</a></td>'; 	
+				                		}
+
 				                		// html fix add dengan temphtml
 				                		html += tmphtml; 
 				                	}
@@ -692,13 +743,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   							jam_ke ++; 
                         }
 
-                        
-
                         // bottom Tabel 
                         html +=
                         	'</tr>'+
-                        	'<tr>'+
-								'<td rowspan="2" style="border: none;" align="center"><button href="#" class="btn btn-success newJamVertical" type="button" data-bgcolor="#4CAF50" data-color="#ffffff">Tambah Jam <i class="icon-copy fa fa-plus" ></i></button></td>'+
+                        	'<tr>'; 
+	                        if (max_jamkerja==jum_jam) {
+	                        	html +=
+	                        	'<td rowspan="2" style="border: none;" align="center"><button href="#" class="btn btn-primary newJamVertical" type="button" data-bgcolor="#FF5E67" data-color="#ffffff"><i class="icon-copy fa fa-check-square-o"></i>   SUBMIT</button></td>';
+	                        }else {
+	                        	html +=
+	                        	'<td rowspan="2" style="border: none;" align="center"><button href="#" class="btn btn-success newJamVertical" type="button" data-bgcolor="#4CAF50" data-color="#ffffff">Tambah Jam <i class="icon-copy fa fa-plus" ></i></button></td>';
+	                        }
+							html +=
 								'<th scope="row">Total</th>'+
 								'<th scope="row">'+t_plan+'</th>'+
 								'<th scope="row">'+t_act+'</th>';
@@ -768,6 +824,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         document.getElementById("idjamke").value=id_jamke;
                         document.getElementById("terus_jam_ke").value=(jam_ke+1);
                         document.getElementById("id_labeljam").innerHTML="Pindah Jam Ke- : "+(jam_ke+1); 
+
+                        
                     }
                 }); 
 				
@@ -795,6 +853,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     	}  
 
 						$('#pilihasy').html(html);
+						$('#pilihasy1').html(html);
                     }
                 });
 
@@ -846,6 +905,101 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			}
 
+
+			// trigger change assy build
+			$('#thead_outputt').on('click','.btn_changeassy',function(){
+				var id_ass = $(this).data('id_assy');
+				var kode = $(this).data('kode'); 
+				
+				$('input[name="id_assy_old"]').val(id_ass);
+				document.getElementById('heder_assy').innerHTML = 'Edit Assy "'+kode+'"';
+
+				$('#modal_ubah_assy').modal('show');
+			});
+			// hapuss aASYY
+			$('#btn_hapus_assy').on('click',function(){
+				var ids = $('input[name="id_assy_old"]').val();
+				var id_pdo = $('#id_pdo').val();
+
+				$('#modal_ubah_assy').modal('hide');
+				 $.ajax({
+	            	async : false,
+	                type : "POST",
+	                url   : '<?php echo site_url("OutputControl/hapusBuildAssy");?>',
+	                dataType : "JSON",
+	                data : {
+	                		id_pdo:id_pdo, 
+	                		id:ids
+	                	},
+	                success: function(response){ 
+	                	// jika sukses
+						if(response){  
+							Swal.fire({
+							  title: 'Berhasil',
+							  text: 'Assy Telah Dihapus',
+							  type: 'success',
+							  confirmButtonText: 'Ok',
+							  allowOutsideClick: false
+							})
+							showdata();
+						}
+						else{
+							Swal.fire({
+							  title: 'Error!',
+							  text: 'Gagal menghapus',
+							  type: 'error',
+							  confirmButtonText: 'Ok',
+							  allowOutsideClick: false
+							}) 
+						}
+
+	                }
+	            }); 
+			});
+			// pindahkan ASSY
+			$('#btn_pindah_assy').on('click',function(){
+				var ids = $('input[name="id_assy_old"]').val();
+				var id_pdo = $('#id_pdo').val();
+				var new_assy  = $('#pilihasy1').val();
+
+				if (!new_assy) return; 
+				$('#modal_ubah_assy').modal('hide');
+
+				 $.ajax({
+	            	async : false,
+	                type : "POST",
+	                url   : '<?php echo site_url("OutputControl/updateColBuildAssy");?>',
+	                dataType : "JSON",
+	                data : {
+	                		id_pdo:id_pdo, 
+	                		id_old:ids,
+	                		id_new:new_assy
+	                	},
+	                success: function(response){ 
+	                	// jika sukses
+						if(response){  
+							Swal.fire({
+							  title: 'Berhasil',
+							  text: 'Assy Telah Pindah',
+							  type: 'success',
+							  confirmButtonText: 'Ok',
+							  allowOutsideClick: false
+							})
+							showdata();
+						}
+						else{
+							Swal.fire({
+							  title: 'Error!',
+							  text: 'Gagal menghapus',
+							  type: 'error',
+							  confirmButtonText: 'Ok',
+							  allowOutsideClick: false
+							}) 
+						}
+
+	                }
+	            }); ßßßßß
+			});
 
 			// to show new build assy modal
 			$('#thead_outputt').on('click','.newBuildass',function(){
@@ -928,7 +1082,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					// Swal.fire('Ooke Downtime sesuai');
 				} 
 
-				$('#modaladdjamke').modal('show');
+				if (jum_jam == max_jamkerja) {
+					$('#modal_submit').modal('show');	
+				}else {
+					$('#modaladdjamke').modal('show');	
+				} 
 				
 			});
 			// event click btn new jam vertical
@@ -1033,16 +1191,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				// mengambil data dari fom upadate
 				var idu = $('#id_act_editfom').val();
 				var actu = $('#act_editfom').val();
- 				
+ 				var pdo = $('#id_pdo').val();
+
  				// ajax upload
  				$.ajax({
                     async : false,
 	                type : "POST",
-	                url   : '<?php echo base_url();?>index.php/OutputControl/updateDataBuildAssy',
+	                url   : '<?php echo site_url("OutputControl/updateDataBuildAssy");?>',
 	                dataType : "JSON",
 	                data : { 
 	                	id_a:idu,
-	                	act:actu
+	                	act:actu,
+	                	id_pdo:pdo
 	                 },
 	                success: function(response){
 	                	if (response) { 
@@ -1250,7 +1410,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			});
 
 			// btn show speed modal
-			$('#btn_changesped').click(function(){
+			$('#btn_changesped').click(function(){  
 				let spdi = Number($("input[name='speed_edit_temp']").val());  
 				$("input[name='speed_edit']").val(spdi);
 				$('#spd_cv').highcharts().series[0].points[0].update(spdi);
@@ -1347,22 +1507,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			// target mh-OUT EDIT
 			$('#trigger_mhout').on('click',function(){
 				// jika sudah ada target
-				if (edittarget) {  
+				if (edittarget) {   
 					$('#modal_edit_mhout').modal('show');
 				} 
 			});
 			// target mhin EDIT
 			$('#triger_mhin').on('click',function(){
 				// jika sudah ada target
-				if (edittarget) {
-
+				if (edittarget) { 
 					$('#modal_edit_mhin').modal('show');
 				} 
 			}); 
 			// target EFICIENCY EDIT
 			$('#trigger_eff').on('click',function(){
 				// jika sudah ada target
-				if (edittarget) {
+				if (edittarget) { 
 					$('#modal_edit_efff').modal('show');
 				} 
 			});
@@ -1470,6 +1629,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}); 
  			});
 
+
+
+ 			//  ====== ENDING PDO HARI INI =============
+ 			$('#btn_submit_pdo').on('click',function(){
+ 				var mhout = tot_mhout; 
+
+ 				$.ajax({
+					async : false,
+					type : "POST",
+					url : "<?php echo site_url('PDO_Controler/submitPDO') ?>",
+					dataType : "JSON",
+					data : {
+						mh_out:mhout,
+						id_pdo:$('#id_pdo').val()
+					},
+					success: function(data){ 
+						if (data) {
+							Swal.fire(
+						      'Berhasil !',
+						      'Update Efficiency',
+						      'success'
+						    ).then(function(){
+						    	document.location.reload(true);
+						    }); 
+
+						}else{
+							Swal.fire({
+							  title: 'Error!',
+							  text: 'Gagal Update target',
+							  type: 'error',
+							  confirmButtonText: 'Ok',
+							  allowOutsideClick: false
+							}) 
+						}
+						$('#modal_edit_efff').modal('hide');
+					}
+				}); 
+
+ 			});
 
 
 		});

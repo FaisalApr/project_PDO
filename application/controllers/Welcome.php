@@ -23,7 +23,7 @@ class Welcome extends CI_Controller {
 
 		// init data
 		$id_user = $session_data['id_user'];  
-		$shift =  "1" ; 
+		$shift =  $session_data['id_shift']; 
 		$tanggal = date("Y-m-d");  //"2019-06-22";
 
 		// jika user sudah ada data pdo
@@ -52,18 +52,19 @@ class Welcome extends CI_Controller {
 
 		// data new PDO
 		$dataPdo = array(
-			'id_shift' => 1, 
+			'id_shift' => $session_data['id_shift'], 
 			'id_users' => $session_data['id_user'], 
-			'cv' => '12A', 
+			'id_line' => $session_data['id_line'], 
 			'tanggal' => date("Y-m-d H:i:s"),
 			'line_speed' => $this->input->post('speed'),
-			'jam_kerja' => (8+$this->input->post('jam_otdl'))
+			'jam_kerja' => (8+$this->input->post('jam_otdl')),
+			'status' => 0 
 		);
 		// insert data new pdo
 		$result = $this->Pdo_model->createPdo($dataPdo);
 		if ($result) {
 			// mencari pdo yang sudah di insert
-			$pdo = $this->Pdo_model->cariPdoItems($session_data['id_user'],1,date("Y-m-d"));
+			$pdo = $this->Pdo_model->cariPdoItems($session_data['id_user'],$session_data['id_shift'],date("Y-m-d"));
  			
  			// hitungan
  			$mhreg = ($this->input->post('regdl')*8);

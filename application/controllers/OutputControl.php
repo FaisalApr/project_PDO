@@ -5,8 +5,11 @@ class OutputControl extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();		
-		$this->load->model('OutputControl_model');   
-		$this->load->model('Losstime_model');   
+		$this->load->model('Pdo_model');
+		$this->load->model('OutputControl_model');
+		$this->load->model('DirectLabor_Model');
+		$this->load->model('Losstime_model');
+		$this->load->model('Defect_model');   
 	}
    
 
@@ -15,6 +18,7 @@ class OutputControl extends CI_Controller {
 
 // ============== Ajaxx. ===========
 	
+	// func di DASBOARD HOME
 	public function getDataOutputControl()
 	{
 		# code...
@@ -23,7 +27,9 @@ class OutputControl extends CI_Controller {
 		$result['mhin'] = $this->OutputControl_model->getMHin();
 		$result['mp'] = $this->OutputControl_model->getMP();
 		$result['to_lossdetik'] = $this->Losstime_model->getToLosstimeDetik();
-
+		$result['data_dl'] = $this->DirectLabor_Model->getDl();
+		$result['pdo'] = $this->Pdo_model->pdoById($this->input->post('id_pdo')); 
+		
 		echo json_encode($result);
 	}
 
@@ -72,7 +78,8 @@ class OutputControl extends CI_Controller {
 	{
 		# code... 
 		$result = $this->OutputControl_model->updateBuildAssy();
-
+		$refresh = $this->Pdo_model->refreshData($this->input->post('id_pdo'));
+		
 		echo json_encode($result);
 	}
 
@@ -81,7 +88,18 @@ class OutputControl extends CI_Controller {
 		echo json_encode($this->OutputControl_model->updatePlanOC());
 	}	
  
- 
+ 	public function hapusBuildAssy()
+ 	{
+ 		$pdo = $this->input->post('id_pdo');
+ 		$id = $this->input->post('id');
+
+ 		echo json_encode($this->OutputControl_model->hapus_buildAssyAll($id,$pdo));
+ 	}
+
+ 	public function updateColBuildAssy()
+ 	{  
+ 		echo json_encode($this->OutputControl_model->updateAssyAll());
+ 	}
 
 }
 
