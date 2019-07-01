@@ -843,7 +843,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   }
               });
             });
-      //   ========================  END UPDATE RECORD ====================================
+      //   ========================  END UPDATE RECORD ==================================== 
 
     // regulasi in ajax
 
