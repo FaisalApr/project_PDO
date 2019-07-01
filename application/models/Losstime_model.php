@@ -42,6 +42,14 @@ class Losstime_model extends CI_Model {
         return $wid;
     }
 
+    public function getToLosstimeDetik()
+    {
+        $id = $this->input->post('id_pdo');
+        $quer = $this->db->query('SELECT (SELECT COALESCE(SUM(durasi),0) FROM `lost_time` WHERE id_pdo='.$id.')*60 as tot_loss_detik');
+        $los = $quer->first_row();  
+        return $los;
+    }
+
     public function delLosstime($id)
     {
     	# code...

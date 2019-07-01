@@ -6,16 +6,12 @@ class OutputControl extends CI_Controller {
 	function __construct(){
 		parent::__construct();		
 		$this->load->model('OutputControl_model');   
+		$this->load->model('Losstime_model');   
 	}
-
-	public function index()
-	{
-
-	}
- 
+   
 
 
-
+   
 
 // ============== Ajaxx. ===========
 	
@@ -26,6 +22,7 @@ class OutputControl extends CI_Controller {
 		$result['mhin_tot'] = $this->OutputControl_model->getMHintot();
 		$result['mhin'] = $this->OutputControl_model->getMHin();
 		$result['mp'] = $this->OutputControl_model->getMP();
+		$result['to_lossdetik'] = $this->Losstime_model->getToLosstimeDetik();
 
 		echo json_encode($result);
 	}
@@ -83,7 +80,8 @@ class OutputControl extends CI_Controller {
 	{ 
 		echo json_encode($this->OutputControl_model->updatePlanOC());
 	}	
-
+ 
+ 
 
 }
 

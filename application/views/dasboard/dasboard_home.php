@@ -21,6 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body> 
 <input id="id_pdo" type="hidden" class="form-control" value="<?php echo $pdo->id ?>"> 
+<input id="id_target" type="hidden" class="form-control" value=""> 
 <?php $this->load->view('header/header_users'); ?>
 <?php $this->load->view('header/sidebar_users'); ?>
  
@@ -156,7 +157,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input id="terus_jam_ke" type="hidden" class="form-control"> 
 					</div> 
 					<div class="form-group">
-						<label>Jumlah Plan</label>
+						<label>Jumlah Plan 🎯 :</label>
 						<input id="jum_plann" type="number" class="form-control"> 
 					</div>
 				</div>
@@ -167,6 +168,160 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 	</div>
+
+	<!--  Modal  NEW PLAN BULANAN -->
+	<div class="modal fade" id="newplanmonth_modal">
+	    <div class="modal-dialog modal-lg">
+	      <div class="modal-content">
+	      
+	        <!-- Modal Header -->
+	        <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+				<h2 class="text-center mb-30">Buat Panning Bulan Ini</h2>
+			</div>
+	        
+	        <!-- Modal body -->
+	        <div class="modal-body">
+	        	<br>
+	        	<div class="row"> 
+		        	<div class="col-lg-4 col-md-4 col-sm-12 mb-30">
+						<div class="card box-shadow">
+							<div class="card-header"> 
+								<div class="project-info-center">
+									<h5 class="text-center weight-500">MH Out</h5>
+								</div> 
+							</div>
+							
+							<div class="card-body"> 
+								<div class="form-group">
+									<label>Planning MH-Out</label>
+									<input type="Number" name="target_mhout" class="form-control" value="0">
+								</div>
+							</div> 
+						</div>
+					</div>
+
+					<div class="col-lg-4 col-md-4 col-sm-12 mb-30">
+						<div class="card box-shadow">
+							<div class="card-header"> 
+								<div class="project-info-center">
+									<h5 class="text-center weight-500">MH IN</h5>
+								</div> 
+							</div>
+							<div class="card-body"> 
+								<div class="form-group">
+									<label>Planning MH-In</label>
+									<input type="Number" name="target_mhin" class="form-control" value="0">
+								</div>
+							</div> 
+						</div>
+					</div>
+
+					<div class="col-lg-4 col-md-4 col-sm-12 mb-30">
+						<div class="card box-shadow">
+							<div class="card-header"> 
+								<div class="project-info-center">
+									<h5 class="text-center weight-500">Efficiency</h5>
+								</div> 
+							</div> 
+							<div class="card-body"> 
+								<div class="form-group">
+									<label>Planning Efficiency %</label>
+									<input type="Number" name="eff_new" class="form-control" value="95">
+								</div>
+							</div> 
+						</div>
+					</div>
+				</div>
+
+				<br>
+				<center>
+					<a href="#" id="btn_submt_newtarget" class="btn btn-block btn-success">Simpan</a>
+				</center>
+	        </div> 
+	        
+	      </div>
+	    </div>
+	</div>
+	<!-- Modal Edit MH OUT  BULAN -->
+	<div class="modal fade" id="modal_edit_mhout" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+					<h2 class="text-center mb-30">Edit Panning MH-OUT</h2>
+					<form> 
+						<div class="modal-body"> 
+							<div class="form-group">
+								<label>Plan Bulan Ini</label>
+								<input type="text" class="form-control" name="edit_target_mhout">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group"> 
+									<a class="btn btn-primary btn-lg btn-block" id="btn_submit_mhout" href="#">update</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Edit MH IN  BULAN-->
+	<div class="modal fade" id="modal_edit_mhin" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+					<h2 class="text-center mb-30">Edit Panning MH-IN</h2>
+					<form> 
+						<div class="modal-body"> 
+							<div class="form-group">
+								<label>Plan Bulan Ini</label>
+								<input type="text" class="form-control" name="edit_target_mhin">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group"> 
+									<a class="btn btn-primary btn-lg btn-block" id="btn_submit_mhin" href="#">update</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Edit EFFICIENCY  BULAN-->
+	<div class="modal fade" id="modal_edit_efff" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+					<h2 class="text-center mb-30">Edit Efficiency</h2>
+					<form> 
+						<div class="modal-body"> 
+							<div class="form-group">
+								<label>Plan Bulan Ini</label>
+								<input type="text" class="form-control" name="edit_target_eff" value="98%">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group"> 
+									<a class="btn btn-primary btn-lg btn-block" id="btn_submit_eff" href="#">update</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>
 <!-- End Modal --> 
 
@@ -198,18 +353,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
 				<div class="card box-shadow">
-					<h5 class="card-header text-center weight-500">MH Out</h5>
+					<div class="card-header"> 
+						<div class="project-info-center">
+							<h5 class="text-center weight-500">MH Out</h5>
+						</div>
+						<div class="project-info-right" style="margin-top: -23px">
+							<a href="#" id="trigger_mhout" class="text-right"><i class="fa fa-cog" aria-hidden="true"></i></a>	
+						</div>
+					</div>
+					
 					<div class="card-body"> 
 						<div class="project-info-progress">
 							<div class="row clearfix">
 								<div class="col-sm-6 text-muted weight-500">Plan</div> 
-								<span class="col-sm-6 no text-right text-blue weight-500 font-16">120</span>
+								<span class="col-sm-6 no text-right text-blue weight-500 font-16" id="id_target_mhout"></span>
 								 
 								<div class="col-sm-6 text-muted weight-500">Act</div>
 								<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="id_act_mhout"></div>
 							</div>
 							<div class="progress" style="height: 20px; margin-top: 10px;">
-								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" style="width: 40%;" aria-valuenow="87" aria-valuemin="0" aria-valuemax="120"></div>
+								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="87" aria-valuemin="0" aria-valuemax="120" id="prog_mh_out"></div>
 							</div>
 						</div>
 					</div> 
@@ -218,18 +381,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
 				<div class="card box-shadow">
-					<h5 class="card-header text-center weight-500">MH IN</h5>
+					<div class="card-header"> 
+						<div class="project-info-center">
+							<h5 class="text-center weight-500">MH IN</h5>
+						</div>
+						<div class="project-info-right" style="margin-top: -23px">
+							<a href="#" class="text-right" id="triger_mhin"><i class="fa fa-cog" aria-hidden="true"></i></a>	
+						</div>
+					</div>
 					<div class="card-body"> 
 						<div class="project-info-progress">
 							<div class="row clearfix">
 								<div class="col-sm-6 text-muted weight-500">Plan</div> 
-								<span class="col-sm-6 no text-right text-blue weight-500 font-16">120</span>
+								<span class="col-sm-6 no text-right text-blue weight-500 font-16" id="id_target_mhin">0</span>
 								 
 								<div class="col-sm-6 text-muted weight-500">Act</div>
 								<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="id_mhinact">0</div>
 							</div>
 							<div class="progress" style="height: 20px; margin-top: 10px;">
-								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" style="width: 40%;" aria-valuenow="87" aria-valuemin="0" aria-valuemax="120"></div>
+								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="87" aria-valuemin="0" aria-valuemax="120" id="prog_mh_in"></div>
 							</div>
 						</div>
 					</div> 
@@ -238,12 +408,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
 				<div class="card box-shadow">
-					<h5 class="card-header text-center weight-500">Efficiency</h5>
+					<div class="card-header"> 
+						<div class="project-info-center">
+							<h5 class="text-center weight-500">Efficiency</h5>
+						</div>
+						<div class="project-info-right" style="margin-top: -23px">
+							<a href="#" id="trigger_eff" class="text-right"><i class="fa fa-cog" aria-hidden="true"></i></a>	
+						</div>
+					</div> 
 					<div class="card-body"> 
 						<div class="project-info-progress">
 							<div class="row clearfix">
 								<div class="col-sm-6 text-muted weight-500">Plan</div> 
-								<span class="col-sm-6 no text-right text-blue weight-500 font-16">100%</span>
+								<span class="col-sm-6 no text-right text-blue weight-500 font-16" id="id_target_eff">0%</span>
 								 
 								<div class="col-sm-6 text-muted weight-500">Act</div>
 								<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="id_act_eff">0%</div>
@@ -316,15 +493,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			// deklarasi nama bulan
  			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 
+ 			// VARIABEL GLOBAL
  			let today = new Date();
 			var currentMonth = today.getMonth();
 			var currentYear = today.getFullYear();
 			var currDate = today.getDate();
+			var jum_jam = 0;
+			var output_sesuai = false;
+			var loss_output = 0;
+			var total_loss_detik=0;
+			var tot_mhout = 0; //witget mhout actual
+			var tot_mhinall = 0 ; //for widget mhin actual total
+			var eff_actual = 0; //for widget eff actual
+			var edittarget= false;
  
             document.getElementById('slect_date').value=currDate+' '+monthName[currentMonth]+' '+currentYear;
 
 			// auto load
-			showdata();   
+			showdata();    
 
 
 			$('.date-pickerrr').datepicker({   
@@ -337,7 +523,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			    }
 			});
 
-
+			// fungsi main
 			function showdata() { 
 				var htmlhead1 = '';
                 var htmlhead2 = '';
@@ -346,6 +532,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 var htmltotalbawahMhOt = '';
                 var totActual=[]; 
                 var db_head;
+
+                loss_output = 0;
 
                 // get data per pdo
 				$.ajax({
@@ -364,6 +552,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         var jam_ke=0;
                         // 
                         var data = res.data;
+                        total_loss_detik = res.to_lossdetik.tot_loss_detik;
 
                         // header
                         htmlhead1 +=
@@ -371,7 +560,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								'<th colspan="4" style="text-align: center;">Assy</th>';
 						htmlhead2 +=
 								'<th style="border: none;">'+
-									'<button href="#" class="btn btn-success" data-toggle="modal" data-target="#modalnewbuild"  type="button" data-bgcolor="#4CAF50" data-color="#ffffff">Tambah Assy <i class="icon-copy fa fa-plus" ></i></button>'+
+									'<button href="#" class="btn btn-success newBuildass" data-bgcolor="#4CAF50" data-color="#ffffff">Tambah Assy <i class="icon-copy fa fa-plus" ></i></button>'+
 								'</th>'+
 							'</tr>'+
 							'<tr>'+
@@ -407,6 +596,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                });
 
 						// membuat data per rows / jamke-
+						jum_jam = data.length; //untuk mengetahui jumlah data jam ke
                         for(var i=0; i<data.length; i++){ 
 
                         	html +=  
@@ -414,14 +604,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								'<th scope="row" colspan="2" style="text-align: center;">'+data[i].jam_ke+'</th>';
 							var tm ='';
 
+							// iff last row PLanning bisa diganti
 							if ((i+1)==data.length) {
 								tm='<td><a href="#" class="plan_edit" data-idr="'+data[i].id+'" data-jum="'+data[i].plan+'">'+data[i].plan+'</a></td>';
 							}else{
 								tm='<td>'+data[i].plan+'</td>';
 							} 
-							html +=	
-								tm+
+							// jika output tidak sesuai
+							if (data[i].actual<data[i].plan) {
+								tm+=
+								'<td scope="row" bgcolor="#FF525B">'+data[i].actual+'</td>'; 
+								output_sesuai = false;
+								loss_output += data[i].plan - data[i].actual;
+							}else {
+								tm+=
 								'<td>'+data[i].actual+'</td>'; 
+								output_sesuai = true;
+							}
+							html +=	tm;
+								
 
                         	// Data detail per row 
                         	
@@ -497,13 +698,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         html +=
                         	'</tr>'+
                         	'<tr>'+
-								'<td rowspan="2" style="border: none;" align="center"><button href="#" class="btn btn-success" data-toggle="modal" data-target="#modaladdjamke" type="button" data-bgcolor="#4CAF50" data-color="#ffffff">Tambah Jam <i class="icon-copy fa fa-plus" ></i></button></td>'+
+								'<td rowspan="2" style="border: none;" align="center"><button href="#" class="btn btn-success newJamVertical" type="button" data-bgcolor="#4CAF50" data-color="#ffffff">Tambah Jam <i class="icon-copy fa fa-plus" ></i></button></td>'+
 								'<th scope="row">Total</th>'+
 								'<th scope="row">'+t_plan+'</th>'+
 								'<th scope="row">'+t_act+'</th>';
 						
 						// penggabungan counter total actual per assy
-						var tot_mhout= 0;
+						tot_mhout= 0;
 						for (var ir = 0; ir < db_head.length; ir++) {  
 								var atot = 0;
 								for (var i = 0; i < totActual.length; i++) {
@@ -532,14 +733,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         var per_op = (t_act/t_plan)*100; 
                         document.getElementById('id_progres_output').style.width= parseFloat(per_op).toFixed(0)+'%';
                         document.getElementById('id_progres_output').innerHTML= parseFloat(per_op).toFixed(0)+'%';
+                        // set widget mhin
+                        tot_mhinall = parseFloat(res.mhin_tot.mhin_dlidl);
                         document.getElementById('id_mhinact').innerHTML= parseFloat(res.mhin_tot.mhin_dlidl).toFixed(1); 
 						// set TULISAN WIDGET MHOUT
 						document.getElementById('id_act_mhout').innerHTML= tot_mhout.toFixed(2);
 						// eff actual
 						var eff = (parseFloat(tot_mhout)/parseFloat(res.mhin.mhin))*100; 
 						document.getElementById('id_act_eff').innerHTML= eff.toFixed(1)+"%"; 
-						document.getElementById('id_act_eff_progres').style.width= eff.toFixed(0)+'%';
-                        document.getElementById('id_act_eff_progres').innerHTML= eff.toFixed(0)+'%';
+						eff_actual = eff;
                         // productivity 
                         var prod = ((tot_mhout)/parseFloat(res.mhin_tot.mhin_dlidl))*100;
                         document.getElementById('id_prod_percent').innerHTML= prod.toFixed(1); 
@@ -597,9 +799,63 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 });
 
 
+				showplanning();
+			}
+
+			function showplanning() {
+
+				$.ajax({
+                    async : false,
+                    type  : 'ajax',
+                    url   : '<?php echo base_url();?>index.php/Target/getThisMonth',
+                    dataType : 'JSON', 
+                    success : function(res){  
+                    	if (res) {
+                    		$('#id_target').val(res.id);
+                    		// insert data in fom update
+                    		$('input[name="edit_target_mhout"]').val(res.mh_out);
+                    		$('input[name="edit_target_mhin"]').val(res.mh_in);
+                    		$('input[name="edit_target_eff"]').val(res.efisiensi);
+
+                    		// setting innhtml
+                    		document.getElementById('id_target_mhout').innerHTML=res.mh_out;
+                    		document.getElementById('id_target_mhin').innerHTML=res.mh_in;
+                    		document.getElementById('id_target_eff').innerHTML=res.efisiensi+'%';
+
+                    		// percent MHOUT
+                    		var percent_mhout = (tot_mhout/Number(res.mh_out))*100; 
+                        	document.getElementById('prog_mh_out').style.width= parseFloat(percent_mhout).toFixed(0)+'%'; 
+                        	document.getElementById('prog_mh_out').innerHTML= parseFloat(percent_mhout).toFixed(0)+'%'; 
+                        	// percent MHIN 
+                        	var percent_mhin = (tot_mhinall/Number(res.mh_in))*100; 
+                        	document.getElementById('prog_mh_in').style.width= parseFloat(percent_mhin).toFixed(0)+'%'; 
+                        	document.getElementById('prog_mh_in').innerHTML= parseFloat(percent_mhin).toFixed(0)+'%'; 
+                        	// percent Efficiency
+                        	var percent_eff = (eff_actual/Number(res.efisiensi))*100; 
+                        	document.getElementById('id_act_eff_progres').style.width= percent_eff.toFixed(1)+'%';
+                        	document.getElementById('id_act_eff_progres').innerHTML= percent_eff.toFixed(1)+'%';
+
+                        	edittarget=true;		
+                    	}else {
+                    		$('#newplanmonth_modal').modal('show');
+                    		edittarget=false;		
+                    	}
+                    }
+
+                }); 
+
 			}
 
 
+			// to show new build assy modal
+			$('#thead_outputt').on('click','.newBuildass',function(){
+				// jika belum menambahkan assy
+				if (jum_jam==0) {
+					Swal.fire('Silahkan tambahkan jam kerja terlebih dahulu');
+					return;
+				}
+				$('#modalnewbuild').modal('show'); 
+			});
 			// event click btn new build assy horizontal
 			$('#btn_newbuildassy').click(function(){  
 
@@ -640,9 +896,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				showdata(); 
 			});
 
-			// event click btn new jam vertical
-			$('#btn_pindahjam').click(function(){  
+			// to SHOW NEW JAM VERTICAL
+			$('#tbody_outputt').on('click','.newJamVertical',function(){
+				let spd = Number($("input[name='speed_edit']").val()); 
+				var toOut = (spd*loss_output);
+				// 10% dari total
+				var batas = (toOut*2)/100; 
 
+				// checking output SESUAI APA TIDAK 
+				// Downtime Kurang
+				if (total_loss_detik<(toOut-batas) && output_sesuai== false) {
+					Swal.fire({
+						type: 'error',
+  						title: 'Output Actual yang dihasilkan tidak sesuai.',
+						text:'"Kurang Banyak Downtime"',
+						footer:'Total harus diAtas: '+(toOut-batas)+'  | Down sekarang: '+total_loss_detik
+					});
+					return;
+				}
+				// Downtime kelebihan
+				else if(total_loss_detik>(toOut+batas) && output_sesuai== false){
+					Swal.fire({
+						type: 'error',
+  						title: 'Output Actual yang dihasilkan tidak sesuai.',
+						text:'"Terlalu Banyak Downtime"',
+						footer:'Total harus DiBawah: '+(toOut+batas)+'  | Down sekarang: '+total_loss_detik
+					});
+					return;
+				}  
+				else if ((toOut+batas)>total_loss_detik && (toOut-batas)<total_loss_detik) {
+					// Swal.fire('Ooke Downtime sesuai');
+				} 
+
+				$('#modaladdjamke').modal('show');
+				
+			});
+			// event click btn new jam vertical
+			$('#btn_pindahjam').click(function(){   
 				var pdo  = $('#id_pdo').val();
 				var jumplan  = $('#jum_plann').val();
 				var jamke = $('#terus_jam_ke').val();
@@ -660,7 +950,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                success: function(response){ 
 	                	// jika sukses
 						if(response){  
-							console.log("semua Bahagia");
+							// sukses menambahkan
+							jum_jam++; 
 						}
 						else{
 							Swal.fire({
@@ -927,6 +1218,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				maxboostedstep: 10,
 				postfix: 'speed'
 			});
+			$("input[name='eff_new']").TouchSpin({
+				min: 0,
+				max: 200,
+				step: 1,
+				decimals: 1,
+				boostat: 5,
+				maxboostedstep: 10,
+				postfix: '%'
+			});
+			$("input[name='edit_target_eff']").TouchSpin({
+				min: 0,
+				max: 200,
+				step: 1,
+				decimals: 1,
+				boostat: 5,
+				maxboostedstep: 10,
+				postfix: '%'
+			}); 
+
 			// update gauge
 			let spdi = Number($("input[name='speed_edit']").val());  
 			$('#spd_cv').highcharts().series[0].points[0].update(spdi);
@@ -988,7 +1298,179 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}); 
 
 			});
+
+			// btn new plan this month
+			$('#btn_submt_newtarget').on('click',function(){
+
+				var inn = $("input[name='target_mhin']").val();
+				var out = $('input[name="target_mhout"]').val();
+				var eff = $('input[name="eff_new"]').val();
+
+				// alert('in'+inn+'|ou:'+out+'|ef:'+eff);
+
+				$.ajax({
+					async : false,
+					type : "POST",
+					url : "<?php echo site_url('Target/newTargetBulan') ?>",
+					dataType : "JSON",
+					data : {
+						out:out,
+						in:inn,
+						eff:eff
+					},
+					success: function(data){
+						$('#scv_modal').modal('hide');
+						if (data) {
+							Swal.fire(
+						      'Berhasil !',
+						      'Update Speed',
+						      'success'
+						    );
+							showplanning();
+							document.getElementById('newplanmonth_modal').modal('hide');
+						}else{
+							Swal.fire({
+							  title: 'Error!',
+							  text: 'Gagal membuat target',
+							  type: 'error',
+							  confirmButtonText: 'Ok',
+							  allowOutsideClick: false
+							})
+							console.log("Ada error saat update speed");
+						}
+					}
+				}); 
+
+			});
+
+			//============ Trigger Target Edit ============
+			// target mh-OUT EDIT
+			$('#trigger_mhout').on('click',function(){
+				// jika sudah ada target
+				if (edittarget) {  
+					$('#modal_edit_mhout').modal('show');
+				} 
+			});
+			// target mhin EDIT
+			$('#triger_mhin').on('click',function(){
+				// jika sudah ada target
+				if (edittarget) {
+
+					$('#modal_edit_mhin').modal('show');
+				} 
+			}); 
+			// target EFICIENCY EDIT
+			$('#trigger_eff').on('click',function(){
+				// jika sudah ada target
+				if (edittarget) {
+					$('#modal_edit_efff').modal('show');
+				} 
+			});
+ 			
+ 			// ======  EDIT POST SUBMIT  ========
+ 			$('#btn_submit_mhout').on('click',function(){
+ 				var out = $('input[name="edit_target_mhout"]').val();
+
+ 				$.ajax({
+					async : false,
+					type : "POST",
+					url : "<?php echo site_url('Target/editMhOut') ?>",
+					dataType : "JSON",
+					data : {
+						out:out,
+						id:$('#id_target').val()
+					},
+					success: function(data){ 
+						if (data) {
+							Swal.fire(
+						      'Berhasil !',
+						      'Update MH-OUT',
+						      'success'
+						    );
+							showplanning(); 
+						}else{
+							Swal.fire({
+							  title: 'Error!',
+							  text: 'Gagal Update target',
+							  type: 'error',
+							  confirmButtonText: 'Ok',
+							  allowOutsideClick: false
+							}) 
+						}
+						$('#modal_edit_mhout').modal('hide');
+					}
+				}); 
+ 			});
+
+ 			$('#btn_submit_mhin').on('click',function(){
+ 				var inn = $('input[name="edit_target_mhin"]').val();
  
+ 				$.ajax({
+					async : false,
+					type : "POST",
+					url : "<?php echo site_url('Target/editMhIn') ?>",
+					dataType : "JSON",
+					data : {
+						in:inn,
+						id:$('#id_target').val()
+					},
+					success: function(data){ 
+						if (data) {
+							Swal.fire(
+						      'Berhasil !',
+						      'Update MH-In',
+						      'success'
+						    );
+							showplanning(); 
+						}else{
+							Swal.fire({
+							  title: 'Error!',
+							  text: 'Gagal Update target',
+							  type: 'error',
+							  confirmButtonText: 'Ok',
+							  allowOutsideClick: false
+							}) 
+						}
+						$('#modal_edit_mhin').modal('hide');
+					}
+				}); 
+ 			});
+
+ 			$('#btn_submit_eff').on('click',function(){
+ 				var eff = $('input[name="edit_target_eff"]').val();
+ 
+ 				$.ajax({
+					async : false,
+					type : "POST",
+					url : "<?php echo site_url('Target/editEff') ?>",
+					dataType : "JSON",
+					data : {
+						eff:eff,
+						id:$('#id_target').val()
+					},
+					success: function(data){ 
+						if (data) {
+							Swal.fire(
+						      'Berhasil !',
+						      'Update Efficiency',
+						      'success'
+						    );
+							showplanning(); 
+						}else{
+							Swal.fire({
+							  title: 'Error!',
+							  text: 'Gagal Update target',
+							  type: 'error',
+							  confirmButtonText: 'Ok',
+							  allowOutsideClick: false
+							}) 
+						}
+						$('#modal_edit_efff').modal('hide');
+					}
+				}); 
+ 			});
+
+
 
 		});
 	</script>

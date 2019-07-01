@@ -125,13 +125,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<!-- Step 4 -->
 						<h5>Finish</h5>
 						<section>
-							<div class="col-12 align-content-center">
+							<div class="col-12 align-content-center"> 
+								<div class="clearfix device-usage-chart">
+									<div id="spd_cv" style="min-width: 160px; max-width: 180px; height: 250px; margin: 0 auto"></div>
+									<center>
+									<div class="form-group col-md-6" style="margin-top: -40px;">
+										<label>Kecepatan Conveyor</label>
+										<input id="demo1" type="number" value="104" name="speed_edit">  
+									</div> 
+									</center>
+								</div>
+								<br><br>
 								<div class="checkbox-circle" style="margin-bottom: 48px; margin-left: 50px;">
 									<label>
 										<input type="checkbox" id="ini_pernyataan"> Data yang saya masukkan Benar
 										<span class="checkmark"></span>
 									</label>
 								</div>
+
 							</div>
 						</section>
 					</form>
@@ -155,6 +166,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div> 
  
 
+
+<!-- Modal -->
+<div>
 	<!-- modall neww -->
 	<div class="modal fade" id="modalnewact" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
@@ -185,8 +199,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 	</div>
-
-
 	<!-- modall edit -->
 	<div class="modal fade" id="modaledit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
@@ -218,13 +230,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 	</div>
+</div>
 
 </body>
 	
 	<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script> 
 	<script src="<?php echo base_url() ?>assets/src/plugins/jquery-steps/build/jquery.steps.js"></script>
 	<!-- add sweet alert js & css in footer -->
-	<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>  
+	<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>   
+	<!-- Spedometer charts -->
+	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
+	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
+	<!-- TOuch SPIN -->
 	<script src="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"></script>
 
 	<script>
@@ -303,9 +320,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						var regidl = document.getElementById("f_reg_idl").value;
 						var jam_otidl = document.getElementById("f_jam_ot_idl").value;
 						var dl_otidl = document.getElementById("f_idl_ot").value;
+
+						var speed = $("input[name='speed_edit']").val();
 						// activity
 						// console.log(stddl+","+regdl+","+jam_otdl+","+dl_otdl+",&idl:"+stdidl+","+regidl+","+jam_otidl+","+dl_otidl);
-						 
+						
 						$.ajax({
 			            	async : false,
 			                type : "POST",
@@ -320,7 +339,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                		stdidl:stdidl,
 			                		regidl:regidl,
 			                		jam_otidl:jam_otidl,
-			                		dl_otidl:dl_otidl
+			                		dl_otidl:dl_otidl,
+
+			                		speed: speed
 			                	},
 			                success: function(response){ 
 			                	// jika terdapat error / user pass salah
@@ -475,7 +496,108 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				});
 			});
 
+			// gauge chart
+			Highcharts.chart('spd_cv', {
 
+				chart: {
+					type: 'gauge',
+					plotBackgroundColor: null,
+					plotBackgroundImage: null,
+					plotBorderWidth: 0,
+					plotShadow: false
+				},
+				title: {
+					text: ''
+				},
+				credits: {
+					enabled: false
+				},
+				pane: {
+					startAngle: -150,
+					endAngle: 150,
+					background: [{
+						borderWidth: 0,
+						outerRadius: '109%'
+					}, {
+						borderWidth: 0,
+						outerRadius: '107%'
+					}, {
+					}, {
+						backgroundColor: '#fff',
+						borderWidth: 0,
+						outerRadius: '105%',
+						innerRadius: '103%'
+					}]
+				},
+
+				yAxis: {
+					min: 0,
+					max: 200,
+
+					minorTickInterval: 'auto',
+					minorTickWidth: 1,
+					minorTickLength: 10,
+					minorTickPosition: 'inside',
+					minorTickColor: '#666',
+
+					tickPixelInterval: 30,
+					tickWidth: 2,
+					tickPosition: 'inside',
+					tickLength: 10,
+					tickColor: '#666',
+					labels: {
+						step: 2,
+						rotation: 'auto'
+					},
+					title: {
+						text: '...'
+					},
+					plotBands: [{
+						from: 0,
+						to: 120,
+						color: '#55BF3B'
+					}, {
+						from: 120,
+						to: 160,
+						color: '#DDDF0D'
+					}, {
+						from: 160,
+						to: 200,
+						color: '#DF5353'
+					}]
+				},
+
+				series: [{
+					name: 'Speed',
+					data: [1],
+					tooltip: {
+						valueSuffix: '  dtk/Min'
+					}
+				}]
+			});
+			 
+			// touch spin
+			$("input[name='speed_edit']").TouchSpin({
+				min: 0,
+				max: 200,
+				step: 1,
+				decimals: 0,
+				boostat: 5,
+				maxboostedstep: 10,
+				postfix: 'speed'
+			}); 
+
+			// update gauge
+			let spdi = Number($("input[name='speed_edit']").val());  
+			$('#spd_cv').highcharts().series[0].points[0].update(spdi);
+
+			// event on change value touchspin
+			$("input[name='speed_edit']").on('touchspin.on.startspin', function () {
+				// get speed data
+				let spd = Number($("input[name='speed_edit']").val()); 
+				// update gauge
+				$('#spd_cv').highcharts().series[0].points[0].update(spd);
+			});
 
 		});
 	</script>
