@@ -11,13 +11,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
- 
 	<!-- CSS -->
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
 	<!-- bootstrap-touchspin css -->
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css">
+	
+	<!-- HTML CANVAS  -->
+	<script type="text/javascript" src="<?php echo base_url() ?>assets/src/plugins/html2canvas-master/dist/html2canvas.js"></script>
 
+
+
+	<style type="text/css">
+		.signature-pad { 
+		  font-size: 10px;
+		  max-width: 700px;
+		  max-height: 460px;
+		  border: 1px solid #e8e8e8;
+		  background-color: #fff;
+		  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 40px rgba(0, 0, 0, 0.08) inset;
+		  border-radius: 4px;
+		  padding: 16px;
+		}
+	</style>
 </head>
 <body> 
 <input id="id_pdo" type="hidden" class="form-control" value="<?php echo $pdo->id ?>"> 
@@ -28,346 +44,380 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--    Modall AREA    -->
 <div>
 	<!--  Modal Edit ASSSY  -->
-	<div class="modal fade" id="modal_ubah_assy">
-	    <div class="modal-dialog modal-dialog-centered modal-md">
-	      <div class="modal-content">
-	      
-	        <!-- Modal Header -->
-	        <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-				<h2 class="text-center mb-10" id="heder_assy">Edit Assy</h2>
-			</div>
-	        
-	        <!-- Modal body -->
-	        <div class="modal-body"> 
-				<div class="form-group">
-					<label>Ubah ke Assy Number</label>
-					<select class="custom-select2 form-control" name="state" id="pilihasy1" style="width: 100%; height: 38px;">
-						  
-					</select>
-				</div>
-				<input type="hidden" name="id_assy_old">
-
-			</div>
-			<center>
-				<button type="button" class="btn btn-danger" style="margin-right: 30px;" id="btn_hapus_assy">Hapus Assy</button>  
-				<button type="button" class="btn btn-primary" id="btn_pindah_assy" >Pindahkan</button>
-			</center>
-			<br> 
-	      </div>
-	    </div>
-	</div>
-	<!--  Modal  Speed Conveyor -->
-	<div class="modal fade" id="scv_modal">
-	    <div class="modal-dialog modal-dialog-centered modal-md">
-	      <div class="modal-content">
-	      
-	        <!-- Modal Header -->
-	        <div class="modal-header">
-	          <h4 class="modal-title">Ubah Kecepatan Conveyor</h4>
-	          <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        </div>
-	        
-	        <!-- Modal body -->
-	        <div class="modal-body">
-	        	<div class="clearfix device-usage-chart">
-					<div class="width-50-p pull-left">
-						<div id="spd_cv" style="min-width: 160px; max-width: 180px; height: 200px; margin: 0 auto"></div>
-					</div>
-					<div class="width-50-p pull-right">
-						<div class="form-group">
-							<label>Speed</label>
-							<input id="demo1" type="number" value="<?php echo $pdo->line_speed ?>" name="speed_edit"> 
-							<input  type="hidden" value="<?php echo $pdo->line_speed ?>" name="speed_edit_temp"> 
-						</div>
-						<br> 
-						<div class="input-group"> 
-							<a class="btn btn-primary btn-lg btn-block" id="btn_update_speed" href="#">update</a>
-						</div>
-
-					</div>
-				</div>
-
-	        </div> 
-	        
-	      </div>
-	    </div>
-	</div>
-	<!--  Modal  Plan -->
-	<div class="modal fade" id="updtplan_modal">
-	    <div class="modal-dialog modal-dialog-centered modal-sm">
-	      <div class="modal-content">
+		<div class="modal fade" id="modal_ubah_assy">
+		    <div class="modal-dialog modal-dialog-centered modal-md">
+		      <div class="modal-content">
+		      
+		        <!-- Modal Header -->
 		        <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-					<h2 class="text-center mb-30">Edit Plan</h2>
-					<form> 
-						<div class="input-group custom input-group-lg">
-							<input type="number" id="plan_editfom" class="form-control">
-							<input type="hidden" id="id_plan_editfom" class="form-control">
-							<div class="input-group-append custom">
-								<span class="input-group-text"><i class="icon-copy fa fa-check-square-o" aria-hidden="true"></i></span>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="input-group"> 
-									<a class="btn btn-primary btn-lg btn-block" id="btn_update_plan" href="#">update</a>
-								</div>
-							</div>
-						</div>
-					</form>
+					<h2 class="text-center mb-10" id="heder_assy">Edit Assy</h2>
 				</div>
-	      </div>
-	    </div>
-	</div>
-	 <!-- modal edit per items (login-modal) -->
-	<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-					<h2 class="text-center mb-30">Edit Actual</h2>
-					<form> 
-						<div class="input-group custom input-group-lg">
-							<input type="number" id="act_editfom" class="form-control">
-							<input type="hidden" id="id_act_editfom" class="form-control">
-							<div class="input-group-append custom">
-								<span class="input-group-text"><i class="icon-copy fa fa-tasks" aria-hidden="true"></i></span>
-							</div>
+		        
+		        <!-- Modal body -->
+		        <div class="modal-body"> 
+					<div class="form-group">
+						<label>Ubah ke Assy Number</label>
+						<select class="custom-select2 form-control" name="state" id="pilihasy1" style="width: 100%; height: 38px;">
+							  
+						</select>
+					</div>
+					<input type="hidden" name="id_assy_old">
+
+				</div>
+				<center>
+					<button type="button" class="btn btn-danger" style="margin-right: 30px;" id="btn_hapus_assy">Hapus Assy</button>  
+					<button type="button" class="btn btn-primary" id="btn_pindah_assy" >Pindahkan</button>
+				</center>
+				<br> 
+		      </div>
+		    </div>
+		</div>
+	<!--  Modal  Speed Conveyor -->
+		<div class="modal fade" id="scv_modal">
+		    <div class="modal-dialog modal-dialog-centered modal-md">
+		      <div class="modal-content">
+		      
+		        <!-- Modal Header -->
+		        <div class="modal-header">
+		          <h4 class="modal-title">Ubah Kecepatan Conveyor</h4>
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		        </div>
+		        
+		        <!-- Modal body -->
+		        <div class="modal-body">
+		        	<div class="clearfix device-usage-chart">
+						<div class="width-50-p pull-left">
+							<div id="spd_cv" style="min-width: 160px; max-width: 180px; height: 200px; margin: 0 auto"></div>
 						</div>
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="input-group"> 
-									<a class="btn btn-primary btn-lg btn-block" id="btn_update_act" href="#">update</a>
+						<div class="width-50-p pull-right">
+							<div class="form-group">
+								<label>Speed</label>
+								<input id="demo1" type="number" value="<?php echo $pdo->line_speed ?>" name="speed_edit"> 
+								<input  type="hidden" value="<?php echo $pdo->line_speed ?>" name="speed_edit_temp"> 
+							</div>
+							<br> 
+							<div class="input-group"> 
+								<a class="btn btn-primary btn-lg btn-block" id="btn_update_speed" href="#">update</a>
+							</div>
+
+						</div>
+					</div>
+
+		        </div> 
+		        
+		      </div>
+		    </div>
+		</div>
+	<!--  Modal  Plan -->
+		<div class="modal fade" id="updtplan_modal">
+		    <div class="modal-dialog modal-dialog-centered modal-sm">
+		      <div class="modal-content">
+			        <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+						<h2 class="text-center mb-30">Edit Plan</h2>
+						<form> 
+							<div class="input-group custom input-group-lg">
+								<input type="number" id="plan_editfom" class="form-control">
+								<input type="hidden" id="id_plan_editfom" class="form-control">
+								<div class="input-group-append custom">
+									<span class="input-group-text"><i class="icon-copy fa fa-check-square-o" aria-hidden="true"></i></span>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="input-group"> 
+										<a class="btn btn-primary btn-lg btn-block" id="btn_update_plan" href="#">update</a>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+		      </div>
+		    </div>
+		</div>
+	<!-- modal edit per items (login-modal) -->
+		<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+						<h2 class="text-center mb-30">Edit Actual</h2>
+						<form> 
+							<div class="input-group custom input-group-lg">
+								<input type="number" id="act_editfom" class="form-control">
+								<input type="hidden" id="id_act_editfom" class="form-control">
+								<div class="input-group-append custom">
+									<span class="input-group-text"><i class="icon-copy fa fa-tasks" aria-hidden="true"></i></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="input-group"> 
+										<a class="btn btn-primary btn-lg btn-block" id="btn_update_act" href="#">update</a>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- Modal Add Build -->
+		<div class="modal fade" id="modalnewbuild">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<form id="fomaddbuild">
+						<div class="modal-header">
+							<h4 class="modal-title">Build Assy Baru</h4>
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+						</div>
+						<div class="modal-body"> 
+							<div class="form-group">
+								<label>Assy Number</label>
+								<select class="custom-select2 form-control" name="state" id="pilihasy" style="width: 100%; height: 38px;">
+									  
+								</select>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<input id="idjamke" type="hidden" class="form-control" > 
+							<button type="button" class="btn btn-primary" id="btn_newbuildassy">Tambahkan</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
-	</div>
-	<!-- Modal Add Build -->
-	<div class="modal fade" id="modalnewbuild">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<form id="fomaddbuild">
+	<!-- Modal Add new Jam ke -->
+		<div class="modal fade" id="modaladdjamke">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title">Build Assy Baru</h4>
+						<h4 class="modal-title">Pindah Jam </h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
 					</div>
-					<div class="modal-body"> 
+					<div class="modal-body">
+						<div class="input-group custom input-group-lg" >
+							<center><H3 id="id_labeljam"></H3></center>
+							<input id="terus_jam_ke" type="hidden" class="form-control"> 
+						</div> 
 						<div class="form-group">
-							<label>Assy Number</label>
-							<select class="custom-select2 form-control" name="state" id="pilihasy" style="width: 100%; height: 38px;">
-								  
-							</select>
+							<label>Jumlah Plan 🎯 :</label>
+							<input id="jum_plann" type="number" class="form-control"> 
 						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<input id="idjamke" type="hidden" class="form-control" > 
-						<button type="button" class="btn btn-primary" id="btn_newbuildassy">Tambahkan</button>
+						<button type="button" class="btn btn-primary" id="btn_pindahjam">Pindah Jam</button>
 					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- Modal Add new Jam ke -->
-	<div class="modal fade" id="modaladdjamke">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Pindah Jam </h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
-				</div>
-				<div class="modal-body">
-					<div class="input-group custom input-group-lg" >
-						<center><H3 id="id_labeljam"></H3></center>
-						<input id="terus_jam_ke" type="hidden" class="form-control"> 
-					</div> 
-					<div class="form-group">
-						<label>Jumlah Plan 🎯 :</label>
-						<input id="jum_plann" type="number" class="form-control"> 
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="btn_pindahjam">Pindah Jam</button>
 				</div>
 			</div>
 		</div>
-	</div>
-
 	<!--  Modal  NEW PLAN BULANAN -->
-	<div class="modal fade" id="newplanmonth_modal">
-	    <div class="modal-dialog modal-lg">
-	      <div class="modal-content">
-	      
-	        <!-- Modal Header -->
-	        <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-				<h2 class="text-center mb-30">Buat Panning Bulan Ini</h2>
-			</div>
-	        
-	        <!-- Modal body -->
-	        <div class="modal-body">
-	        	<br>
-	        	<div class="row"> 
-		        	<div class="col-lg-4 col-md-4 col-sm-12 mb-30">
-						<div class="card box-shadow">
-							<div class="card-header"> 
-								<div class="project-info-center">
-									<h5 class="text-center weight-500">MH Out</h5>
-								</div> 
-							</div>
-							
-							<div class="card-body"> 
-								<div class="form-group">
-									<label>Planning MH-Out</label>
-									<input type="Number" name="target_mhout" class="form-control" value="0">
-								</div>
-							</div> 
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-4 col-sm-12 mb-30">
-						<div class="card box-shadow">
-							<div class="card-header"> 
-								<div class="project-info-center">
-									<h5 class="text-center weight-500">MH IN</h5>
-								</div> 
-							</div>
-							<div class="card-body"> 
-								<div class="form-group">
-									<label>Planning MH-In</label>
-									<input type="Number" name="target_mhin" class="form-control" value="0">
-								</div>
-							</div> 
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-4 col-sm-12 mb-30">
-						<div class="card box-shadow">
-							<div class="card-header"> 
-								<div class="project-info-center">
-									<h5 class="text-center weight-500">Efficiency</h5>
-								</div> 
-							</div> 
-							<div class="card-body"> 
-								<div class="form-group">
-									<label>Planning Efficiency %</label>
-									<input type="Number" name="eff_new" class="form-control" value="95">
-								</div>
-							</div> 
-						</div>
-					</div>
+		<div class="modal fade" id="newplanmonth_modal">
+		    <div class="modal-dialog modal-lg">
+		      <div class="modal-content">
+		      
+		        <!-- Modal Header -->
+		        <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+					<h2 class="text-center mb-30">Buat Panning Bulan Ini</h2>
 				</div>
+		        
+		        <!-- Modal body -->
+		        <div class="modal-body">
+		        	<br>
+		        	<div class="row"> 
+			        	<div class="col-lg-4 col-md-4 col-sm-12 mb-30">
+							<div class="card box-shadow">
+								<div class="card-header"> 
+									<div class="project-info-center">
+										<h5 class="text-center weight-500">MH Out</h5>
+									</div> 
+								</div>
+								
+								<div class="card-body"> 
+									<div class="form-group">
+										<label>Planning MH-Out</label>
+										<input type="Number" name="target_mhout" class="form-control" value="0">
+									</div>
+								</div> 
+							</div>
+						</div>
 
-				<br>
-				<center>
-					<a href="#" id="btn_submt_newtarget" class="btn btn-block btn-success">Simpan</a>
-				</center>
-	        </div> 
-	        
-	      </div>
-	    </div>
-	</div>
+						<div class="col-lg-4 col-md-4 col-sm-12 mb-30">
+							<div class="card box-shadow">
+								<div class="card-header"> 
+									<div class="project-info-center">
+										<h5 class="text-center weight-500">MH IN</h5>
+									</div> 
+								</div>
+								<div class="card-body"> 
+									<div class="form-group">
+										<label>Planning MH-In</label>
+										<input type="Number" name="target_mhin" class="form-control" value="0">
+									</div>
+								</div> 
+							</div>
+						</div>
+
+						<div class="col-lg-4 col-md-4 col-sm-12 mb-30">
+							<div class="card box-shadow">
+								<div class="card-header"> 
+									<div class="project-info-center">
+										<h5 class="text-center weight-500">Efficiency</h5>
+									</div> 
+								</div> 
+								<div class="card-body"> 
+									<div class="form-group">
+										<label>Planning Efficiency %</label>
+										<input type="Number" name="eff_new" class="form-control" value="95">
+									</div>
+								</div> 
+							</div>
+						</div>
+					</div>
+
+					<br>
+					<center>
+						<a href="#" id="btn_submt_newtarget" class="btn btn-block btn-success">Simpan</a>
+					</center>
+		        </div> 
+		        
+		      </div>
+		    </div>
+		</div>
 	<!-- Modal Edit MH OUT  BULAN -->
-	<div class="modal fade" id="modal_edit_mhout" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-					<h2 class="text-center mb-30">Edit Panning MH-OUT</h2>
-					<form> 
-						<div class="modal-body"> 
-							<div class="form-group">
-								<label>Plan Bulan Ini</label>
-								<input type="text" class="form-control" name="edit_target_mhout">
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="input-group"> 
-									<a class="btn btn-primary btn-lg btn-block" id="btn_submit_mhout" href="#">update</a>
+		<div class="modal fade" id="modal_edit_mhout" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+						<h2 class="text-center mb-30">Edit Panning MH-OUT</h2>
+						<form> 
+							<div class="modal-body"> 
+								<div class="form-group">
+									<label>Plan Bulan Ini</label>
+									<input type="text" class="form-control" name="edit_target_mhout">
 								</div>
 							</div>
-						</div>
-					</form>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="input-group"> 
+										<a class="btn btn-primary btn-lg btn-block" id="btn_submit_mhout" href="#">update</a>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	<!-- Modal Edit MH IN  BULAN-->
-	<div class="modal fade" id="modal_edit_mhin" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-					<h2 class="text-center mb-30">Edit Panning MH-IN</h2>
-					<form> 
-						<div class="modal-body"> 
-							<div class="form-group">
-								<label>Plan Bulan Ini</label>
-								<input type="text" class="form-control" name="edit_target_mhin">
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="input-group"> 
-									<a class="btn btn-primary btn-lg btn-block" id="btn_submit_mhin" href="#">update</a>
+		<div class="modal fade" id="modal_edit_mhin" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+						<h2 class="text-center mb-30">Edit Panning MH-IN</h2>
+						<form> 
+							<div class="modal-body"> 
+								<div class="form-group">
+									<label>Plan Bulan Ini</label>
+									<input type="text" class="form-control" name="edit_target_mhin">
 								</div>
 							</div>
-						</div>
-					</form>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="input-group"> 
+										<a class="btn btn-primary btn-lg btn-block" id="btn_submit_mhin" href="#">update</a>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	<!-- Modal Edit EFFICIENCY  BULAN-->
-	<div class="modal fade" id="modal_edit_efff" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-					<h2 class="text-center mb-30">Edit Efficiency</h2>
-					<form> 
-						<div class="modal-body"> 
-							<div class="form-group">
-								<label>Plan Bulan Ini</label>
-								<input type="text" class="form-control" name="edit_target_eff" value="98%">
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="input-group"> 
-									<a class="btn btn-primary btn-lg btn-block" id="btn_submit_eff" href="#">update</a>
+		<div class="modal fade" id="modal_edit_efff" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+						<h2 class="text-center mb-30">Edit Efficiency</h2>
+						<form> 
+							<div class="modal-body"> 
+								<div class="form-group">
+									<label>Plan Bulan Ini</label>
+									<input type="text" class="form-control" name="edit_target_eff" value="98%">
 								</div>
 							</div>
-						</div>
-					</form>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="input-group"> 
+										<a class="btn btn-primary btn-lg btn-block" id="btn_submit_eff" href="#">update</a>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-
 	<!-- Modal Submit Hari Ini-->
 	<div class="modal fade" id="modal_submit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-lg">
 			<div class="modal-content">
 				<div class="bg-white box-shadow pd-ltr-20 border-radius-5"> 
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-					<h2 class="text-center mb-30">Akhiri PDO Hari ini</h2> 
-					<div class="alert alert-success" role="alert">
-						<h4 class="alert-heading">Well done!</h4>
-						<p>Anda Akan mengakhiri Record PDO Hari ini. Supervisior akan memeriksa hasil record Hari ini.</p>
-						<hr>
-						<div class="alert alert-danger" role="alert">
-							Data Yang Telah di Submit Tidak bisa Di ubah.
-						</div>
-					</div>
-					<br>
+					<h2 class="text-center mb-30">Verifikasi Supervisor</h2> 
+					<hr>
+					<center>
+					  <canvas id="signature-pad" class="signature-pad" width=400 height=300></canvas>
+					  <button id="clearr" class="btn btn-info btn-sm">ulangi</button>
+					</center>  
+
+					<hr>
+					<label >Enter Passcode :</label>
+					<center>
+					<div class="row">
+						<div class="col-md-3"></div>
+	                	<div class="col-md-1">
+		                    <div class="form-group"> 
+		                      <input class="form-control pinnn" type="password" style="text-align: center;" maxlength="1"> 
+		                    </div>
+		                </div>
+		                <div class="col-md-1">
+		                    <div class="form-group"> 
+		                      <input class="form-control" type="password" style="text-align: center;" maxlength="1"> 
+		                    </div>
+		                </div>
+		                <div class="col-md-1">
+		                    <div class="form-group"> 
+		                      <input class="form-control" type="password" style="text-align: center;" maxlength="1"> 
+		                    </div>
+		                </div>
+		                <div class="col-md-1">
+		                    <div class="form-group"> 
+		                      <input class="form-control" type="password" style="text-align: center;" maxlength="1"> 
+		                    </div>
+		                </div> 
+		                <div class="col-md-1">
+		                    <div class="form-group"> 
+		                      <input class="form-control" type="password" style="text-align: center;" maxlength="1"> 
+		                    </div>
+		                </div> 
+		                <div class="col-md-1">
+		                    <div class="form-group"> 
+		                      <input class="form-control" type="password" style="text-align: center;" maxlength="1"> 
+		                    </div>
+		                </div> 
+		                <div class="col-md-3"></div>
+	                </div>
+	                <br>
+	                </center>
 					<center><button class="btn btn-primary btn-block" id="btn_submit_pdo">Submit</button></center>
 					<br>
 				</div>
@@ -539,14 +589,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
 	<!-- TOuch SPIN -->
-	<script src="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"></script>
+	<script src="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"></script> 
+	<!-- you load jquery somewhere before jSignature ... -->
+	<script src="<?php echo base_url() ?>assets/src/plugins/jsignature-pad/js/signature_pad.umd.js"></script>
+
 
 	<script> 
-		$('document').ready(function(){
-			// deklarasi nama bulan
+		$('document').ready(function(){ 
+
+		// deklarasi nama bulan
  			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 
- 			// VARIABEL GLOBAL
+ 		// VARIABEL GLOBAL
  			let today = new Date();
 			var currentMonth = today.getMonth();
 			var currentYear = today.getFullYear();
@@ -563,7 +617,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  
             document.getElementById('slect_date').value=currDate+' '+monthName[currentMonth]+' '+currentYear;
 
-			// auto load
+		// auto load
 			showdata();    
 
 
@@ -829,7 +883,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                 }); 
 				
-				// set dropdown assycode
+			// set dropdown assycode
 				$.ajax({
                     async : false,
                     type  : 'ajax',
@@ -906,7 +960,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 
 
-			// trigger change assy build
+		// trigger change assy build
 			$('#thead_outputt').on('click','.btn_changeassy',function(){
 				var id_ass = $(this).data('id_assy');
 				var kode = $(this).data('kode'); 
@@ -916,7 +970,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				$('#modal_ubah_assy').modal('show');
 			});
-			// hapuss aASYY
+		// hapuss aASYY
 			$('#btn_hapus_assy').on('click',function(){
 				var ids = $('input[name="id_assy_old"]').val();
 				var id_pdo = $('#id_pdo').val();
@@ -956,7 +1010,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                }
 	            }); 
 			});
-			// pindahkan ASSY
+		// pindahkan ASSY
 			$('#btn_pindah_assy').on('click',function(){
 				var ids = $('input[name="id_assy_old"]').val();
 				var id_pdo = $('#id_pdo').val();
@@ -1001,7 +1055,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            }); ßßßßß
 			});
 
-			// to show new build assy modal
+		// to show new build assy modal
 			$('#thead_outputt').on('click','.newBuildass',function(){
 				// jika belum menambahkan assy
 				if (jum_jam==0) {
@@ -1010,7 +1064,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 				$('#modalnewbuild').modal('show'); 
 			});
-			// event click btn new build assy horizontal
+		// event click btn new build assy horizontal
 			$('#btn_newbuildassy').click(function(){  
 
 				var idjam  = $('#idjamke').val();
@@ -1050,7 +1104,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				showdata(); 
 			});
 
-			// to SHOW NEW JAM VERTICAL
+		// to SHOW NEW JAM VERTICAL
 			$('#tbody_outputt').on('click','.newJamVertical',function(){
 				let spd = Number($("input[name='speed_edit']").val()); 
 				var toOut = (spd*loss_output);
@@ -1064,7 +1118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						type: 'error',
   						title: 'Output Actual yang dihasilkan tidak sesuai.',
 						text:'"Kurang Banyak Downtime"',
-						footer:'Total harus diAtas: '+(toOut-batas)+'  | Down sekarang: '+total_loss_detik
+						footer:'Total Downtime harus di Atas: '+(toOut-batas)+'  |&nbsp Downtime sekarang: '+total_loss_detik
 					});
 					return;
 				}
@@ -1074,7 +1128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						type: 'error',
   						title: 'Output Actual yang dihasilkan tidak sesuai.',
 						text:'"Terlalu Banyak Downtime"',
-						footer:'Total harus DiBawah: '+(toOut+batas)+'  | Down sekarang: '+total_loss_detik
+						footer:'Total Downtime harus Di Bawah: '+(toOut+batas)+'  |&nbsp Downtime sekarang: '+total_loss_detik
 					});
 					return;
 				}  
@@ -1089,7 +1143,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				} 
 				
 			});
-			// event click btn new jam vertical
+		// event click btn new jam vertical
 			$('#btn_pindahjam').click(function(){   
 				var pdo  = $('#id_pdo').val();
 				var jumplan  = $('#jum_plann').val();
@@ -1128,7 +1182,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				showdata(); 
 			});
 
-			// ========== START EVENT edit PLAN  =====================
+		// ========== START EVENT edit PLAN  =====================
 			$('#tbody_outputt').on('click','.plan_edit',function(){
 				var id = $(this).data('idr');
 				var jplan = $(this).data('jum');
@@ -1172,7 +1226,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			});
 			// ==========   END EVENT edit PLAN  =====================
 
-			// ========== start event edit click =====================
+		// ========== start event edit click =====================
 			$('#tbody_outputt').on('click','.item_edit',function(){
             	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
                 var id = $(this).data('ida');
@@ -1225,8 +1279,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			});
 			// ========== END event edit click =====================
 
-
-			// ========== start event new assy Bottom + click ===================== 
+		// ========== start event new assy Bottom + click ===================== 
 			$('#tbody_outputt').on('click','.item_newassy',function(){
             	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
                 var idr = $(this).data('idrow');
@@ -1286,8 +1339,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
 			// ========== END event new assy Bottom + click ===================== 
 
- 
-			// gauge chart
+		// gauge chart
 			Highcharts.chart('spd_cv', {
 
 				chart: {
@@ -1367,8 +1419,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}]
 			});
 			
-
-			// touch spin
+		// touch spin
 			$("input[name='speed_edit']").TouchSpin({
 				min: 0,
 				max: 200,
@@ -1397,7 +1448,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				postfix: '%'
 			}); 
 
-			// update gauge
+		// update gauge
 			let spdi = Number($("input[name='speed_edit']").val());  
 			$('#spd_cv').highcharts().series[0].points[0].update(spdi);
 
@@ -1409,7 +1460,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$('#spd_cv').highcharts().series[0].points[0].update(spd);
 			});
 
-			// btn show speed modal
+		// btn show speed modal
 			$('#btn_changesped').click(function(){  
 				let spdi = Number($("input[name='speed_edit_temp']").val());  
 				$("input[name='speed_edit']").val(spdi);
@@ -1418,7 +1469,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$('#scv_modal').modal('show'); 
 			});
 
-			// update speed submit event 
+		// update speed submit event 
 			$('#btn_update_speed').click(function(){
 				var sped = $("input[name='speed_edit']").val();
 				var idp = $("#id_pdo").val();
@@ -1459,7 +1510,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			});
 
-			// btn new plan this month
+		// btn new plan this month
 			$('#btn_submt_newtarget').on('click',function(){
 
 				var inn = $("input[name='target_mhin']").val();
@@ -1503,7 +1554,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			});
 
-			//============ Trigger Target Edit ============
+		//============ Trigger Target Edit ============
 			// target mh-OUT EDIT
 			$('#trigger_mhout').on('click',function(){
 				// jika sudah ada target
@@ -1526,7 +1577,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				} 
 			});
  			
- 			// ======  EDIT POST SUBMIT  ========
+ 		// ======  EDIT POST SUBMIT  ========
  			$('#btn_submit_mhout').on('click',function(){
  				var out = $('input[name="edit_target_mhout"]').val();
 
@@ -1629,46 +1680,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}); 
  			});
 
+ 		//  ====== ENDING PDO HARI INI =============
+ 			$('#btn_submit_pdo').on('click',function(){ 
+ 
+				html2canvas([document.getElementById('signature-pad')], {
+					onrendered: function (canvas) { 
 
-
- 			//  ====== ENDING PDO HARI INI =============
- 			$('#btn_submit_pdo').on('click',function(){
- 				var mhout = tot_mhout; 
-
- 				$.ajax({
-					async : false,
-					type : "POST",
-					url : "<?php echo site_url('PDO_Controler/submitPDO') ?>",
-					dataType : "JSON",
-					data : {
-						mh_out:mhout,
-						id_pdo:$('#id_pdo').val()
-					},
-					success: function(data){ 
-						if (data) {
-							Swal.fire(
-						      'Berhasil !',
-						      'Update Efficiency',
-						      'success'
-						    ).then(function(){
-						    	document.location.reload(true);
-						    }); 
-
-						}else{
-							Swal.fire({
-							  title: 'Error!',
-							  text: 'Gagal Update target',
-							  type: 'error',
-							  confirmButtonText: 'Ok',
-							  allowOutsideClick: false
-							}) 
-						}
-						$('#modal_edit_efff').modal('hide');
+						var dataUrl = canvas.toDataURL();
+           				var newDataURL = dataUrl.replace(/^data:image\/png/, "data:application/octet-stream"); //do this to clean the url.
+ 
+						$.ajax({ 
+							url : "<?php echo site_url('VerificationSupervisor/verification') ?>",
+							data: { img:newDataURL },
+							type: 'post',
+							dataType: 'json',
+							success: function (response) { 
+							   console.log(response);
+							   alert('Sukses'); 
+							   
+							},
+							error: function(data){
+				                console.log(data);
+				            }
+						});
 					}
-				}); 
+				});
 
  			});
 
+
+ 		// Signature pad
+ 			var signaturePad = new SignaturePad(document.getElementById('signature-pad'), {
+			  // backgroundColor: 'rgba(255, 255, 255, 0)',
+			  penColor: 'rgb(0, 0, 0)',
+			  drawBezierCurves:true
+			});
+
+			$('#clearr').on('click',function(){
+				signaturePad.clear();
+			});
+ 
 
 		});
 	</script>
