@@ -19,21 +19,20 @@ class IndirectLabor extends CI_Controller {
 		$session_data = $this->session->userdata('pdo_logged'); 
 
 		// init data
-		$username = $session_data['id_user'];  
+		$iduser = $session_data['id_user'];  
 		$shift =  "1" ; 
 		$tanggal = date("Y-m-d"); 
 
 		// jika user sudah ada data pdo
-		$result = $this->Pdo_model->cariPdo($username,$shift,$tanggal);
+		$result = $this->Pdo_model->cariPdo($iduser,$shift,$tanggal);
 		if ($result) { 
 			
-			$data['pdo'] = $this->Pdo_model->cariPdoItems($username,$shift,$tanggal);
+			$data['pdo'] = $this->Pdo_model->cariPdoItems($iduser,$shift,$tanggal);
 			$this->load->view('labor/indirect', $data);
 		}else {  
 			// jika tidak punya data pdo
 			redirect('Welcome','refresh');
 		}
-
 		
 	}
 

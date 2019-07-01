@@ -8,8 +8,6 @@ class DirectLabor_Model extends CI_Model {
 		return $this->db->insert('direct_labor', $data);
 	}
  
-
-
 	public function arrayInsertDirectActivity()
 	{
 		$new = array(
@@ -24,7 +22,7 @@ class DirectLabor_Model extends CI_Model {
 		return $result;
 	}
 
-
+// absen pegawai
 	public function createAbsenPegawai($data)
 	{
 		# code...
@@ -34,10 +32,11 @@ class DirectLabor_Model extends CI_Model {
 	public function getAbsenPegawai()
 	{
 		# code...
+		$id_pdo = $this->input->post('id_pdo');
 		// urut abjad
 		$this->db->order_by('item','asc');
 		// get data
-		$query = $this->db->get('absen_pegawai');
+		$query = $this->db->get_where('absen_pegawai' , array('id_pdo' => $id_pdo));
 		return $query->result();
 	}
 
@@ -62,4 +61,101 @@ class DirectLabor_Model extends CI_Model {
 		$result = $this->db->update('absen_pegawai', $data);
 	}
 
+// regulasi in
+
+	// get dropdown record
+	public function getRecordById($id)
+	{
+		# code...
+		$query = $this->db->get_where('output_control', array('id_pdo' => $id));
+    	return $query->result();
+	}
+
+	//create
+	public function createRegIn($data)
+	{
+		# code...
+		return $this->db->insert('regulasi', $data);
+	}
+
+	// read
+	public function getRegIn($id)
+	{
+		# code...
+		// urut abjad
+			$q = $this->db->query('SELECT regulasi.id, output_control.jam_ke, regulasi.posisi, regulasi.qty, regulasi.jam, regulasi.total  from regulasi join output_control on output_control.id=regulasi.id_oc join jenis_regulasi on jenis_regulasi.id=regulasi.id_jenisreg where regulasi.id_pdo='.$id.' AND regulasi.id_jenisreg=1 ORDER BY output_control.jam_ke ASC');
+
+			return $q->result();
+	}
+
+	// delete
+	public function delRegIn($id)
+	{
+		# code...
+		$this->db->where('id',$id);
+		$result = $this->db->delete('regulasi');
+		return $result;
+	}
+
+	// update
+	public function updateRegIn($id,$id_jenisreg,$id_oc,$posisi,$qty,$jam,$total)
+	{
+		# code...
+		$data = array(
+			'id_jenisreg' => $id_jenisreg,
+			'id_oc' => $id_oc,
+			'posisi' => $posisi,
+			'qty' => $qty,
+			'jam' => $jam,
+			'total' => $total
+		);
+		$this->db->where('id',$id);
+		$result = $this->db->update('regulasi', $data);
+	}
+
+// regulasi out
+
+	//create
+	public function createRegOut($data)
+	{
+		# code...
+		return $this->db->insert('regulasi', $data);
+	}
+
+	// read
+	public function getRegOut($id)
+	{
+		# code...
+		// urut abjad
+			$q = $this->db->query('SELECT regulasi.id, output_control.jam_ke, regulasi.posisi, regulasi.qty, regulasi.jam, regulasi.total  from regulasi join output_control on output_control.id=regulasi.id_oc join jenis_regulasi on jenis_regulasi.id=regulasi.id_jenisreg where regulasi.id_pdo='.$id.' AND regulasi.id_jenisreg=2 ORDER BY output_control.jam_ke ASC');
+
+			return $q->result();
+	}
+
+	// delete
+	public function delRegOut($id)
+	{
+		# code...
+		$this->db->where('id',$id);
+		$result = $this->db->delete('regulasi');
+		return $result;
+	}
+
+	// update
+	public function updateRegOut($id,$id_jenisreg,$id_oc,$posisi,$qty,$jam,$total)
+	{
+		# code...
+		$data = array(
+			'id_jenisreg' => $id_jenisreg,
+			'id_oc' => $id_oc,
+			'posisi' => $posisi,
+			'qty' => $qty,
+			'jam' => $jam,
+			'total' => $total
+		);
+		$this->db->where('id',$id);
+		$result = $this->db->update('regulasi', $data);
+	}
+
+// indirect act
 } 

@@ -28,7 +28,9 @@ class Defect extends CI_Controller {
 			
 			$pdo = $this->Pdo_model->cariPdoItems($iduser,$shift,$tanggal);
 			$data['pdo'] = $pdo;
+			
 			$data['data_oc'] = $this->Defect_model->get_all_record_by_id($pdo->id);
+			
 			$data['defect'] = $this->Defect_model->get_all_level();
 			$this->load->view('defect/defect_templ', $data);
 		}else {  

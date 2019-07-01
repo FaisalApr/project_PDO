@@ -169,125 +169,126 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     </div>
     <!-- end of first row -->
-        
+      
+
+      <!-- absen modal -->
         <!-- modal input -->
-    <div class="modal fade" id="input-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h2 class="text-center mb-30">Absen Leader</h2>
-            <!-- form start -->
-            <form id="form_absen_leader">
-              <!-- input -->
-              <div class="input-group custom input-group-lg">
-                <input type="text" class="form-control" placeholder="ITEM" id="i_item">
-                <input type="hidden" class="form-control" placeholder="ID" name="id_updt" id="id_update">
-                <div class="input-group-append custom">
-                  <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
-                </div>
-              </div>
-              <!-- input -->
-              <div class="input-group custom input-group-lg">
-                <input type="text" class="form-control" placeholder="QTY MP" id="i_qty">
-                <div class="input-group-append custom">
-                  <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
-                </div>
-              </div>
-              <!-- input -->
-              <div class="input-group custom input-group-lg">
-                <input type="text" class="form-control" placeholder="JAM" id="i_jam">
-                <div class="input-group-append custom">
-                  <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
-                </div>
-              </div>
-              
-              <!-- button submit -->
-              <div class="row">
-                <div class="col-sm-12">
-                    <div class="input-group">
-                      <a class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit">Submit</a>
+        <div class="modal fade" id="input-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h2 class="text-center mb-30">Absen Leader</h2>
+                <!-- form start -->
+                <form id="form_absen_leader">
+                  <!-- input -->
+                  <div class="input-group custom input-group-lg">
+                    <input type="text" class="form-control" placeholder="ITEM" id="i_item">
+                    <input type="hidden" class="form-control" placeholder="ID" name="id_updt" id="id_update">
+                    <div class="input-group-append custom">
+                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
                     </div>
-                </div>
-              </div>
-            </form>
-            <!-- form end -->
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- modal update -->
-    <div class="modal fade" id="update_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h2 class="text-center mb-30">Absen Leader</h2>
-            <!-- form start -->
-            <form id="form_absen_leader">
-              <!-- input -->
-              <div class="input-group custom input-group-lg">
-                <input type="text" class="form-control" placeholder="ITEM" id="item_update" name="item_updt">
-                <div class="input-group-append custom">
-                  <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
-                </div>
-              </div>
-              <!-- input -->
-              <div class="input-group custom input-group-lg">
-                <input type="text" class="form-control" placeholder="QTY MP" id="qty_update" name="qty_updt">
-                <div class="input-group-append custom">
-                  <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
-                </div>
-              </div>
-              <!-- input -->
-              <div class="input-group custom input-group-lg">
-                <input type="text" class="form-control" placeholder="JAM" id="jam_update" name="jam_updt">
-                <div class="input-group-append custom">
-                  <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
-                </div>
-              </div>
-              
-              <!-- button submit -->
-              <div class="row">
-                <div class="col-sm-12">
-                    <div class="input-group">
-                      <a class="btn btn-primary btn-lg btn-block" href="#" id="btn_update">Submit</a>
+                  </div>
+                  <!-- input -->
+                  <div class="input-group custom input-group-lg">
+                    <input type="text" class="form-control" placeholder="QTY MP" id="i_qty">
+                    <div class="input-group-append custom">
+                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
                     </div>
-                </div>
-              </div>
-            </form>
-            <!-- form end -->
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- Confirmation modal -->
-              <div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <div class="modal-body text-center font-18">
-                      <h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
-                      <div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
-                        <input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
-                        <br>
-                        <div class="col-6">
-                          <button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
-                          NO
+                  </div>
+                  <!-- input -->
+                  <div class="input-group custom input-group-lg">
+                    <input type="text" class="form-control" placeholder="JAM" id="i_jam">
+                    <div class="input-group-append custom">
+                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                    </div>
+                  </div>
+                  
+                  <!-- button submit -->
+                  <div class="row">
+                    <div class="col-sm-12">
+                        <div class="input-group">
+                          <a class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit">Submit</a>
                         </div>
-                        <div class="col-6">
-                          <button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
-                          YES
+                    </div>
+                  </div>
+                </form>
+                <!-- form end -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- modal update -->
+        <div class="modal fade" id="update_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h2 class="text-center mb-30">Absen Leader</h2>
+                <!-- form start -->
+                <form id="form_absen_leader">
+                  <!-- input -->
+                  <div class="input-group custom input-group-lg">
+                    <input type="text" class="form-control" placeholder="ITEM" id="item_update" name="item_updt">
+                    <div class="input-group-append custom">
+                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                    </div>
+                  </div>
+                  <!-- input -->
+                  <div class="input-group custom input-group-lg">
+                    <input type="text" class="form-control" placeholder="QTY MP" id="qty_update" name="qty_updt">
+                    <div class="input-group-append custom">
+                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                    </div>
+                  </div>
+                  <!-- input -->
+                  <div class="input-group custom input-group-lg">
+                    <input type="text" class="form-control" placeholder="JAM" id="jam_update" name="jam_updt">
+                    <div class="input-group-append custom">
+                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                    </div>
+                  </div>
+                  
+                  <!-- button submit -->
+                  <div class="row">
+                    <div class="col-sm-12">
+                        <div class="input-group">
+                          <a class="btn btn-primary btn-lg btn-block" href="#" id="btn_update">Submit</a>
+                        </div>
+                    </div>
+                  </div>
+                </form>
+                <!-- form end -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Confirmation modal -->
+        <div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-body text-center font-18">
+                          <h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
+                          <div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
+                            <input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
+                            <br>
+                            <div class="col-6">
+                              <button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                              NO
+                            </div>
+                            <div class="col-6">
+                              <button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
+                              YES
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-
-
+        </div>         
+      
 
   </div>
 </div>
@@ -305,9 +306,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         function show(){
           $.ajax({
             async :false,
-            type  : 'ajax',
+            type  : 'post',
             url   : '<?php echo base_url();?>index.php/IndirectLabor/getAbsenLeader',
             dataType : 'JSON',
+            data : {id_pdo:$('#id_pdo').val()},
             success : function(data){
             var html = '';
             var i;
@@ -316,12 +318,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               html += 
 
               '<tr>'+
-                '<th>'+data[i].item+'</th>'+
-                '<th>'+data[i].qty+'</th>'+
-                '<th>'+data[i].jam+'</th>'+
-                '<th colspan="2">'+data[i].total+'</th>'+
+                '<th style=" vertical-align: middle; text-align: center;">'+data[i].item+'</th>'+
+                '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
+                '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
+                '<th colspan="2" style=" vertical-align: middle; text-align: center;">'+data[i].total+'</th>'+
                 '<th>'+
-                  '<div class="dropdown">'+
+                  '<div class="dropdown" style=" vertical-align: middle; text-align: center;">'+
                       '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
                         '<i class="fa fa-ellipsis-h"></i>'+
                       '</a>'+                     
@@ -337,7 +339,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
             html+=
             '<tr>'+
-            '<th width="40%" colspan="3"> Total Non Operating Hours </th>'+
+            '<th width="40%" colspan="3" style=" vertical-align: middle; text-align: center;"> Total Non Operating Hours </th>'+
             '<th colspan="2" width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
             '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
             '</tr>'
@@ -356,6 +358,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var absen_item = document.getElementById("i_item").value;
         var absen_qty_mp = document.getElementById("i_qty").value;
         var absen_jam = document.getElementById("i_jam").value;
+
         $.ajax({
           async : false,
           type : "POST",
@@ -481,9 +484,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 </body>
 </html>
-
-
-
-
-
-

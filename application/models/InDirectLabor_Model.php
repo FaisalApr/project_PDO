@@ -17,10 +17,11 @@ class InDirectLabor_Model extends CI_Model {
 	public function getAbsenLeader()
 	{
 		# code...
+		$id_pdo = $this->input->post('id_pdo');
 		// urut abjad
 		$this->db->order_by('item','asc');
 		// get data
-		$query = $this->db->get('absen_leader');
+		$query = $this->db->get_where('absen_leader', array('id_pdo' => $id_pdo));
 		return $query->result();
 	}	 
 

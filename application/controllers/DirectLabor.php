@@ -19,15 +19,19 @@ class DirectLabor extends CI_Controller {
 		$session_data = $this->session->userdata('pdo_logged'); 
 
 		// init data
-		$username = $session_data['id_user'];  
+		$iduser = $session_data['id_user'];  
 		$shift =  "1" ; 
 		$tanggal = date("Y-m-d"); 
 
 		// jika user sudah ada data pdo
-		$result = $this->Pdo_model->cariPdo($username,$shift,$tanggal);
+		$result = $this->Pdo_model->cariPdo($iduser,$shift,$tanggal);
 		if ($result) { 
 			
-			$data['pdo'] = $this->Pdo_model->cariPdoItems($username,$shift,$tanggal);
+			$pdo = $this->Pdo_model->cariPdoItems($iduser,$shift,$tanggal);
+			
+			$data['pdo'] = $pdo;
+			$data['data_oc'] = $this->DirectLabor_Model->getRecordById($pdo->id);
+
 			$this->load->view('labor/direct', $data);
 		}else {  
 			// jika tidak punya data pdo
@@ -36,8 +40,12 @@ class DirectLabor extends CI_Controller {
 		
 	}
 
+// absen pegawai
+   
+   // create
 	public function newAbsenPegawai()
 	{
+
 		# code...
 		// init
 		$output = array('error' => false);
@@ -59,9 +67,9 @@ class DirectLabor extends CI_Controller {
 			$output['error'] = true;
 		}
 		echo json_encode($output);
-
 	}
 
+	// read
 	public function getAbsenPegawai()
 	{
 		# code...
@@ -69,6 +77,7 @@ class DirectLabor extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	//delete 
 	public function delAbsenPegawai()
 	{
 		# code...
@@ -77,6 +86,7 @@ class DirectLabor extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	// update
 	public function updateAbsenPegawai()
 	{
 		# code...
@@ -85,12 +95,144 @@ class DirectLabor extends CI_Controller {
 		$qty = $this->input->post('qty');
 		$jam = $this->input->post('jam');
 		$total = ($this->input->post('qty')*$this->input->post('jam'));
-
 		$result = $this->DirectLabor_Model->updateAbsenPegawai($id,$item,$qty,$jam,$total);
 		echo json_encode($result);
 	}
 
-	// =========== AJAX  =================
+// regulasi in
+
+	// create
+	public function newRegIn()
+	{
+		# code...
+		// init
+		$output = array('error' => false);
+		// data new
+		$total = ($this->input->post('qty')*$this->input->post('jam'));
+		$dataRegIn = array(
+			'id_pdo' => $this->input->post('id_pdo'),
+			'id_jenisreg' => $this->input->post('id_jenisreg'),
+			'id_oc' => $this->input->post('id_oc'),
+			'posisi' => $this->input->post('posisi'),
+			'qty' => $this->input->post('qty'),
+			'jam' => $this->input->post('jam'),
+			'total' => $total
+		);
+
+		// insert data RegIn
+		$result = $this->DirectLabor_Model->createRegIn($dataRegIn);
+		if($result){
+			// $output ['status'] = "ok";
+			
+		}else{
+			$output['error'] = true;
+		}
+		echo json_encode($output);
+	}
+
+	// read
+	public function getRegIn()
+	{
+		# code...
+		$id = $this->input->post('id_pdo');
+		$data = $this->DirectLabor_Model->getRegIn($id);
+		echo json_encode($data);
+	}
+
+	// delete
+	public function delRegIn()
+	{
+		# code...
+		$id = $this->input->post('id');
+		$data = $this->DirectLabor_Model->delRegIn($id);
+		echo json_encode($data);
+	}
+
+	// update
+	public function updateRegIn()
+	{
+		# code...
+		$id = $this->input->post('id');
+		$id_jenisreg = 1;
+		$id_oc = $this->input->post('id_oc');
+		$posisi = $this->input->post('posisi');
+		$qty = $this->input->post('qty');
+		$jam = $this->input->post('jam');
+		$total = ($this->input->post('qty')*$this->input->post('jam'));
+
+		$result = $this->DirectLabor_Model->updateRegIn($id,$id_jenisreg,$id_oc,$posisi,$qty,$jam,$total);
+		echo json_encode($result);
+
+	}
+
+// regulasi out
+
+	// create
+	public function newRegOut()
+	{
+		# code...
+		// init
+		$output = array('error' => false);
+		// data new
+		$total = ($this->input->post('qty')*$this->input->post('jam'));
+		$dataRegOut = array(
+			'id_pdo' => $this->input->post('id_pdo'),
+			'id_jenisreg' => $this->input->post('id_jenisreg'),
+			'id_oc' => $this->input->post('id_oc'),
+			'posisi' => $this->input->post('posisi'),
+			'qty' => $this->input->post('qty'),
+			'jam' => $this->input->post('jam'),
+			'total' => $total
+		);
+
+		// insert data RegIn
+		$result = $this->DirectLabor_Model->createRegOut($dataRegOut);
+		if($result){
+			// $output ['status'] = "ok";
+		}else{
+			$output['error'] = true;
+		}
+		echo json_encode($output);
+	}
+
+	// read
+	public function getRegOut()
+	{
+		# code...
+		$id = $this->input->post('id_pdo');
+		$data = $this->DirectLabor_Model->getRegOut($id);
+		echo json_encode($data);
+	}
+
+	// delete
+	public function delRegOut()
+	{
+		# code...
+		$id = $this->input->post('id');
+		$data = $this->DirectLabor_Model->delRegOut($id);
+		echo json_encode($data);
+	}
+
+	// update
+	public function updateRegOut()
+	{
+		# code...
+		$id = $this->input->post('id');
+		$id_jenisreg = 2;
+		$id_oc = $this->input->post('id_oc');
+		$posisi = $this->input->post('posisi');
+		$qty = $this->input->post('qty');
+		$jam = $this->input->post('jam');
+		$total = ($this->input->post('qty')*$this->input->post('jam'));
+
+		$result = $this->DirectLabor_Model->updateRegOut($id,$id_jenisreg,$id_oc,$posisi,$qty,$jam,$total);
+		echo json_encode($result);
+
+	}
+
+// indirect act
+
+// =========== AJAX  =================
 
 	public function anInsertActivity()
 	{ 	
