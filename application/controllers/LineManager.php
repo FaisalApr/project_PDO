@@ -30,7 +30,7 @@ class LineManager extends CI_Controller {
 		// insert data new defect
 		$result = $this->LineManagerModel->create($dataLM);
 		if($result){
-			$output ['status'] = "ok";
+			// $output ['status'] = "ok";
 			
 		}else{
 			$output['error'] = true;

@@ -91,21 +91,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
 					<h2 class="text-center mb-30">Defect</h2>
-					<form id="formDefect">
+					<form id="formDefect"> 
 						<div class="input-group custom input-group-lg">
-						<div class="input-group custom input-group-lg">
+						  <div class="input-group custom input-group-lg">
 							<select class="custom-select col-12" name="levelupp" id="i_jam">
 								<option disabled selected> Pilih Jam ke</option>
 										<?php foreach ($data_oc as $key) { ?>
 											<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
 										<?php }  ?>
-									</select>
 							</select>
+						  </div>
 						</div>
-							<div class="input-group-append custom">
-								<span class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
-							</div>
-						</div> 
+
 						<div class="input-group custom input-group-lg">
 							<select class="custom-select col-12" name="levelup" id="i_select">
 								<option disabled selected> Pilih Jenis Defect</option>

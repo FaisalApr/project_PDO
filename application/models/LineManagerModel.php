@@ -42,7 +42,7 @@ class LineManagerModel extends CI_Model {
 	public function getRecord()
 	{
 		# code...
-		$q = $this->db->query('SELECT line.nama_line, assembly.kode_assy from line_manager join line on line_manager.id_line=line.id JOIN assembly on line_manager.id_assy=assembly.id ORDER BY line.nama_line');
+		$q = $this->db->query('SELECT line_manager.id, line.nama_line, assembly.kode_assy from line_manager join line on line_manager.id_line=line.id JOIN assembly on line_manager.id_assy=assembly.id ORDER BY line.nama_line');
 		return $q->result();
 	}
 
