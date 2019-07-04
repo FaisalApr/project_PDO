@@ -7,6 +7,12 @@ class DirectLabor_Model extends CI_Model {
 	{ 
 		return $this->db->insert('direct_labor', $data);
 	}
+
+	public function updateDL($data,$id)
+	{ 
+		$this->db->where('id_pdo',$id);
+		return $this->db->update('direct_labor', $data);
+	}
  
 	public function arrayInsertDirectActivity()
 	{

@@ -5,8 +5,11 @@ class DirectLabor extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();		
+		$this->load->model('Pdo_model');
+		$this->load->model('OutputControl_model');
 		$this->load->model('DirectLabor_Model');
-		$this->load->model('Pdo_model'); 
+		$this->load->model('Losstime_model');
+		$this->load->model('Defect_model');
 
 		if (!$this->session->userdata('pdo_logged')) {
 			redirect('Login','refresh');
@@ -230,7 +233,30 @@ class DirectLabor extends CI_Controller {
 
 	}
 
-// indirect act
+// Direct Act
+
+// Edit DIRECT LABOR
+	public function editDl()
+	{
+		$pdo = $this->input->post('id_pdo');
+		$mhot = ($this->input->post('jam_ot')*$this->input->post('dl_ot'));
+		$mhreg = ($this->input->post('reg_dl')*8);
+
+		$dataDl = array( 
+				'std_dl'     => $this->input->post('std_dl'),
+	            'reg_dl'   	   => $this->input->post('reg_dl'),
+	            'jam_ot'     => $this->input->post('jam_ot'),
+	            'dl_ot'    => $this->input->post('dl_ot'),
+	            'mh_reg'    => $mhreg ,
+	            'mh_ot'    => $mhot,
+	            'total' => ($mhreg+$mhot)
+	        );
+		$result = $this->DirectLabor_Model->updateDL($dataDl,$pdo);
+
+		echo json_encode($result);
+	}
+
+
 
 // =========== AJAX  =================
 

@@ -11,6 +11,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   <!-- CSS -->
   <link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
 
 </head>
 <body>
@@ -37,9 +41,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             </div>
             <div class="project-info-right" style="margin-top: -10px">
-              <a href="#" class="btn btn-success btn-sm"><i class="fa fa-cog" aria-hidden="true"></i>  Edit</a> 
+              <a  id="btn_trig_edita" href='#' class="btn btn-success btn-sm" data-to><i class="fa fa-cog" aria-hidden="true"></i>  Edit</a> 
             </div>
-            <br>
+            <br> 
             <!-- Table AAAAAAAAAAAA Start -->
             <table class="table table-bordered table-striped" style="margin-top: 10px" id="tbody_a"> 
                  
@@ -602,31 +606,91 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      
       <!-- Confirmation modal -->
       <div class="modal fade" id="conf_regout-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                      <div class="modal-body text-center font-18">
-                        <h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
-                        <div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
-                          <input type="hidden" name="id_regout_delete" id="id_regout_delete" class="form-control">
-                          <br>
-                          <div class="col-6">
-                            <button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
-                            NO
-                          </div>
-                          <div class="col-6">
-                            <button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del_regout" data-dismiss="modal"><i class="fa fa-check"></i></button>
-                            YES
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-body text-center font-18">
+                <h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
+                <div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
+                  <input type="hidden" name="id_regout_delete" id="id_regout_delete" class="form-control">
+                  <br>
+                  <div class="col-6">
+                    <button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                    NO
                   </div>
+                  <div class="col-6">
+                    <button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del_regout" data-dismiss="modal"><i class="fa fa-check"></i></button>
+                    YES
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>       
     <!-- indirect act modal -->
+
+      <!-- Modal Edit Direct LABOR -->
+      <div class="modal fade" id="modal_editdl">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+              <!-- Modal Header -->
+            <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+              <h2 class="text-center mb-30">Buat Panning Bulan Ini</h2>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label >Standart DL :</label>
+                      <input class="form-control" type="number" id="et_std_dl" >
+                      <input type="hidden" id="tmp_std_dl" >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label >Reg DL :</label>
+                      <input class="form-control" type="number" id="et_reg_dl">
+                      <input type="hidden" id="tmp_reg_dl">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Jam Overtime :</label>
+                      <input class="form-control" type="number" id="et_jam_ot">
+                      <input type="hidden" id="tmp_jam_ot">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>DL Overtime :</label>
+                      <input class="form-control" type="number" id="et_dl_ot">
+                      <input type="hidden" id="tmp_dl_ot">
+                    </div>
+                  </div>
+                </div> 
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button id="btn_submit_edit_dl" type="button" class="btn btn-primary">Simpan Perubahan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 </div>
 <!-- END ALL modal -->
 
-<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script>
+  <script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script>
+  <script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+  <script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.bootstrap4.js"></script>
+  <script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.responsive.js"></script>
+  <script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/responsive.bootstrap4.js"></script>
+
+  <!-- add sweet alert js & css in footer -->
+  <script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>
 
 <script>
     $('document').ready(function(){
@@ -745,13 +809,64 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 $('#tbody_a').html(html); 
                 $('#tbody_b').html(html_b); 
+                //  END 
+                // isi temp
+                $('#tmp_std_dl').val(response.std_dl); 
+                $('#tmp_reg_dl').val(response.reg_dl);
+
+                $('#tmp_jam_ot').val(response.jam_ot);
+                $('#tmp_dl_ot').val(response.dl_ot);
             }
 
 
-         });
-
-
+         }); 
       }
+
+      // btn triger Edit
+      $('#btn_trig_edita').on('click',function(){
+          // isi data di modal  
+
+          $('#et_std_dl').val($('#tmp_std_dl').val()); 
+          $('#et_reg_dl').val($('#tmp_reg_dl').val());
+          $('#et_jam_ot').val($('#tmp_jam_ot').val());
+          $('#et_dl_ot').val($('#tmp_dl_ot').val());
+
+          $('#modal_editdl').modal('show');
+      });
+      $('#btn_submit_edit_dl').on('click',function(){ 
+          var std_dl = $('#et_std_dl').val();
+          var reg_dl = $('#et_reg_dl').val();
+          var jam_ot = $('#et_jam_ot').val();
+          var dl_ot = $('#et_dl_ot').val();
+
+          $.ajax({
+            type : "POST",
+            url  : "<?php echo site_url(); ?>/DirectLabor/editDl",
+            dataType : "JSON", 
+            data : { 
+              id_pdo:$('#id_pdo').val(),
+              std_dl:std_dl,
+              reg_dl:reg_dl,
+              jam_ot:jam_ot,
+              dl_ot:dl_ot
+            },
+            success: function(data){
+                
+                if (!data) {
+                  Swal.fire({
+                    title: 'Error!',
+                    text: 'Terjadi kesalahan',
+                    type: 'error',
+                    confirmButtonText: 'Ok',
+                    allowOutsideClick: false
+                  })
+                } 
+                showDl()
+                $('#modal_editdl').modal('hide');
+              }
+          });
+
+      });
 
       
       // ===================   Submit Record ===============================================
