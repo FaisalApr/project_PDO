@@ -6,7 +6,11 @@ class IndirectLabor extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('InDirectLabor_Model');
-		$this->load->model('Pdo_model'); 
+		$this->load->model('Pdo_model');
+		$this->load->model('OutputControl_model');
+		$this->load->model('DirectLabor_Model');
+		$this->load->model('Losstime_model');
+		$this->load->model('Defect_model');
 
 		if (!$this->session->userdata('pdo_logged')) {
 			redirect('Login','refresh');
@@ -59,6 +63,7 @@ class IndirectLabor extends CI_Controller {
 		}else{
 			$output['error'] = true;
 		}
+		$refresh = $this->Pdo_model->refreshData($this->input->post('id_pdo'));
 		echo json_encode($output);
 	}
 
@@ -74,6 +79,7 @@ class IndirectLabor extends CI_Controller {
 		# code...
 		$id = $this->input->post('id');
 		$data = $this->InDirectLabor_Model->delAbsenLeader($id);
+		$refresh = $this->Pdo_model->refreshData($this->input->post('id_pdo'));
 		echo json_encode($data);
 	}
 
@@ -87,6 +93,36 @@ class IndirectLabor extends CI_Controller {
 		$total = ($this->input->post('qty')*$this->input->post('jam'));
 
 		$result = $this->InDirectLabor_Model->updateAbsenLeader($id,$item,$qty,$jam,$total);
+		$refresh = $this->Pdo_model->refreshData($this->input->post('id_pdo'));
+		echo json_encode($result);
+	}
+
+	public function editIDL()
+	{
+		# code...
+		$pdo = $this->input->post('id_pdo');
+		$mhot = ($this->input->post('jam_ot')*$this->input->post('idl_ot'));
+		$mhreg = ($this->input->post('reg_idl')*8);
+
+		$dataIDL = array( 
+				'std_idl' => $this->input->post('std_dl'),
+	            'reg_idl' => $this->input->post('reg_dl'),
+	            'jam_ot' => $this->input->post('jam_ot'),
+	            'dl_ot'  => $this->input->post('dl_ot'),
+	            'mh_reg' => $mhreg ,
+	            'mh_ot'  => $mhot,
+	            'total' => ($mhreg+$mhot)
+	        );
+		$result = $this->InDirectLabor_Model->updateIDL($dataIDL,$pdo);
+
+		echo json_encode($result);
+	}
+
+	public function getIndirectLabor()
+	{
+		# code...
+		$result['mhInIdl'] = $this->OutputControl_model->getMHin_idl($this->input->post('id_pdo'))->mh_in_idl;
+		$result['data'] = $this->InDirectLabor_Model->getIDL();
 		echo json_encode($result);
 	}
 

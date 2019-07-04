@@ -247,12 +247,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		            var a=0;
 		            // var data = data_lm.data_lm;
 		            for(i=0; i<data.length; i++){
-		              html += 
 
+		              html += 
 		              '<tr>'+
 		                '<th >'+(i+1)+'</th>'+
 		                '<th>'+data[i].nama_line+'</th>'+
-		                '<th>'+data[i].kode_assy+'</th>'+
+		                '<th>';
+		                $.ajax({
+				            async :false,
+				            type  : 'post',
+				            url   : '<?php echo base_url();?>index.php/LineManager/getUserById',
+				            dataType : 'JSON',
+				            data :{id:data[i].id_line},
+				            success : function(respon){
+				            		
+				            		for(var j=0;j<respon.length; j++){
+				            			html +=
+				            			respon[j].kode_assy+ ',';
+				            		}
+				            	}
+				            });
+		                html +=
+		                
+		                '('+data[i].total+')</th>'+
 		                '<th>'+
 		                  '<div class="dropdown">'+
 		                      '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+

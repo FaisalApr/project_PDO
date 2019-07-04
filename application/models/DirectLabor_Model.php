@@ -164,7 +164,7 @@ class DirectLabor_Model extends CI_Model {
 	}
 
 
-	// get Direct Labor
+// get Direct Labor
 	public function getDl()
 	{
 		$id = $this->input->post('id_pdo');

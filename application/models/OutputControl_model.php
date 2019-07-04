@@ -60,7 +60,7 @@ class OutputControl_model extends CI_Model {
 
 	public function getMHin_idl($pdo)
 	{ 
-		$query= $this->db->query("SELECT (SELECT COALESCE(SUM(total),0) FROM `indirect_labor` WHERE id_pdo=$pdo)+(SELECT COALESCE(SUM(total),0) FROM `absen_leader` WHERE id_pdo=$pdo) as mh_in_idl");
+		$query= $this->db->query("SELECT (SELECT COALESCE(SUM(total),0) FROM `indirect_labor` WHERE id_pdo=$pdo)-(SELECT COALESCE(SUM(total),0) FROM `absen_leader` WHERE id_pdo=$pdo) as mh_in_idl");
         return $query->first_row();
 	}
 

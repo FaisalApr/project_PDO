@@ -6,6 +6,7 @@ class InDirectLabor_Model extends CI_Model {
 	public function createIDL($data)
 	{ 
 		return $this->db->insert('indirect_labor', $data);
+		
 	}
 
 	public function createAbsenLeader($data)
@@ -45,4 +46,24 @@ class InDirectLabor_Model extends CI_Model {
 		$result = $this->db->update('absen_leader', $data);
 	}
 
+	public function updateIDL($data,$id)
+	{
+		# code...
+		$this->db->where('id_pdo',$id);
+		return $this->db->update('indirect_labor', $data);
+	}
+
+	public function getIDL()
+	{
+		# code...
+		$id = $this->input->post('id_pdo');
+		$query = $this->db->get_where('indirect_labor', array('id_pdo' => $id));
+    	return $query->first_row();
+	}
+	public function getIDLPdo($id)
+	{
+		# code...
+		$query = $this->db->get_where('indirect_labor', array('id_pdo' => $id));
+    	return $query->first_row();
+	}
 } 

@@ -25,14 +25,14 @@ class LineModel extends CI_Model {
 		return $result;
 	}
 
-	public function updateLine($id,$id_line,$id_assy)
+	public function updateLine($id,$nama)
 	{
 		# code...
 		$data = array(
 			'nama_line' => $nama,
 		);
 		$this->db->where('id',$id);
-		return $this->db->updat('line', $data);
+		return $this->db->update('line', $data);
 	}
 
 }

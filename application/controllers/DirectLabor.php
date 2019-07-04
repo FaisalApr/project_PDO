@@ -243,12 +243,12 @@ class DirectLabor extends CI_Controller {
 		$mhreg = ($this->input->post('reg_dl')*8);
 
 		$dataDl = array( 
-				'std_dl'     => $this->input->post('std_dl'),
-	            'reg_dl'   	   => $this->input->post('reg_dl'),
-	            'jam_ot'     => $this->input->post('jam_ot'),
-	            'dl_ot'    => $this->input->post('dl_ot'),
-	            'mh_reg'    => $mhreg ,
-	            'mh_ot'    => $mhot,
+				'std_dl' => $this->input->post('std_dl'),
+	            'reg_dl' => $this->input->post('reg_dl'),
+	            'jam_ot' => $this->input->post('jam_ot'),
+	            'dl_ot'  => $this->input->post('dl_ot'),
+	            'mh_reg' => $mhreg ,
+	            'mh_ot'  => $mhot,
 	            'total' => ($mhreg+$mhot)
 	        );
 		$result = $this->DirectLabor_Model->updateDL($dataDl,$pdo);

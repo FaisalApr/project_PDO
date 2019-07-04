@@ -41,66 +41,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <h5 class="text-black" style="font-size: 20px; margin-left: 5px">A.</h5>
         </div>
 
-      <!-- Table Start -->
-      <table class="table table-bordered table-striped">
-        <tr>
-            <th>STD DL</th>
-            <th colspan="3" style="text-align: center">50</th>
-          </tr>
-
-          <tr>
-            <th>REG DL</th>
-            <th colspan="3" style="text-align: center">50</th>
-          </tr>
-
-          <tr>
-            <th>JAM REG</th>
-            <th colspan="3" style="text-align: center">8</th>
-          </tr>
-
-          <tr>
-            <th width="50%">JAM OT</th>
-            <th style="text-align: center" width="25%">1</th>
-          </tr>
-
-          <tr>
-            <th>DL OT</th>
-            <th style="text-align: center">1</th>
-          </tr>
-
-      </table> 
+       <div class="project-info-right" style="margin-top: -10px">
+              <a  id="btn_trig_edita" href='#' class="btn btn-success btn-sm" data-to><i class="fa fa-cog" aria-hidden="true"></i>  Edit</a> 
+            </div>
+            <br> 
+            <!-- Table AAAAAAAAAAAA Start -->
+            <table class="table table-bordered table-striped" style="margin-top: 10px" id="tbody_a"> 
+                 
+            </table>  
       </div>
     </div>
 
     <div class="col-md-3 col-sm-12">
-      <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-        <div class="pull-left">
-        <h5 class="text-black" style="font-size: 20px; margin-left: 5px">B.</h5>
-      </div>
+      <!-- TABEL BBBBBBB START -->
+          <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+            <div class="pull-left">
+              <h5 class="text-black" style="font-size: 20px; margin-left: 5px">B.</h5>
+              <br>
+            </div>
 
-      <!-- Table Start -->
-      <table class="table table-bordered table-striped">
-      
-          <tr>
-            <th>MH REG (Act MP x Jam Reg)</th>
-            <th colspan="3" style="text-align: center">50</th>
-            <th colspan="3" style="text-align: center">MH</th>
-          </tr>
-
-          <tr>
-            <th>MH OT (Act MP x Jam OT)</th>
-            <th colspan="3" style="text-align: center">50</th>
-            <th colspan="3" style="text-align: center">MH</th>
-          </tr>
-
-          <tr>
-            <th>Total</th>
-            <th colspan="3" style="text-align: center">50</th>
-            <th colspan="3" style="text-align: center">MH</th>
-          </tr>
-
-      </table>
-      </div>
+            <!-- Table Start -->
+              <table class="table table-striped table-bordered"> 
+                <tbody id="tbody_b">
+                  
+                </tbody>
+              </table>
+          </div>
 
       <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
         <div class="pull-left">
@@ -116,7 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
           <tr>
             
-            <th colspan="3" style="text-align: center">50</th>
+            <th colspan="3" style="text-align: center" id="id_mh_in_idl">50</th>
           </tr>
           
       </table> 
@@ -287,7 +253,57 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </div>
                     </div>
         </div>         
-      
+      <!-- Modal Edit Indirect LABOR -->
+      <div class="modal fade" id="modal_editdl">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+              <!-- Modal Header -->
+            <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+              <h2 class="text-center mb-30">Buat Panning Bulan Ini</h2>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label >Standart DL :</label>
+                      <input class="form-control" type="number" id="et_std_dl" >
+                      <input type="hidden" id="tmp_std_dl" >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label >Reg DL :</label>
+                      <input class="form-control" type="number" id="et_reg_dl">
+                      <input type="hidden" id="tmp_reg_dl">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Jam Overtime :</label>
+                      <input class="form-control" type="number" id="et_jam_ot">
+                      <input type="hidden" id="tmp_jam_ot">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>DL Overtime :</label>
+                      <input class="form-control" type="number" id="et_dl_ot">
+                      <input type="hidden" id="tmp_dl_ot">
+                    </div>
+                  </div>
+                </div> 
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button id="btn_submit_edit_dl" type="button" class="btn btn-primary">Simpan Perubahan</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
   </div>
 </div>
@@ -347,43 +363,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
           });
         }
-
+      showDl();
 
 
       // button submit
-      $('#btn_submit').click(function(){
+        $('#btn_submit').click(function(){
 
 
-        var absen_item = document.getElementById("i_item").value;
-        var absen_qty_mp = document.getElementById("i_qty").value;
-        var absen_jam = document.getElementById("i_jam").value;
+          var absen_item = document.getElementById("i_item").value;
+          var absen_qty_mp = document.getElementById("i_qty").value;
+          var absen_jam = document.getElementById("i_jam").value;
 
-        $.ajax({
-          async : false,
-          type : "POST",
-          url : "<?php echo base_url() ?>index.php/IndirectLabor/newAbsenLeader",
-          dataType : "JSON",
-          data : {
-            // model:controller
-            id_pdo:$('#id_pdo').val(),
-            item:absen_item,
-            qty:absen_qty_mp,
-            jam:absen_jam,
+          $.ajax({
+            async : false,
+            type : "POST",
+            url : "<?php echo base_url() ?>index.php/IndirectLabor/newAbsenLeader",
+            dataType : "JSON",
+            data : {
+              // model:controller
+              id_pdo:$('#id_pdo').val(),
+              item:absen_item,
+              qty:absen_qty_mp,
+              jam:absen_jam,
 
-          },
-          success : function(response){
-                $('#input-modal').modal('hide');
-            if(response.error){
-              // alert('error');
-            }else{
-              // alert(response.status);
+            },
+            success : function(response){
+                  $('#input-modal').modal('hide');
+              if(response.error){
+                // alert('error');
+              }else{
+                // alert(response.status);
+              }
+              document.getElementById("form_absen_leader").reset();
             }
-            document.getElementById("form_absen_leader").reset();
-          }
+          });
+          show();
+          showDl();
         });
-        show();
-
-      });
 
       // ===================   Delete Record ===============================================
         //get data for delete record show prompt
@@ -408,20 +424,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     type : "POST",
                     url  : "<?php echo site_url(); ?>/IndirectLabor/delAbsenLeader",
                     dataType : "JSON",
-                    data : {id:id_dc_delete},
+                    data : {id:id_dc_delete , id_pdo:$('#id_pdo').val()},
                     success: function(){
                         $('[name="id_dc_delete"]').val("");
                         $('#confirmation-modal').modal('hide');
                         // refresh()
                         
                 show();
+                showDl();
                     }
                 });
                 return false;
 
             });
        //   ========================  END DELETE RECORD ====================================
-
 
       //  ===================  START UPDATE Record ===============================================
       //get data for UPDATE record show prompt
@@ -456,7 +472,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             type : "POST",
             url  : "<?php echo site_url(); ?>/IndirectLabor/updateAbsenLeader",
             dataType : "JSON",
+            
             data : { 
+              id_pdo:$('#id_pdo').val(),
               id:idup,
               item:itemup,
               qty:qtyup,
@@ -466,14 +484,136 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               $('#update_modal').modal('hide'); 
                 // refresh();
                 show();
+                showDl(); 
               }
           });
         });
-                
-
-          
       //   ========================  END UPDATE RECORD ====================================
 
+
+
+      function showDl() {
+         
+         $.ajax({
+            async: false,
+            type: "POST",
+            url: '<?php echo site_url('IndirectLabor/getIndirectLabor')?>',
+            dataType: "JSON",
+            data: {
+                id_pdo:$('#id_pdo').val()
+            },
+            success: function(data){
+                var html = '';
+                var html_b ='';
+                var response = data.data; 
+                html +=
+                      '<tr>'+
+                        '<th>STD DL</th>'+
+                        '<th colspan="3" style="text-align: center">'+response.std_idl+'</th>'+
+                      '</tr>'+
+
+                      '<tr>'+
+                        '<th>REG DL</th>'+
+                        '<th colspan="3" style="text-align: center">'+response.reg_idl+'</th>'+
+                      '</tr>'+
+
+                      '<tr>'+
+                        '<th>JAM REG</th>'+
+                        '<th colspan="3" style="text-align: center">'+response.jam_reg+'</th>'+
+                      '</tr>'+
+
+                      '<tr>'+
+                        '<th width="50%">JAM OT</th>'+
+                        '<th style="text-align: center" width="25%">'+response.jam_ot+'</th>'+
+                      '</tr>'+
+
+                      '<tr>'+
+                        '<th>DL OT</th>'+
+                        '<th style="text-align: center">'+response.dl_ot+'</th>'+
+                      '</tr>';
+
+
+                  html_b +=
+                        '<tr>'+
+                          '<th style="text-align: center">MH REG (Act MP x Jam Reg)</th>'+
+                          '<th colspan="3" style="text-align: center">'+response.mh_reg+'</th>'+
+                          '<th colspan="3" style="text-align: center">MH</th>'+
+                        '</tr>'+
+
+                        '<tr>'+
+                          '<th style="text-align: center">MH OT (Act MP x Jam OT)</th>'+
+                          '<th colspan="3" style="text-align: center">'+response.mh_ot+'</th>'+
+                          '<th colspan="3" style="text-align: center">MH</th>'+
+                        '</tr>'+
+
+                        '<tr>'+
+                          '<th style="text-align: center">Total</th>'+
+                          '<th colspan="3" style="text-align: center">'+response.total+'</th>'+
+                          '<th colspan="3" style="text-align: center">MH</th>'+
+                        '</tr>';
+
+                $('#tbody_a').html(html); 
+                $('#tbody_b').html(html_b); 
+                //  END 
+                // isi temp
+                $('#tmp_std_dl').val(response.std_idl); 
+                $('#tmp_reg_dl').val(response.reg_idl);
+
+                $('#tmp_jam_ot').val(response.jam_ot);
+                $('#tmp_dl_ot').val(response.idl_ot);
+                // alert(data.mhInIdl);
+                document.getElementById('id_mh_in_idl').innerHTML=data.mhInIdl;
+            }
+
+
+         }); 
+      }
+
+      // btn triger Edit
+      $('#btn_trig_edita').on('click',function(){
+          // isi data di modal  
+
+          $('#et_std_dl').val($('#tmp_std_dl').val()); 
+          $('#et_reg_dl').val($('#tmp_reg_dl').val());
+          $('#et_jam_ot').val($('#tmp_jam_ot').val());
+          $('#et_dl_ot').val($('#tmp_dl_ot').val());
+
+          $('#modal_editdl').modal('show');
+      });
+      $('#btn_submit_edit_dl').on('click',function(){ 
+          var std_dl = $('#et_std_dl').val();
+          var reg_dl = $('#et_reg_dl').val();
+          var jam_ot = $('#et_jam_ot').val();
+          var dl_ot = $('#et_dl_ot').val();
+
+          $.ajax({
+            type : "POST",
+            url  : "<?php echo site_url(); ?>/DirectLabor/editDl",
+            dataType : "JSON", 
+            data : { 
+              id_pdo:$('#id_pdo').val(),
+              std_dl:std_dl,
+              reg_dl:reg_dl,
+              jam_ot:jam_ot,
+              dl_ot:dl_ot
+            },
+            success: function(data){
+                
+                if (!data) {
+                  Swal.fire({
+                    title: 'Error!',
+                    text: 'Terjadi kesalahan',
+                    type: 'error',
+                    confirmButtonText: 'Ok',
+                    allowOutsideClick: false
+                  })
+                } 
+                showDl()
+                $('#modal_editdl').modal('hide');
+              }
+          });
+
+      });
 
 
 

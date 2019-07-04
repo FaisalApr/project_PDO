@@ -65,6 +65,19 @@ class LineManager extends CI_Controller {
 		echo json_encode($result);
 	}
 
+	public function getUserById()
+	{
+		# code...
+		$data = $this->LineManagerModel->getRecordById($this->input->post('id'));
+		echo json_encode($data);
+	}
+	public function getLineManById()
+	{
+		# code...
+		$data = $this->LineManagerModel->getLineManById($this->input->post('id'));
+		echo json_encode($data);
+	}
+
 }
 
 /* End of file lineManager.php */
