@@ -2,15 +2,20 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Pdo_model extends CI_Model {
+ 
 
-	// function __construct(){
-	// 	parent::__construct();
-	// 	$this->load->model('Pdo_model');
-	// 	$this->load->model('OutputControl_model');
-	// 	$this->load->model('DirectLabor_Model');
-	// 	$this->load->model('Losstime_model');
-	// 	$this->load->model('Defect_model');
-	// }
+	public function getDataByline($dat,$ln,$sf)
+	{  
+		// $query= $this->db->query("SELECT * FROM main_pdo WHERE YEAR(tanggal)=YEAR('$dat') AND MONTH(tanggal)=MONTH('$dat') AND id_line='$ln' ORDER BY tanggal ASC"); 
+		$query= $this->db->query("SELECT * FROM main_pdo JOIN users ON main_pdo.id_users=users.id JOIN shift ON users.id_shift=shift.id WHERE YEAR(tanggal)=YEAR('$dat') AND MONTH(tanggal)=MONTH('$dat') AND main_pdo.id_line='$ln' AND shift.keterangan='$sf' ORDER BY tanggal ASC"); 
+        return $query->result(); 
+	}
+
+	public function getDataByLineWaktuShift($lin,$tgl,$sf)
+	{
+		$query = $this->db->query("SELECT main_pdo.id,tanggal FROM main_pdo JOIN shift on main_pdo.id_shift=shift.id WHERE shift.keterangan='$sf' AND id_line=$lin AND YEAR(tanggal)=YEAR('$tgl') AND MONTH(tanggal)=MONTH('$tgl') ORDER BY tanggal ASC");
+		return $query->result();
+	}
 
 	public function pdoById($id_pdo) 
 	{
@@ -55,6 +60,11 @@ class Pdo_model extends CI_Model {
 	public function createPdo($data)
 	{
 		return $this->db->insert('main_pdo', $data);
+	}
+
+	public function createPdoHistory($data)
+	{
+		return $this->db->insert('history_pdo', $data);
 	}
 
 	public function updateSpeedPdo()
@@ -120,8 +130,7 @@ class Pdo_model extends CI_Model {
 			'loss_output' => $loss_out,
 			'p_loss_time' => $p_loss,
 			'jam_effective' => $jam_eff,
-			'dpm_fa' => $dpm,
-			'status' => 1 
+			'dpm_fa' => $dpm
 		);
 
 		$result = $this->Pdo_model->updatePdo($dataPdo,$id_pdo); 

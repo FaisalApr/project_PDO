@@ -58,6 +58,7 @@ class Welcome extends CI_Controller {
 			'tanggal' => date("Y-m-d H:i:s"),
 			'line_speed' => $this->input->post('speed'),
 			'jam_kerja' => (8+$this->input->post('jam_otdl')),
+			'direct_eff' => 0 ,
 			'status' => 0 
 		);
 		// insert data new pdo

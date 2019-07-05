@@ -28,9 +28,9 @@ class Target extends CI_Controller {
 
 		// init data 
 		// get date now
-		$dat = date("Y-m-d");
+		$dat = $this->input->post('tgl');
 		$line = $session_data['id_line']; //$this->input->post('line');
-
+		// $line = $this->input->post('line');
 
 		$data = $this->Target_model->getDataMonth($dat,$line);
 

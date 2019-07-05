@@ -36,6 +36,20 @@ class Dasboard extends CI_Controller {
 	}
 
 
+// ========== AJAX ================
+	public function movePDO()
+	{
+		// get sesion
+		$session_data = $this->session->userdata('pdo_logged'); 
+
+		// init data
+		$username = $session_data['id_user'];  
+		$shift =  $session_data['id_shift'] ; 
+		$tanggal = $this->input->post('tgl');
+ 		
+ 		// jika user sudah ada data pdo
+		$result = $this->Pdo_model->cariPdo($username,$shift,$tanggal);
+	}
 
 
 }

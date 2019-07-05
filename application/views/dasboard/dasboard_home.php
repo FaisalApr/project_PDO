@@ -21,6 +21,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script type="text/javascript" src="<?php echo base_url() ?>assets/src/plugins/html2canvas-master/dist/html2canvas.js"></script>
 
 
+	<!-- jQuery (required) & jQuery UI + theme (optional) --> 
+	<!-- keyboard extensions (optional) -->
+	<link href="<?php echo base_url() ?>assets/src/plugins/Keyboard-master/css/jquery-ui.min.css" rel="stylesheet"> 
+	<link href="<?php echo base_url() ?>assets/src/plugins/Keyboard-master/css/keyboard.css" rel="stylesheet"> 
+
+
 
 	<style type="text/css">
 		.signature-pad { 
@@ -367,63 +373,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 	<!-- Modal Submit Hari Ini-->
-	<div class="modal fade" id="modal_submit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-lg">
-			<div class="modal-content">
-				<div class="bg-white box-shadow pd-ltr-20 border-radius-5"> 
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-					<h2 class="text-center mb-30">Verifikasi Supervisor</h2> 
-					<hr>
-					<center>
-					  <canvas id="signature-pad" class="signature-pad" width=400 height=300></canvas>
-					  <button id="clearr" class="btn btn-info btn-sm">ulangi</button>
-					</center>  
+		<div class="modal fade" id="modal_submit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog  modal-lg">
+				<div class="modal-content">
+					<div class="bg-white box-shadow pd-ltr-20 border-radius-5"> 
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+						<h2 class="text-center mb-30">Verifikasi Supervisor</h2> 
+						<div class="alert alert-success" role="alert" id="info_lastupdt" style="display: none;">
+							Terahir Diperbarui Pada 
+						</div>
+						<!-- <hr> -->
+						<center>
+							<div id="fom_ttd">
+								<canvas id="signature-pad" class="signature-pad" width=400 height=300></canvas>
+						  		<button id="clearr" class="btn btn-info btn-sm">ulangi</button>
+							</div> 
+						</center>  
 
-					<hr>
-					<label >Enter Passcode :</label>
-					<center>
-					<div class="row">
-						<div class="col-md-3"></div>
-	                	<div class="col-md-1">
-		                    <div class="form-group"> 
-		                      <input class="form-control pinnn" type="password" style="text-align: center;" maxlength="1"> 
-		                    </div>
-		                </div>
-		                <div class="col-md-1">
-		                    <div class="form-group"> 
-		                      <input class="form-control" type="password" style="text-align: center;" maxlength="1"> 
-		                    </div>
-		                </div>
-		                <div class="col-md-1">
-		                    <div class="form-group"> 
-		                      <input class="form-control" type="password" style="text-align: center;" maxlength="1"> 
-		                    </div>
-		                </div>
-		                <div class="col-md-1">
-		                    <div class="form-group"> 
-		                      <input class="form-control" type="password" style="text-align: center;" maxlength="1"> 
-		                    </div>
-		                </div> 
-		                <div class="col-md-1">
-		                    <div class="form-group"> 
-		                      <input class="form-control" type="password" style="text-align: center;" maxlength="1"> 
-		                    </div>
-		                </div> 
-		                <div class="col-md-1">
-		                    <div class="form-group"> 
-		                      <input class="form-control" type="password" style="text-align: center;" maxlength="1"> 
-		                    </div>
-		                </div> 
-		                <div class="col-md-3"></div>
-	                </div>
-	                <br>
-	                </center>
-					<center><button class="btn btn-primary btn-block" id="btn_submit_pdo">Submit</button></center>
-					<br>
+						<hr>
+						<label >Enter Passcode :</label>
+						<center>
+							<form id="fom_passcode">
+							<div class="row">
+								<div class="col-md-2"></div> 
+				                <div class="col-md-8"> 
+			                      <input class="inputs" name="pass1" type="password" style="text-align: center;margin: 8px; width: 60px; height: 40px;" maxlength="1"> 
+			                      <input class="inputs" name="pass2" type="password" style="text-align: center;margin: 8px; width: 60px; height: 40px;" maxlength="1"> 
+			                      <input class="inputs" name="pass3" type="password" style="text-align: center;margin: 8px; width: 60px; height: 40px;" maxlength="1">
+			                      <input class="inputs" name="pass4" type="password" style="text-align: center;margin: 8px; width: 60px; height: 40px;" maxlength="1"> 
+			                      <input class="inputs" name="pass5" type="password" style="text-align: center;margin: 8px; width: 60px; height: 40px;" maxlength="1"> 
+			                      <input class="inputs" name="pass6" type="password" style="text-align: center;margin: 8px; width: 60px; height: 40px;" maxlength="1">  
+			                    </div>
+				                <div class="col-md-2"></div>
+			                </div>
+			                </form><br>
+		                	
+		                </center> 
+						<center><button class="btn btn-primary btn-block" id="btn_submit_pdo">verifikasi</button></center>
+						<br>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
 </div>
 <!-- End Modal --> 
@@ -593,14 +584,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!-- you load jquery somewhere before jSignature ... -->
 	<script src="<?php echo base_url() ?>assets/src/plugins/jsignature-pad/js/signature_pad.umd.js"></script>
 
+	<!-- jQuery (required) & jQuery UI + theme (optional) -->  
+	<script src="<?php echo base_url() ?>assets/src/plugins/Keyboard-master/js/jquery-ui-custom.min.js"></script> 
+	<script src="<?php echo base_url() ?>assets/src/plugins/Keyboard-master/js/jquery.keyboard.js"></script> 
+	<script src="<?php echo base_url() ?>assets/src/plugins/Keyboard-master/js/jquery.keyboard.extension-typing.js"></script>
+
 
 	<script> 
 		$('document').ready(function(){ 
-
-		// deklarasi nama bulan
+		
+		// VARIABEL GLOBAL
+ 			// deklarasi nama bulan
  			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 
- 		// VARIABEL GLOBAL
  			let today = new Date();
 			var currentMonth = today.getMonth();
 			var currentYear = today.getFullYear();
@@ -614,12 +610,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			var eff_actual = 0; //for widget eff actual
 			var edittarget= false; // jika target sudah ada maka bisa diedit
 			var max_jamkerja = 0; 
- 
+			var status_pdo = 0 ; 
+ 			
+ 			// SETTING DEFAULT DATE
+ 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
             document.getElementById('slect_date').value=currDate+' '+monthName[currentMonth]+' '+currentYear;
 
-		// auto load
-			showdata();    
+		// aditional
+			$(".inputs").keyup(function () {
+			    if (this.value.length == this.maxLength) {
+			      $(this).next('.inputs').focus(); 
+			    }
+			});
 
+			// $('input').keyboard({
+			// 		layout : 'num',
+			// 		restrictInput : true, // Prevent keys not in the displayed keyboard from being typed in
+			// 		preventPaste : true,  // prevent ctrl-v and right click
+			// 		autoAccept : true
+			// 	})
+			// 	.addTyping(); 
 
 			$('.date-pickerrr').datepicker({   
 				language: "en",
@@ -627,11 +637,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			    onSelect: function(selected, d, calendar) {
 			    	let tod = new Date(selected); 
 			    	document.getElementById('slect_date').value=tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+			    	datetimeNow = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
 			    	calendar.hide();
+
+			    	// refresh
+			    	showplanning();
 			    }
 			});
 
-			// fungsi main
+
+		// auto load
+			showdata();    
+ 
+
+		// fungsi main
 			function showdata() { 
 				var htmlhead1 = '';
                 var htmlhead2 = '';
@@ -663,6 +682,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         var data = res.data;
                         total_loss_detik = res.to_lossdetik.tot_loss_detik;
                         max_jamkerja = Number(res.data_dl.jam_reg)+Number(res.data_dl.jam_ot);  
+                        //mencari status pdo set img 
+                        //  SEt TTD IMG
+                        status_pdo = res.pdo.status;
+                        if (status_pdo==1) { 
+                        	document.getElementById('info_lastupdt').innerHTML = 'Terahir Diperbarui Pada '+res.pdo.waktu; 
+                        	document.getElementById('info_lastupdt').style.display = 'block'; 
+                        }
 
                         // header
                         htmlhead1 +=
@@ -883,45 +909,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                 }); 
 				
-			// set dropdown assycode
-				$.ajax({
-                    async : false,
-                    type  : 'ajax',
-                    url   : '<?php echo base_url();?>index.php/Assycode/getAssyCodeDasboard',
-                    dataType : 'JSON',
-                    success : function(dat){ 
-                    	html = '<option disabled selected> Pilih Assy </option>';
- 
-                    	// mengulang jika ada yang sama dengan column head 
-                		for (var i = 0; i < dat.length; i++) { 
-                			var skip = false;
-                			for (var ii = 0; ii < db_head.length; ii++) {  
-	                			// jika ada assy yang sama dengan header tidak ditampilkan
-	                			if (dat[i].kode_assy==db_head[ii].kode_assy) {
-	                				skip = true;
-	                			}
-	                		}
-	                		if (skip==false) { 
-                				html +='<option value="'+dat[i].id+'">'+dat[i].kode_assy+'</option>';
-                			}  
-                    	}  
+				// set dropdown assycode
+					$.ajax({
+	                    async : false,
+	                    type  : 'ajax',
+	                    url   : '<?php echo base_url();?>index.php/Assycode/getAssyCodeDasboard',
+	                    dataType : 'JSON',
+	                    success : function(dat){ 
+	                    	html = '<option disabled selected> Pilih Assy </option>';
+	 
+	                    	// mengulang jika ada yang sama dengan column head 
+	                		for (var i = 0; i < dat.length; i++) { 
+	                			var skip = false;
+	                			for (var ii = 0; ii < db_head.length; ii++) {  
+		                			// jika ada assy yang sama dengan header tidak ditampilkan
+		                			if (dat[i].kode_assy==db_head[ii].kode_assy) {
+		                				skip = true;
+		                			}
+		                		}
+		                		if (skip==false) { 
+	                				html +='<option value="'+dat[i].id+'">'+dat[i].kode_assy+'</option>';
+	                			}  
+	                    	}  
 
-						$('#pilihasy').html(html);
-						$('#pilihasy1').html(html);
-                    }
-                });
-
+							$('#pilihasy').html(html);
+							$('#pilihasy1').html(html);
+	                    }
+	                });
 
 				showplanning();
 			}
 
+		// CEK PLANNING BULANAN
 			function showplanning() {
 
 				$.ajax({
                     async : false,
-                    type  : 'ajax',
+                    type  : 'POST',
                     url   : '<?php echo base_url();?>index.php/Target/getThisMonth',
                     dataType : 'JSON', 
+                    data:{
+                    	tgl: datetimeNow
+                    },
                     success : function(res){  
                     	if (res) {
                     		$('#id_target').val(res.id);
@@ -958,7 +987,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }); 
 
 			}
-
 
 		// trigger change assy build
 			$('#thead_outputt').on('click','.btn_changeassy',function(){
@@ -1137,7 +1165,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				} 
 
 				if (jum_jam == max_jamkerja) {
-					$('#modal_submit').modal('show');	
+					$('#modal_submit').modal('show'); 
 				}else {
 					$('#modaladdjamke').modal('show');	
 				} 
@@ -1313,12 +1341,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                	},
 		                success: function(response){
 		                	if (response) { 
-		                		Swal.fire(
-							      'Sukses ditambah!',
-							      '',
-							      'success'
-							    )
-								console.log("Semua senang");
+		                		Swal.fire({
+		                			title:'Sukses ditambah sss!', 
+							      type:'success',
+							      timer: 1000
+							  }) 
 		                	}else{
 		                		Swal.fire({
 								  title: 'Error!',
@@ -1538,7 +1565,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						      'success'
 						    );
 							showplanning();
-							document.getElementById('newplanmonth_modal').modal('hide');
+							$('#newplanmonth_modal').modal('hide');
 						}else{
 							Swal.fire({
 							  title: 'Error!',
@@ -1682,29 +1709,90 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
  		//  ====== ENDING PDO HARI INI =============
  			$('#btn_submit_pdo').on('click',function(){ 
- 
-				html2canvas([document.getElementById('signature-pad')], {
-					onrendered: function (canvas) { 
+ 				var p1 = $('input[name="pass1"]').val();
+ 				var p2 = $('input[name="pass2"]').val();
+ 				var p3 = $('input[name="pass3"]').val();
+ 				var p4 = $('input[name="pass4"]').val();
+ 				var p5 = $('input[name="pass5"]').val();
+ 				var p6 = $('input[name="pass6"]').val();
 
-						var dataUrl = canvas.toDataURL();
-           				var newDataURL = dataUrl.replace(/^data:image\/png/, "data:application/octet-stream"); //do this to clean the url.
- 
-						$.ajax({ 
-							url : "<?php echo site_url('VerificationSupervisor/verification') ?>",
-							data: { img:newDataURL },
-							type: 'post',
-							dataType: 'json',
-							success: function (response) { 
-							   console.log(response);
-							   alert('Sukses'); 
-							   
-							},
-							error: function(data){
-				                console.log(data);
-				            }
-						});
-					}
+ 				if (p1.length==0 || p2.length==0 ||p3.length==0 || p4.length==0 || p5.length==0 || p6.length==0) {
+ 					Swal.fire({
+					  title: 'Passcode Belum Diisi',
+					  text: 'Silahkan Isi Passcode dengan Benar',
+					  type: 'error',
+					  confirmButtonText: 'Ok',
+					  allowOutsideClick: false
+					}) ;
+ 					return ; 
+ 				}
+ 				
+ 				if (signaturePad.isEmpty()) {
+ 					Swal.fire({
+					  title: 'Sorry',
+					  text: 'Tanda tangan terlebih dahulu',
+					  type: 'error',
+					  confirmButtonText: 'Ok',
+					  allowOutsideClick: false
+					}) ;
+ 					return ; 
+ 				} 
+ 				// gabungan passcode
+ 				var passcode = p1+p2+p3+p4+p5+p6;  
+
+ 				$.ajax({ 
+					url : "<?php echo site_url('VerificationSupervisor/cekPassCodeSpv') ?>",
+					data: { passcode:passcode },
+					type: 'post',
+					dataType: 'json',
+					success: function (response) {  
+					   if (response) {
+					   		
+					   		// Jika Passcode Benar
+					   		html2canvas([document.getElementById('signature-pad')], {
+								onrendered: function (canvas) { 
+									var dataUrl = canvas.toDataURL();
+			           				var newDataURL = dataUrl.replace(/^data:image\/png/, "data:application/octet-stream"); //do this to clean the url.
+			 						// Proses Upload Signature
+									$.ajax({ 
+										url : "<?php echo site_url('VerificationSupervisor/verification') ?>",
+										data: { img:newDataURL, id_pdo:$('#id_pdo').val() },
+										type: 'post',
+										dataType: 'json',
+										success: function (response) { 
+										   console.log(response);
+										   Swal.fire({
+											  title: 'Verifikasi Sukses',
+											  text: 'Data Telah Di Verifikasi',
+											  type: 'success',
+											  confirmButtonText: 'Ok'
+											}) ; 
+										   showdata();
+										},
+										error: function(data){
+							                console.log(data);
+							            }
+									});
+								}
+							});
+					   		// FInish Hide & CLEAR 			
+							document.getElementById('fom_passcode').reset();
+			 				$('#modal_submit').modal('hide'); 
+					   }else { 
+					   		Swal.fire({
+							  title: 'Passcode Tidak Valid',
+							  text: 'Pastikan anda Mengisi Passcode dengan Benar',
+							  type: 'error',
+							  confirmButtonText: 'Ok'
+							}) ;
+					   } 
+					},
+					error: function(data){
+						alert(data);
+		                console.log(data);
+		            }
 				});
+				
 
  			});
 
@@ -1719,7 +1807,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#clearr').on('click',function(){
 				signaturePad.clear();
 			});
- 
 
 		});
 	</script>
