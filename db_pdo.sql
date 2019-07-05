@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Waktu pembuatan: 01 Jul 2019 pada 03.14
--- Versi server: 10.1.37-MariaDB
--- Versi PHP: 5.6.40
+-- Host: 127.0.0.1
+-- Generation Time: Jul 05, 2019 at 05:10 AM
+-- Server version: 10.1.19-MariaDB
+-- PHP Version: 7.0.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -25,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `absen_leader`
+-- Table structure for table `absen_leader`
 --
 
 CREATE TABLE `absen_leader` (
@@ -37,17 +35,10 @@ CREATE TABLE `absen_leader` (
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `absen_leader`
---
-
-INSERT INTO `absen_leader` (`id`, `id_pdo`, `item`, `qty`, `jam`, `total`) VALUES
-(1, 27, '1', 2, 2, 4);
-
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `absen_pegawai`
+-- Table structure for table `absen_pegawai`
 --
 
 CREATE TABLE `absen_pegawai` (
@@ -59,17 +50,10 @@ CREATE TABLE `absen_pegawai` (
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `absen_pegawai`
---
-
-INSERT INTO `absen_pegawai` (`id`, `id_pdo`, `item`, `qty`, `jam`, `total`) VALUES
-(1, 27, 'C1', 2, 3, 6);
-
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `assembly`
+-- Table structure for table `assembly`
 --
 
 CREATE TABLE `assembly` (
@@ -79,7 +63,7 @@ CREATE TABLE `assembly` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `assembly`
+-- Dumping data for table `assembly`
 --
 
 INSERT INTO `assembly` (`id`, `kode_assy`, `umh`) VALUES
@@ -93,7 +77,7 @@ INSERT INTO `assembly` (`id`, `kode_assy`, `umh`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `build_assy`
+-- Table structure for table `build_assy`
 --
 
 CREATE TABLE `build_assy` (
@@ -106,28 +90,14 @@ CREATE TABLE `build_assy` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `build_assy`
+-- Dumping data for table `build_assy`
 --
 
 INSERT INTO `build_assy` (`id`, `id_outputcontrol`, `id_pdo`, `id_assy`, `actual`, `time`) VALUES
-(123, 67, 27, 7, 23, '2019-07-01 16:00:55'),
-(124, 68, 27, 11, 4, '2019-07-01 16:09:06'),
-(126, 69, 27, 14, 10, '2019-07-01 16:11:35'),
-(127, 71, 27, 11, 14, '2019-07-01 16:13:25'),
-(128, 70, 27, 14, 4, '2019-07-01 07:40:20'),
-(129, 72, 27, 11, 30, '2019-07-01 07:40:42'),
-(130, 73, 27, 7, 18, '2019-07-01 07:41:12'),
-(131, 74, 27, 11, 30, '2019-07-01 07:41:56'),
-(132, 75, 27, 14, 44, '2019-07-01 08:01:10'),
-(133, 76, 27, 14, 13, '2019-07-01 08:02:11'),
-(134, 77, 28, 7, 5, '2019-07-03 14:22:41'),
-(135, 78, 29, 7, 45, '2019-07-04 19:52:18'),
-(136, 78, 29, 6, 0, '2019-07-04 19:52:25'),
-(137, 78, 29, 11, 0, '2019-07-04 19:52:33'),
-(138, 78, 29, 14, 0, '2019-07-04 19:52:37');
+(139, 80, 106, 7, 6, '2019-07-05 09:22:32');
 
 --
--- Trigger `build_assy`
+-- Triggers `build_assy`
 --
 DELIMITER $$
 CREATE TRIGGER `updt_act` AFTER UPDATE ON `build_assy` FOR EACH ROW BEGIN
@@ -140,7 +110,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `direct_labor`
+-- Table structure for table `direct_labor`
 --
 
 CREATE TABLE `direct_labor` (
@@ -157,18 +127,16 @@ CREATE TABLE `direct_labor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `direct_labor`
+-- Dumping data for table `direct_labor`
 --
 
 INSERT INTO `direct_labor` (`id`, `id_pdo`, `std_dl`, `reg_dl`, `jam_reg`, `jam_ot`, `dl_ot`, `mh_reg`, `mh_ot`, `total`) VALUES
-(22, 27, 48, 48, 8, 2, 48, 384, 96, 480),
-(23, 28, 49, 49, 8, 2, 49, 392, 98, 490),
-(24, 29, 12, 12, 8, 1, 12, 96, 12, 108);
+(25, 106, 40, 40, 8, 2, 40, 320, 80, 400);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `indirect_activity`
+-- Table structure for table `indirect_activity`
 --
 
 CREATE TABLE `indirect_activity` (
@@ -181,21 +149,17 @@ CREATE TABLE `indirect_activity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `indirect_activity`
+-- Dumping data for table `indirect_activity`
 --
 
 INSERT INTO `indirect_activity` (`id`, `id_pdo`, `item`, `qty_mp`, `menit`, `total`) VALUES
-(31, 27, '5S + Yoidon', 48, 4, 3.2),
-(32, 27, 'Home Position', 48, 6, 4.8),
-(33, 28, '5S + Yoidon', 30, 5, 2.5),
-(34, 28, 'Home Position', 30, 4, 2),
-(35, 29, '5S + Yoidon', 12, 3, 0.6),
-(36, 29, 'Home Position', 12, 1, 0.2);
+(37, 106, '5S + Yoidon', 40, 1, 0.666667),
+(38, 106, 'Home Position', 40, 1, 0.666667);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `indirect_labor`
+-- Table structure for table `indirect_labor`
 --
 
 CREATE TABLE `indirect_labor` (
@@ -212,18 +176,16 @@ CREATE TABLE `indirect_labor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `indirect_labor`
+-- Dumping data for table `indirect_labor`
 --
 
 INSERT INTO `indirect_labor` (`id`, `id_pdo`, `std_idl`, `reg_idl`, `jam_reg`, `jam_ot`, `dl_ot`, `mh_reg`, `mh_ot`, `total`) VALUES
-(22, 27, 3, 3, 8, 2, 3, 24, 6, 30),
-(23, 28, 3, 3, 8, 2, 3, 24, 6, 30),
-(24, 29, 1, 1, 8, 1, 1, 8, 1, 9);
+(25, 106, 3, 3, 8, 2, 3, 24, 6, 30);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `jenis_deffect`
+-- Table structure for table `jenis_deffect`
 --
 
 CREATE TABLE `jenis_deffect` (
@@ -233,7 +195,7 @@ CREATE TABLE `jenis_deffect` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `jenis_deffect`
+-- Dumping data for table `jenis_deffect`
 --
 
 INSERT INTO `jenis_deffect` (`id`, `code`, `keterangan`) VALUES
@@ -245,7 +207,7 @@ INSERT INTO `jenis_deffect` (`id`, `code`, `keterangan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `jenis_error`
+-- Table structure for table `jenis_error`
 --
 
 CREATE TABLE `jenis_error` (
@@ -255,7 +217,7 @@ CREATE TABLE `jenis_error` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `jenis_error`
+-- Dumping data for table `jenis_error`
 --
 
 INSERT INTO `jenis_error` (`id`, `kode`, `keterangan`) VALUES
@@ -274,7 +236,7 @@ INSERT INTO `jenis_error` (`id`, `kode`, `keterangan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `jenis_losttime`
+-- Table structure for table `jenis_losttime`
 --
 
 CREATE TABLE `jenis_losttime` (
@@ -283,7 +245,7 @@ CREATE TABLE `jenis_losttime` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `jenis_losttime`
+-- Dumping data for table `jenis_losttime`
 --
 
 INSERT INTO `jenis_losttime` (`id`, `keterangan`) VALUES
@@ -293,7 +255,7 @@ INSERT INTO `jenis_losttime` (`id`, `keterangan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `jenis_regulasi`
+-- Table structure for table `jenis_regulasi`
 --
 
 CREATE TABLE `jenis_regulasi` (
@@ -302,7 +264,7 @@ CREATE TABLE `jenis_regulasi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `jenis_regulasi`
+-- Dumping data for table `jenis_regulasi`
 --
 
 INSERT INTO `jenis_regulasi` (`id`, `keterangan`) VALUES
@@ -312,27 +274,29 @@ INSERT INTO `jenis_regulasi` (`id`, `keterangan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `line`
+-- Table structure for table `line`
 --
 
 CREATE TABLE `line` (
   `id` int(11) NOT NULL,
+  `id_supervisor` int(11) NOT NULL,
   `nama_line` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `line`
+-- Dumping data for table `line`
 --
 
-INSERT INTO `line` (`id`, `nama_line`) VALUES
-(1, '12A'),
-(2, '5C'),
-(3, '12B');
+INSERT INTO `line` (`id`, `id_supervisor`, `nama_line`) VALUES
+(5, 1, '12A'),
+(6, 1, '12B'),
+(7, 2, '1A'),
+(8, 2, '1B');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `line_manager`
+-- Table structure for table `line_manager`
 --
 
 CREATE TABLE `line_manager` (
@@ -341,20 +305,10 @@ CREATE TABLE `line_manager` (
   `id_assy` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `line_manager`
---
-
-INSERT INTO `line_manager` (`id`, `id_line`, `id_assy`) VALUES
-(1, 1, 11),
-(2, 1, 9),
-(3, 1, 6),
-(4, 2, 14);
-
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `lost_time`
+-- Table structure for table `lost_time`
 --
 
 CREATE TABLE `lost_time` (
@@ -367,18 +321,10 @@ CREATE TABLE `lost_time` (
   `durasi` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `lost_time`
---
-
-INSERT INTO `lost_time` (`id`, `id_pdo`, `id_error`, `id_oc`, `id_jenisloss`, `keterangan`, `durasi`) VALUES
-(15, 27, 7, 68, 1, 'asd', 6.8),
-(16, 27, 10, 75, 1, 'awakkk', 1.8);
-
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `main_pdo`
+-- Table structure for table `main_pdo`
 --
 
 CREATE TABLE `main_pdo` (
@@ -403,18 +349,16 @@ CREATE TABLE `main_pdo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `main_pdo`
+-- Dumping data for table `main_pdo`
 --
 
 INSERT INTO `main_pdo` (`id`, `id_shift`, `id_users`, `id_line`, `tanggal`, `mh_out`, `mh_in_dl`, `mh_in_idl`, `direct_eff`, `total_productiv`, `jam_kerja`, `line_speed`, `loss_output`, `p_loss_time`, `jam_effective`, `dpm_fa`, `status`, `signature`) VALUES
-(27, 2, 3, 1, '2019-07-01 15:59:12', 572.6421942710876, 465.9999997615814, 26, 122.88459110817, 116.3906899489, 10, 88, 0, 1.4576271185452456, 9.8333, 52631.578, 1, ''),
-(28, 2, 3, 1, '2019-07-03 14:22:23', 14.983500242233276, 291.5, 30, 5.1401373043682, 4.6604977425298, 10, 108, 19, 0, 9.85, 0, 1, ''),
-(29, 2, 3, 1, '2019-07-04 07:59:37', 134.8515021800995, 107.19999997317791, 9, 125.79431176664, 116.05120672223, 9, 98, 0, 0, 8.9333, 0, 1, '');
+(106, 2, 5, 5, '2019-07-05 09:20:14', 17.98020029067993, 398.66666662693024, 30, 4.5100836854027, 4.1944479686656, 10, 104, 0, 0, 9.9667, 0, 1, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `output_control`
+-- Table structure for table `output_control`
 --
 
 CREATE TABLE `output_control` (
@@ -427,28 +371,16 @@ CREATE TABLE `output_control` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `output_control`
+-- Dumping data for table `output_control`
 --
 
 INSERT INTO `output_control` (`id`, `id_pdo`, `plan`, `actual`, `jam_ke`, `time`) VALUES
-(67, 27, 23, 23, 1, '2019-07-01 16:00:45'),
-(68, 27, 4, 4, 2, '2019-07-01 16:03:52'),
-(69, 27, 5, 10, 3, '2019-07-01 16:11:18'),
-(70, 27, 3, 4, 4, '2019-07-01 16:11:48'),
-(71, 27, 25, 14, 5, '2019-07-01 16:12:02'),
-(72, 27, 23, 30, 6, '2019-07-01 07:40:38'),
-(73, 27, 18, 18, 7, '2019-07-01 07:41:08'),
-(74, 27, 20, 30, 8, '2019-07-01 07:41:51'),
-(75, 27, 16, 44, 9, '2019-07-01 08:01:04'),
-(76, 27, 13, 13, 10, '2019-07-01 08:02:07'),
-(77, 28, 24, 5, 1, '2019-07-03 14:22:35'),
-(78, 29, 45, 45, 1, '2019-07-04 19:52:14'),
-(79, 29, 45, 0, 2, '2019-07-04 19:52:47');
+(80, 106, 5, 6, 1, '2019-07-05 09:22:12');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `quality_control`
+-- Table structure for table `quality_control`
 --
 
 CREATE TABLE `quality_control` (
@@ -460,18 +392,10 @@ CREATE TABLE `quality_control` (
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `quality_control`
---
-
-INSERT INTO `quality_control` (`id`, `id_pdo`, `id_oc`, `id_jenisdeffect`, `keterangan`, `total`) VALUES
-(3, 27, 70, 7, 'jnkn', 7),
-(4, 27, 76, 7, 'hkj', 3);
-
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `regulasi`
+-- Table structure for table `regulasi`
 --
 
 CREATE TABLE `regulasi` (
@@ -488,7 +412,7 @@ CREATE TABLE `regulasi` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `shift`
+-- Table structure for table `shift`
 --
 
 CREATE TABLE `shift` (
@@ -497,7 +421,7 @@ CREATE TABLE `shift` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `shift`
+-- Dumping data for table `shift`
 --
 
 INSERT INTO `shift` (`id`, `keterangan`) VALUES
@@ -507,7 +431,28 @@ INSERT INTO `shift` (`id`, `keterangan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `target`
+-- Table structure for table `supervisor`
+--
+
+CREATE TABLE `supervisor` (
+  `id` int(11) NOT NULL,
+  `nik` int(11) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `passcode` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `supervisor`
+--
+
+INSERT INTO `supervisor` (`id`, `nik`, `nama`, `passcode`) VALUES
+(1, 900001, 'Rasyidi', 123456),
+(2, 900002, 'Rasyida', 654321);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `target`
 --
 
 CREATE TABLE `target` (
@@ -520,19 +465,16 @@ CREATE TABLE `target` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `target`
+-- Dumping data for table `target`
 --
 
 INSERT INTO `target` (`id`, `id_line`, `mh_out`, `mh_in`, `efisiensi`, `periode`) VALUES
-(1, 1, 0, 0, 0, '2019-06-03'),
-(3, 1, 299, 822, 97.7, '2019-05-01'),
-(4, 1, 3, 3, 98, '2019-06-25'),
-(5, 1, 508, 580, 101, '2019-07-01');
+(6, 5, 150, 400, 100, '2019-07-05');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -546,39 +488,38 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `level`, `id_shift`, `id_line`, `active`) VALUES
-(3, 'a1', 'a', 1, 2, 1, 0),
-(4, 'a2', 'a', 1, 1, 2, 1);
+(5, 'user1', 'user1', 2, 2, 5, 1);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `absen_leader`
+-- Indexes for table `absen_leader`
 --
 ALTER TABLE `absen_leader`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_idindirectlabor` (`id_pdo`);
 
 --
--- Indeks untuk tabel `absen_pegawai`
+-- Indexes for table `absen_pegawai`
 --
 ALTER TABLE `absen_pegawai`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_absenpeg_directlabor` (`id_pdo`);
 
 --
--- Indeks untuk tabel `assembly`
+-- Indexes for table `assembly`
 --
 ALTER TABLE `assembly`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `build_assy`
+-- Indexes for table `build_assy`
 --
 ALTER TABLE `build_assy`
   ADD PRIMARY KEY (`id`),
@@ -587,58 +528,59 @@ ALTER TABLE `build_assy`
   ADD KEY `fk_pdo_tblPDO` (`id_pdo`);
 
 --
--- Indeks untuk tabel `direct_labor`
+-- Indexes for table `direct_labor`
 --
 ALTER TABLE `direct_labor`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_pdo` (`id_pdo`);
 
 --
--- Indeks untuk tabel `indirect_activity`
+-- Indexes for table `indirect_activity`
 --
 ALTER TABLE `indirect_activity`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_indirectactivity_directlabor` (`id_pdo`);
 
 --
--- Indeks untuk tabel `indirect_labor`
+-- Indexes for table `indirect_labor`
 --
 ALTER TABLE `indirect_labor`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_pdo_indirect` (`id_pdo`);
 
 --
--- Indeks untuk tabel `jenis_deffect`
+-- Indexes for table `jenis_deffect`
 --
 ALTER TABLE `jenis_deffect`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `jenis_error`
+-- Indexes for table `jenis_error`
 --
 ALTER TABLE `jenis_error`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `jenis_losttime`
+-- Indexes for table `jenis_losttime`
 --
 ALTER TABLE `jenis_losttime`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `jenis_regulasi`
+-- Indexes for table `jenis_regulasi`
 --
 ALTER TABLE `jenis_regulasi`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `line`
+-- Indexes for table `line`
 --
 ALTER TABLE `line`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_supervisor` (`id_supervisor`);
 
 --
--- Indeks untuk tabel `line_manager`
+-- Indexes for table `line_manager`
 --
 ALTER TABLE `line_manager`
   ADD PRIMARY KEY (`id`),
@@ -646,7 +588,7 @@ ALTER TABLE `line_manager`
   ADD KEY `id_assy` (`id_assy`);
 
 --
--- Indeks untuk tabel `lost_time`
+-- Indexes for table `lost_time`
 --
 ALTER TABLE `lost_time`
   ADD PRIMARY KEY (`id`),
@@ -656,7 +598,7 @@ ALTER TABLE `lost_time`
   ADD KEY `id_oc` (`id_oc`);
 
 --
--- Indeks untuk tabel `main_pdo`
+-- Indexes for table `main_pdo`
 --
 ALTER TABLE `main_pdo`
   ADD PRIMARY KEY (`id`),
@@ -665,14 +607,14 @@ ALTER TABLE `main_pdo`
   ADD KEY `fk_line` (`id_line`);
 
 --
--- Indeks untuk tabel `output_control`
+-- Indexes for table `output_control`
 --
 ALTER TABLE `output_control`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_idpdo_tblmainpdo` (`id_pdo`);
 
 --
--- Indeks untuk tabel `quality_control`
+-- Indexes for table `quality_control`
 --
 ALTER TABLE `quality_control`
   ADD PRIMARY KEY (`id`),
@@ -681,7 +623,7 @@ ALTER TABLE `quality_control`
   ADD KEY `fk_oc_outputcontrol` (`id_oc`);
 
 --
--- Indeks untuk tabel `regulasi`
+-- Indexes for table `regulasi`
 --
 ALTER TABLE `regulasi`
   ADD PRIMARY KEY (`id`),
@@ -690,20 +632,26 @@ ALTER TABLE `regulasi`
   ADD KEY `id_oc` (`id_oc`);
 
 --
--- Indeks untuk tabel `shift`
+-- Indexes for table `shift`
 --
 ALTER TABLE `shift`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `target`
+-- Indexes for table `supervisor`
+--
+ALTER TABLE `supervisor`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `target`
 --
 ALTER TABLE `target`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_line_tbl_line` (`id_line`);
 
 --
--- Indeks untuk tabel `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
@@ -711,153 +659,137 @@ ALTER TABLE `users`
   ADD KEY `fk_line_tblline` (`id_line`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `absen_leader`
+-- AUTO_INCREMENT for table `absen_leader`
 --
 ALTER TABLE `absen_leader`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
--- AUTO_INCREMENT untuk tabel `absen_pegawai`
+-- AUTO_INCREMENT for table `absen_pegawai`
 --
 ALTER TABLE `absen_pegawai`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
--- AUTO_INCREMENT untuk tabel `assembly`
+-- AUTO_INCREMENT for table `assembly`
 --
 ALTER TABLE `assembly`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
 --
--- AUTO_INCREMENT untuk tabel `build_assy`
+-- AUTO_INCREMENT for table `build_assy`
 --
 ALTER TABLE `build_assy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 --
--- AUTO_INCREMENT untuk tabel `direct_labor`
+-- AUTO_INCREMENT for table `direct_labor`
 --
 ALTER TABLE `direct_labor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
--- AUTO_INCREMENT untuk tabel `indirect_activity`
+-- AUTO_INCREMENT for table `indirect_activity`
 --
 ALTER TABLE `indirect_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 --
--- AUTO_INCREMENT untuk tabel `indirect_labor`
+-- AUTO_INCREMENT for table `indirect_labor`
 --
 ALTER TABLE `indirect_labor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
--- AUTO_INCREMENT untuk tabel `jenis_deffect`
+-- AUTO_INCREMENT for table `jenis_deffect`
 --
 ALTER TABLE `jenis_deffect`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
 --
--- AUTO_INCREMENT untuk tabel `jenis_error`
+-- AUTO_INCREMENT for table `jenis_error`
 --
 ALTER TABLE `jenis_error`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
 --
--- AUTO_INCREMENT untuk tabel `jenis_losttime`
+-- AUTO_INCREMENT for table `jenis_losttime`
 --
 ALTER TABLE `jenis_losttime`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
--- AUTO_INCREMENT untuk tabel `jenis_regulasi`
+-- AUTO_INCREMENT for table `jenis_regulasi`
 --
 ALTER TABLE `jenis_regulasi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
--- AUTO_INCREMENT untuk tabel `line`
+-- AUTO_INCREMENT for table `line`
 --
 ALTER TABLE `line`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
--- AUTO_INCREMENT untuk tabel `line_manager`
+-- AUTO_INCREMENT for table `line_manager`
 --
 ALTER TABLE `line_manager`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
--- AUTO_INCREMENT untuk tabel `lost_time`
+-- AUTO_INCREMENT for table `lost_time`
 --
 ALTER TABLE `lost_time`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
 --
--- AUTO_INCREMENT untuk tabel `main_pdo`
+-- AUTO_INCREMENT for table `main_pdo`
 --
 ALTER TABLE `main_pdo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 --
--- AUTO_INCREMENT untuk tabel `output_control`
+-- AUTO_INCREMENT for table `output_control`
 --
 ALTER TABLE `output_control`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 --
--- AUTO_INCREMENT untuk tabel `quality_control`
+-- AUTO_INCREMENT for table `quality_control`
 --
 ALTER TABLE `quality_control`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
--- AUTO_INCREMENT untuk tabel `regulasi`
+-- AUTO_INCREMENT for table `regulasi`
 --
 ALTER TABLE `regulasi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
--- AUTO_INCREMENT untuk tabel `shift`
+-- AUTO_INCREMENT for table `shift`
 --
 ALTER TABLE `shift`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
--- AUTO_INCREMENT untuk tabel `target`
+-- AUTO_INCREMENT for table `supervisor`
+--
+ALTER TABLE `supervisor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `target`
 --
 ALTER TABLE `target`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
--- AUTO_INCREMENT untuk tabel `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- Constraints for dumped tables
+--
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
---
-
---
--- Ketidakleluasaan untuk tabel `absen_leader`
+-- Constraints for table `absen_leader`
 --
 ALTER TABLE `absen_leader`
   ADD CONSTRAINT `fk_idindirectlabor` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `absen_pegawai`
+-- Constraints for table `absen_pegawai`
 --
 ALTER TABLE `absen_pegawai`
   ADD CONSTRAINT `fk_absenpeg_directlabor` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `build_assy`
+-- Constraints for table `build_assy`
 --
 ALTER TABLE `build_assy`
   ADD CONSTRAINT `fk_idassy_tblassembly` FOREIGN KEY (`id_assy`) REFERENCES `assembly` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -865,32 +797,38 @@ ALTER TABLE `build_assy`
   ADD CONSTRAINT `fk_pdo_tblPDO` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `direct_labor`
+-- Constraints for table `direct_labor`
 --
 ALTER TABLE `direct_labor`
   ADD CONSTRAINT `fk_pdo` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `indirect_activity`
+-- Constraints for table `indirect_activity`
 --
 ALTER TABLE `indirect_activity`
   ADD CONSTRAINT `fk_indirectactivity_directlabor` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `indirect_labor`
+-- Constraints for table `indirect_labor`
 --
 ALTER TABLE `indirect_labor`
   ADD CONSTRAINT `fk_pdo_indirect` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `line_manager`
+-- Constraints for table `line`
+--
+ALTER TABLE `line`
+  ADD CONSTRAINT `fk_id_spv` FOREIGN KEY (`id_supervisor`) REFERENCES `supervisor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `line_manager`
 --
 ALTER TABLE `line_manager`
   ADD CONSTRAINT `fk_id_assy` FOREIGN KEY (`id_assy`) REFERENCES `assembly` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_id_line` FOREIGN KEY (`id_line`) REFERENCES `line` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `lost_time`
+-- Constraints for table `lost_time`
 --
 ALTER TABLE `lost_time`
   ADD CONSTRAINT `fk_idjeniserror_tbljeniserror` FOREIGN KEY (`id_error`) REFERENCES `jenis_error` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -899,7 +837,7 @@ ALTER TABLE `lost_time`
   ADD CONSTRAINT `fk_idpdo_mainpdo` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `main_pdo`
+-- Constraints for table `main_pdo`
 --
 ALTER TABLE `main_pdo`
   ADD CONSTRAINT `fk_line` FOREIGN KEY (`id_line`) REFERENCES `line` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -907,13 +845,13 @@ ALTER TABLE `main_pdo`
   ADD CONSTRAINT `fk_users` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `output_control`
+-- Constraints for table `output_control`
 --
 ALTER TABLE `output_control`
   ADD CONSTRAINT `fk_idpdo_tblmainpdo` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `quality_control`
+-- Constraints for table `quality_control`
 --
 ALTER TABLE `quality_control`
   ADD CONSTRAINT `fk_idpdo` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -921,7 +859,7 @@ ALTER TABLE `quality_control`
   ADD CONSTRAINT `fk_oc_outputcontrol` FOREIGN KEY (`id_oc`) REFERENCES `output_control` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `regulasi`
+-- Constraints for table `regulasi`
 --
 ALTER TABLE `regulasi`
   ADD CONSTRAINT `fk_iddirectlabor_labor` FOREIGN KEY (`id_pdo`) REFERENCES `main_pdo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -929,18 +867,17 @@ ALTER TABLE `regulasi`
   ADD CONSTRAINT `fk_regulasijenis_jenis` FOREIGN KEY (`id_jenisreg`) REFERENCES `jenis_regulasi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `target`
+-- Constraints for table `target`
 --
 ALTER TABLE `target`
   ADD CONSTRAINT `fk_line_tbl_line` FOREIGN KEY (`id_line`) REFERENCES `line` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `users`
+-- Constraints for table `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `fk_line_tblline` FOREIGN KEY (`id_line`) REFERENCES `line` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_shift_tblshift` FOREIGN KEY (`id_shift`) REFERENCES `shift` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
