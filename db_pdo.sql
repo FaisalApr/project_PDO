@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 04 Jul 2019 pada 03.00
+-- Waktu pembuatan: 01 Jul 2019 pada 03.14
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 5.6.40
 
@@ -36,6 +36,13 @@ CREATE TABLE `absen_leader` (
   `jam` double NOT NULL,
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `absen_leader`
+--
+
+INSERT INTO `absen_leader` (`id`, `id_pdo`, `item`, `qty`, `jam`, `total`) VALUES
+(1, 27, '1', 2, 2, 4);
 
 -- --------------------------------------------------------
 
@@ -106,14 +113,18 @@ INSERT INTO `build_assy` (`id`, `id_outputcontrol`, `id_pdo`, `id_assy`, `actual
 (123, 67, 27, 7, 23, '2019-07-01 16:00:55'),
 (124, 68, 27, 11, 4, '2019-07-01 16:09:06'),
 (126, 69, 27, 14, 10, '2019-07-01 16:11:35'),
-(127, 71, 27, 11, 26, '2019-07-01 16:13:25'),
+(127, 71, 27, 11, 14, '2019-07-01 16:13:25'),
 (128, 70, 27, 14, 4, '2019-07-01 07:40:20'),
 (129, 72, 27, 11, 30, '2019-07-01 07:40:42'),
 (130, 73, 27, 7, 18, '2019-07-01 07:41:12'),
-(131, 74, 27, 11, 11, '2019-07-01 07:41:56'),
-(132, 75, 27, 14, 15, '2019-07-01 08:01:10'),
+(131, 74, 27, 11, 30, '2019-07-01 07:41:56'),
+(132, 75, 27, 14, 44, '2019-07-01 08:01:10'),
 (133, 76, 27, 14, 13, '2019-07-01 08:02:11'),
-(134, 77, 28, 7, 5, '2019-07-03 14:22:41');
+(134, 77, 28, 7, 5, '2019-07-03 14:22:41'),
+(135, 78, 29, 7, 45, '2019-07-04 19:52:18'),
+(136, 78, 29, 6, 0, '2019-07-04 19:52:25'),
+(137, 78, 29, 11, 0, '2019-07-04 19:52:33'),
+(138, 78, 29, 14, 0, '2019-07-04 19:52:37');
 
 --
 -- Trigger `build_assy`
@@ -387,17 +398,18 @@ CREATE TABLE `main_pdo` (
   `p_loss_time` double DEFAULT NULL,
   `jam_effective` double DEFAULT NULL,
   `dpm_fa` double DEFAULT NULL,
-  `status` int(11) NOT NULL
+  `status` int(11) NOT NULL,
+  `signature` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `main_pdo`
 --
 
-INSERT INTO `main_pdo` (`id`, `id_shift`, `id_users`, `id_line`, `tanggal`, `mh_out`, `mh_in_dl`, `mh_in_idl`, `direct_eff`, `total_productiv`, `jam_kerja`, `line_speed`, `loss_output`, `p_loss_time`, `jam_effective`, `dpm_fa`, `status`) VALUES
-(27, 2, 3, 1, '2019-07-01 15:59:12', 461.3946964740753, 465.9999997615814, 30, 99.011737491446, 93.023124333843, 10, 128, 0, 1.4576271185452456, 9.8333, 64935.064, 1),
-(28, 2, 3, 1, '2019-07-03 14:22:23', 14.983500242233276, 291.5, 30, 5.1401373043682, 4.6604977425298, 10, 108, 19, 0, 9.85, 0, 1),
-(29, 2, 3, 1, '2019-07-04 07:59:37', NULL, NULL, NULL, NULL, NULL, 9, 105, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `main_pdo` (`id`, `id_shift`, `id_users`, `id_line`, `tanggal`, `mh_out`, `mh_in_dl`, `mh_in_idl`, `direct_eff`, `total_productiv`, `jam_kerja`, `line_speed`, `loss_output`, `p_loss_time`, `jam_effective`, `dpm_fa`, `status`, `signature`) VALUES
+(27, 2, 3, 1, '2019-07-01 15:59:12', 572.6421942710876, 465.9999997615814, 26, 122.88459110817, 116.3906899489, 10, 88, 0, 1.4576271185452456, 9.8333, 52631.578, 1, ''),
+(28, 2, 3, 1, '2019-07-03 14:22:23', 14.983500242233276, 291.5, 30, 5.1401373043682, 4.6604977425298, 10, 108, 19, 0, 9.85, 0, 1, ''),
+(29, 2, 3, 1, '2019-07-04 07:59:37', 134.8515021800995, 107.19999997317791, 9, 125.79431176664, 116.05120672223, 9, 98, 0, 0, 8.9333, 0, 1, '');
 
 -- --------------------------------------------------------
 
@@ -423,13 +435,15 @@ INSERT INTO `output_control` (`id`, `id_pdo`, `plan`, `actual`, `jam_ke`, `time`
 (68, 27, 4, 4, 2, '2019-07-01 16:03:52'),
 (69, 27, 5, 10, 3, '2019-07-01 16:11:18'),
 (70, 27, 3, 4, 4, '2019-07-01 16:11:48'),
-(71, 27, 25, 26, 5, '2019-07-01 16:12:02'),
+(71, 27, 25, 14, 5, '2019-07-01 16:12:02'),
 (72, 27, 23, 30, 6, '2019-07-01 07:40:38'),
 (73, 27, 18, 18, 7, '2019-07-01 07:41:08'),
-(74, 27, 20, 11, 8, '2019-07-01 07:41:51'),
-(75, 27, 16, 15, 9, '2019-07-01 08:01:04'),
+(74, 27, 20, 30, 8, '2019-07-01 07:41:51'),
+(75, 27, 16, 44, 9, '2019-07-01 08:01:04'),
 (76, 27, 13, 13, 10, '2019-07-01 08:02:07'),
-(77, 28, 24, 5, 1, '2019-07-03 14:22:35');
+(77, 28, 24, 5, 1, '2019-07-03 14:22:35'),
+(78, 29, 45, 45, 1, '2019-07-04 19:52:14'),
+(79, 29, 45, 0, 2, '2019-07-04 19:52:47');
 
 -- --------------------------------------------------------
 
@@ -513,7 +527,7 @@ INSERT INTO `target` (`id`, `id_line`, `mh_out`, `mh_in`, `efisiensi`, `periode`
 (1, 1, 0, 0, 0, '2019-06-03'),
 (3, 1, 299, 822, 97.7, '2019-05-01'),
 (4, 1, 3, 3, 98, '2019-06-25'),
-(5, 1, 500, 580, 101, '2019-07-01');
+(5, 1, 508, 580, 101, '2019-07-01');
 
 -- --------------------------------------------------------
 
@@ -704,7 +718,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `absen_leader`
 --
 ALTER TABLE `absen_leader`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `absen_pegawai`
@@ -722,7 +736,7 @@ ALTER TABLE `assembly`
 -- AUTO_INCREMENT untuk tabel `build_assy`
 --
 ALTER TABLE `build_assy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
 
 --
 -- AUTO_INCREMENT untuk tabel `direct_labor`
@@ -794,7 +808,7 @@ ALTER TABLE `main_pdo`
 -- AUTO_INCREMENT untuk tabel `output_control`
 --
 ALTER TABLE `output_control`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT untuk tabel `quality_control`
