@@ -445,15 +445,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                            submited = respon.pdo.status; 
 	                            // console.log(respon);
 	                            for(i=0; i<data.length; i++){
-	                                html += 
-
+	                            	x = data[i].durasi*60;
+		                        	menit = (x%3600)/60;
+		                        	detik = (x%3600)%60;
+		                        	var duras = Math.floor(menit)+' Menit '+Math.floor(detik)+' Detik';
+		                        	
+	                                html +=  
 	                                '<tr>'+
 										'<td class="table-plus">'+data[i].jam_ke+'</td>'+
 										'<td>'+ data[i].kode+'</td>'+
 										'<td>'+data[i].problem+'</td>'+
 										'<td>'+data[i].jenis+'</td>'+
 										'<td>'+data[i].keterangan+'</td>'+
-										'<td>'+data[i].durasi+'</td>'+
+										'<td>'+duras+'</td>'+
 										'<td>'+
 											'<div class="dropdown">'+
 												'<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+

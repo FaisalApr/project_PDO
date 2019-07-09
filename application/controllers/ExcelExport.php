@@ -12,6 +12,7 @@ class ExcelExport extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('Pdo_model');
+        $this->load->model('Losstime_model');
         $this->load->model('Export_model');
 	}
  
@@ -57,7 +58,7 @@ class ExcelExport extends CI_Controller {
         $pdo = $this->input->post('id_pdo');
 
         $qcd = $this->Export_model->getSumQcd($pdo);
-        $r_pdo = $this->Export_model->getDataQcd($pdo); 
+        $r_pdo = $this->Export_model->getDataQcd($pdo);  
 
         // Create new Spreadsheet object
         $spreadsheet = new Spreadsheet();
@@ -67,7 +68,7 @@ class ExcelExport extends CI_Controller {
 
         // Set document properties
         $spreadsheet->getProperties()->setCreator('Andoyo - Java Web Media')
-            ->setLastModifiedBy('W&F Media')
+            ->setLastModifiedBy('Wi&Fa Media')
             ->setTitle('Office 2007 XLSX Test Document')
             ->setSubject('Office 2007 XLSX Test Document')
             ->setDescription('Test document for Office 2007 XLSX, generated using PHP classes.')
@@ -78,10 +79,10 @@ class ExcelExport extends CI_Controller {
         $stat = '';
         if ($r_pdo->status==1) {
             $stat = 'Checked';
-            $spreadsheet->getActiveSheet()->getStyle('B7')->applyFromArray($s_status_ok);
+            $spreadsheet->getActiveSheet()->getStyle('B7')->applyFromArray($s_status_ok); 
         }else{
             $stat = 'Un-Checked';
-            $spreadsheet->getActiveSheet()->getStyle('B7')->applyFromArray($s_status_un);
+            $spreadsheet->getActiveSheet()->getStyle('B7')->applyFromArray($s_status_un); 
         }
         // tanggal
         $daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
@@ -137,6 +138,88 @@ class ExcelExport extends CI_Controller {
                 $i++;
                 $no++;
         }
+
+    // ====================== DOWNTIMW =============================
+        $down = $this->Losstime_model->getLosstimeUserrrr($pdo);
+        $widget = $this->Losstime_model->getLosstimeWidget($pdo);
+
+        $z = $i+9;
+        // STATUS
+        $stat = '';
+        if ($r_pdo->status==1) {
+            $stat = 'Checked';
+            $spreadsheet->getActiveSheet()->getStyle('B'.($z+6))->applyFromArray($s_status_ok); 
+        }else{
+            $stat = 'Un-Checked';
+            $spreadsheet->getActiveSheet()->getStyle('B'.($z+6))->applyFromArray($s_status_un); 
+        }
+        $spreadsheet->setActiveSheetIndex(0) 
+            ->setCellValue('C'.$z, 'Daily Downtime Summary')
+            ->setCellValue('A'.($z+3), 'Tanggal')
+            ->setCellValue('A'.($z+4), 'Line')
+            ->setCellValue('A'.($z+5), 'Shift')
+            ->setCellValue('A'.($z+6), 'Status')
+            //isi header
+            ->setCellValue('B'.($z+3), $tgl.', '.$tglparse->format('d/m/Y'))
+            ->setCellValue('B'.($z+4), $r_pdo->nama_line)
+            ->setCellValue('B'.($z+5), $r_pdo->keterangan)
+            ->setCellValue('B'.($z+6), $stat)
+
+            // TABEL 
+            ->setCellValue('I'.($z+8), 'Jam Effective')
+            ->setCellValue('I'.($z+9), 'Prosentase Losstime')
+            ->setCellValue('I'.($z+10), 'Total Losstime')
+            ->setCellValue('I'.($z+11), 'Total Exclude')  
+            // TABEL INFO
+            ->setCellValue('K'.($z+8), round($widget->jam_iff,1).' jam')
+            ->setCellValue('K'.($z+9), round($widget->losspercent,2).' %')
+            ->setCellValue('K'.($z+10), round(($widget->to_loss/60),2) .' jam')
+            ->setCellValue('K'.($z+11), round(($widget->to_exc/60),2) .' jam') 
+
+            // HEADER TABEL
+            ->setCellValue('A'.($z+8), 'Jam Ke')
+            ->setCellValue('B'.($z+8), 'Kode')
+            ->setCellValue('C'.($z+8), 'Problem')
+            ->setCellValue('D'.($z+8), 'Keterangan')
+            ->setCellValue('F'.($z+8), 'Durasi')
+            ->setCellValue('G'.($z+8), 'Type');
+        // Merge
+        $spreadsheet->getActiveSheet()->mergeCells("C2:E2"); // judul !
+        $spreadsheet->getActiveSheet()->mergeCells("C".($z).":E".($z)); // judul 2
+        $spreadsheet->getActiveSheet()->mergeCells("D".($z+8).":E".($z+8)); //header tabel merge
+        // merge info
+        $spreadsheet->getActiveSheet()->mergeCells("I".($z+8).":J".($z+8));
+        $spreadsheet->getActiveSheet()->mergeCells("I".($z+9).":J".($z+9));
+        $spreadsheet->getActiveSheet()->mergeCells("I".($z+10).":J".($z+10));
+        $spreadsheet->getActiveSheet()->mergeCells("I".($z+11).":J".($z+11));
+
+        //TABEL INFO LABOR
+        // Data LIST DOWNTIME
+        $y = $z+9;
+        foreach($down as $down) {
+            $all = ($down->durasi*60);
+            // menit
+            $menit = floor(($all%3600)/60);
+            // detik
+            $detik = floor((($all%3600)%60)/1);
+
+            $spreadsheet->setActiveSheetIndex(0)  
+                ->setCellValue('A'.$y, $down->jam_ke)
+                ->setCellValue('B'.$y, $down->kode)
+                ->setCellValue('C'.$y, $down->problem)
+                ->setCellValue('D'.$y, $down->keterangan)
+                ->setCellValue('F'.$y, $menit.' Menit '.$detik.' dtk')
+                ->setCellValue('G'.$y, $down->jenis); 
+                $y++; 
+            $spreadsheet->getActiveSheet()->mergeCells("D".($y).":E".($y));
+        }
+
+        // null data
+        $spreadsheet->getActiveSheet()->mergeCells("D".($y+1).":E".($y+1));
+        $spreadsheet->getActiveSheet()->mergeCells("D".($y+2).":E".($y+2));
+        $spreadsheet->getActiveSheet()->mergeCells("D".($y+3).":E".($y+3));
+
+
         // ISI BOTTOM
         $spreadsheet->setActiveSheetIndex(0)  
                 ->setCellValue('D'.($i+2), 'Total')
@@ -144,22 +227,30 @@ class ExcelExport extends CI_Controller {
 
         // STYLE FORMATTING
         $spreadsheet->getActiveSheet()->getStyle('C2')->getFont()->setSize(18);
+        $spreadsheet->getActiveSheet()->getStyle('C'.$z)->getFont()->setSize(18);
+
         // $spreadsheet->getActiveSheet()->getColumnFimension('C')->setWidth(10);
         $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(12);
         $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(14);
         $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(12);
+        $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(15);
         // center aligment
         $spreadsheet->getActiveSheet()->getStyle('A9:E9')->getAlignment()->setHorizontal('center');
+        $spreadsheet->getActiveSheet()->getStyle('A'.($z+8).':G'.($z+8))->getAlignment()->setHorizontal('center');
         $spreadsheet->getActiveSheet()->getStyle('H12')->getAlignment()->setHorizontal('right');
         $spreadsheet->getActiveSheet()->getStyle('A10:E'.($i+2))->getAlignment()->setHorizontal('right');
+        $spreadsheet->getActiveSheet()->getStyle('K'.($z+8).':K'.($z+11))->getAlignment()->setHorizontal('right');
 
-        //  TABEL FORMAT 
+        //  TABEL FORMAT QCD
         $spreadsheet->getActiveSheet()->getStyle('A:Z')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('ffffff');
         $spreadsheet->getActiveSheet()->getStyle('A9:E9')->getBorders()->getAllBorders()->applyFromArray($s_border_tabel);//tbl main
         $spreadsheet->getActiveSheet()->getStyle('A10:E'.($i+3))->getBorders()->getAllBorders()->applyFromArray($s_border_tabel_info);//tbl main
         $spreadsheet->getActiveSheet()->getStyle('G9:H14')->getBorders()->getAllBorders()->applyFromArray($s_border_tabel_info);//info
 
-
+        // Tabel Format DOWNTIME
+        $spreadsheet->getActiveSheet()->getStyle('A'.($z+8).':G'.($z+8))->getBorders()->getAllBorders()->applyFromArray($s_border_tabel);//tbl main
+        $spreadsheet->getActiveSheet()->getStyle('A'.($z+9).':G'.($y+3))->getBorders()->getAllBorders()->applyFromArray($s_border_tabel_info);//tbl main
+        $spreadsheet->getActiveSheet()->getStyle('I'.($z+8).':K'.($z+11))->getBorders()->getAllBorders()->applyFromArray($s_border_tabel_info);//info
 
         // Rename worksheet
         $spreadsheet->getActiveSheet()->setTitle("Daily Summary QCD");

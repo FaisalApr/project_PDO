@@ -304,7 +304,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			// aAUTOOLOAD
 			var name_shift = document.getElementById('id_sifname').innerHTML;
-			show();    
+			cariDataPdo();
 			
 
 			function cariDataPdo() { 
@@ -331,7 +331,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    			// document.getElementById('btn_adddown').style.display = 'none';
 	                    			// show_notYou(res.id_pdo);  
 	                    		}   
-	                    		pdo_id = res.id_pdo;  
+	                    		pdo_id = res.id_pdo; 
+	                    		show(pdo_id); 
 	                    		// isi_dropdown(res.id_pdo);
 	                    		console.log(res); 	
 	                    	}else {
@@ -346,17 +347,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 			// =================== Read Record =============================================== 
-            function show(){
+            function show(pdo){
                     $.ajax({
                         async :false,
                         type  : 'POST',
                         url   : '<?php echo base_url();?>index.php/Defect/getDefectsUser',
                         dataType : 'json',
-                        data : {id_pdo:$('#id_pdo').val()},
+                        data : {id_pdo:pdo},
                         success : function(response){
                             var html = '';
-                            var i;
-                            console.log(response);
+                            var i; 
+
                             var data = response.alldefect; 
 
                             // setting WIDGET
