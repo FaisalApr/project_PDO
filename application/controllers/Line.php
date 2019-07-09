@@ -24,10 +24,10 @@ class Line extends CI_Controller {
 			'nama_line' => $this->input->post('nama_line')
 		);
 
-		// insert data new defect
+		// insert data new Line
 		$result = $this->LineModel->createLine($dataLine);
 		if($result){
-			$output ['status'] = "ok";
+			// $output ['status'] = "ok";
 			
 		}else{
 			$output['error'] = true;
