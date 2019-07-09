@@ -53,6 +53,11 @@
 						</ul>
 					</li>
 					
+					<li class=" <?php echo $this->uri->segment(1) == 'Export' ? 'aktip': '' ?>">
+						<a href="<?php echo site_url() ?>/Export" class="dropdown-toggle no-arrow"> 
+							<i class="icon-copy fa fa-file-archive-o" aria-hidden="true"></i><span class="mtext">Export</span>
+						</a>
+					</li>  					
 					 
 				</ul>
 			</div>

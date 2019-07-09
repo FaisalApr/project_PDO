@@ -60,7 +60,7 @@
   			<div class="row">
   				<div style="margin-left: 50px;">
 	  				<font size="46">Line:</font> 
-					<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -20px;"><font size="56"><?php echo $sesi['nama_line'] ?></font></span>
+					<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -20px;"><font size="56" id="name_line"><?php echo $sesi['nama_line'] ?></font></span>
 	  			</div>
 
 	  			<div style="margin-left: 50px;">

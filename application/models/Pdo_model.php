@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Pdo_model extends CI_Model {
  
+ 	public function getPdoAll() 
+	{
+		$this->db->select('*');
+		$this->db->from('main_pdo');  
+		$query=$this->db->get();
+
+		return $query->result();
+	}
 
 	public function getDataByline($dat,$ln,$sf)
 	{  
