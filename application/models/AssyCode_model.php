@@ -19,14 +19,11 @@ class AssyCode_model extends CI_Model {
 		return $query->result();
 	}
 
-	public function getAcodeDasboard()
+	public function getAcodeDasboard($id_ln)
 	{
 		# code...
-		// urut berdasarkan abjad
-		$this->db->order_by('kode_assy','asc');
-		// get data
-		$query = $this->db->get('assembly');
-		return $query->result();
+		$q = $this->db->query("SELECT * FROM line_manager JOIN assembly on line_manager.id_assy=assembly.id WHERE id_line=$id_ln");
+		return $q->result();
 	}
 
 	public function delAcode($id)

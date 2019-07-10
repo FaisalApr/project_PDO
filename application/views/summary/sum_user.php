@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				var awalDay = (new Date(currentYear, currentMonth)).getDay();
 		        var daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
 
-				document.getElementById('slect_date').value=currentDate+' '+monthName[currentMonth]+' '+currentYear;
+				document.getElementById('slect_date').value= days[today.getDay()]+', '+currentDate+' '+monthName[currentMonth]+' '+currentYear;
 				// time Change by picker
 				$('.date-pickerrr').datepicker({   
 					language: "en",
@@ -94,7 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    onSelect: function(selected, d, calendar) {
 				    	let tod = new Date(selected); 
 				    	// set on view datepicker
-				    	document.getElementById('slect_date').value=tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+				    	document.getElementById('slect_date').value=days[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
 				    	
 				    	// set default change
 				    	datetimeNow = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate(); //time for post data
@@ -103,10 +103,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						currentDate = tod.getDate();
 
 						// UPDATE VAR mencari buat start &  total hari 
-						awalDay = (new Date(currentYear, currentMonth)).getDay();
+						awalDay = 1;
 				        daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
 
-				        alert(awalDay+'/'+daysInMonth);
+				        // alert(awalDay+'/'+daysInMonth);
 				    	calendar.hide();
 				    	show();
 				    }
@@ -516,7 +516,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						    }, 
 						    yAxis: {
 						        title: {
-						            text: 'Total Deffect',
+						            text: 'Total DPM',
 						            gridLineDashStyle: 'longdash'
 						        }
 						    },legend: {
@@ -594,9 +594,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 											        	// data series
-											    		var a = [Date.UTC(tgl.getFullYear(),tgl.getMonth(),tgl.getDate()), parseFloat(to) ]; 
+											    		var a = [Date.UTC(tgl.getFullYear(),tgl.getMonth(),tgl.getDate()), parseFloat(res[i].dpm) ]; 
 		 
-											        		da.push(a);
+											        	da.push(a);
 											        }	
 							                    }
 							                });
@@ -650,7 +650,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											        	defB.push(tmp);
 
 											        	// data series
-											    		var a = [Date.UTC(tgl.getFullYear(),tgl.getMonth(),tgl.getDate()), parseFloat(to) ]; 
+											    		var a = [Date.UTC(tgl.getFullYear(),tgl.getMonth(),tgl.getDate()), parseFloat(res[i].dpm) ]; 
 		 
 											        		da.push(a);
 											        }	
@@ -695,6 +695,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						        	//  A
 						        	html ='Tgal : '+tgl+'<br>'+
+						        	'DPM : '+(this.point.y).toFixed(0)+'<br>'+
 						        	'<b>Shift A</b> : '+pointData.tot+'<br>';
 						        		for (var i = 0; i < pointData.data.length; i++) {
 						        			html +=

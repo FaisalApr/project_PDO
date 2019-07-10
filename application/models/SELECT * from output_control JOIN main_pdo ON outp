@@ -1,0 +1,75 @@
+SELECT * from output_control JOIN main_pdo ON output_control.id_pdo=main_pdo.id JOIN line ON main_pdo.id_line=line.id JOIN shift on main_pdo.id_shift=shift.id
+WHERE YEAR(main_pdo.tanggal)=YEAR('2019-07-02') AND MONTH(main_pdo.tanggal)=MONTH('2019-07-02') AND main_pdo.id_line='8' AND shift.keterangan='A' ORDER BY main_pdo.tanggal ASC
+
+//// TOTal p & A tiap LINE. //////
+
+SELECT 
+	output_control.time,sum(output_control.plan)as to_plan,sum(output_control.actual)as to_actual
+FROM output_control 
+	JOIN main_pdo ON output_control.id_pdo=main_pdo.id
+    JOIN line ON main_pdo.id_line=line.id
+    JOIN shift on main_pdo.id_shift=shift.id
+WHERE
+    line.id=8
+GROUP BY DAY(output_control.time) 
+ORDER BY output_control.time ASC
+
+//normal pengurangan
+SELECT 
+	output_control.time,sum(output_control.plan)as to_plan,sum(output_control.actual)as to_actual, 
+    (
+		(sum(output_control.plan))-(sum(output_control.actual))
+    )
+    
+FROM output_control 
+	JOIN main_pdo ON output_control.id_pdo=main_pdo.id
+    JOIN line ON main_pdo.id_line=line.id
+    JOIN shift on main_pdo.id_shift=shift.id
+WHERE
+    line.id=8
+GROUP BY DAY(output_control.time) 
+ORDER BY output_control.time ASC
+
+/// fix with keterangan
+SELECT 
+	output_control.time,sum(output_control.plan)as to_plan,sum(output_control.actual)as to_actual, 
+    (
+		(sum(output_control.plan))-(sum(output_control.actual))
+    ) as balance,
+    (
+      if( (sum(output_control.plan))<(sum(output_control.actual)),"S","B"  )
+    ) as ket,
+    (
+      if( (sum(output_control.plan))<(sum(output_control.actual)),(sum(output_control.actual))-(sum(output_control.plan)), (sum(output_control.actual))-(sum(output_control.plan))  )
+    ) as Balance_fix
+    
+    
+FROM output_control 
+	JOIN main_pdo ON output_control.id_pdo=main_pdo.id
+    JOIN line ON main_pdo.id_line=line.id
+    JOIN shift on main_pdo.id_shift=shift.id
+WHERE
+    line.id=8
+GROUP BY DAY(output_control.time) 
+ORDER BY output_control.time ASC
+
+// FIX 
+SELECT 
+	output_control.time,sum(output_control.plan)as to_plan,sum(output_control.actual)as to_actual,  
+    (
+      if( (sum(output_control.plan))<(sum(output_control.actual)),(sum(output_control.actual))-(sum(output_control.plan)), (sum(output_control.actual))-(sum(output_control.plan))  )
+    ) as balance
+    
+FROM output_control 
+	JOIN main_pdo ON output_control.id_pdo=main_pdo.id
+    JOIN line ON main_pdo.id_line=line.id
+    JOIN shift on main_pdo.id_shift=shift.id
+WHERE
+    line.id=8 AND
+    YEAR(output_control.time)=YEAR('2019-07-01') AND
+    MONTH(output_control.time)=MONTH('2019-07-01')
+    
+GROUP BY DAY(output_control.time) 
+ORDER BY output_control.time ASC
+
+

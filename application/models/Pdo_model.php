@@ -13,8 +13,14 @@ class Pdo_model extends CI_Model {
 
 	public function getDataByLineWaktuShift($lin,$tgl,$sf)
 	{
-		$query = $this->db->query("SELECT main_pdo.id,tanggal FROM main_pdo JOIN shift on main_pdo.id_shift=shift.id WHERE shift.keterangan='$sf' AND id_line=$lin AND YEAR(tanggal)=YEAR('$tgl') AND MONTH(tanggal)=MONTH('$tgl') ORDER BY tanggal ASC");
+		$query = $this->db->query("SELECT COALESCE(main_pdo.dpm_fa,0) as dpm,main_pdo.id,tanggal FROM main_pdo JOIN shift on main_pdo.id_shift=shift.id WHERE shift.keterangan='$sf' AND id_line=$lin AND YEAR(tanggal)=YEAR('$tgl') AND MONTH(tanggal)=MONTH('$tgl') ORDER BY tanggal ASC");
 		return $query->result();
+	}
+
+	public function getDataByTanggalChange($date,$sif,$line)
+	{
+		$query = $this->db->query("SELECT *,main_pdo.id as id_pdo FROM main_pdo  JOIN shift on main_pdo.id_shift=shift.id  WHERE date(tanggal)=date('$date')  AND shift.keterangan='$sif' AND main_pdo.id_line=$line");
+		return $query->first_row();
 	}
 
 	public function pdoById($id_pdo) 

@@ -5,6 +5,9 @@
 	.hidenn{
 	  display: none;
 	} 
+	.dipilih{
+
+	}
 </style>
 
 	<div class="pre-loader"></div>
@@ -26,7 +29,11 @@
 				</div>
 			</div> 
 
-			<div class="user-notification">
+			<div class="user-notification row">
+				<div style="margin-top: -22px; margin-right: 15px;"> 
+	  				<img src="<?php echo base_url() ?>assets/src/images/verif.png" height="70" width="70" class="mobile-logo" id="id_verif" style="display: none;">
+	  			</div>
+
 				<div class="dropdown">  
 					<div class="input-group custom input-group-sm">
 						<input id="slect_date" class="form-control date-pickerrr" type="text" style="margin-top: -5px;">
@@ -43,7 +50,6 @@
 				</a>
 			</div>
 
-
 			<div class="menu-icon">
 				<span></span>
 				<span></span>
@@ -58,22 +64,24 @@
 	  			</div>
 
 	  			<div style="margin-left: 50px;">
-	  				<font size="46">Shift:</font> 
-					<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -10px;"><font size="56"><?php echo $sesi['keterangan'] ?></font></span>
+	  				<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"> 
+	  					<font size="46">Shift:</font>  
+						<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -10px;"><font size="56" id="id_sifname"><?php echo $sesi['keterangan'] ?></font></span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-right" id="drop_shiftt">  
+						<a class="dropdown-item pilih_sf <?php if($sesi['keterangan']=='A') echo 'aktip' ?>" id="sf_a" href="#" data-value="A">A <?php if($sesi['keterangan']=='A') echo ' (Sekarang)' ?></a> 
+						<a class="dropdown-item pilih_sf <?php if($sesi['keterangan']=='B') echo 'aktip' ?>" id="sf_b" href="#" data-value="B">B <?php if($sesi['keterangan']=='B') echo ' (Sekarang)' ?></a>
+					</div>
 	  			</div>
 
 	  			<div style="margin-left: 50px;" class="<?php echo $this->uri->segment(1) != 'Dasboard' ? 'hidenn': '' ?>">
 	  				<font size="46">Speed:</font> 
-					<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -10px;"><font size="56"><?php echo $pdo->line_speed ?></font><a href="#" id="btn_changesped"><i class="fa fa-cog" aria-hidden="true"></i></a></span>
+					<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -10px;"><font size="56" id="id_speedline"><?php echo $pdo->line_speed ?></font><a href="#" id="btn_changesped" ><i class="fa fa-cog" aria-hidden="true"></i></a></span>
 	  			</div>	
+ 
   			</div>
   			 
 			
 
 		</div>
-
-
-  
-
-
 	</div>

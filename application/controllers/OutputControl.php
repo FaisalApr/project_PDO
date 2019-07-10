@@ -19,19 +19,34 @@ class OutputControl extends CI_Controller {
 // ============== Ajaxx. ===========
 	
 	// func di DASBOARD HOME
-	public function getDataOutputControl()
-	{
-		# code...
-		$result['data'] = $this->OutputControl_model->getOutputControl();
-		$result['mhin_tot'] = $this->OutputControl_model->getMHintot();
-		$result['mhin'] = $this->OutputControl_model->getMHin();
-		$result['mp'] = $this->OutputControl_model->getMP();
-		$result['to_lossdetik'] = $this->Losstime_model->getToLosstimeDetik();
-		$result['data_dl'] = $this->DirectLabor_Model->getDl();
-		$result['pdo'] = $this->Pdo_model->pdoById($this->input->post('id_pdo')); 
-		
-		echo json_encode($result);
-	}
+		public function getDataOutputControl()
+		{
+			# code...
+			$result['data'] = $this->OutputControl_model->getOutputControl();
+			$result['mhin_tot'] = $this->OutputControl_model->getMHintot();
+			$result['mhin'] = $this->OutputControl_model->getMHin();
+			$result['mp'] = $this->OutputControl_model->getMP();
+			$result['to_lossdetik'] = $this->Losstime_model->getToLosstimeDetik();
+			$result['data_dl'] = $this->DirectLabor_Model->getDl();
+			$result['pdo'] = $this->Pdo_model->pdoById($this->input->post('id_pdo')); 
+			
+			echo json_encode($result);
+		}
+
+		public function getDataCari()
+		{ 
+			// get sesion
+			$session_data = $this->session->userdata('pdo_logged');  
+
+			$sif = $this->input->post('name_sif');
+			$date = $this->input->post('tgl');
+			$line = $session_data['id_line'];   
+			
+			$result = $this->Pdo_model->getDataByTanggalChange($date,$sif,$line); 
+
+			echo json_encode($result);
+		}
+
 
 	public function getDataBuildAssy()
 	{

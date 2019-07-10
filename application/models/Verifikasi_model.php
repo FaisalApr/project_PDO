@@ -14,6 +14,16 @@ class Verifikasi_model extends CI_Model {
 		}
 	}
 
+	public function cariNotVerif($date,$user)
+	{
+		$query = $this->db->query("SELECT * FROM main_pdo WHERE status=0 AND id_users=$user AND date(tanggal)<date('$date')");
+
+		if ($query->num_rows()>0) {
+			return $query->first_row();
+		}else{
+			return false;
+		}
+	}
 
 }
 

@@ -48,7 +48,7 @@ class Target extends CI_Controller {
 			'mh_out'	=> $this->input->post('out'),
 			'mh_in' 	=> $this->input->post('in'),
 			'efisiensi' => $this->input->post('eff'),
-			'periode'	=> date("Y-m-d")
+			'periode'	=> $this->input->post('tgl')
 		);
 
 		$result = $this->Target_model->newTarget($datanew);

@@ -6,6 +6,7 @@ class Welcome extends CI_Controller {
  	function __construct(){
 		parent::__construct();		
 		$this->load->model('Pdo_model');  
+		$this->load->model('Verifikasi_model');  
 		$this->load->model('DirectLabor_Model');
 		$this->load->model('InDirectLabor_Model');
 		date_default_timezone_set("Asia/Jakarta");
@@ -124,7 +125,20 @@ class Welcome extends CI_Controller {
 
 		echo json_encode($output);
 	}
- 
+ 	
+ 	public function cekBelumVerifikasi()
+ 	{
+ 		// get sesion
+		$session_data = $this->session->userdata('pdo_logged'); 
+		
+ 		$date = date("Y-m-d");
+ 		$user = $session_data['id_user'];  
+
+ 		$result = $this->Verifikasi_model->cariNotVerif($date,$user);
+
+ 		echo json_encode($result);
+ 		# code...
+ 	}
 		// arr atcv
 		// $atcv_arr = $this->input->post('arr_actv'); 
 

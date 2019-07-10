@@ -41,6 +41,18 @@ class Losstime extends CI_Controller {
 		}
 	}
 
+
+// 	++++++++++    AJAX    ++++++++++++++
+
+	public function cari_jam_ocPDO()
+	{
+		$id_p = $this->input->post('id_pdo');
+		
+		$data = $this->Losstime_model->get_all_record_by_id($id_p);
+
+		echo json_encode($data);
+	}
+
 	public function newLosstime()
 	{
 		# code...
@@ -110,6 +122,15 @@ class Losstime extends CI_Controller {
 		$refresh = $this->Pdo_model->refreshData($this->input->post('id_pdo'));
 		
 		echo json_encode($result);
+	}
+
+	public function cariLossTime()
+	{
+		$id_oc = $this->input->post('id_oc');
+
+		$result = $this->Losstime_model->findLossTimeByOc($id_oc);
+		
+		echo json_encode($result);		
 	}
 
 }

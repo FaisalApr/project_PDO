@@ -17,6 +17,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 
 </head>
 <body>
+	<?php 
+		$ses = $this->session->userdata('pdo_logged'); 
+	 ?>
+	<input type="hidden" id="id_users" value="<?php echo $ses['id_user'] ?>">
 	<input type="hidden" id="id_pdo" value="<?php echo $pdo->id ?>">
 	<?php $this->load->view('header/header_users'); ?>
 	<?php $this->load->view('header/sidebar_users'); ?>
@@ -85,84 +89,83 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- KUMPPULAN MODAL -->
 <div>
 	<!-- input modal -->
-	<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-					<h2 class="text-center mb-30">Defect</h2>
-					<form id="formDefect"> 
-						<div class="input-group custom input-group-lg">
-						  <div class="input-group custom input-group-lg">
-							<select class="custom-select col-12" name="levelupp" id="i_jam">
-								<option disabled selected> Pilih Jam ke</option>
-										<?php foreach ($data_oc as $key) { ?>
-											<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
-										<?php }  ?>
-							</select>
-						  </div>
-						</div>
+		<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+						<h2 class="text-center mb-30">Defect</h2>
+						<form id="formDefect"> 
+							<div class="input-group custom input-group-lg">
+							  <div class="input-group custom input-group-lg">
+								<select class="custom-select col-12" name="levelupp" id="i_jam">
+									<option disabled selected> Pilih Jam ke</option>
+											<?php foreach ($data_oc as $key) { ?>
+												<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
+											<?php }  ?>
+								</select>
+							  </div>
+							</div>
 
-						<div class="input-group custom input-group-lg">
-							<select class="custom-select col-12" name="levelup" id="i_select">
-								<option disabled selected> Pilih Jenis Defect</option>
-										<?php foreach ($defect as $key) { ?>
-											<option value="<?php  echo $key->id ?>"> <?php  echo $key->code .'('.$key->keterangan.')' ?> </option>
-										<?php }  ?>
-									</select>
-							</select>
-						</div> 
-						<div class="input-group custom input-group-lg">
-							<input id="i_ket" type="text" class="form-control" placeholder="Keterangan">
-							<div class="input-group-append custom">
-								<span class="input-group-text"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
-							</div>
-						</div> 
-						<div class="input-group custom input-group-lg">
-							<input type="text" class="form-control" placeholder="Total" id="i_total">
-							<div class="input-group-append custom">
-								<span class="input-group-text"><i class="fa fa-database" aria-hidden="true"></i></span>
-							</div>
-						</div> 
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="input-group">
-									<!--
-										use code for form submit
-										<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
-									-->
-									<a id="btn_submit" class="btn btn-primary btn-lg btn-block" href="#">Submit</a>
+							<div class="input-group custom input-group-lg">
+								<select class="custom-select col-12" name="levelup" id="i_select">
+									<option disabled selected> Pilih Jenis Defect</option>
+											<?php foreach ($defect as $key) { ?>
+												<option value="<?php  echo $key->id ?>"> <?php  echo $key->code .'('.$key->keterangan.')' ?> </option>
+											<?php }  ?>
+										</select>
+								</select>
+							</div> 
+							<div class="input-group custom input-group-lg">
+								<input id="i_ket" type="text" class="form-control" placeholder="Keterangan">
+								<div class="input-group-append custom">
+									<span class="input-group-text"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 								</div>
-							</div>
-						</div> 
-					</form>
+							</div> 
+							<div class="input-group custom input-group-lg">
+								<input type="number" class="form-control" placeholder="Total" id="i_total">
+								<div class="input-group-append custom">
+									<span class="input-group-text"><i class="fa fa-database" aria-hidden="true"></i></span>
+								</div>
+							</div> 
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="input-group">
+										<!--
+											use code for form submit
+											<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+										-->
+										<a id="btn_submit" class="btn btn-primary btn-lg btn-block" href="#">Submit</a>
+									</div>
+								</div>
+							</div> 
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
 	<!-- update modal -->
 	<div class="modal fade" id="modal_upd" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
-				<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+				<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
 					<h2 class="text-center mb-30">Defect</h2>
 					
 					<form id="formDefect"> 
-						<div class="input-group custom input-group-lg">
-							<input type="hidden" class="form-control" placeholder="Defect" name="id_updt" id="id_update">
+						<input type="hidden" name="id_updt" id="id_update">
+						<div class="input-group custom input-group-lg"> 
+							<label>Pilih Jam :</label>
 							<select class="custom-select col-12" name="jam_updt" id="jam_update">
 								<option disabled selected> Pilih Jam ke</option>
 										<?php foreach ($data_oc as $key) { ?>
 											<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
 										<?php }  ?>
-							</select> 
-							<div class="input-group-append custom">
-								<span class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
-							</div>
+							</select>  
 						</div>  
 						<div class="input-group custom input-group-lg">
+							<label>Jenis Defect :</label>
 							<select class="custom-select col-12" name="jenis_updt" id="jenis_update">
 								<option disabled selected> Pilih Jenis Defect</option>
 										<?php foreach ($defect as $key) { ?>
@@ -177,7 +180,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 						</div> 
 						<div class="input-group custom input-group-lg">
-							<input type="text" class="form-control" placeholder="Total" id="total_update" name="total_updt">
+							<input type="number" class="form-control" placeholder="Total" id="total_update" name="total_updt">
 							<div class="input-group-append custom">
 								<span class="input-group-text"><i class="fa fa-database" aria-hidden="true"></i></span>
 							</div>
@@ -196,27 +199,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 
 	<!-- Confirmation modal -->
-	<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-body text-center font-18">
-					<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
-					<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
-						<input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
-						<br>
-						<div class="col-6">
-							<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
-							NO
-						</div>
-						<div class="col-6">
-							<button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
-							YES
+		<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-body text-center font-18">
+						<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
+						<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
+							<input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
+							<br>
+							<div class="col-6">
+								<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+								NO
+							</div>
+							<div class="col-6">
+								<button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
+								YES
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div> 	
+		</div> 	
 </div>
 
 <script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script>
@@ -227,10 +230,122 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script>
 		$('document').ready(function(){
+			// variabel global	
+				// deklarasi nama bulan
+	 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+	 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+
+	 			var today = new Date();
+				var currentMonth = today.getMonth();
+				var currentYear = today.getFullYear();
+				var currDate = today.getDate();
+				var submited = false;		
+				var pdo_id = $('#id_pdo').val();
+			// aditional PICKER DATE  
+				// SETTING DEFAULT DATE
+	 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
+	            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
+
+
+				$(".inputs").keyup(function () {
+				    if (this.value.length == this.maxLength) {
+				      $(this).select();
+				      $(this).next('.inputs').focus();  
+				    }
+				});
+
+				$("input").click(function () {
+				   $(this).select();
+				}); 
+
+				$('.date-pickerrr').datepicker({   
+					language: "en",
+					firstDay: 1,   
+				    onSelect: function(selected, d, calendar) {   
+				    	// jika yang dipilih sama 
+				    	if (selected=='') {
+				    		today = new Date(datetimeNow);
+				    		var tod = new Date(datetimeNow);  
+
+				    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+				    		calendar.hide();
+				    		return ;
+				    	}else{
+				    		today = new Date(selected);
+				    		var tod = new Date(selected); 
+					    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+					    	datetimeNow = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+				    	} 
+				    	calendar.hide();
+
+				    	// refresh 
+				    	cariDataPdo(); 
+				    }
+				});
+			// PILIH SHIFTY
+				$('#drop_shiftt').on('click','.pilih_sf',function(){
+					var ssf = $(this).data('value'); 
+
+					document.getElementById('id_sifname').innerHTML= ssf;
+					if (ssf=='A') {
+						document.getElementById('sf_a').classList.add("aktip");
+						document.getElementById('sf_b').classList.remove("aktip"); 	
+					} else{
+						document.getElementById('sf_b').classList.add("aktip");	
+						document.getElementById('sf_a').classList.remove("aktip");	
+					}
+					name_shift = ssf;
+
+					// alert('sf :'+name_shift+'/tgl:'+datetimeNow);	
+					cariDataPdo();
+				});
+
+
+
+			// aAUTOOLOAD
+			var name_shift = document.getElementById('id_sifname').innerHTML;
+			show();    
 			
 
-			// =================== Read Record ===============================================
-			show();    
+			function cariDataPdo() { 
+
+					$.ajax({
+	                    async : false,
+	                    type  : 'POST',
+	                    url   : '<?php echo base_url();?>index.php/OutputControl/getDataCari',
+	                    dataType : 'JSON', 
+	                    data:{
+	                    	name_sif: name_shift,
+	                    	tgl: datetimeNow
+	                    },
+	                    success : function(res){   
+
+	                    	if (res) { 
+	                    		// cek jika itu bukan miliknya
+	                    		if ($('#id_users').val()==res.id_users) { 
+	                    			console.log('MILIKNYA') 
+	                    			// document.getElementById('btn_adddown').style.display = 'block';
+	                    			// show(res.id_pdo);  
+	                    		}else { 
+	                    			console.log('not YOU');
+	                    			// document.getElementById('btn_adddown').style.display = 'none';
+	                    			// show_notYou(res.id_pdo);  
+	                    		}   
+	                    		pdo_id = res.id_pdo;  
+	                    		// isi_dropdown(res.id_pdo);
+	                    		console.log(res); 	
+	                    	}else {
+	                    		console.log('is null'); 
+	                    		// show_nodata();
+	                    		// document.getElementById('btn_adddown').style.display = 'none';
+	                    	}
+	                    	
+	                    }
+	                });	
+				}
+
+
+			// =================== Read Record =============================================== 
             function show(){
                     $.ajax({
                         async :false,
@@ -241,7 +356,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         success : function(response){
                             var html = '';
                             var i;
-
+                            console.log(response);
                             var data = response.alldefect; 
 
                             // setting WIDGET
@@ -261,7 +376,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												'<i class="fa fa-ellipsis-h"></i>'+
 											'</a>'+											
 											'<div class="dropdown-menu dropdown-menu-right">'+
-												'<a class="dropdown-item item_edit" href="#" data-id="'+data[i].id+'" data-id_pdo="'+data[i].id_pdo+'" data-id_oc="'+data[i].id_oc+'" data-id_jenisdeffect="'+data[i].id_jenisdeffect+'" data-keterangan="'+data[i].item+'" data-total="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
+												'<a class="dropdown-item item_edit" href="#" data-id="'+data[i].id+'" data-id_pdo="'+data[i].id_pdo+'" data-id_oc="'+data[i].id_oc+'" data-id_defect="'+data[i].id_defect+'" data-keterangan="'+data[i].item+'" data-total="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
 												'<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
 											'</div>'+
 										'</div>'+
@@ -289,144 +404,140 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             }
             // =================== End Read Record ===============================================
+            //  ===================  START UPDATE Record ===============================================
+	            //get data for UPDATE record show prompt
+	            $('#tbl_body').on('click','.item_edit',function(){
+	            	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
+	                var id = $(this).data('id');
+	                var id_oc = $(this).data('id_oc');
+	                var id_jenis_defect = $(this).data('id_defect');
+	                var keterangan = $(this).data('keterangan');
+	                var total = $(this).data('total');
+	                 
+	                // memasukkan data ke form updatean
+					$('[name="id_updt"]').val(id);
+					$('[name="jam_updt"]').val(id_oc);
 
-            // =================== Create Record ===============================================
-   			$('#btn_submit').click(function(){
+					$("#jam_update option[value='"+id_oc+"']").prop('selected', true);
+					$("#jenis_update option[value='"+id_jenis_defect+"']").prop('selected', true);
 
-				var def_jam = document.getElementById("i_jam").value;
-				var def_ket = document.getElementById("i_ket").value;
-				var def_total = document.getElementById("i_total").value;
-				var levelup = $('select[name=levelup]').val()
-				// alert(def_jam+","+def_ket+","+def_total+","+levelup);
-				// alert($('#id_pdo').val());
+					$('[name="ket_updt"]').val(keterangan);
+					$('[name="total_updt"]').val(total);
 
+	                $('#modal_upd').modal('show');
+	                
+	            });
+	            
+	            //UPDATE record to database (submit button)
+	            $('#btn_update').on('click',function(){
+	                var idup = $('[name="id_updt"]').val();
+	                var id_oc_up = $('[name="jam_updt"]').val();
+	                var id_jenis_up = $('[name="jenis_updt"]').val();
+	                var ketup = $('[name="ket_updt"]').val();
+	                var totalup = $('[name="total_updt"]').val();
 
-				$.ajax({
-					async : false,
-					type : "POST",
-					url : "<?php echo base_url() ?>index.php/Defect/newDefect",
-				
-					dataType : "JSON",
-					data : {
-						def_id_pdo:$('#id_pdo').val(),
-						def_id_oc: def_jam,
-						def_id_jenisdeffect:levelup,
-						def_ket:def_ket,
-						def_total:def_total
-					},
-					success : function(response){
-							  $('#login-modal').modal('hide');
-						if(response.error){
-							// alert('error');
-						}else{
-							// alert(response.status);
-						}
-						document.getElementById("formDefect").reset();
-					}
-				});
-				show();
-			});
-			// =================== End Create Record ===============================================
+					// alert(umhup);
+	                $.ajax({
+	                    type : "POST",
+	                    url  : "<?php echo site_url(); ?>/Defect/updateDefect",
+	                    dataType : "JSON",
+	                    data : { 
+	                    		id_pdo:$('#id_pdo').val(),
+	                    		id:idup,
+	                    		id_oc:id_oc_up,
+	                    		id_jenisdeffect:id_jenis_up,
+	                    		keterangan:ketup,
+	                    		total:totalup
+	                    	},
 
-   			// ===================   Delete Record ===============================================
-            //get data for delete record show prompt
-            $('#tbl_body').on('click','.item_delete',function(){
-                // alert($(this).data('id'))
-                var id = $(this).data('id');
-                // var tanggal = $(this).data('tanggal');
-                // var judul = $(this).data('judul');
-                // var pengumuman = $(this).data('isi');
-               
-                $('[name="id_dc_delete"]').val(id);  
-                $('#confirmation-modal').modal('show');
-                // document.getElementById("namaPengumuman_hapus").innerHTML=" '"+judul+"' ";
-                
-                
-               
-                // alert('oke');
-            });
-
-            //delete record to database
-
-            $('#btn_del').on('click',function(){
-                var id_dc_delete = $('#id_dc_delete').val(); 
-
-                $.ajax({
-                    type : "POST",
-                    url  : "<?php echo site_url(); ?>/Defect/delDefect",
-                    dataType : "JSON",
-                    data : {id:id_dc_delete,id_pdo:$('#id_pdo').val()},
-                    success: function(){
-                        $('[name="id_dc_delete"]').val("");
-                        $('#confirmation-modal').modal('hide');
-                        // refresh()
-                        
-                		show();
-                    }
-                });
-                return false;
-
-            });
-			 //   ========================  END DELETE RECORD ====================================
-
-
-
-			 //  ===================  START UPDATE Record ===============================================
-            //get data for UPDATE record show prompt
-            $('#tbl_body').on('click','.item_edit',function(){
-            	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
-                var id = $(this).data('id');
-                var id_oc = $(this).data('id_oc');
-                var id_jenis_defect = $(this).data('id_jenisdeffect');
-                var keterangan = $(this).data('keterangan');
-                var total = $(this).data('total');
-                 
-                // memasukkan data ke form updatean
-				$('[name="id_updt"]').val(id);
-				$('[name="jam_updt"]').val(id_oc);
-				$('[name="jenis_updt"]').val(id_jenis_defect);
-				$('[name="ket_updt"]').val(keterangan);
-				$('[name="total_updt"]').val(total);
-
-                $('#modal_upd').modal('show');
-                
-            });
-            
-            //UPDATE record to database (submit button)
-            $('#btn_update').on('click',function(){
-                var idup = $('[name="id_updt"]').val();
-                var id_oc_up = $('[name="jam_updt"]').val();
-                var id_jenis_up = $('[name="jenis_updt"]').val();
-                var ketup = $('[name="ket_updt"]').val();
-                var totalup = $('[name="total_updt"]').val();
-
-				// alert(umhup);
-                $.ajax({
-                    type : "POST",
-                    url  : "<?php echo site_url(); ?>/Defect/updateDefect",
-                    dataType : "JSON",
-                    data : { 
-                    		id_pdo:$('#id_pdo').val(),
-                    		id:idup,
-                    		id_oc:id_oc_up,
-                    		id_jenisdeffect:id_jenis_up,
-                    		keterangan:ketup,
-                    		total:totalup
-                    	},
-
-                    success: function(data){
-                    	$('#modal_upd').modal('hide'); 
-                        // refresh();
-                        show();
-                    }
-                });
-              }); 
+	                    success: function(data){
+	                    	$('#modal_upd').modal('hide'); 
+	                        // refresh();
+	                        show();
+	                    }
+	                });
+	              }); 
 			 // ========================  END UPDATE RECORD ====================================
 
 
- 
 
 
+            // =================== Create Record ===============================================
+	   			$('#btn_submit').click(function(){
+
+					var def_jam = document.getElementById("i_jam").value;
+					var def_ket = document.getElementById("i_ket").value;
+					var def_total = document.getElementById("i_total").value;
+					var levelup = $('select[name=levelup]').val()
+					// alert(def_jam+","+def_ket+","+def_total+","+levelup);
+					// alert($('#id_pdo').val());
+
+
+					$.ajax({
+						async : false,
+						type : "POST",
+						url : "<?php echo base_url() ?>index.php/Defect/newDefect",
+					
+						dataType : "JSON",
+						data : {
+							def_id_pdo:$('#id_pdo').val(),
+							def_id_oc: def_jam,
+							def_id_jenisdeffect:levelup,
+							def_ket:def_ket,
+							def_total:def_total
+						},
+						success : function(response){
+								  $('#login-modal').modal('hide');
+							if(response.error){
+								// alert('error');
+							}else{
+								// alert(response.status);
+							}
+							document.getElementById("formDefect").reset();
+						}
+					});
+					show();
+				});
+			// =================== End Create Record ===============================================
+
+   			// ===================   Delete Record ===============================================
+		            //get data for delete record show prompt
+		            $('#tbl_body').on('click','.item_delete',function(){
+		                // alert($(this).data('id'))
+		                var id = $(this).data('id');
+		                // var tanggal = $(this).data('tanggal');
+		                // var judul = $(this).data('judul');
+		                // var pengumuman = $(this).data('isi');
+		               
+		                $('[name="id_dc_delete"]').val(id);  
+		                $('#confirmation-modal').modal('show');
+		                // document.getElementById("namaPengumuman_hapus").innerHTML=" '"+judul+"' ";
+		                
+		                
+		               
+		                // alert('oke');
+		            });
+	            	//delete record to database
+		            $('#btn_del').on('click',function(){
+		                var id_dc_delete = $('#id_dc_delete').val(); 
+
+		                $.ajax({
+		                    type : "POST",
+		                    url  : "<?php echo site_url(); ?>/Defect/delDefect",
+		                    dataType : "JSON",
+		                    data : {id:id_dc_delete,id_pdo:$('#id_pdo').val()},
+		                    success: function(){
+		                        $('[name="id_dc_delete"]').val("");
+		                        $('#confirmation-modal').modal('hide');
+		                        // refresh()
+		                        
+		                		show();
+		                    }
+		                });
+		                return false;
+
+		            });
+			 //   ========================  END DELETE RECORD ====================================
 
 		});
 	</script>

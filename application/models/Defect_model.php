@@ -27,7 +27,12 @@ class Defect_Model extends CI_Model {
     {
     	# code...
     	// urut berdasarkan abjad
-		$q = $this->db->query('SELECT quality_control.id , quality_control.keterangan as item, output_control.jam_ke,jenis_deffect.keterangan, quality_control.total  FROM quality_control join output_control on quality_control.id_oc = output_control.id join jenis_deffect on quality_control.id_jenisdeffect = jenis_deffect.id where quality_control.id_pdo='.$i.' order BY output_control.jam_ke');
+		$q = $this->db->query("SELECT 
+                                    quality_control.id , quality_control.keterangan as item, output_control.jam_ke,jenis_deffect.keterangan, quality_control.total,jenis_deffect.id  as id_defect ,output_control.id as id_oc
+                                FROM quality_control 
+                                join output_control on quality_control.id_oc = output_control.id 
+                                join jenis_deffect on quality_control.id_jenisdeffect = jenis_deffect.id 
+                                where quality_control.id_pdo=$i order BY output_control.jam_ke");
 		return $q->result();
     }
 

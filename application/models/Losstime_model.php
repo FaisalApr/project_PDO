@@ -15,8 +15,8 @@ class Losstime_model extends CI_Model {
         return $query->result();
     }
     public function get_all_errRecord()
-    {
-        $query = $this->db->get('jenis_error');
+    {  
+        $query = $this->db->query("SELECT * from jenis_error order by keterangan asc");
         return $query->result();
     }
 
@@ -27,10 +27,24 @@ class Losstime_model extends CI_Model {
     	return $query->result();
     }
 
+    public function findLossTimeByOc($id)
+    {
+        $quer = $this->db->query("SELECT * from lost_time WHERE id_oc=$id");
+        return $quer->result();  
+    }
+
     public function getLosstimeUserrrr($id)
     {
     	# code...
-    	$q = $this->db->query('SELECT lost_time.id, output_control.jam_ke, jenis_error.kode, jenis_error.keterangan as problem, jenis_losttime.keterangan as jenis, lost_time.keterangan, lost_time.durasi from lost_time join jenis_error on lost_time.id_error=jenis_error.id join output_control on lost_time.id_oc=output_control.id join jenis_losttime on lost_time.id_jenisloss=jenis_losttime.id where lost_time.id_pdo='.$id.' order by output_control.jam_ke');
+    	$q = $this->db->query("SELECT 
+                                    lost_time.id, output_control.jam_ke, jenis_error.kode, jenis_error.keterangan as problem, jenis_losttime.keterangan as jenis, lost_time.keterangan, lost_time.durasi ,
+                                    lost_time.id_error as id_err,jenis_losttime.id  as id_jenlos, output_control.id  as id_oc
+                                from lost_time 
+                                    join jenis_error on lost_time.id_error=jenis_error.id 
+                                    join output_control on lost_time.id_oc=output_control.id 
+                                    join jenis_losttime on lost_time.id_jenisloss=jenis_losttime.id 
+
+                                where lost_time.id_pdo=$id order by output_control.jam_ke");
     	return $q->result();
     }
 
