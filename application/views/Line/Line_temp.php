@@ -572,7 +572,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							$.ajax({
 			                    async : false,
 			                    type  : 'ajax',
-			                    url   : '<?php echo base_url();?>index.php/Assycode/getAssyCodeDasboard',
+			                    url   : '<?php echo base_url();?>index.php/Assycode/getAssyCode',
 			                    dataType : 'JSON',
 			                    success : function(dat){ 
 			                    	html = '<option disabled selected> Pilih Assy </option>';

@@ -588,7 +588,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
           $.ajax({
             type : "POST",
-            url  : "<?php echo site_url(); ?>/DirectLabor/editDl",
+            url  : "<?php echo site_url(); ?>/IndirectLabor/editIDL",
             dataType : "JSON", 
             data : { 
               id_pdo:$('#id_pdo').val(),
