@@ -260,8 +260,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				            dataType : 'JSON',
 				            data :{id:data[i].id_line},
 				            success : function(respon){
-				            		
-				            		for(var j=0;j<respon.length; j++){
+				            		var limit = 0;
+				            		if(respon.length>5){
+				            			limit = 5;
+				            		}else{
+				            			limit = respon.length;
+				            		}
+				            		for(var j=0;j<limit; j++){
 				            			html +=
 				            			respon[j].kode_assy+ ',';
 				            		}

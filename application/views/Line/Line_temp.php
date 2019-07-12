@@ -54,44 +54,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 		<!-- BODY CONTAINER 2--> 
-		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" id="cont_2" style="display: none;"> 
-		
-		<div class="row">
-			<div class="col-md-3 col-sm-12">
-				<a href="#" class="btn btn-danger" id="btn_back" data-backdrop="static" style="margin-left: : 20px; width: 100px"><span class="fa fa-arrow-left"></span>  </a>
-			</div>
+			<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" id="cont_2" style="display: none;"> 
+			
+			<div class="row">
+				<div class="col-md-3 col-sm-12">
+					<a href="#" class="btn btn-danger" id="btn_back" data-backdrop="static" style="margin-left: : 20px; width: 100px"><span class="fa fa-arrow-left"></span>  </a>
+				</div>
 
-			<div class="col-md-6 col-sm-12">
-				<center>
-				<h4 class="text-blue" style="font-size: 46px" id="v_nama">Line Data Table</h4> 
-				</center>	
-			</div>
-			<div class="col-md-3 col-sm-12">
-				
-				<div class="pull-right">
-					<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#i_line2-modal" style="margin-right: 10px; width: 193px"><span class="fa fa-plus"></span> Tambah </a>
+				<div class="col-md-6 col-sm-12">
+					<center>
+					<h4 class="text-blue" style="font-size: 46px" id="v_nama">Line Data Table</h4> 
+					</center>	
+				</div>
+				<div class="col-md-3 col-sm-12">
+					
+					<div class="pull-right">
+						<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#i_line2-modal" style="margin-right: 10px; width: 193px"><span class="fa fa-plus"></span> Tambah </a>
+					</div>
 				</div>
 			</div>
-		</div>
-			
-			<br>
+				
+				<br>
 
-			<!-- TABEL -->
-			<table class="data-table stripe hover nowrap" id="ta_user">
-				<thead>
-					<tr>
-						<th style="vertical-align: middle; text-align: center;" class="table-plus datatable-nosort">No</th>
+				<!-- TABEL -->
+				<table class="data-table stripe hover nowrap" id="ta_user">
+					<thead>
+						<tr>
+							<th style="vertical-align: middle; text-align: center;" class="table-plus datatable-nosort">No</th>
+							
+							
+							<th style="vertical-align: middle; text-align: center;" class="datatable-nosort">Kode Assy</th>
+							<th style="vertical-align: middle; text-align: center;" class="datatable-nosort">Action</th>
+						</tr>
+					</thead>
+					<tbody id="tbl_body2">
 						
-						
-						<th style="vertical-align: middle; text-align: center;" class="datatable-nosort">Kode Assy</th>
-						<th style="vertical-align: middle; text-align: center;" class="datatable-nosort">Action</th>
-					</tr>
-				</thead>
-				<tbody id="tbl_body2">
-					
-				</tbody>
-			</table>
-		</div>
+					</tbody>
+				</table>
+			</div>
 
 	<!-- ==================================================================================== -->
 	<!-- kumpulan modal -->
@@ -101,7 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            <div class="modal-content">
 	              <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
 	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-	                <h2 class="text-center mb-30">Assy per Line</h2>
+	                <h2 class="text-center mb-30">Line</h2>
 	                <!-- form start -->
 	                <form id="form_input_line">
 	                  <!-- input -->
@@ -369,8 +369,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				            dataType : 'JSON',
 				            data :{id:data[i].id },
 				            success : function(respon){
-				            		
-				            		for(var j=0;j<respon.length; j++){
+				            		var limit = 0;
+				            		if(respon.length>5){
+				            			limit = 5;
+				            		}else{
+				            			limit = respon.length;
+				            		}
+				            		for(var j=0;j<limit; j++){
 				            			html +=
 				            			respon[j].kode_assy+ ' , ';
 				            		}
@@ -601,6 +606,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$('#btn_back').click(function(){
 					document.getElementById('cont_1').style.display="block";
 					 document.getElementById('cont_2').style.display="none";
+					 show();
 				});
 
 				// ------------------------------------------------------create view-------------------------------------

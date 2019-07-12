@@ -10,9 +10,9 @@ class Assycode extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->model('Pdo_model'); 
 
-		if (!$this->session->userdata('pdo_logged')) {
-			redirect('Login','refresh');
-		}	
+		// if (!$this->session->userdata('pdo_logged')) {
+		// 	redirect('Login','refresh');
+		// }	
 	}
 
 	public function index()

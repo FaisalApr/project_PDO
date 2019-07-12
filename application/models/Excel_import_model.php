@@ -17,9 +17,29 @@ class Excel_import_model extends CI_Model {
 
 	}
 	
-	public function FunctionName($value='')
+
+	public function cekLM($value='')
 	{
 		# code...
+	}
+
+	public function ceknama($kode)
+	{
+
+		# code...
+		$query = $this->db->query('SELECT * FROM assembly where kode_assy="'.$kode.'"');
+		if($query->num_rows()>0){
+			return $query->first_row();
+		}else{
+			return false;
+		}
+	}
+
+	public function cekline($nama)
+	{
+		# code...
+		$query = $this->db->query('SELECT * FROM line where nama_line="'.$nama.'"');
+		return $query->first_row();
 	}
 
 }

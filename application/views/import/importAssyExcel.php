@@ -35,23 +35,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 $(document).ready(function(){
 
-	// load_data();
-
-	// // function load_data()
-	// // {
-	// // 	$.ajax({
-	// // 		url:"<?php echo site_url(); ?>excel_import/fetch",
-	// // 		method:"POST",
-	// // 		success:function(data){
-	// // 			$('#customer_data').html(data);
-	// // 		}
-	// // 	})
-	// // }
-
 	$('#import_form').on('submit', function(event){
 		event.preventDefault();
 		$.ajax({
-			url:"<?php echo site_url(); ?>/excel_import/import",
+			url:"<?php echo site_url(); ?>/Excel_import/import",
 			method:"POST",
 			data:new FormData(this),
 			contentType:false,
