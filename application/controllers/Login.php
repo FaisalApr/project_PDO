@@ -41,13 +41,11 @@ class Login extends CI_Controller {
 			$sess_array = array();
 			
 			$sess_array = array(
-					'id_user' => $result->id,
-					'uname' => $result->username, 
+					'id_user' => $result->id_usr,
+					'nama' => $result->nama, 
 					'level' => $result->level,
 					'id_shift' => $result->id_shift,
-					'id_line' => $result->id_line,
-					'keterangan' => $result->keterangan,
-					'nama_line' => $result->nama_line
+					'keterangan' => $result->keterangan
 				);	  
 			// set sesion logined
 			$this->session->set_userdata('pdo_logged',$sess_array); 

@@ -87,6 +87,21 @@ class CarlineModel extends CI_Model {
 		return $query->result();
 	}
 
+
+	public function getCarlineByDistric($dis)
+	{
+		$q = $this->db->query("SELECT * from carline JOIN list_carline ON list_carline.id_carline=carline.id WHERE carline.id_district=$dis GROUP BY list_carline.id_carline ORDER BY carline.nama_carline");
+		return $q->result();
+	}
+
+
+	public function getLineByCarlineId($id_cr)
+	{
+		$q = $this->db->query("SELECT *,list_carline.id as id_lscr FROM list_carline JOIN line on list_carline.id_line=line.id WHERE id_carline=$id_cr");
+		return $q->result();
+	}
+
+
 }
 
 /* End of file carlineModel.php */

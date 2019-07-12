@@ -9,6 +9,11 @@ class Users_model extends CI_Model {
 		return $this->db->insert('users', $data);
 	}
 
+	public function newUserHasLine($data)
+	{ 
+		return $this->db->insert('user_has_line', $data);
+	}
+
 	 public function updateUserrr()
 	{ 
 		$new = array(
@@ -30,14 +35,14 @@ class Users_model extends CI_Model {
 
 	public function getAllUser()
 	{
-		$query = $this->db->query('SELECT users.id,users.username,users.password,users.level,users.active,users.id_shift,users.id_line,shift.keterangan,line.nama_line FROM users JOIN shift ON users.id_shift=shift.id JOIN line on users.id_line=line.id');
+		$query = $this->db->query('SELECT * FROM users  ');
         return $query->result();
 	}
 
 	public function getUsername($uname)
 	{
 		$query = $this->db->get_where('users',array('username'=>$uname));
-        return $query->result();
+        return $query->first_row();
 	}
 
 	public function getAllLine()
@@ -57,6 +62,7 @@ class Users_model extends CI_Model {
 		$query = $this->db->get_where('users',array('id_shift' =>2));
         return $query->result();
 	}
+ 
 	
 
 }

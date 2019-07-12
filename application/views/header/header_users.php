@@ -19,7 +19,7 @@
 				<div class="dropdown">
 					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
 						<span class="user-icon"><i class="fa fa-user-o"></i></span>
-						<span class="user-name"><?php echo $sesi['uname']; ?></span>
+						<span class="user-name"><?php echo $sesi['nama']; ?></span>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right"> 
 						<a class="dropdown-item" href="profile.php"><i class="fa fa-cog" aria-hidden="true"></i> Setting</a>
@@ -60,7 +60,7 @@
   			<div class="row">
   				<div style="margin-left: 50px;">
 	  				<font size="46">Line:</font> 
-					<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -20px;"><font size="56" id="name_line"><?php echo $sesi['nama_line'] ?></font></span>
+					<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -20px;"><font size="56" id="name_line"><?php echo $sesi['id_shift'] ?></font></span>
 	  			</div>
 
 	  			<div style="margin-left: 50px;">
