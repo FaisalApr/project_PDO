@@ -14,11 +14,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!-- CSS -->
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
+	<!-- JQUERY STEP -->
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/jquery-steps/build/jquery.steps.css">
 	<!-- bootstrap-touchspin css -->
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css">
 	
 	<!-- HTML CANVAS  -->
 	<script type="text/javascript" src="<?php echo base_url() ?>assets/src/plugins/html2canvas-master/dist/html2canvas.js"></script>
+
+	<!-- SELEct 2 -->
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/select2/dist/css/select2.min.css">
+	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/select2/theme/select2-bootstrap.css">
+	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/select2/theme/select2-bootstrap.min.css">
+
 
 	<!-- jQuery (required) & jQuery UI + theme (optional) --> 
 	<!-- keyboard extensions (optional) -->
@@ -35,7 +43,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		  background-color: #fff;
 		  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 40px rgba(0, 0, 0, 0.08) inset;
 		  border-radius: 4px;
-		  padding: 16px;
+		  padding: 16px; 
+		}
+		.select2-selection__rendered {
+		    line-height: 55px !important;
+		}
+		.select2-container .select2-selection--single {
+		    height: 50px !important;
+		}
+		.select2-selection__arrow {
+		    height: 50px !important;
 		}
 	</style>
 </head>
@@ -43,11 +60,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <?php 
 	$ses = $this->session->userdata('pdo_logged'); 
+	$opt = $this->session->userdata('pdo_opt'); 
  ?>
 
-<input id="id_pdo" type="hidden" class="form-control" value="<?php echo $pdo->id ?>"> 
+<!-- <input id="id_pdo" type="hidden" class="form-control" value="<?php echo $pdo->id ?>">  -->
 <input id="id_target" type="hidden" class="form-control" value=""> 
-<input type="hidden" id="id_users" value="<?php echo $ses['id_user'] ?>">
+<input type="hidden" id="id_user" value="<?php echo $ses['id_user'] ?>">
+<input type="hidden" value="<?php echo $opt['id_shift'] ?>" id="id_shift">
+<!-- opt -->
+<input type="hidden" value="<?php echo $opt['tgl'] ?>" id="id_tgl">
+<input type="hidden" value="<?php echo $opt['id_line'] ?>" id="id_line">
 
 <?php $this->load->view('header/header_users'); ?>
 <?php $this->load->view('header/sidebar_users'); ?> 
@@ -88,14 +110,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="modal fade" id="scv_modal">
 		    <div class="modal-dialog modal-dialog-centered modal-md">
 		      <div class="modal-content">
-		      
-		        <!-- Modal Header -->
+
 		        <div class="modal-header">
 		          <h4 class="modal-title">Ubah Kecepatan Conveyor</h4>
 		          <button type="button" class="close" data-dismiss="modal">&times;</button>
 		        </div>
 		        
-		        <!-- Modal body -->
 		        <div class="modal-body">
 		        	<div class="clearfix device-usage-chart">
 						<div class="width-50-p pull-left">
@@ -104,8 +124,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="width-50-p pull-right">
 							<div class="form-group">
 								<label>Speed</label>
-								<input id="demo1" type="number" value="<?php echo $pdo->line_speed ?>" name="speed_edit"> 
-								<input  type="hidden" value="<?php echo $pdo->line_speed ?>" name="speed_edit_temp"> 
+								<input id="demo1" type="number" value="" name="speed_edit"> 
+								<input  type="hidden" value="" name="speed_edit_temp"> 
 							</div>
 							<br> 
 							<div class="input-group"> 
@@ -120,6 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		      </div>
 		    </div>
 		</div>
+
 	<!--  Modal  Plan -->
 		<div class="modal fade" id="updtplan_modal">
 		    <div class="modal-dialog modal-dialog-centered modal-sm">
@@ -232,7 +253,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!--  Modal  NEW PLAN BULANAN -->
 		<div class="modal fade" id="newplanmonth_modal">
 		    <div class="modal-dialog modal-lg">
-		      <div class="modal-content">
+		      <div class="modal-content" style="width: 1050px;margin-left: -150px;">
 		      
 		        <!-- Modal Header -->
 		        <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
@@ -244,7 +265,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		        <div class="modal-body">
 		        	<br>
 		        	<div class="row"> 
-			        	<div class="col-lg-4 col-md-4 col-sm-12 mb-30">
+			        	<div class="col-lg-3 col-md-3 col-sm-12 mb-30">
+							<div class="card box-shadow">
+								<div class="card-header"> 
+									<div class="project-info-center">
+										<h5 class="text-center weight-500">Plan</h5>
+									</div> 
+								</div>
+								
+								<div class="card-body"> 
+									<div class="form-group">
+										<label>Target Plan</label>
+										<input type="Number" name="target_plan" class="form-control" value="0">
+									</div>
+								</div> 
+							</div>
+						</div>
+
+			        	<div class="col-lg-3 col-md-3 col-sm-12 mb-30">
 							<div class="card box-shadow">
 								<div class="card-header"> 
 									<div class="project-info-center">
@@ -261,7 +299,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 						</div>
 
-						<div class="col-lg-4 col-md-4 col-sm-12 mb-30">
+						<div class="col-lg-3 col-md-3 col-sm-12 mb-30">
 							<div class="card box-shadow">
 								<div class="card-header"> 
 									<div class="project-info-center">
@@ -277,7 +315,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 						</div>
 
-						<div class="col-lg-4 col-md-4 col-sm-12 mb-30">
+						<div class="col-lg-3 col-md-3 col-sm-12 mb-30">
 							<div class="card box-shadow">
 								<div class="card-header"> 
 									<div class="project-info-center">
@@ -431,152 +469,293 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- main container -->
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll  xs-pd-20-10">
-		<!-- top icon dasboard -->
-		<div class="row clearfix progress-box">
+		
+		<!-- Dasboard  -->
+		<div id="contain_dasboard" style="display: none;">
+			<!-- top icon dasboard -->
+			<div class="row clearfix progress-box">
 
-			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
-				<div class="card box-shadow">
-					<h5 class="card-header text-center weight-500">Output</h5>
-					<div class="card-body"> 
-						<div class="project-info-progress">
-							<div class="row clearfix">
-								<div class="col-sm-6 text-muted weight-500">Plan</div> 
-								<span class="col-sm-6 no text-right text-blue weight-500 font-16" id="tot_plan"></span>
-								 
-								<div class="col-sm-6 text-muted weight-500">Act</div>
-								<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="tot_actual"></div>
+				<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
+					<div class="card box-shadow">
+						<h5 class="card-header text-center weight-500">Output</h5>
+						<div class="card-body"> 
+							<div class="project-info-progress">
+								<div class="row clearfix">
+									<div class="col-sm-6 text-muted weight-500">Plan</div> 
+									<span class="col-sm-6 no text-right text-blue weight-500 font-16" id="tot_plan"></span>
+									 
+									<div class="col-sm-6 text-muted weight-500">Act</div>
+									<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="tot_actual"></div>
+								</div>
+								<div class="progress" style="height: 20px; margin-top: 10px;">
+									<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" id="id_progres_output" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">90%</div>
+								</div>
 							</div>
-							<div class="progress" style="height: 20px; margin-top: 10px;">
-								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" id="id_progres_output" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">90%</div>
-							</div>
-						</div>
-					</div> 
-				</div>
-			</div>
-
-			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
-				<div class="card box-shadow">
-					<div class="card-header"> 
-						<div class="project-info-center">
-							<h5 class="text-center weight-500">MH Out</h5>
-						</div>
-						<div class="project-info-right" style="margin-top: -23px">
-							<a href="#" id="trigger_mhout" class="text-right"><i class="fa fa-cog" aria-hidden="true"></i></a>	
-						</div>
+						</div> 
 					</div>
-					
-					<div class="card-body"> 
-						<div class="project-info-progress">
-							<div class="row clearfix">
-								<div class="col-sm-6 text-muted weight-500">Plan</div> 
-								<span class="col-sm-6 no text-right text-blue weight-500 font-16" id="id_target_mhout"></span>
-								 
-								<div class="col-sm-6 text-muted weight-500">Act</div>
-								<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="id_act_mhout"></div>
-							</div>
-							<div class="progress" style="height: 20px; margin-top: 10px;">
-								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="87" aria-valuemin="0" aria-valuemax="120" id="prog_mh_out"></div>
-							</div>
-						</div>
-					</div> 
 				</div>
-			</div>
 
-			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
-				<div class="card box-shadow">
-					<div class="card-header"> 
-						<div class="project-info-center">
-							<h5 class="text-center weight-500">MH IN</h5>
+				<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
+					<div class="card box-shadow">
+						<div class="card-header"> 
+							<div class="project-info-center">
+								<h5 class="text-center weight-500">MH Out</h5>
+							</div>
+							<div class="project-info-right" style="margin-top: -23px">
+								<a href="#" id="trigger_mhout" class="text-right"><i class="fa fa-cog" aria-hidden="true"></i></a>	
+							</div>
 						</div>
-						<div class="project-info-right" style="margin-top: -23px">
-							<a href="#" class="text-right" id="triger_mhin"><i class="fa fa-cog" aria-hidden="true"></i></a>	
-						</div>
+						
+						<div class="card-body"> 
+							<div class="project-info-progress">
+								<div class="row clearfix">
+									<div class="col-sm-6 text-muted weight-500">Plan</div> 
+									<span class="col-sm-6 no text-right text-blue weight-500 font-16" id="id_target_mhout"></span>
+									 
+									<div class="col-sm-6 text-muted weight-500">Act</div>
+									<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="id_act_mhout"></div>
+								</div>
+								<div class="progress" style="height: 20px; margin-top: 10px;">
+									<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="87" aria-valuemin="0" aria-valuemax="120" id="prog_mh_out"></div>
+								</div>
+							</div>
+						</div> 
 					</div>
-					<div class="card-body"> 
-						<div class="project-info-progress">
-							<div class="row clearfix">
-								<div class="col-sm-6 text-muted weight-500">Plan</div> 
-								<span class="col-sm-6 no text-right text-blue weight-500 font-16" id="id_target_mhin">0</span>
-								 
-								<div class="col-sm-6 text-muted weight-500">Act</div>
-								<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="id_mhinact">0</div>
-							</div>
-							<div class="progress" style="height: 20px; margin-top: 10px;">
-								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="87" aria-valuemin="0" aria-valuemax="120" id="prog_mh_in"></div>
-							</div>
-						</div>
-					</div> 
 				</div>
-			</div>
 
-			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
-				<div class="card box-shadow">
-					<div class="card-header"> 
-						<div class="project-info-center">
-							<h5 class="text-center weight-500">Efficiency</h5>
-						</div>
-						<div class="project-info-right" style="margin-top: -23px">
-							<a href="#" id="trigger_eff" class="text-right"><i class="fa fa-cog" aria-hidden="true"></i></a>	
-						</div>
-					</div> 
-					<div class="card-body"> 
-						<div class="project-info-progress">
-							<div class="row clearfix">
-								<div class="col-sm-6 text-muted weight-500">Plan</div> 
-								<span class="col-sm-6 no text-right text-blue weight-500 font-16" id="id_target_eff">0%</span>
-								 
-								<div class="col-sm-6 text-muted weight-500">Act</div>
-								<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="id_act_eff">0%</div>
+				<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
+					<div class="card box-shadow">
+						<div class="card-header"> 
+							<div class="project-info-center">
+								<h5 class="text-center weight-500">MH IN</h5>
 							</div>
-							<div class="progress" style="height: 20px; margin-top: 10px;">
-								<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" id="id_act_eff_progres"></div>
+							<div class="project-info-right" style="margin-top: -23px">
+								<a href="#" class="text-right" id="triger_mhin"><i class="fa fa-cog" aria-hidden="true"></i></a>	
 							</div>
 						</div>
-					</div> 
+						<div class="card-body"> 
+							<div class="project-info-progress">
+								<div class="row clearfix">
+									<div class="col-sm-6 text-muted weight-500">Plan</div> 
+									<span class="col-sm-6 no text-right text-blue weight-500 font-16" id="id_target_mhin">0</span>
+									 
+									<div class="col-sm-6 text-muted weight-500">Act</div>
+									<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="id_mhinact">0</div>
+								</div>
+								<div class="progress" style="height: 20px; margin-top: 10px;">
+									<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="87" aria-valuemin="0" aria-valuemax="120" id="prog_mh_in"></div>
+								</div>
+							</div>
+						</div> 
+					</div>
 				</div>
-			</div>
 
-			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
-				<div class="card box-shadow">
-					<h5 class="card-header text-center weight-500">Productivity</h5>
-					<div class="card-body"> 
-						<div class="project-info-progress">
+				<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
+					<div class="card box-shadow">
+						<div class="card-header"> 
+							<div class="project-info-center">
+								<h5 class="text-center weight-500">Efficiency</h5>
+							</div>
+							<div class="project-info-right" style="margin-top: -23px">
+								<a href="#" id="trigger_eff" class="text-right"><i class="fa fa-cog" aria-hidden="true"></i></a>	
+							</div>
+						</div> 
+						<div class="card-body"> 
+							<div class="project-info-progress">
+								<div class="row clearfix">
+									<div class="col-sm-6 text-muted weight-500">Plan</div> 
+									<span class="col-sm-6 no text-right text-blue weight-500 font-16" id="id_target_eff">0%</span>
+									 
+									<div class="col-sm-6 text-muted weight-500">Act</div>
+									<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="id_act_eff">0%</div>
+								</div>
+								<div class="progress" style="height: 20px; margin-top: 10px;">
+									<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" id="id_act_eff_progres"></div>
+								</div>
+							</div>
+						</div> 
+					</div>
+				</div>
+
+				<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
+					<div class="card box-shadow">
+						<h5 class="card-header text-center weight-500">Productivity</h5>
+						<div class="card-body"> 
+							<div class="project-info-progress">
+								<center>
+								<span class="col-sm-12 align-content-center text-blue weight-800"><font size="56" id="id_prod_percent">0</font>%</span>
+								</center>
+							</div>
+						</div> 
+					</div>
+				</div>
+
+				<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
+					<div class="card box-shadow">
+						<h5 class="card-header text-center weight-500">Man Power</h5>
+						<div class="card-body"> 
 							<center>
-							<span class="col-sm-12 align-content-center text-blue weight-800"><font size="56" id="id_prod_percent">0</font>%</span>
-							</center>
+								<span class="col-sm-12 align-content-center text-red weight-800"><font size="56" id="id_mp_act">0</font></span>
+								<i class="icon-copy fi-torsos-male-female"></i>
+							</center>	
+						</div> 
+					</div>
+				</div>
+			</div>
+				
+			<!-- Tabel -->
+			<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" style="margin-top: -10px">  
+				<table class="table table-responsive table-striped table-bordered" style="padding-bottom: 25px;">
+					<thead id="thead_outputt"> 
+						 
+					</thead>
+					<tbody id="tbody_outputt">
+
+						 
+					</tbody> 
+
+				</table>
+				<br>
+				<div id="tbud"></div>
+			</div>
+		</div>
+
+		<!-- NEW PDO PlanNING -->
+		<div id="panel_newplann" class="login-wrap customscroll align-items-center flex-wrap justify-content-center pd-20" style="display: none;">
+			<div class="login-box bg-white box-shadow pd-30 border-radius-5">
+				 <h1>Ayo Buat Planning Baru</h1>
+				 <br>
+				 <br>
+				 <center>
+				 <button id="btn_newplan" type="button" class="btn" data-bgcolor="#3b5998" data-color="#ffffff">Buat <i class="icon-copy fa fa-plus" ></i></button> 
+				</center>
+			</div>
+		</div>
+
+		<!-- NEw PDO WIZARD -->
+		<div id="panel_wizard" class="pd-20 bg-white border-radius-4 box-shadow mb-30" style="display: none;">
+			<div class="clearfix">
+				<h4 class="text-blue">Mulai Planning PDO</h4>
+				<p class="mb-30 font-14">Step Wizard PDO</p>
+			</div>
+			<div class="wizard-content">
+				<form class="tab-wizard wizard-circle wizard">
+					<h5>Direct Labor Info</h5>
+					<section>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label >Standart DL :</label>
+									<input class="form-control" type="number" id="f_std_dl" >
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label >Reg DL :</label>
+									<input class="form-control" type="number" id="f_reg_dl">
+								</div>
+							</div>
 						</div>
-					</div> 
-				</div>
-			</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Jam Overtime :</label>
+									<input class="form-control" type="number" id="f_jam_ot">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>DL Overtime :</label>
+									<input class="form-control" type="number" id="f_dl_ot">
+								</div>
+							</div>
+						</div> 
+						<br>
+					</section>
+					<!-- Step 2 -->
+					<h5>InDirect Labor Info</h5>
+					<section>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label >Standart IDL :</label>
+									<input class="form-control" type="number" id="f_std_idl">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label >Reg IDL :</label>
+									<input class="form-control" type="number" id="f_reg_idl">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Jam Overtime :</label>
+									<input class="form-control" type="number" id="f_jam_ot_idl">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>IDL Overtime :</label>
+									<input class="form-control" type="number" id="f_idl_ot">
+								</div>
+							</div>
+						</div> 
+						<br>
+					</section>
+					<!-- Step 3 -->
+					<h5>Indirect Activity</h5>
+					<section>
 
-			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
-				<div class="card box-shadow">
-					<h5 class="card-header text-center weight-500">Man Power</h5>
-					<div class="card-body"> 
-						<center>
-							<span class="col-sm-12 align-content-center text-red weight-800"><font size="56" id="id_mp_act">0</font></span>
-							<i class="icon-copy fi-torsos-male-female"></i>
-						</center>	
-					</div> 
-				</div>
+						<div class="table-responsive">
+							<h2>Activity</h2>
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Items</th>
+										<th scope="col">Menit</th> 
+										<th scope="col">Ubah</th>
+									</tr>
+								</thead>
+								<tbody id="tbl_activlabor">
+									 
+								</tbody>
+							</table>
+							<br><br>
+						</div>
+													
+					</section>
+					<!-- Step 4 -->
+					<h5>Finish</h5>
+					<section>
+						<div class="col-12 align-content-center"> 
+							<div class="clearfix device-usage-chart">
+								<div id="spd_cv" style="min-width: 160px; max-width: 180px; height: 250px; margin: 0 auto"></div>
+								<center>
+								<div class="form-group col-md-6" style="margin-top: -40px;">
+									<label>Kecepatan Conveyor</label>
+									<input type="number" value="104" name="speed_edit">  
+								</div> 
+								</center>
+							</div>
+							<br><br>
+							<div class="checkbox-circle" style="margin-bottom: 48px; margin-left: 50px;">
+								<label>
+									<input type="checkbox" id="ini_pernyataan"> Data yang saya masukkan Benar
+									<span class="checkmark"></span>
+								</label>
+							</div>
+
+						</div>
+					</section>
+				</form>
 			</div>
 		</div>
-			
-		<!-- Tabel -->
-		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" style="margin-top: -10px">  
-			<table class="table table-responsive table-striped table-bordered" style="padding-bottom: 25px;">
-				<thead id="thead_outputt"> 
-					 
-				</thead>
-				<tbody id="tbody_outputt">
 
-					 
-				</tbody> 
 
-			</table>
-			<br>
-			<div id="tbud"></div>
-		</div>
 
 	</div>
 </div>
@@ -593,22 +772,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"></script> 
 	<!-- you load jquery somewhere before jSignature ... -->
 	<script src="<?php echo base_url() ?>assets/src/plugins/jsignature-pad/js/signature_pad.umd.js"></script>
-
+	<!-- JQuery Steps -->
+	<script src="<?php echo base_url() ?>assets/src/plugins/jquery-steps/build/jquery.steps.js"></script>
 	<!-- jQuery (required) & jQuery UI + theme (optional) -->  
 	<script src="<?php echo base_url() ?>assets/src/plugins/Keyboard-master/js/jquery-ui-custom.min.js"></script> 
 	<script src="<?php echo base_url() ?>assets/src/plugins/Keyboard-master/js/jquery.keyboard.js"></script> 
 	<script src="<?php echo base_url() ?>assets/src/plugins/Keyboard-master/js/jquery.keyboard.extension-typing.js"></script>
-
+ 	
+ 	<!-- SELECT 2 -->
+	<script src="<?php echo base_url() ?>assets/src/plugins/select2/dist/js/select2.min.js"></script>
 
 	<script> 
 		$('document').ready(function(){ 
-		
+		// VAR CORE
+			var id_line = $('#id_line').val();
+			var id_shift = $('#id_shift').val();
+			var id_tgl = $('#id_tgl').val();
+			var id_pdo = 0;
 		// VARIABEL GLOBAL
  			// deklarasi nama bulan
  			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
  			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 
- 			var today = new Date();
+ 			var today = new Date(id_tgl);
 			var currentMonth = today.getMonth();
 			var currentYear = today.getFullYear();
 			var currDate = today.getDate();
@@ -631,7 +817,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
             document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
 
-		// aditional PICKER
+		// aditional Setting
 			$(".inputs").keyup(function () {
 			    if (this.value.length == this.maxLength) {
 			      $(this).select();
@@ -650,54 +836,107 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			// 		autoAccept : true
 			// 	})
 			// 	.addTyping(); 
+ 		
 
+ 		// TrigGER PIlih TANGGAL
 			$('.date-pickerrr').datepicker({   
 				language: "en",
 				firstDay: 1,  
 			    onSelect: function(selected, d, calendar) {   
 			    	// jika yang dipilih sama 
-			    	if (selected=='') {
-			    		today = new Date(datetimeNow);
-			    		var tod = new Date(datetimeNow);  
+			    	if (selected=='') { 
+			    		var tod = new Date(id_tgl);  
 
 			    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
 			    		calendar.hide();
 			    		return ;
 			    	}else{
-			    		today = new Date(selected);
+			    		// post data additional
+			    		id_tgl = new Date(selected);
 			    		var tod = new Date(selected); 
 				    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-				    	datetimeNow = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+				    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+
+				    	// post new data additional
+				    	updateOpt();
 			    	} 
 			    	calendar.hide();
 
-			    	// refresh
-			    	showplanning();
-			    	cariDataPdo();
+			    	// refresh 
+			    	// showplanning();
+		    		// cariDataPdo();
+		    		cekHariini();
 			    }
 			});
-
-		// PILIH SHIFTY
+		// TRIGGEr line Change
+			$('#select_line').on('select2:select',function(e){
+				var data = e.params.data;
+				
+				id_line = data.id ;
+				// update opt to server
+				updateOpt(); 
+				cekHariini();
+				// console.log(data); 
+				// console.log('ln:'+id_line+'|sf:'+id_shift); 
+			});
+		// PILIH SHIFTY 
 			$('#drop_shiftt').on('click','.pilih_sf',function(){
 				var ssf = $(this).data('value'); 
-
-				document.getElementById('id_sifname').innerHTML= ssf;
-				if (ssf=='A') {
+ 
+				if (ssf==1) {
+					document.getElementById('id_sifname').innerHTML= 'A';
 					document.getElementById('sf_a').classList.add("aktip");
 					document.getElementById('sf_b').classList.remove("aktip"); 	
 				} else{
+					document.getElementById('id_sifname').innerHTML= 'B';
 					document.getElementById('sf_b').classList.add("aktip");	
 					document.getElementById('sf_a').classList.remove("aktip");	
 				}
-				name_shift = ssf;
 
-				// alert('sf :'+name_shift+'/tgl:'+datetimeNow);	
-				cariDataPdo();
+				id_shift = ssf; 
+				id_line = $('#select_line').val();
+
+				// update opt to server
+				updateOpt(); 
+				cekHariini();
 			});
 
-		// auto load
+		// AUTooOOOO LOAD
 			// showdata($('#id_pdo').val());
-			cariDataPdo();    
+			// cariDataPdo();    
+			loadDropdown();
+			cekHariini();
+			showplanning();
+
+			// cekVerif();
+
+
+		// isi DATA DROPDOWN LINE
+			function loadDropdown() {
+				var idu = $('#id_user').val();
+
+				$.ajax({
+					type: 'POST',
+					url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+					dataType: "JSON",
+					data:{
+						id_user:idu
+					},
+					success: function(data){ 
+						console.log(data);
+ 						
+ 						$('#select_line').empty();
+ 						$('#select_line').select2({ 
+			 				placeholder: 'Pilih Line ',
+			 				minimumResultsForSearch: -1,
+			 				data:data
+
+			 			});
+					}
+
+				});
+
+			}
 
 		// fungsi main
 			function showdata(pdo_id) {
@@ -967,9 +1206,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				// set dropdown assycode
 					$.ajax({
 	                    async : false,
-	                    type  : 'ajax',
+	                    type  : 'POST',
 	                    url   : '<?php echo base_url();?>index.php/Assycode/getAssyCodeDasboard',
 	                    dataType : 'JSON',
+	                    data:{
+	                    	id_line:id_line
+	                    },
 	                    success : function(dat){ 
 	                    	html = '<option disabled selected> Pilih Assy </option>';
 	 
@@ -1281,8 +1523,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			function showdataNotFound() { 
 
 				// speed LINE 
-				document.getElementById('btn_changesped').style.display = 'none';
-				document.getElementById('id_speedline').style.display = 'none';
+					// document.getElementById('btn_changesped').style.display = 'none';
+					// document.getElementById('id_speedline').style.display = 'none';
 
 				// verif
 				document.getElementById('id_verif').style.display = 'none';
@@ -1318,9 +1560,105 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $('#tbud').html('<div class="jumbotron"><h3 class="text-center">DATA TIDAK TERSEDIA </h3></div>');
 			}
 
+		// CEK Hari INI
+			function cekHariini() {
+				$.ajax({ 
+	                type  : 'POST',
+	                url   : '<?php echo base_url();?>index.php/Welcome/cekHariIni',
+	                dataType : 'JSON', 
+	                data:{
+	                	id_line:id_line,
+	                	id_shift:id_shift,
+	                	id_tgl:id_tgl
+	                } ,
+	                success : function(res){   
+							if (res) { 
+								id_pdo = res.id;
 
+								// Config Dispay
+								document.getElementById('contain_dasboard').style.display = 'block';
+								document.getElementById('panel_newplann').style.display = 'none';
+
+								// cek jika itu bukan miliknya
+	                    		if ($('#id_user').val()==res.id_users) {
+	                    			showdata(res.id_pdo);
+	                    			// ganti speed miliknya
+	                    			// document.getElementById('btn_changesped').style.display = 'contents';
+	                    			// $("input[name='speed_edit_temp']").val(res.line_speed);
+	                    			// ganti id PDO NYA
+	                    			$("#id_pdo").val(res.id_pdo); 
+	                    			console.log('MILIKNYA') 
+
+	                    		}else {
+	                    			showdataBukanKamu(res.id_pdo);
+	                    			// ganti speed
+	                    			document.getElementById('btn_changesped').style.display = 'none';
+	                    			console.log('not YOU')
+	                    		} 
+
+	                    		// speed line
+	                    		document.getElementById('id_speedline').style.display = 'contents';
+	                    		document.getElementById('id_speedline').innerHTML = res.line_speed;
+	                    		$('#speed_edit').val(res.line_speed);
+	                    		$('#speed_edit_temp').val(res.line_speed);
+
+	                    		 //  STATUS VERIFIKASI 	
+	                    		 if (res.status==1) {
+	                    		 	document.getElementById('id_verif').style.display = 'block';
+	                    		 }else{
+	                    		 	document.getElementById('id_verif').style.display = 'none';
+	                    		 }
+
+	                    		console.log(res);
+							}else{
+								console.log(res);
+								
+								// Config Dispay
+								document.getElementById('contain_dasboard').style.display = 'none';
+								document.getElementById('panel_newplann').style.display = 'block';
+
+								// DASBOARD
+								console.log('is null');
+	                    		showdataNotFound(); 
+
+	                    		// null
+	                    		eff_actual=0;
+								tot_mhinall=0;
+								tot_mhout = 0;
+							}
+							
+
+	                }
+
+	            }); 
+			}
+
+		// Cek VERIFIKASI
+			function cekVerif() { 
+	        	$.ajax({
+	                async : false,
+	                type  : 'ajax',
+	                url   : '<?php echo base_url();?>index.php/Welcome/cekBelumVerifikasi',
+	                dataType : 'JSON',  
+	                success : function(res){   
+							if (res) {
+								console.log(res);
+								// pdo_id = res.id;
+								// document.getElementById('info_isidowntime').innerHTML= "Data Report PDO Kemarin "+res.tanggal+" Belum Di Verifikasi.<br>Silahkan Verifikasi Terlebih Dahulu.";
+								// document.getElementById('panel_infoverif').style.display = 'block';
+							}else{
+								console.log(res);
+								document.getElementById('panel_newplann').style.display = 'block';
+							}
+							
+
+	                }
+
+	            });
+	        }
 		// CEK PLANNING BULANAN
 			function showplanning() {
+					console.log('plan called');
 
 				$.ajax({
                     async : false,
@@ -1328,9 +1666,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     url   : '<?php echo base_url();?>index.php/Target/getThisMonth',
                     dataType : 'JSON', 
                     data:{
-                    	tgl: datetimeNow
+                    	tgl: '2019-07-22',
+                    	line: 5//id_tgl
                     },
                     success : function(res){   
+                    	console.log(res);
 
                     	if (res) {
                     		$('#id_target').val(res.id);
@@ -1359,73 +1699,74 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         	edittarget=true;		
                     	}else {
-                    		document.getElementById('text_judulplan').innerHTML = "Buat Panning Bulan "+monthName[today.getMonth()];
+                    		console.log('no plan');
+
+                    		document.getElementById('text_judulplan').innerHTML = "Buat Target Planning Bulan "+monthName[today.getMonth()];
                     		$('#newplanmonth_modal').modal('show');
                     		edittarget=false;		
                     	}
-                    }
-
+                    }  
                 }); 
-
+				console.log('selesai');
 			}
 
 		// CARI PDO DI TANGGAL YANG DIPILIH
-			function cariDataPdo() { 
+			// function cariDataPdo() { 
 
-				$.ajax({
-                    async : false,
-                    type  : 'POST',
-                    url   : '<?php echo base_url();?>index.php/OutputControl/getDataCari',
-                    dataType : 'JSON', 
-                    data:{
-                    	name_sif: name_shift,
-                    	tgl: datetimeNow
-                    },
-                    success : function(res){   
+			// 	$.ajax({
+   //                  async : false,
+   //                  type  : 'POST',
+   //                  url   : '<?php echo base_url();?>index.php/OutputControl/getDataCari',
+   //                  dataType : 'JSON', 
+   //                  data:{
+   //                  	name_sif: name_shift,
+   //                  	tgl: datetimeNow
+   //                  },
+   //                  success : function(res){   
 
-                    	if (res) { 
-                    		// cek jika itu bukan miliknya
-                    		if ($('#id_users').val()==res.id_users) {
-                    			showdata(res.id_pdo);
-                    			// ganti speed miliknya
-                    			document.getElementById('btn_changesped').style.display = 'contents';
-                    			$("input[name='speed_edit_temp']").val(res.line_speed);
-                    			// ganti id PDO NYA
-                    			$("#id_pdo").val(res.id_pdo); 
-                    			console.log('MILIKNYA') 
+   //                  	if (res) { 
+   //                  		// cek jika itu bukan miliknya
+   //                  		if ($('#id_user').val()==res.id_users) {
+   //                  			showdata(res.id_pdo);
+   //                  			// ganti speed miliknya
+   //                  			document.getElementById('btn_changesped').style.display = 'contents';
+   //                  			$("input[name='speed_edit_temp']").val(res.line_speed);
+   //                  			// ganti id PDO NYA
+   //                  			$("#id_pdo").val(res.id_pdo); 
+   //                  			console.log('MILIKNYA') 
 
-                    		}else {
-                    			showdataBukanKamu(res.id_pdo);
-                    			// ganti speed
-                    			document.getElementById('btn_changesped').style.display = 'none';
-                    			console.log('not YOU')
-                    		} 
+   //                  		}else {
+   //                  			showdataBukanKamu(res.id_pdo);
+   //                  			// ganti speed
+   //                  			document.getElementById('btn_changesped').style.display = 'none';
+   //                  			console.log('not YOU')
+   //                  		} 
 
-                    		// speed line
-                    		document.getElementById('id_speedline').style.display = 'contents';
-                    		document.getElementById('id_speedline').innerHTML = res.line_speed;
+   //                  		// speed line
+   //                  		document.getElementById('id_speedline').style.display = 'contents';
+   //                  		document.getElementById('id_speedline').innerHTML = res.line_speed;
 
-                    		 //  STATUS VERIFIKASI 	
-                    		 if (res.status==1) {
-                    		 	document.getElementById('id_verif').style.display = 'block';
-                    		 }else{
-                    		 	document.getElementById('id_verif').style.display = 'none';
-                    		 }
+   //                  		 //  STATUS VERIFIKASI 	
+   //                  		 if (res.status==1) {
+   //                  		 	document.getElementById('id_verif').style.display = 'block';
+   //                  		 }else{
+   //                  		 	document.getElementById('id_verif').style.display = 'none';
+   //                  		 }
 
-                    		console.log(res); 	
-                    	}else {
-                    		console.log('is null');
-                    		showdataNotFound(); 
+   //                  		console.log(res); 	
+   //                  	}else {
+   //                  		console.log('is null');
+   //                  		showdataNotFound(); 
 
-                    		// null
-                    		eff_actual=0;
-							tot_mhinall=0;
-							tot_mhout = 0;
-                    	}
+   //                  		// null
+   //                  		eff_actual=0;
+			// 				tot_mhinall=0;
+			// 				tot_mhout = 0;
+   //                  	}
                     	
-                    }
-                });	
-			}
+   //                  }
+   //              });	
+			// }
 
 		// trigger change assy build
 			$('#thead_outputt').on('click','.btn_changeassy',function(){
@@ -1463,7 +1804,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							  allowOutsideClick: false
 							})
 							// showdata($('#id_pdo').val());
-							cariDataPdo();
+							cekHariini();
 						}
 						else{
 							Swal.fire({
@@ -1508,7 +1849,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							  allowOutsideClick: false
 							})
 							// showdata($('#id_pdo').val());
-							cariDataPdo();
+							cekHariini();
 						}
 						else{
 							Swal.fire({
@@ -1537,8 +1878,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#btn_newbuildassy').click(function(){  
 
 				var idjam  = $('#idjamke').val();
-				var idassy  = $('#pilihasy').val();
-				var pdo  = $('#id_pdo').val();
+				var idassy  = $('#pilihasy').val(); 
  
 				 $.ajax({
 	            	async : false,
@@ -1548,7 +1888,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                data : {
 	                		id_oc:idjam, 
 	                		id_assy:idassy,
-	                		pdo:pdo
+	                		pdo:id_pdo
 	                	},
 	                success: function(response){ 
 	                	// jika sukses
@@ -1571,7 +1911,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				$('#modalnewbuild').modal('hide'); 
 				// showdata($('#id_pdo').val());
-				cariDataPdo();
+				cekHariini();
 			});
 
 		// to SHOW NEW JAM VERTICAL
@@ -1657,8 +1997,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				
 			});
 		// event click btn new jam vertical
-			$('#btn_pindahjam').click(function(){   
-				var pdo  = $('#id_pdo').val();
+			$('#btn_pindahjam').click(function(){    
 				var jumplan  = $('#jum_plann').val();
 				var jamke = $('#terus_jam_ke').val();
 
@@ -1668,7 +2007,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                url   : '<?php echo base_url();?>index.php/OutputControl/newDataOutputControl',
 	                dataType : "JSON",
 	                data : {
-	                		id_pdo:pdo, 
+	                		id_pdo:id_pdo, 
 	                		plan:jumplan,
 	                		jam_ke:jamke
 	                	},
@@ -1692,8 +2031,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                }
 	            }); 
 				$('#modaladdjamke').modal('hide'); 
-				// showdata($('#id_pdo').val());
-				cariDataPdo();
+				// refresh
+				cekHariini(); 
 			});
 
 		// ========== START EVENT edit PLAN  =====================
@@ -1734,7 +2073,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							console.log("Ada error");
 						}
 						// showdata($('#id_pdo').val());  
-						cariDataPdo();
+						cekHariini();
 						$('#updtplan_modal').modal("hide");
 					}
 				});
@@ -1791,7 +2130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				$('#login-modal').modal('hide');
 				// showdata($('#id_pdo').val());
-				cariDataPdo();
+				cekHariini();
 			});
 			// ========== END event edit click =====================
 
@@ -1825,7 +2164,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                data : {
 		                		id_oc:idr, 
 		                		id_assy:idcolassy,
-		                		pdo:pdo
+		                		pdo:id_pdo
 		                	},
 		                success: function(response){
 		                	if (response) { 
@@ -1848,7 +2187,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		            });
 
 				    // showdata($('#id_pdo').val());
-				    cariDataPdo();
+				    
 				  }
 				})
 
@@ -1963,6 +2302,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				maxboostedstep: 10,
 				postfix: '%'
 			}); 
+			$("input[name='demo1']").TouchSpin({
+				min: 0,
+				max: 60,
+				step: 1,
+				decimals: 0,
+				boostat: 5,
+				maxboostedstep: 10,
+				postfix: 'menit'
+			});
+
+			$("input[name='demo1edit']").TouchSpin({
+				min: 0,
+				max: 60,
+				step: 1,
+				decimals: 0,
+				boostat: 5,
+				maxboostedstep: 10,
+				postfix: 'menit'
+			});
 
 		// update gauge
 			let spdi = Number($("input[name='speed_edit']").val());  
@@ -2009,7 +2367,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						      'success'
 						    ).then(function(){
 						    	// document.location.reload(true);
-						    	cariDataPdo();
+						    	cekHariini();
 						    }); 
 
 							console.log("berhasil Update Speed");
@@ -2034,6 +2392,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				var inn = $("input[name='target_mhin']").val();
 				var out = $('input[name="target_mhout"]').val();
 				var eff = $('input[name="eff_new"]').val();
+				var plan = $('input[name="target_plan"]').val();
 
 				// alert('in'+inn+'|ou:'+out+'|ef:'+eff);
 
@@ -2043,10 +2402,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					url : "<?php echo site_url('Target/newTargetBulan') ?>",
 					dataType : "JSON",
 					data : {
+						id_cline:id_line,
 						out:out,
 						in:inn,
 						eff:eff,
-						tgl:datetimeNow
+						tgl:id_tgl,
+						plan:plan
 					},
 					success: function(data){
 						$('#scv_modal').modal('hide');
@@ -2056,7 +2417,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						      'Update Speed',
 						      'success'
 						    );
-						    cariDataPdo();
+						    cekHariini();
 							showplanning(); 
 							$('#newplanmonth_modal').modal('hide');
 						}else{
@@ -2261,7 +2622,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											  confirmButtonText: 'Ok'
 											}) ; 
 										   // showdata($('#id_pdo').val());
-										   cariDataPdo();
+										   cekHariini();
 										},
 										error: function(data){
 							                console.log(data);
@@ -2301,6 +2662,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#clearr').on('click',function(){
 				signaturePad.clear();
 			});
+
+
+		// UPDATE isi Sesion
+			function updateOpt() {
+				$.ajax({ 
+	                type  : 'POST',
+	                url   : '<?php echo site_url();?>/Login/updateDataOpt',
+	                dataType : 'JSON',  
+	                data:{
+	                	tgl: id_tgl,
+	                	sif: id_shift,
+	                	line: id_line
+	                },
+	                success : function(res){   
+						console.log(res);
+	                }
+
+	            });
+			}
 
 		});
 	</script>

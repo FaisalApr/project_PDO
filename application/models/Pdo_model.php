@@ -15,7 +15,7 @@ class Pdo_model extends CI_Model {
 	public function getDataByline($dat,$ln,$sf)
 	{  
 		// $query= $this->db->query("SELECT * FROM main_pdo WHERE YEAR(tanggal)=YEAR('$dat') AND MONTH(tanggal)=MONTH('$dat') AND id_line='$ln' ORDER BY tanggal ASC"); 
-		$query= $this->db->query("SELECT * FROM main_pdo JOIN users ON main_pdo.id_users=users.id JOIN shift ON users.id_shift=shift.id WHERE YEAR(tanggal)=YEAR('$dat') AND MONTH(tanggal)=MONTH('$dat') AND main_pdo.id_line='$ln' AND shift.keterangan='$sf' ORDER BY tanggal ASC"); 
+		$query= $this->db->query("SELECT * FROM main_pdo JOIN shift ON main_pdo.id_shift=shift.id WHERE YEAR(tanggal)=YEAR('$dat') AND MONTH(tanggal)=MONTH('$dat') AND main_pdo.id_listcarline='$ln' AND main_pdo.id_shift='$sf' ORDER BY tanggal ASC"); 
         return $query->result(); 
 	}
 
@@ -69,6 +69,23 @@ class Pdo_model extends CI_Model {
 		$query=$this->db->get();
 
 		return $query->first_row();
+	}
+
+	public function cariHariIni($id_line,$shift,$tanggal)
+	{
+		$this->db->select('*');
+		$this->db->from('main_pdo');
+		$this->db->where('id_listcarline',$id_line);
+		$this->db->where('id_shift',$shift); 
+		$this->db->where('DATE(tanggal)', $tanggal );
+		$this->db->order_by('tanggal',"desc");
+		$query=$this->db->get();
+
+		if ($query->num_rows()>=1) {
+			return $query->first_row();
+		}else{
+			return false;
+		} 
 	}
 
 	public function createPdo($data)

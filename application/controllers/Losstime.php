@@ -19,26 +19,19 @@ class Losstime extends CI_Controller {
 	public function index()
 	{
 		// get sesion
-		$session_data = $this->session->userdata('pdo_logged'); 
+		$ses_opt = $this->session->userdata('pdo_opt'); 
 
 		// init data
-		$iduser = $session_data['id_user'];  
-		$shift =  $session_data['id_shift'];
-		$tanggal = date("Y-m-d"); 
+		$line = $ses_opt['id_line'];  
+		$shift =  $ses_opt['id_shift'];
+		$tanggal = $ses_opt['tgl'];  
 
-		$result = $this->Pdo_model->cariPdo($iduser,$shift,$tanggal);
-		if ($result) { 
-			
-			$pdo = $this->Pdo_model->cariPdoItems($iduser,$shift,$tanggal);
-			$data['pdo'] = $pdo;
-			$data['data_oc'] = $this->Losstime_model->get_all_record_by_id($pdo->id);
-			$data['data_error'] = $this->Losstime_model->get_all_errRecord();
-			$data['data_losttime'] = $this->Losstime_model->get_all_level();
-			$this->load->view('downtime/downtime_template', $data);
-		}else {  
-			// jika tidak punya data pdo
-			redirect('Welcome','refresh');
-		}
+		$pdo = $this->Pdo_model->getDataByline($tanggal,$line,$shift);
+		$data['pdo'] = $pdo;
+		// $data['data_oc'] = $this->Losstime_model->get_all_record_by_id($pdo->id);
+		$data['data_error'] = $this->Losstime_model->get_all_errRecord();
+		$data['data_losttime'] = $this->Losstime_model->get_all_level();
+		$this->load->view('downtime/downtime_template', $data);
 	}
 
 

@@ -14,15 +14,8 @@ class DirectLabor_Model extends CI_Model {
 		return $this->db->update('direct_labor', $data);
 	}
  
-	public function arrayInsertDirectActivity()
-	{
-		$new = array(
-				'id_pdo' => $this->input->post('idpdo'),
-				'item' => $this->input->post('activity'),
-				'qty_mp' => $this->input->post('qty'),
-				'menit' => $this->input->post('menit'),
-				'total' => $this->input->post('total')
-			);
+	public function arrayInsertDirectActivity($new)
+	{ 
 		$result = $this->db->insert('indirect_activity',$new);
 
 		return $result;
@@ -165,9 +158,8 @@ class DirectLabor_Model extends CI_Model {
 
 
 // get Direct Labor
-	public function getDl()
-	{
-		$id = $this->input->post('id_pdo');
+	public function getDl($id)
+	{ 
 		$query = $this->db->get_where('direct_labor', array('id_pdo' => $id));
     	return $query->first_row();
 	}

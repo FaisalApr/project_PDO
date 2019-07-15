@@ -80,11 +80,8 @@ class Assycode extends CI_Controller {
 	}
 
 	public function getAssyCodeDasboard()
-	{
-		// get sesion
-		$session_data = $this->session->userdata('pdo_logged'); 
-
-		$id = $session_data['id_line'];  
+	{  
+		$id = $this->input->post('id_line');
 		$data = $this->AssyCode_model->getAcodeDasboard($id);
 		echo json_encode($data);
 	}

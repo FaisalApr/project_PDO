@@ -22,14 +22,9 @@ class Target extends CI_Controller {
 // ==========  AJAX.   =============
   
 	public function getThisMonth()
-	{
-		// get sesion
-		$session_data = $this->session->userdata('pdo_logged'); 
-
-		// init data 
-		// get date now
+	{ 
 		$dat = $this->input->post('tgl');
-		$line = $session_data['id_line']; //$this->input->post('line');
+		$line = $this->input->post('line');
 		// $line = $this->input->post('line');
 
 		$data = $this->Target_model->getDataMonth($dat,$line);
@@ -39,16 +34,16 @@ class Target extends CI_Controller {
 
 
 	public function newTargetBulan()
-	{
-		$session_data = $this->session->userdata('pdo_logged');
+	{ 
 
 		//data new
 		$datanew = array(
-			'id_line'	=> $session_data['id_line'],
+			'id_list_carline'	=> $this->input->post('id_cline'),
 			'mh_out'	=> $this->input->post('out'),
 			'mh_in' 	=> $this->input->post('in'),
 			'efisiensi' => $this->input->post('eff'),
-			'periode'	=> $this->input->post('tgl')
+			'periode'	=> $this->input->post('tgl'),
+			'plan_assy' => $this->input->post('plan')
 		);
 
 		$result = $this->Target_model->newTarget($datanew);

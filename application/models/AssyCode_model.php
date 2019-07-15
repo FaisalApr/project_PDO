@@ -22,7 +22,7 @@ class AssyCode_model extends CI_Model {
 	public function getAcodeDasboard($id_ln)
 	{
 		# code...
-		$q = $this->db->query("SELECT * FROM line_manager JOIN assembly on line_manager.id_assy=assembly.id WHERE id_line=$id_ln");
+		$q = $this->db->query("SELECT * FROM line_manager JOIN assembly on line_manager.id_assy=assembly.id WHERE id_list_carline=$id_ln");
 		return $q->result();
 	}
 

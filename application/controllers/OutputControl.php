@@ -21,14 +21,15 @@ class OutputControl extends CI_Controller {
 	// func di DASBOARD HOME
 		public function getDataOutputControl()
 		{
-			# code...
-			$result['data'] = $this->OutputControl_model->getOutputControl();
-			$result['mhin_tot'] = $this->OutputControl_model->getMHintot();
-			$result['mhin'] = $this->OutputControl_model->getMHin();
-			$result['mp'] = $this->OutputControl_model->getMP();
-			$result['to_lossdetik'] = $this->Losstime_model->getToLosstimeDetik();
-			$result['data_dl'] = $this->DirectLabor_Model->getDl();
-			$result['pdo'] = $this->Pdo_model->pdoById($this->input->post('id_pdo')); 
+			$id = 7;//$this->input->post('id_pdo');
+
+			$result['data'] = $this->OutputControl_model->getOutputControl($id);
+			$result['mhin_tot'] = $this->OutputControl_model->getMHintot($id);
+			$result['mhin'] = $this->OutputControl_model->getMHin($id);
+			$result['mp'] = $this->OutputControl_model->getMP($id);
+			$result['to_lossdetik'] = $this->Losstime_model->getToLosstimeDetik($id);
+			$result['data_dl'] = $this->DirectLabor_Model->getDl($id);
+			$result['pdo'] = $this->Pdo_model->pdoById($id); 
 			
 			echo json_encode($result);
 		}
@@ -40,7 +41,7 @@ class OutputControl extends CI_Controller {
 
 			$sif = $this->input->post('name_sif');
 			$date = $this->input->post('tgl');
-			$line = $session_data['id_line'];   
+			$line = $this->input->post('tgl');
 			
 			$result = $this->Pdo_model->getDataByTanggalChange($date,$sif,$line); 
 
@@ -60,7 +61,7 @@ class OutputControl extends CI_Controller {
 	public function getDataBuildAssyHeader()
 	{
 		# code...
-		$id = $this->input->post('id');
+		$id = 7;//$this->input->post('id');
 		$result = $this->OutputControl_model->getBuildAssyHead($id);
 
 		echo json_encode($result);

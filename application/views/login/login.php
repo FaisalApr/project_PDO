@@ -98,7 +98,7 @@
 						})
 						setTimeout(function(){
 							
-							setTimeout(' window.location.href = "<?php echo site_url('Welcome'); ?>" ');
+							setTimeout(' window.location.href = "<?php echo site_url('Dasboard'); ?>" ');
 						},2000);
 						console.log("pass");
 					}else{

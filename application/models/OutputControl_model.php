@@ -4,11 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class OutputControl_model extends CI_Model {
 
 
-	public function getOutputControl()
+	public function getOutputControl($id)
 	{
 		$this->db->select('*');
 		$this->db->from('output_control');
-		$this->db->where('id_pdo',$this->input->post('id_pdo'));
+		$this->db->where('id_pdo',$id);
 		$this->db->order_by('jam_ke', 'asc');
         $query= $this->db->get();
        	return $query->result();
@@ -45,9 +45,8 @@ class OutputControl_model extends CI_Model {
         return $query->result();
 	}
 
-	public function getMHin()
-	{
-		$pdo = $this->input->post('id_pdo');
+	public function getMHin($pdo)
+	{ 
 		$query= $this->db->query("SELECT ((SELECT (SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=1 AND id_pdo=$pdo)+(SELECT COALESCE(SUM(total),0) FROM direct_labor WHERE id_pdo=$pdo))-(SELECT COALESCE(SUM(total),0) FROM absen_pegawai WHERE id_pdo=$pdo)-(SELECT COALESCE(SUM(total),0) FROM indirect_activity WHERE id_pdo=$pdo)-(SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=2 AND id_pdo=$pdo))as mhin ");
         return $query->first_row();
 	}
@@ -64,16 +63,14 @@ class OutputControl_model extends CI_Model {
         return $query->first_row();
 	}
 
-	public function getMHintot()
-	{
-		$pdo = $this->input->post('id_pdo');
+	public function getMHintot($pdo)
+	{ 
 		$query= $this->db->query("SELECT (SELECT ((SELECT (SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=1 AND id_pdo=$pdo)+(SELECT COALESCE(SUM(total),0) FROM direct_labor WHERE id_pdo=$pdo))-(SELECT COALESCE(SUM(total),0) FROM absen_pegawai WHERE id_pdo=$pdo)-(SELECT COALESCE(SUM(total),0) FROM indirect_activity WHERE id_pdo=$pdo)-(SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=2 AND id_pdo=$pdo)))+(SELECT (SELECT COALESCE(SUM(total),0) FROM `indirect_labor` WHERE id_pdo=$pdo)+(SELECT COALESCE(SUM(total),0) FROM `absen_leader` WHERE id_pdo=$pdo)) as mhin_dlidl");
         return $query->first_row();
 	}
 
-	public function getMP()
-	{
-		$pdo = $this->input->post('id_pdo');
+	public function getMP($pdo)
+	{ 
 		$query= $this->db->query("SELECT reg_dl FROM direct_labor WHERE id_pdo=$pdo");
         return $query->first_row();
 	}
