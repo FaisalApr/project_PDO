@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 09 Jul 2019 pada 11.20
+-- Waktu pembuatan: 15 Jul 2019 pada 08.57
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 5.6.40
 
@@ -122,6 +122,15 @@ CREATE TABLE `build_assy` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data untuk tabel `build_assy`
+--
+
+INSERT INTO `build_assy` (`id`, `id_outputcontrol`, `id_pdo`, `id_assy`, `actual`, `time`) VALUES
+(1, 1, 7, 1163, 20, '2019-07-15 13:16:52'),
+(2, 1, 7, 1185, 0, '2019-07-15 13:18:30'),
+(3, 2, 7, 1185, 18, '2019-07-15 13:52:22');
+
+--
 -- Trigger `build_assy`
 --
 DELIMITER $$
@@ -144,6 +153,15 @@ CREATE TABLE `carline` (
   `nama_carline` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `carline`
+--
+
+INSERT INTO `carline` (`id`, `id_district`, `nama_carline`) VALUES
+(1, 1, 'CHR'),
+(2, 1, 'ALPARD'),
+(3, 2, 'Carry');
+
 -- --------------------------------------------------------
 
 --
@@ -162,6 +180,13 @@ CREATE TABLE `direct_labor` (
   `mh_ot` int(11) NOT NULL,
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `direct_labor`
+--
+
+INSERT INTO `direct_labor` (`id`, `id_pdo`, `std_dl`, `reg_dl`, `jam_reg`, `jam_ot`, `dl_ot`, `mh_reg`, `mh_ot`, `total`) VALUES
+(4, 7, 23, 23, 8, 1, 1, 184, 1, 185);
 
 -- --------------------------------------------------------
 
@@ -214,6 +239,15 @@ CREATE TABLE `indirect_activity` (
   `total` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `indirect_activity`
+--
+
+INSERT INTO `indirect_activity` (`id`, `id_pdo`, `item`, `qty_mp`, `menit`, `total`) VALUES
+(3, 7, '5S + Yoidon', 23, 3, 1.15),
+(4, 7, 'Home Position', 23, 2, 0.766667),
+(5, 7, 'Y pOsitioN', 23, 7, 2.68333);
+
 -- --------------------------------------------------------
 
 --
@@ -232,6 +266,13 @@ CREATE TABLE `indirect_labor` (
   `mh_ot` int(11) NOT NULL,
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `indirect_labor`
+--
+
+INSERT INTO `indirect_labor` (`id`, `id_pdo`, `std_idl`, `reg_idl`, `jam_reg`, `jam_ot`, `dl_ot`, `mh_reg`, `mh_ot`, `total`) VALUES
+(4, 7, 2, 2, 8, 1, 1, 16, 1, 17);
 
 -- --------------------------------------------------------
 
@@ -387,9 +428,18 @@ INSERT INTO `line` (`id`, `nama_line`) VALUES
 
 CREATE TABLE `line_manager` (
   `id` int(11) NOT NULL,
-  `id_line` int(11) NOT NULL,
+  `id_list_carline` int(11) NOT NULL,
   `id_assy` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `line_manager`
+--
+
+INSERT INTO `line_manager` (`id`, `id_list_carline`, `id_assy`) VALUES
+(3, 5, 1181),
+(4, 5, 1163),
+(5, 5, 1185);
 
 -- --------------------------------------------------------
 
@@ -402,6 +452,18 @@ CREATE TABLE `list_carline` (
   `id_carline` int(11) NOT NULL,
   `id_line` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `list_carline`
+--
+
+INSERT INTO `list_carline` (`id`, `id_carline`, `id_line`) VALUES
+(1, 1, 10),
+(2, 1, 21),
+(3, 1, 24),
+(4, 2, 9),
+(5, 2, 11),
+(6, 3, 18);
 
 -- --------------------------------------------------------
 
@@ -419,6 +481,14 @@ CREATE TABLE `lost_time` (
   `durasi` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `lost_time`
+--
+
+INSERT INTO `lost_time` (`id`, `id_pdo`, `id_error`, `id_oc`, `id_jenisloss`, `keterangan`, `durasi`) VALUES
+(1, 7, 2, 1, 1, 'kdjksj', 22),
+(2, 7, 4, 1, 1, 'iii', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -428,8 +498,8 @@ CREATE TABLE `lost_time` (
 CREATE TABLE `main_pdo` (
   `id` int(11) NOT NULL,
   `id_shift` int(11) NOT NULL,
+  `id_listcarline` int(11) NOT NULL,
   `id_users` int(11) NOT NULL,
-  `id_line` int(11) NOT NULL,
   `tanggal` datetime NOT NULL,
   `mh_out` double DEFAULT NULL,
   `mh_in_dl` double DEFAULT NULL,
@@ -447,6 +517,13 @@ CREATE TABLE `main_pdo` (
   `waktu` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `main_pdo`
+--
+
+INSERT INTO `main_pdo` (`id`, `id_shift`, `id_listcarline`, `id_users`, `tanggal`, `mh_out`, `mh_in_dl`, `mh_in_idl`, `direct_eff`, `total_productiv`, `jam_kerja`, `line_speed`, `loss_output`, `p_loss_time`, `jam_effective`, `dpm_fa`, `status`, `signature`, `waktu`) VALUES
+(7, 2, 5, 27, '2019-07-15 00:00:00', 51.95519971847534, 180.39999997615814, 17, 28.79999984775, 26.319756699468, 9, 107, 2, 4.3560606060606055, 8.8, 0, 0, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -461,6 +538,14 @@ CREATE TABLE `output_control` (
   `jam_ke` int(11) NOT NULL,
   `time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `output_control`
+--
+
+INSERT INTO `output_control` (`id`, `id_pdo`, `plan`, `actual`, `jam_ke`, `time`) VALUES
+(1, 7, 20, 20, 1, '2019-07-15 12:59:52'),
+(2, 7, 18, 18, 2, '2019-07-15 13:52:18');
 
 -- --------------------------------------------------------
 
@@ -555,7 +640,7 @@ INSERT INTO `supervisor` (`id`, `nik`, `nama`, `passcode`) VALUES
 
 CREATE TABLE `target` (
   `id` int(11) NOT NULL,
-  `id_line` int(11) NOT NULL,
+  `id_list_carline` int(11) NOT NULL,
   `mh_out` double NOT NULL,
   `mh_in` double NOT NULL,
   `efisiensi` double NOT NULL,
@@ -567,8 +652,8 @@ CREATE TABLE `target` (
 -- Dumping data untuk tabel `target`
 --
 
-INSERT INTO `target` (`id`, `id_line`, `mh_out`, `mh_in`, `efisiensi`, `plan_assy`, `periode`) VALUES
-(8, 9, 300, 400, 100, 0, '2019-07-08');
+INSERT INTO `target` (`id`, `id_list_carline`, `mh_out`, `mh_in`, `efisiensi`, `plan_assy`, `periode`) VALUES
+(9, 5, 340, 220, 101, 210, '2019-07-15');
 
 -- --------------------------------------------------------
 
@@ -588,6 +673,19 @@ CREATE TABLE `users` (
   `active` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `users`
+--
+
+INSERT INTO `users` (`id`, `nama`, `nik`, `username`, `password`, `level`, `id_shift`, `id_district`, `active`) VALUES
+(25, 'anjjj', '9999', 'as', 'as', 4, 1, 1, 1),
+(26, 'Andika Kangen', '212324', 'andk1', 'a', 2, 2, 1, 1),
+(27, 'angga putra', '445638', 'a3', 'a', 3, 2, 1, 1),
+(28, 'angka was my time ', '321456', 'angk21', 'a', 4, 2, 1, 1),
+(29, 'angka was my time ', '321456', 'angk21', 'a', 4, 2, 1, 1),
+(30, 'koll', '56667', 'awerrd', '2234', 4, 1, 1, 1),
+(31, 'nonono opoppoo', '344542', 'rryu43', '4432', 4, 1, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -599,6 +697,19 @@ CREATE TABLE `user_has_line` (
   `id_user` int(11) NOT NULL,
   `id_listcarline` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `user_has_line`
+--
+
+INSERT INTO `user_has_line` (`id`, `id_user`, `id_listcarline`) VALUES
+(9, 25, 5),
+(10, 26, 4),
+(11, 26, 5),
+(12, 27, 5),
+(13, 27, 1),
+(14, 31, 5),
+(16, 27, 4);
 
 --
 -- Indexes for dumped tables
@@ -715,8 +826,8 @@ ALTER TABLE `line`
 --
 ALTER TABLE `line_manager`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_line` (`id_line`),
-  ADD KEY `id_assy` (`id_assy`);
+  ADD KEY `id_assy` (`id_assy`),
+  ADD KEY `id_list_carline` (`id_list_carline`);
 
 --
 -- Indeks untuk tabel `list_carline`
@@ -743,7 +854,7 @@ ALTER TABLE `main_pdo`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_shift_tbl_shift` (`id_shift`),
   ADD KEY `fk_users` (`id_users`),
-  ADD KEY `fk_line` (`id_line`);
+  ADD KEY `fk_listcarline` (`id_listcarline`);
 
 --
 -- Indeks untuk tabel `output_control`
@@ -795,7 +906,7 @@ ALTER TABLE `supervisor`
 --
 ALTER TABLE `target`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_line_tbl_line` (`id_line`);
+  ADD KEY `fk_liscarline_targett` (`id_list_carline`);
 
 --
 -- Indeks untuk tabel `users`
@@ -840,19 +951,19 @@ ALTER TABLE `assembly`
 -- AUTO_INCREMENT untuk tabel `build_assy`
 --
 ALTER TABLE `build_assy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `carline`
 --
 ALTER TABLE `carline`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `direct_labor`
 --
 ALTER TABLE `direct_labor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `district`
@@ -870,13 +981,13 @@ ALTER TABLE `history_pdo`
 -- AUTO_INCREMENT untuk tabel `indirect_activity`
 --
 ALTER TABLE `indirect_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `indirect_labor`
 --
 ALTER TABLE `indirect_labor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `jenis_deffect`
@@ -912,43 +1023,43 @@ ALTER TABLE `level`
 -- AUTO_INCREMENT untuk tabel `line`
 --
 ALTER TABLE `line`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT untuk tabel `line_manager`
 --
 ALTER TABLE `line_manager`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=327;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `list_carline`
 --
 ALTER TABLE `list_carline`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `lost_time`
 --
 ALTER TABLE `lost_time`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `main_pdo`
 --
 ALTER TABLE `main_pdo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `output_control`
 --
 ALTER TABLE `output_control`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `quality_control`
 --
 ALTER TABLE `quality_control`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `regulasi`
@@ -966,31 +1077,31 @@ ALTER TABLE `shift`
 -- AUTO_INCREMENT untuk tabel `spv_manager`
 --
 ALTER TABLE `spv_manager`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `supervisor`
 --
 ALTER TABLE `supervisor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `target`
 --
 ALTER TABLE `target`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_has_line`
 --
 ALTER TABLE `user_has_line`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -1051,7 +1162,7 @@ ALTER TABLE `indirect_labor`
 --
 ALTER TABLE `line_manager`
   ADD CONSTRAINT `fk_id_assy` FOREIGN KEY (`id_assy`) REFERENCES `assembly` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_id_line` FOREIGN KEY (`id_line`) REFERENCES `line` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_listcarline_assymgr` FOREIGN KEY (`id_list_carline`) REFERENCES `list_carline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `list_carline`
@@ -1073,7 +1184,7 @@ ALTER TABLE `lost_time`
 -- Ketidakleluasaan untuk tabel `main_pdo`
 --
 ALTER TABLE `main_pdo`
-  ADD CONSTRAINT `fk_line` FOREIGN KEY (`id_line`) REFERENCES `line` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_listcarline` FOREIGN KEY (`id_listcarline`) REFERENCES `list_carline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_shift_tbl_shift` FOREIGN KEY (`id_shift`) REFERENCES `shift` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_users` FOREIGN KEY (`id_users`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -1110,7 +1221,7 @@ ALTER TABLE `spv_manager`
 -- Ketidakleluasaan untuk tabel `target`
 --
 ALTER TABLE `target`
-  ADD CONSTRAINT `fk_line_tbl_line` FOREIGN KEY (`id_line`) REFERENCES `line` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_liscarline_targett` FOREIGN KEY (`id_list_carline`) REFERENCES `list_carline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `users`
