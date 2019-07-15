@@ -107,18 +107,41 @@ class Welcome extends CI_Controller {
 	        $result1 = $this->DirectLabor_Model->createDL($dataDl);
 	        $result2 = $this->InDirectLabor_Model->createIDL($dataIdl);
 	        
-	        // jika direct labor sukses
-	        if ($result1) {  
-	        }else{
-	        	$output['error1'] = true;
-	        }
+	        // PERULANGAN INSERT ACTIV
+	        $actv = $this->input->post('act');
+	        $tmp = array();
+
+	        if (is_array($actv)) {
+	        	foreach ($actv as $key) {
+	        		// 
+	        		$reg = $this->input->post('regdl');
+	        		$dur_jam = ($key['menit']/60);
+	        		$to = $reg*$dur_jam;
+	        		
+	        		$new = array(
+							'id_pdo' => $pdo->id,
+							'item' => $key['item'],
+							'qty_mp' => $reg,
+							'menit' => $key['menit'],
+							'total' => $to
+						);
+	        		array_push($tmp, $new);
+	        		// insert db
+	        		$this->DirectLabor_Model->arrayInsertDirectActivity($new);
+	        	}
+	        }  
+
+	        //jika direct labor sukses
+	        if (!$result1) {  
+	        	$output['error|DL'] = true;
+	        } 
 	        // jika In-Direct Labor Sukses
-        	if ($result2) { 
-        	}else{
-        		$output['error2'] = true;	
-        	}
+        	if (!$result2) { 
+        		$output['error|IDL'] = true;	
+        	} 
 
  			$output['id_pdo'] = $pdo->id; 
+ 			$output['tmp'] = $tmp;//$tmp;
 		}else{
 			$output['error'] = true;
 		} 
@@ -126,6 +149,16 @@ class Welcome extends CI_Controller {
 		echo json_encode($output);
 	}
  	
+ 	public function cekHariIni()
+ 	{
+ 		$line = $this->input->post('id_line');
+ 		$shift = $this->input->post('id_shift');
+ 		$tanggal = $this->input->post('id_tgl');
+
+ 		$result = $this->Pdo_model->cariHariIni($line,$shift,$tanggal);
+
+ 		echo json_encode($result);
+ 	}
  	public function cekBelumVerifikasi()
  	{
  		// get sesion
