@@ -58,11 +58,11 @@ class Pdo_model extends CI_Model {
 	}
 	
 
-	public function cariPdoItems($id_user,$shift,$tanggal)
+	public function cariPdoItems($id_line,$shift,$tanggal)
 	{
 		$this->db->select('*');
 		$this->db->from('main_pdo');
-		$this->db->where('id_users',$id_user);
+		$this->db->where('id_listcarline',$id_line);
 		$this->db->where('id_shift',$shift); 
 		$this->db->where('DATE(tanggal)', $tanggal );
 		$this->db->order_by('tanggal',"desc");

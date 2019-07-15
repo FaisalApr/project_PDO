@@ -24,7 +24,7 @@ class Users extends CI_Controller {
 
 	//  ======= AJAX. ========
 	public function addUser()
-	{ 
+	{  
 		// new user data
 		$us = array(
 					'nama' => ($this->input->post('nama')),
@@ -48,20 +48,22 @@ class Users extends CI_Controller {
 				$as = array();
 				foreach($arrline as $vl) { 
 				    $ne = array(
-					    	'id_user' => $usr->id,
+					    	'id_user' => $usr[0]->id,
 					    	'id_listcarline' => $vl
 					    );
 				    array_push($as, $ne);
 
 				    $this->Users_model->newUserHasLine($ne);
-				} 	
+				}
+ 
 			}else{
 				echo json_encode('NOOOO');
 			}
 			
 		}
-		echo json_encode($data);
 
+		
+		echo json_encode($data);
 		
 	}
 
@@ -93,6 +95,7 @@ class Users extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	// mencari list carline by DISTRICT 
 	public function getListByDistrict()
 	{
 		$dist = $this->input->post('dist');
@@ -120,6 +123,48 @@ class Users extends CI_Controller {
 		}
 
 		
+		echo json_encode($data);
+	}
+
+	
+	// mencari list carline  by ID_user
+	public function getListLineCarlineByUser()
+	{
+		$idu = $this->input->post('id_user');
+		$carl = $this->Users_model->getUsersCarlineGroup($idu);
+		$data = array(); 
+
+		foreach ($carl as $key) {
+			// mencari isi setiap carline
+			$cline = $this->Users_model->getUsersLineByCarline($idu,$key->id_carline);
+			$line = array();
+			foreach ($cline as $ckey) {
+				// get sesion
+				$ses_opt = $this->session->userdata('pdo_opt'); 
+
+				if ($ckey->id_lst==$ses_opt['id_line']) {
+					$tmp = array(
+							'id' => $ckey->id_lst,  // id_ tbl-list-carline
+							'text' => $ckey->nama_line, //nama_line tbl-line
+							"selected" => true
+						);
+				}else{
+					$tmp = array(
+							'id' => $ckey->id_lst,  // id_ tbl-list-carline
+							'text' => $ckey->nama_line //nama_line tbl-line
+						);
+				}
+				array_push($line, $tmp); 
+			}
+
+			// insert data ke arr utama
+		 	$isi = array(
+		 			'text' => $key->nama_carline, // nama_car tbl-carline
+		 			'children' => $line
+		 			);
+		 	array_push($data, $isi); 
+		}
+
 		echo json_encode($data);
 	}
 

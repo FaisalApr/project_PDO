@@ -7,6 +7,8 @@ class Login extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('Login_model');
+		$this->load->model('Users_model');
+		date_default_timezone_set("Asia/Jakarta");
 	}
 
 	public function index()
@@ -40,6 +42,7 @@ class Login extends CI_Controller {
 		if ($result) { 
 			$sess_array = array();
 			
+			// mengisi sesion utama
 			$sess_array = array(
 					'id_user' => $result->id_usr,
 					'nama' => $result->nama, 
@@ -47,18 +50,48 @@ class Login extends CI_Controller {
 					'id_shift' => $result->id_shift,
 					'keterangan' => $result->keterangan
 				);	  
+
+			// megisi SESION Optional
+			$carl = $this->Users_model->getUsersCarlineGroup($result->id_usr);
+			$cline = $this->Users_model->getUsersLineByCarline($result->id_usr,$carl[0]->id_carline);
+
+			$ses_additional = array(
+					'tgl'  => date("Y-m-d"),
+					'id_shift' => $result->id_shift,
+					'id_line'  => $cline[0]->id_lst
+				);
+
 			// set sesion logined
 			$this->session->set_userdata('pdo_logged',$sess_array); 
-			$output['level'] = 1;
+			$this->session->set_userdata('pdo_opt',$ses_additional); 
+
+			$output['level'] = $result->level;
 			$output['message'] = 'Prosess Masuk. Tunggu sebentar...';
+			// $output['opt'] = $ses_additional;
 		}else{
 
 			$this->session->unset_userdata('pdo_logged');
+			$this->session->unset_userdata('pdo_opt');
 			$output['error'] = true;
 		}
 
 		echo json_encode($output);
 	}
+
+	// update data additional
+	public function updateDataOpt()
+	{
+		$ses_additional = array(
+						'tgl'  => $this->input->post('tgl'),
+						'id_shift' => $this->input->post('sif'),
+						'id_line'  => $this->input->post('line')
+					);
+		$this->session->set_userdata('pdo_opt',$ses_additional);
+		
+		echo json_encode($ses_additional);
+	}
+
+
 }
 
 /* End of file controllername.php */

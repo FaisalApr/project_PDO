@@ -35,14 +35,20 @@ class Users_model extends CI_Model {
 
 	public function getAllUser()
 	{
-		$query = $this->db->query('SELECT * FROM users  ');
+		$query = $this->db->query("SELECT 
+										users.id,users.nik,users.username,users.nama,users.password,users.level,shift.keterangan,district.nama as dis,users.active,level.jabatan
+									FROM users 
+									JOIN district on users.id_district=district.id 
+									JOIN shift on users.id_shift=shift.id
+									JOIN level on users.level=level.id
+								");
         return $query->result();
 	}
 
 	public function getUsername($uname)
 	{
 		$query = $this->db->get_where('users',array('username'=>$uname));
-        return $query->first_row();
+        return $query->result();
 	}
 
 	public function getAllLine()
@@ -64,6 +70,27 @@ class Users_model extends CI_Model {
 	}
  
 	
+	public function getUsersCarlineGroup($idu)
+	{
+		$que = $this->db->query("SELECT * 
+									FROM user_has_line 
+									JOIN list_carline on user_has_line.id_listcarline=list_carline.id
+									JOIN carline on list_carline.id_carline=carline.id
+									WHERE id_user='$idu'
+									GROUP BY list_carline.id_carline ORDER BY carline.nama_carline ASC ");
+		return $que->result();
+	}
+
+	public function getUsersLineByCarline($idu,$crl)
+	{
+		$que = $this->db->query("SELECT *,list_carline.id as id_lst
+									FROM user_has_line 
+									JOIN list_carline on user_has_line.id_listcarline=list_carline.id
+									JOIN line on list_carline.id_line=line.id
+									WHERE id_user=$idu AND list_carline.id_carline=$crl");
+		return $que->result();
+	}
+
 
 }
 

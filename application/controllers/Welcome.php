@@ -53,10 +53,10 @@ class Welcome extends CI_Controller {
 
 		// data new PDO
 		$dataPdo = array(
-			'id_shift' => $session_data['id_shift'], 
+			'id_shift' => $this->input->post('id_shift'), 
 			'id_users' => $session_data['id_user'], 
-			'id_line' => $session_data['id_line'], 
-			'tanggal' => date("Y-m-d H:i:s"),
+			'id_listcarline' => $this->input->post('id_line'),
+			'tanggal' => $this->input->post('id_tgl'),
 			'line_speed' => $this->input->post('speed'),
 			'jam_kerja' => (8+$this->input->post('jam_otdl')),
 			'direct_eff' => 0 ,
@@ -66,7 +66,7 @@ class Welcome extends CI_Controller {
 		$result = $this->Pdo_model->createPdo($dataPdo);
 		if ($result) {
 			// mencari pdo yang sudah di insert
-			$pdo = $this->Pdo_model->cariPdoItems($session_data['id_user'],$session_data['id_shift'],date("Y-m-d"));
+			$pdo = $this->Pdo_model->cariPdoItems($this->input->post('id_line'),$this->input->post('id_shift'),$this->input->post('id_tgl'));
  			
  			// hitungan
  			$mhreg = ($this->input->post('regdl')*8);

@@ -153,6 +153,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group">
 										<label for="in_username">Username :</label>
 										<input id="in_username" type="text" class=" form-control" >
+										<div id="tipsss" style="display: none;" class="form-control-feedback">maaf, username ini sudah digunakan. Coba yang lain?</div> 
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -478,11 +479,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 								},
 								success: function(response){
+									// console.log(response);
 									if (response) {
 										Swal.fire({ 
 										  type: 'success',
 										  title: 'Berhasil Menambah Users', 
 										});
+										// document.getElementById('fom_newusr').reset();
+	 									// show();
 									}else {
 										Swal.fire({
 										  type: 'error',
@@ -618,13 +622,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  			// show autoload
  			show();
 			function show() {
+				console.log('show called')
 				$.ajax({
 					async: true,
 					type : 'ajax',
 					url: '<?php  echo site_url('Users/showUser') ?>',
 					dataType: "JSON",
 					success: function(response){
-						var html='';
+						$('#body_user').html('');
 
 						console.log(response);
 
@@ -643,11 +648,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										$('<td>').text(data[i].nama),
 										$('<td>').text(data[i].username),
 										$('<td>').text(data[i].password),
-										$('<td>').text(data[i].level),
-										$('<td>').text(data[i].id_shift),
-										$('<td>').text(data[i].id_district),
-										$('<td>').text(data[i].nik),
-										$('<td>').text(data[i].nik)
+										$('<td>').text(data[i].jabatan),
+										$('<td>').text(data[i].keterangan),
+										$('<td>').text(data[i].dis),
+										$('<td>').text('Active'),
+										$('<td>').html('<div class="dropdown" style="vertical-align: middle; text-align: center;">'+
+		                      							'<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+		                        						'<i class="fa fa-ellipsis-h"></i></a>'+
+		                        						'<div class="dropdown-menu dropdown-menu-right">'+
+		                        							'<a class="dropdown-item item_view" href="#" ><i class="fa fa-eye"></i> Detail </a>'+
+									                        '<a class="dropdown-item item_edit" href="#" ><i class="fa fa-pencil"></i> Edit </a>'+
+									                        '<a class="dropdown-item item_delete" href="#" data-uname="'+data[i].nama+'" data-idu="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+ 
+									                    '</div>'+
+									                    '</div>'
+		                        					)
 									);
 							tr.appendTo('#body_user');
 						}
@@ -722,32 +736,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  			// =====   END USER  ==============
 
  			// username checked availabe
- 			document.getElementById("i_user").onchange = function() {myFunction()};
-			function myFunction() {
-				var uname = $('#i_user').val();
-				$.ajax({ 
- 					type: 'POST',
- 					url: '<?php echo site_url("Users/searchUsername") ?>',
- 					dataType: "JSON",
- 					data:{
- 						uname: uname
- 					},
- 					success: function(data){
- 						if (data.length==0) { 
- 							document.getElementById("fom_iusername").classList.remove("has-danger");
- 							document.getElementById("i_user").classList.remove("form-control-danger");
- 							document.getElementById("i_user").classList.add("form-control-success"); 
- 							document.getElementById("tipsss").style.display= 'none';
- 						}else{
- 							document.getElementById("i_user").classList.remove("form-control-success");
- 							document.getElementById("i_user").classList.add("form-control-danger");
- 							document.getElementById("fom_iusername").classList.add("has-danger");
- 							document.getElementById("tipsss").style.display= 'block';
- 						}
- 					}
+	 			document.getElementById("in_username").onchange = function() {myFunction()};
+				function myFunction() {
+					var uname = $('#in_username').val();
+					$.ajax({ 
+	 					type: 'POST',
+	 					url: '<?php echo site_url("Users/searchUsername") ?>',
+	 					dataType: "JSON",
+	 					data:{
+	 						uname: uname
+	 					},
+	 					success: function(data){
+	 						if (data.length==0) { 
+	 							document.getElementById("fom_iusername").classList.remove("has-danger");
+	 							document.getElementById("in_username").classList.remove("form-control-danger");
+	 							document.getElementById("in_username").classList.add("form-control-success"); 
+	 							document.getElementById("tipsss").style.display= 'none';
+	 						}else{
+	 							document.getElementById("in_username").classList.remove("form-control-success");
+	 							document.getElementById("in_username").classList.add("form-control-danger");
+	 							document.getElementById("fom_iusername").classList.add("has-danger");
+	 							document.getElementById("tipsss").style.display= 'block';
+	 						}
+	 					}
 
- 				});
-			}
+	 				});
+				}
  			
 			// =====   START EDIT USER  ==============
 				$('#t_user').on('click','.item_edit',function(){

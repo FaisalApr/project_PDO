@@ -84,7 +84,7 @@
 					pwd: pwd
 				},
 				success: function(data){ 
-
+					// console.log(data);
 					// jika tidak error / pass benar
 					if (!data.error) {
 						Swal.close();

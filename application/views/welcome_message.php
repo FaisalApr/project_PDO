@@ -22,6 +22,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!-- HTML CANVAS  -->
 	<script type="text/javascript" src="<?php echo base_url() ?>assets/src/plugins/html2canvas-master/dist/html2canvas.js"></script>
 
+	<!-- SELEct 2 -->
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/select2/dist/css/select2.min.css">
+	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/select2/theme/select2-bootstrap.css">
+	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/select2/theme/select2-bootstrap.min.css">
+
 	<style type="text/css">
 		.signature-pad { 
 		  font-size: 10px;
@@ -33,12 +38,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		  border-radius: 4px;
 		  padding: 16px;
 		}
+		.select2-selection__rendered {
+		    line-height: 55px !important;
+		}
+		.select2-container .select2-selection--single {
+		    height: 50px !important;
+		}
+		.select2-selection__arrow {
+		    height: 50px !important;
+		}
+		
 	</style>
 
 </head>
 <body id="box-bg">
+	<?php 
+		$ses = $this->session->userdata('pdo_logged'); 
+		$opt = $this->session->userdata('pdo_opt'); 
+	 ?>
+
 	<?php $this->load->view('header/header_users'); ?>
 	<?php $this->load->view('header/sidebar_users'); ?>
+	<input type="hidden" value="<?php echo $ses['id_user'] ?>" id="id_user">
+	<input type="hidden" value="<?php echo $opt['id_shift'] ?>" id="id_shift">
+	<!-- opt -->
+	<input type="hidden" value="<?php echo $opt['tgl'] ?>" id="id_tgl">
+	<input type="hidden" value="<?php echo $opt['id_line'] ?>" id="id_line">
+
 	<div class="main-container">
 		<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
 			 
@@ -146,7 +172,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<center>
 									<div class="form-group col-md-6" style="margin-top: -40px;">
 										<label>Kecepatan Conveyor</label>
-										<input id="demo1" type="number" value="104" name="speed_edit">  
+										<input type="number" value="104" name="speed_edit">  
 									</div> 
 									</center>
 								</div>
@@ -380,7 +406,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 						<h2 class="text-center mb-30">Edit Aktivitas</h2>
-						<form id="form_addactiv">
+						<form id="form_editactiv">
 							<div class="input-group custom input-group-lg">
 								<label>Aktivitas :</label>
 								<input id="nameActedit" type="text" class="form-control" style="text-align: left;" placeholder="Nama Aktivitas">
@@ -451,18 +477,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 </body>
-	
-	<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script> 
-	<script src="<?php echo base_url() ?>assets/src/plugins/jquery-steps/build/jquery.steps.js"></script>
-	<!-- add sweet alert js & css in footer -->
-	<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>   
-	<!-- Spedometer charts -->
-	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
-	<!-- TOuch SPIN -->
-	<script src="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"></script>
-	<!-- you load jquery somewhere before jSignature ... -->
-	<script src="<?php echo base_url() ?>assets/src/plugins/jsignature-pad/js/signature_pad.umd.js"></script>
+	<!-- Script -->
+		<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script> 
+		<script src="<?php echo base_url() ?>assets/src/plugins/jquery-steps/build/jquery.steps.js"></script>
+		<!-- add sweet alert js & css in footer -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>   
+		<!-- Spedometer charts -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
+		<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
+		<!-- TOuch SPIN -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"></script>
+		<!-- you load jquery somewhere before jSignature ... -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/jsignature-pad/js/signature_pad.umd.js"></script>
+
+		<!-- SELECT 2 -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/select2/dist/js/select2.min.js"></script>
 
 	<script>
 
@@ -488,18 +517,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	</script>
 	<script>
-		$('document').ready(function(){ 
+		$('document').ready(function(){  
+		// VAR CORE
+			var id_line = $('#id_line').val();
+			var id_shift = $('#id_shift').val();
+			var id_tgl = $('#id_tgl').val();
+
+			// console.log('ln:'+id_line+'|sf:'+id_shift+'|tgl:'+id_tgl); 
  		// Setting
  			// deklarasi nama bulan
 	 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 	 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 
-				var today = new Date();
+				var today = new Date(id_tgl);
 				var currentMonth = today.getMonth();
 				var currentYear = today.getFullYear();
 				var currDate = today.getDate();
 
-				document.getElementById('slect_date').disabled = true;
 				document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
 
 				var pdo_id ;
@@ -509,18 +543,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					firstDay: 1,  
 				    onSelect: function(selected, d, calendar) {   
 				    	// jika yang dipilih sama 
-				    	if (selected=='') {
-				    		today = new Date(datetimeNow);
-				    		var tod = new Date(datetimeNow);  
+				    	if (selected=='') { 
+				    		var tod = new Date(id_tgl);  
 
 				    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
 				    		calendar.hide();
 				    		return ;
 				    	}else{
-				    		today = new Date(selected);
+				    		// post data additional
+				    		id_tgl = new Date(selected);
 				    		var tod = new Date(selected); 
 					    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-					    	datetimeNow = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+					    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+
+					    	// post new data additional
+					    	updateOpt();
 				    	} 
 				    	calendar.hide();
 
@@ -545,9 +582,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		        activ.push(a1); 
 		        activ.push(a2); 
 
+
+		    //  DROPdown LInE 
+		    $('#select_line').select2({ 
+ 				placeholder: 'Pilih Line ',
+ 				minimumResultsForSearch: -1
+ 			});
+
+
 		//  AUTO LOAD
 	        isi_activity();
 	        cekVerif();
+	        loadDropdown();
+
+	        // isi data shift
+
+
 
 	        // CEK JIKA ADA YANG  belumDI VERIF
 	        function cekVerif() {
@@ -601,14 +651,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							var speed = $("input[name='speed_edit']").val();
 							// activity
-							// console.log(stddl+","+regdl+","+jam_otdl+","+dl_otdl+",&idl:"+stdidl+","+regidl+","+jam_otidl+","+dl_otidl);
-							
+							// console.log('stddl:'+stddl+",regdl:"+regdl+",otdl:"+jam_otdl+",dlot:"+dl_otdl+",&idl:"+stdidl+",regidl:"+regidl+",jamotidl:"+jam_otidl+",dlotidl"+dl_otidl+'|speed:'+speed);
+							// console.log(activ);
+							// console.log($('#select_line').val());
 							$.ajax({
 				            	async : false,
 				                type : "POST",
 				                url   : '<?php echo base_url();?>index.php/Welcome/newPdo',
 				                dataType : "JSON",
 				                data : {
+				                		// core opt
+				                		id_tgl:id_tgl,
+				                		id_shift:id_shift,
+				                		id_line: id_line,
+
 				                		stddl:stddl,
 				                		regdl:regdl,
 				                		jam_otdl:jam_otdl,
@@ -622,52 +678,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				                		speed: speed
 				                	},
 				                success: function(response){ 
-				                	// jika terdapat error / user pass salah
-									if(response.error || response.error1 || response.error2 ){  
-										Swal.fire({
-										  title: 'Error!',
-										  text: 'Terjadi kesalahan pengiriman data',
-										  type: 'error',
-										  confirmButtonText: 'Ok',
-										  allowOutsideClick: false
-										}).then(function(){
-									    	document.location.reload(true);
-									    }); 
+				                	console.log('ini resp:');
+				                	console.log(response);
+				   //              	// jika terdapat error / user pass salah
+							// 		if(response.error || response.error1 || response.error2 ){  
+							// 			Swal.fire({
+							// 			  title: 'Error!',
+							// 			  text: 'Terjadi kesalahan pengiriman data',
+							// 			  type: 'error',
+							// 			  confirmButtonText: 'Ok',
+							// 			  allowOutsideClick: false
+							// 			}).then(function(){
+							// 		    	document.location.reload(true);
+							// 		    }); 
 
-									}
-									else{ 
+							// 		}
+							// 		else{ 
 										 
-										// perulangan insert activity
-										for (var ls = 0; ls < activ.length; ls++) {
-	 										var durasijam = (activ[ls].menit/60);
-	 										var to = (regdl*durasijam); 
+							// 			// perulangan insert activity
+							// 			for (var ls = 0; ls < activ.length; ls++) {
+	 					// 					var durasijam = (activ[ls].menit/60);
+	 					// 					var to = (regdl*durasijam); 
 
-											$.ajax({
-												async: false,
-												type: "POST",
-												url: '<?php echo site_url('DirectLabor/anInsertActivity') ?>',
-												dataType: "JSON",
-												data:{
-													idpdo: response.id_pdo,
-													activity: activ[ls].item,
-													qty: regdl,
-													menit: activ[ls].menit,
-													total: to
-												},
-												success: function(data){
+							// 				$.ajax({
+							// 					async: false,
+							// 					type: "POST",
+							// 					url: '<?php echo site_url('DirectLabor/anInsertActivity') ?>',
+							// 					dataType: "JSON",
+							// 					data:{
+							// 						idpdo: response.id_pdo,
+							// 						activity: activ[ls].item,
+							// 						qty: regdl,
+							// 						menit: activ[ls].menit,
+							// 						total: to
+							// 					},
+							// 					success: function(data){
 
-												} 
-											});
+							// 					} 
+							// 				});
 
-										}  
-										Swal.fire(
-									      'Berhasil !',
-									      'Membuat Planning',
-									      'success'
-									    ).then(function(){
-									    	document.location.reload(true);
-									    }); 
-									}
+							// 			}  
+							// 			Swal.fire(
+							// 		      'Berhasil !',
+							// 		      'Membuat Planning',
+							// 		      'success'
+							// 		    ).then(function(){
+							// 		    	document.location.reload(true);
+							// 		    }); 
+							// 		}
 
 				                }
 				            }); 
@@ -709,6 +767,66 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		        	$('#tbl_activlabor').html(html); 
 
 		        }
+		
+		// isi DATA DROPDOWN LINE
+			function loadDropdown() {
+				var idu = $('#id_user').val();
+
+				$.ajax({
+					type: 'POST',
+					url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+					dataType: "JSON",
+					data:{
+						id_user:idu
+					},
+					success: function(data){ 
+						console.log(data);
+ 						
+ 						$('#select_line').empty();
+ 						$('#select_line').select2({ 
+			 				placeholder: 'Pilih Line ',
+			 				minimumResultsForSearch: -1,
+			 				data:data
+
+			 			});
+					}
+
+				});
+
+			}
+
+		// TRIGGEr line Change
+			$('#select_line').on('select2:select',function(e){
+				var data = e.params.data;
+				
+				id_line = data.id ;
+				// update opt to server
+				updateOpt(); 
+				// console.log(data); 
+				// console.log('ln:'+id_line+'|sf:'+id_shift); 
+			});
+
+		// PILIH SHIFTY
+			$('#drop_shiftt').on('click','.pilih_sf',function(){
+				var ssf = $(this).data('value'); 
+ 
+				if (ssf==1) {
+					document.getElementById('id_sifname').innerHTML= 'A';
+					document.getElementById('sf_a').classList.add("aktip");
+					document.getElementById('sf_b').classList.remove("aktip"); 	
+				} else{
+					document.getElementById('id_sifname').innerHTML= 'B';
+					document.getElementById('sf_b').classList.add("aktip");	
+					document.getElementById('sf_a').classList.remove("aktip");	
+				}
+
+				id_shift = ssf; 
+				id_line = $('#select_line').val();
+
+				// update opt to server
+				updateOpt(); 
+			});
+
 
 	// Trigger BUTTON
 			$('#cari_verifikasi').on('click',function(){
@@ -1142,7 +1260,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					isi_activity(); 
 					$('#modaledit').modal('hide');
-					document.getElementById('form_addactiv').reset(); 
+					document.getElementById('form_editactiv').reset(); 
 				});
 			// tombol buat pdo plann baru 
 				$('#btn_newplan').click(function()
@@ -1278,6 +1396,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				signaturePad.clear();
 			});
 
+		// UPDAte Data OPT
+			function updateOpt() {
+				$.ajax({ 
+	                type  : 'POST',
+	                url   : '<?php echo site_url();?>/Login/updateDataOpt',
+	                dataType : 'JSON',  
+	                data:{
+	                	tgl: id_tgl,
+	                	sif: id_shift,
+	                	line: id_line
+	                },
+	                success : function(res){   
+						console.log(res);
+	                }
+
+	            });
+			}
+			
 		});
 	</script>
 
