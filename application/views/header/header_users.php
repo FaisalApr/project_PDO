@@ -46,7 +46,7 @@
 			</div>
 
 			<div class="brand-logo">
-				<a href="index.php">
+				<a href="<?php echo site_url('Dasboard') ?>">
 					<img src="<?php echo base_url() ?>assets/vendors/images/ico.png" alt="" class="mobile-logo">
 				</a>
 			</div>

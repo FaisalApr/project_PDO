@@ -652,7 +652,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							var speed = $("input[name='speed_edit']").val();
 							// activity
 							// console.log('stddl:'+stddl+",regdl:"+regdl+",otdl:"+jam_otdl+",dlot:"+dl_otdl+",&idl:"+stdidl+",regidl:"+regidl+",jamotidl:"+jam_otidl+",dlotidl"+dl_otidl+'|speed:'+speed);
-							// console.log(activ);
+							console.log(activ);
 							// console.log($('#select_line').val());
 							$.ajax({
 				            	async : false,
@@ -675,7 +675,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				                		jam_otidl:jam_otidl,
 				                		dl_otidl:dl_otidl,
 
-				                		speed: speed
+				                		speed: speed,
+				                		act: activ
 				                	},
 				                success: function(response){ 
 				                	console.log('ini resp:');
@@ -693,39 +694,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							// 		    }); 
 
 							// 		}
-							// 		else{ 
-										 
-							// 			// perulangan insert activity
-							// 			for (var ls = 0; ls < activ.length; ls++) {
-	 					// 					var durasijam = (activ[ls].menit/60);
-	 					// 					var to = (regdl*durasijam); 
-
-							// 				$.ajax({
-							// 					async: false,
-							// 					type: "POST",
-							// 					url: '<?php echo site_url('DirectLabor/anInsertActivity') ?>',
-							// 					dataType: "JSON",
-							// 					data:{
-							// 						idpdo: response.id_pdo,
-							// 						activity: activ[ls].item,
-							// 						qty: regdl,
-							// 						menit: activ[ls].menit,
-							// 						total: to
-							// 					},
-							// 					success: function(data){
-
-							// 					} 
-							// 				});
-
-							// 			}  
-							// 			Swal.fire(
-							// 		      'Berhasil !',
-							// 		      'Membuat Planning',
-							// 		      'success'
-							// 		    ).then(function(){
-							// 		    	document.location.reload(true);
-							// 		    }); 
-							// 		}
+						
 
 				                }
 				            }); 

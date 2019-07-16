@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>PDO Dashboard</title>
+	<title>PDO Defect</title>
 
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,14 +14,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
+
+	<style type="text/css">
+ 		.select2-selection__rendered {
+		    line-height: 55px !important;
+		}
+		.select2-container .select2-selection--single {
+		    height: 50px !important;
+		}
+		.select2-selection__arrow {
+		    height: 50px !important;
+		}
+ 	</style>
 	 
 </head>
 <body>
 	<?php 
 		$ses = $this->session->userdata('pdo_logged'); 
+		$opt = $this->session->userdata('pdo_opt'); 
 	 ?>
-	<input type="hidden" id="id_users" value="<?php echo $ses['id_user'] ?>">
-	<input type="hidden" id="id_pdo" value="<?php echo $pdo->id ?>">
+	<input type="hidden" id="id_user" value="<?php echo $ses['id_user'] ?>">
+	<input type="hidden" value="<?php echo $opt['id_shift'] ?>" id="id_shift">
+	<!-- opt -->
+	<input type="hidden" value="<?php echo $opt['tgl'] ?>" id="id_tgl">
+	<input type="hidden" value="<?php echo $opt['id_line'] ?>" id="id_line">
+
 	<?php $this->load->view('header/header_users'); ?>
 	<?php $this->load->view('header/sidebar_users'); ?>
  
@@ -99,21 +116,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="input-group custom input-group-lg">
 							  <div class="input-group custom input-group-lg">
 								<select class="custom-select col-12" name="levelupp" id="i_jam">
-									<option disabled selected> Pilih Jam ke</option>
-											<?php foreach ($data_oc as $key) { ?>
-												<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
-											<?php }  ?>
+									<!-- CONTINER JAM KE -->
 								</select>
 							  </div>
 							</div>
 
 							<div class="input-group custom input-group-lg">
-								<select class="custom-select col-12" name="levelup" id="i_select">
-									<option disabled selected> Pilih Jenis Defect</option>
-											<?php foreach ($defect as $key) { ?>
-												<option value="<?php  echo $key->id ?>"> <?php  echo $key->code .'('.$key->keterangan.')' ?> </option>
-											<?php }  ?>
-										</select>
+								<select class="custom-select col-12" name="i_lst_defect" id="i_listdefect">
+									  
 								</select>
 							</div> 
 							<div class="input-group custom input-group-lg">
@@ -157,17 +167,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type="hidden" name="id_updt" id="id_update">
 						<div class="input-group custom input-group-lg"> 
 							<label>Pilih Jam :</label>
-							<select class="custom-select col-12" name="jam_updt" id="jam_update">
-								<option disabled selected> Pilih Jam ke</option>
-										<?php foreach ($data_oc as $key) { ?>
-											<option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
-										<?php }  ?>
+							<select class="custom-select col-12" name="jam_updt" id="jam_update"> 
+								<!-- CONTAINER JAM UPDATE -->
 							</select>  
 						</div>  
 						<div class="input-group custom input-group-lg">
 							<label>Jenis Defect :</label>
-							<select class="custom-select col-12" name="jenis_updt" id="jenis_update">
-								<option disabled selected> Pilih Jenis Defect</option>
+							<select class="custom-select col-12" name="jenis_updt" id="updt_listdefect"> 
+
 										<?php foreach ($defect as $key) { ?>
 											<option value="<?php  echo $key->id ?>"> <?php  echo $key->code .'('.$key->keterangan.')' ?> </option>
 										<?php }  ?>
@@ -230,17 +237,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script>
 		$('document').ready(function(){
+			// VAR CORE
+				var id_line = $('#id_line').val();
+				var id_shift = $('#id_shift').val();
+				var id_tgl = $('#id_tgl').val();
+				var id_pdo = 0;
+
 			// variabel global	
 				// deklarasi nama bulan
 	 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 	 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 
-	 			var today = new Date();
+	 			var today = new Date(id_tgl);
 				var currentMonth = today.getMonth();
 				var currentYear = today.getFullYear();
 				var currDate = today.getDate();
-				var submited = false;		
-				var pdo_id = $('#id_pdo').val();
+				var submited = false;		 
 			// aditional PICKER DATE  
 				// SETTING DEFAULT DATE
 	 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
@@ -257,94 +269,116 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$("input").click(function () {
 				   $(this).select();
 				}); 
-
+ 
+			
+			// TrigGER PIlih TANGGAL
 				$('.date-pickerrr').datepicker({   
 					language: "en",
-					firstDay: 1,   
+					firstDay: 1,  
 				    onSelect: function(selected, d, calendar) {   
 				    	// jika yang dipilih sama 
-				    	if (selected=='') {
-				    		today = new Date(datetimeNow);
-				    		var tod = new Date(datetimeNow);  
+				    	if (selected=='') { 
+				    		var tod = new Date(id_tgl);  
 
 				    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
 				    		calendar.hide();
 				    		return ;
 				    	}else{
-				    		today = new Date(selected);
+				    		// post data additional
+				    		id_tgl = new Date(selected);
 				    		var tod = new Date(selected); 
 					    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-					    	datetimeNow = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+					    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+
+					    	// post new data additional
+					    	updateOpt();
 				    	} 
 				    	calendar.hide();
 
 				    	// refresh 
-				    	cariDataPdo(); 
+				    	// showplanning();
+			    		// cariDataPdo();
+			    		// cekHariini();
 				    }
 				});
-			// PILIH SHIFTY
+			// TRIGGEr line Change
+				$('#select_line').on('select2:select',function(e){
+					var data = e.params.data;
+					
+					id_line = data.id ;
+					// update opt to server
+					updateOpt(); 
+					// cekHariini();
+					// console.log(data); 
+					// console.log('ln:'+id_line+'|sf:'+id_shift); 
+				});
+			// PILIH SHIFTY 
 				$('#drop_shiftt').on('click','.pilih_sf',function(){
 					var ssf = $(this).data('value'); 
-
-					document.getElementById('id_sifname').innerHTML= ssf;
-					if (ssf=='A') {
+	 
+					if (ssf==1) {
+						document.getElementById('id_sifname').innerHTML= 'A';
 						document.getElementById('sf_a').classList.add("aktip");
 						document.getElementById('sf_b').classList.remove("aktip"); 	
 					} else{
+						document.getElementById('id_sifname').innerHTML= 'B';
 						document.getElementById('sf_b').classList.add("aktip");	
 						document.getElementById('sf_a').classList.remove("aktip");	
 					}
-					name_shift = ssf;
 
-					// alert('sf :'+name_shift+'/tgl:'+datetimeNow);	
-					cariDataPdo();
+					id_shift = ssf; 
+					id_line = $('#select_line').val();
+
+					// update opt to server
+					updateOpt(); 
+					// cekHariini();
 				});
-
-
-
-			// aAUTOOLOAD
-			var name_shift = document.getElementById('id_sifname').innerHTML;
-			cariDataPdo();
 			
 
-			function cariDataPdo() { 
+			// ====  AUTOLOAD =====  
+				loadDropdown();
+				cekHariini();
+ 
+			// FUNC CORE LOAD
+			// CEK Hari INI
+				function cekHariini() {
+					$.ajax({ 
+		                type  : 'POST',
+		                url   : '<?php echo base_url();?>index.php/Welcome/cekHariIni',
+		                dataType : 'JSON', 
+		                data:{
+		                	id_line:id_line,
+		                	id_shift:id_shift,
+		                	id_tgl:id_tgl
+		                } ,
+		                success : function(res){   
+								if (res) { 
+									id_pdo = res.id;
 
-					$.ajax({
-	                    async : false,
-	                    type  : 'POST',
-	                    url   : '<?php echo base_url();?>index.php/OutputControl/getDataCari',
-	                    dataType : 'JSON', 
-	                    data:{
-	                    	name_sif: name_shift,
-	                    	tgl: datetimeNow
-	                    },
-	                    success : function(res){   
+									// cek jika itu bukan miliknya
+		                    		if ($('#id_user').val()==res.id_users) { 
+		                    			console.log('MILIKNYA')  
+		                    			
+		                    		}else { 
+		                    			console.log('not YOU'); 
+		                    			// show_notYou(res.id);  
+		                    		}    
 
-	                    	if (res) { 
-	                    		// cek jika itu bukan miliknya
-	                    		if ($('#id_users').val()==res.id_users) { 
-	                    			console.log('MILIKNYA') 
-	                    			// document.getElementById('btn_adddown').style.display = 'block';
-	                    			// show(res.id_pdo);  
-	                    		}else { 
-	                    			console.log('not YOU');
-	                    			// document.getElementById('btn_adddown').style.display = 'none';
-	                    			// show_notYou(res.id_pdo);  
-	                    		}   
-	                    		pdo_id = res.id_pdo; 
-	                    		show(pdo_id); 
-	                    		// isi_dropdown(res.id_pdo);
-	                    		console.log(res); 	
-	                    	}else {
-	                    		console.log('is null'); 
-	                    		// show_nodata();
-	                    		// document.getElementById('btn_adddown').style.display = 'none';
-	                    	}
-	                    	
-	                    }
-	                });	
+		                    		show(res.id);  
+		                    		// isi Dropdown jam ke
+		                    		isi_dropdown(res.id);
+
+		                    		console.log('isi hari ini :')
+		                    		console.log(res); 	
+								}else{ 
+									console.log('is null');  
+								}
+								
+
+		                }
+
+		            }); 
 				}
-
 
 			// =================== Read Record =============================================== 
             function show(pdo){
@@ -358,7 +392,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             var html = '';
                             var i; 
 
+                            console.log('isi show:');
+                            console.log(response);
+
                             var data = response.alldefect; 
+
+                            // isi list defect dropdown
+                            isi_listDefect(response.list_defect);
 
                             // setting WIDGET
                             document.getElementById('id_totaldeff').innerHTML= response.total.total;
@@ -443,7 +483,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    url  : "<?php echo site_url(); ?>/Defect/updateDefect",
 	                    dataType : "JSON",
 	                    data : { 
-	                    		id_pdo:$('#id_pdo').val(),
+	                    		id_pdo:id_pdo,
 	                    		id:idup,
 	                    		id_oc:id_oc_up,
 	                    		id_jenisdeffect:id_jenis_up,
@@ -454,7 +494,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    success: function(data){
 	                    	$('#modal_upd').modal('hide'); 
 	                        // refresh();
-	                        show();
+	                        show(id_pdo);
 	                    }
 	                });
 	              }); 
@@ -469,10 +509,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					var def_jam = document.getElementById("i_jam").value;
 					var def_ket = document.getElementById("i_ket").value;
 					var def_total = document.getElementById("i_total").value;
-					var levelup = $('select[name=levelup]').val()
-					// alert(def_jam+","+def_ket+","+def_total+","+levelup);
-					// alert($('#id_pdo').val());
-
+					var i_lst_defect = $('select[name=i_lst_defect]').val();  
 
 					$.ajax({
 						async : false,
@@ -481,14 +518,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					
 						dataType : "JSON",
 						data : {
-							def_id_pdo:$('#id_pdo').val(),
+							def_id_pdo:id_pdo,
 							def_id_oc: def_jam,
-							def_id_jenisdeffect:levelup,
+							def_id_jenisdeffect:i_lst_defect,
 							def_ket:def_ket,
 							def_total:def_total
 						},
 						success : function(response){
-								  $('#login-modal').modal('hide');
+							
+							$('#login-modal').modal('hide');
 							if(response.error){
 								// alert('error');
 							}else{
@@ -497,7 +535,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							document.getElementById("formDefect").reset();
 						}
 					});
-					show();
+					show(id_pdo);
 				});
 			// =================== End Create Record ===============================================
 
@@ -526,19 +564,116 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    type : "POST",
 		                    url  : "<?php echo site_url(); ?>/Defect/delDefect",
 		                    dataType : "JSON",
-		                    data : {id:id_dc_delete,id_pdo:$('#id_pdo').val()},
+		                    data : {id:id_dc_delete,id_pdo:id_pdo},
 		                    success: function(){
 		                        $('[name="id_dc_delete"]').val("");
 		                        $('#confirmation-modal').modal('hide');
 		                        // refresh()
 		                        
-		                		show();
+		                		show(id_pdo);
 		                    }
 		                });
 		                return false;
 
 		            });
 			 //   ========================  END DELETE RECORD ====================================
+
+
+			// FUnc OPT
+			// isi DATA DROPDOWN LINE
+				function loadDropdown() {
+					var idu = $('#id_user').val();
+
+					$.ajax({
+						type: 'POST',
+						url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+						dataType: "JSON",
+						data:{
+							id_user:idu
+						},
+						success: function(data){ 
+							console.log(data);
+	 						
+	 						$('#select_line').empty();
+	 						$('#select_line').select2({ 
+				 				placeholder: 'Pilih Line ',
+				 				minimumResultsForSearch: -1,
+				 				data:data
+
+				 			});
+						}
+
+					});
+
+				}
+			// UPDATE isi Sesion
+				function updateOpt() {
+					$.ajax({ 
+		                type  : 'POST',
+		                url   : '<?php echo site_url();?>/Login/updateDataOpt',
+		                dataType : 'JSON',  
+		                data:{
+		                	tgl: id_tgl,
+		                	sif: id_shift,
+		                	line: id_line
+		                },
+		                success : function(res){   
+							console.log(res);
+		                }
+
+		            });
+				}
+			// ============== dropdown TIME ===============
+				function isi_dropdown(id_pdo) {
+				  	
+					$.ajax({
+	                    async : false,
+	                    type  : 'POST',
+	                    url   : '<?php echo base_url();?>index.php/Losstime/cari_jam_ocPDO',
+	                    dataType : 'JSON', 
+	                    data:{ 
+	                    	id_pdo: id_pdo
+	                    },
+	                    success : function(res){    
+	                    	var html = '<option disabled selected> Jam ke</option>';
+	                    	// console.log(res);
+	                    	for (var i = 0; i < res.length; i++) {
+	                    	 	if (i==(res.length-1)) {
+	                    	 		html +=
+	                    	 		'<option selected value="'+res[i].id+'">'+res[i].jam_ke+'</option>';
+	                    	 	}else{
+	                    	 		html +=
+	                    	 		'<option value="'+res[i].id+'">'+res[i].jam_ke+'</option>';
+	                    	 	} 
+	                    		
+	                    	}
+
+	                    	$('#i_jam').html(html);
+	                    	$('#jam_update').html(html);
+	                    }
+	                });	
+
+				} 
+			// ===== isi LIST Defect 
+				function isi_listDefect(data) {
+					
+					var html = '<option disabled selected> Jam ke</option>';
+
+                	for (var i = 0; i < data.length; i++) {
+                	 	if (i==(data.length-1)) {
+                	 		html +=
+                	 		'<option selected value="'+data[i].id+'">'+data[i].code+'</option>';
+                	 	}else{
+                	 		html +=
+                	 		'<option value="'+data[i].id+'">'+data[i].code+'</option>';
+                	 	} 
+                		
+                	}
+
+                	$('#i_listdefect').html(html);
+                	$('#updt_listdefect').html(html);
+				}
+
 
 		});
 	</script>

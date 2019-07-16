@@ -14,9 +14,8 @@ class ExcelExport extends CI_Controller {
 		$this->load->model('Pdo_model');
         $this->load->model('Losstime_model');
         $this->load->model('Export_model');
-	}
+	} 
  
-
 	public function downloadqcd()
     {  
         // /. CREATING FORMAT STYLE CSS
@@ -55,7 +54,7 @@ class ExcelExport extends CI_Controller {
                                     'rgb' => '000000' ) 
                             ); 
 
-        $pdo = $this->input->post('id_pdo');
+        $pdo = $this->input->post('id_pd');
 
         $qcd = $this->Export_model->getSumQcd($pdo);
         $r_pdo = $this->Export_model->getDataQcd($pdo);  
@@ -139,7 +138,7 @@ class ExcelExport extends CI_Controller {
                 $no++;
         }
 
-    // ====================== DOWNTIMW =============================
+        // ====================== DOWNTIMW =============================
         $down = $this->Losstime_model->getLosstimeUserrrr($pdo);
         $widget = $this->Losstime_model->getLosstimeWidget($pdo);
 

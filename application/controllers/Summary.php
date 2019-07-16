@@ -16,64 +16,56 @@ class Summary extends CI_Controller {
 	public function index()
 	{ 
 		// get sesion
-		$session_data = $this->session->userdata('pdo_logged'); 
+		// $session_data = $this->session->userdata('pdo_logged'); 
 
-		// init data
-		$username = $session_data['id_user'];  
-		$shift =  $session_data['id_shift'];
-		$tanggal = date("Y-m-d"); 
+		// // init data
+		// $username = $session_data['id_user'];  
+		// $shift =  $session_data['id_shift'];
+		// $tanggal = date("Y-m-d"); 
  		
- 		// jika user sudah ada data pdo
-		$result = $this->Pdo_model->cariPdo($username,$shift,$tanggal);
-		if ($result) { 
+ 	// 	// jika user sudah ada data pdo
+		// $result = $this->Pdo_model->cariPdo($username,$shift,$tanggal);
+		// if ($result) { 
 			
-			$data['pdo'] = $this->Pdo_model->cariPdoItems($username,$shift,$tanggal);
-			$this->load->view('summary/sum_user',$data);
-		}else {  
-			// jika tidak punya data pdo
-			redirect('Welcome','refresh');
-		}
+		// 	$data['pdo'] = $this->Pdo_model->cariPdoItems($username,$shift,$tanggal);
+		// 	$this->load->view('summary/sum_user',$data);
+		// }else {  
+		// 	// jika tidak punya data pdo
+		// 	redirect('Welcome','refresh');
+		// }
+		$this->load->view('summary/sum_user');
 		
 	}
 
 
 	// EFFective
 		public function getThisMonthEffA()
-		{
-			// get sesion
-			$session_data = $this->session->userdata('pdo_logged'); 
-	 
+		{  
 			// get date now
 			$dat = $this->input->post('tgl');
-			$line = $session_data['id_line']; 
-			$shift =  'A';
+			$line = $this->input->post('id_line');
+			$shift =  '1'; 
 
-			$data = $this->Pdo_model->getDataByline($dat,$line,$shift);
+			$data = $this->Pdo_model->getDataBylin($dat,$line,$shift);
 			echo json_encode($data);
 		}
 
 		public function getThisMonthEffB()
 		{
-			// get sesion
-			$session_data = $this->session->userdata('pdo_logged'); 
-	 
 			// get date now
 			$dat = $this->input->post('tgl');
-			$line = $session_data['id_line']; 
-			$shift =  'B';
+			$line = $this->input->post('id_line');
+			$shift =  '2'; 
 
-			$data = $this->Pdo_model->getDataByline($dat,$line,$shift);
+			$data = $this->Pdo_model->getDataBylin($dat,$line,$shift);
 			echo json_encode($data);
 		}
 
 	// PRODUCTION PLAN & RESULT
 		public function getTotActPlanProductA()
-		{
-			// get sesion
-			$session_data = $this->session->userdata('pdo_logged'); 
-
-			$line = $session_data['id_line'];
-			$shift = 'A';
+		{ 
+			$line = $this->input->post('id_line');
+			$shift = '1';
 			$tanggal = $this->input->post('tgl');
 
 			$result = $this->Summary_model->getTotalPlanActualPerShifLine($line,$shift,$tanggal);
@@ -83,12 +75,8 @@ class Summary extends CI_Controller {
 
 		public function getTotActPlanProductB()
 		{
-			// get sesion
-			$session_data = $this->session->userdata('pdo_logged'); 
-
-			// $line = $this->input->post('line');//
-			$line = $session_data['id_line'];
-			$shift = 'B';
+			$line = $this->input->post('id_line');
+			$shift = '2';
 			$tanggal = $this->input->post('tgl');
 
 			$result = $this->Summary_model->getTotalPlanActualPerShifLine($line,$shift,$tanggal);
@@ -98,12 +86,10 @@ class Summary extends CI_Controller {
 
 		public function getProdBalance()
 		{
-			// get sesion
-			$session_data = $this->session->userdata('pdo_logged'); 
+			// get sesion 
 
-			$line = $session_data['id_line']; //$this->input->post('line');
-			// $tanggal = '2019-7-3';//
-			$tanggal = (string)$this->input->post('tanggal');
+			$line = $this->input->post('id_line'); //$this->input->post('line'); 
+			$tanggal = $this->input->post('tanggal');
 
 			$result = $this->Summary_model->hitungBalance($line,$tanggal); 
 
@@ -113,12 +99,8 @@ class Summary extends CI_Controller {
 	// INTERNAL DEFFECT
 		public function getDataPerPdoA()
 		{
-			// get sesion
-			$session_data = $this->session->userdata('pdo_logged'); 
-
-			$line = $session_data['id_line'];
-			$shift = 'A';
-			// $tanggal = '2019-7-3';//
+			$line = $this->input->post('id_line');
+			$shift = '1'; 
 			$tanggal = $this->input->post('tgl');
 
 			$result = $this->Pdo_model->getDataByLineWaktuShift($line,$tanggal,$shift); 
@@ -128,12 +110,8 @@ class Summary extends CI_Controller {
 
 		public function getDataPerPdoB()
 		{
-			// get sesion
-			$session_data = $this->session->userdata('pdo_logged'); 
-
-			$line = $session_data['id_line'];
-			$shift = 'B';
-			// $tanggal = '2019-7-3';//
+			$line = $this->input->post('id_line');
+			$shift = '2'; 
 			$tanggal = $this->input->post('tgl');
 
 			$result = $this->Pdo_model->getDataByLineWaktuShift($line,$tanggal,$shift); 
@@ -152,14 +130,12 @@ class Summary extends CI_Controller {
 
 		// get top global defect
 		public function getTopDefect()
-		{
-			// get sesion
-			$session_data = $this->session->userdata('pdo_logged'); 
+		{  
 
-			$line = $session_data['id_line']; 
+			$line = $this->input->post('id_line');
 			$tanggal = $this->input->post('tgl');
 
-			$result = $this->Summary_model->getTopDeffectMonthly($tanggal); 
+			$result = $this->Summary_model->getTopDeffectMonthly($tanggal,$line); 
 			echo json_encode($result);			
 		}
 

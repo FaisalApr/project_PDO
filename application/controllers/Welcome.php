@@ -12,30 +12,35 @@ class Welcome extends CI_Controller {
 		date_default_timezone_set("Asia/Jakarta");
 		
 		// jika tidak memiliki sesi		
-		if (!$this->session->userdata('pdo_logged')) {
-			redirect('Login','refresh');
-		}
+		// if (!$this->session->userdata('pdo_logged')) {
+		// 	redirect('Login','refresh');
+		// }
 	}
 
 	public function index()
 	{ 
 		// get sesion
-		$session_data = $this->session->userdata('pdo_logged'); 
+		// $session_data = $this->session->userdata('pdo_logged'); 
 
-		// init data
-		$id_user = $session_data['id_user'];  
-		$shift =  $session_data['id_shift']; 
-		$tanggal = date("Y-m-d");  //"2019-06-22";
+		// // init data
+		// $id_user = $session_data['id_user'];  
+		// $shift =  $session_data['id_shift']; 
+		// $tanggal = date("Y-m-d");  //"2019-06-22";
 
-		// jika user sudah ada data pdo
-		$result = $this->Pdo_model->cariPdo($id_user,$shift,$tanggal);
-		if ($result) { 
-			redirect('Dasboard','refresh');
-		}else {  
+		// // jika user sudah ada data pdo
+		// $result = $this->Pdo_model->cariPdo($id_user,$shift,$tanggal);
+		// if ($result) { 
+		// 	redirect('Dasboard','refresh');
+		// }else {  
 
-			$this->load->view('welcome_message');
-		}
+		// 	$this->load->view('welcome_message');
+		// }
+		redirect('Dasboard','refresh');
+	}
 
+	public function tes()
+	{
+		$this->load->view('tes');
 	}
 
 

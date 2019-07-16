@@ -7,7 +7,12 @@ class Target_model extends CI_Model {
 
 	public function getDataMonth($dat,$ln)
 	{ 
-		$query= $this->db->query("SELECT * FROM target WHERE YEAR(periode)=YEAR('$dat') AND MONTH(periode)=MONTH('$dat') AND id_list_carline='$ln' order by periode DESC");
+		$query= $this->db->query("SELECT * FROM target 
+									WHERE 
+										YEAR(periode)=YEAR('$dat') AND 
+									    MONTH(periode)=MONTH('$dat') AND 
+									    id_list_carline='$ln' 
+									order by periode DESC");
         
         if ($query->num_rows()>=1) {
 			return $query->first_row(); 

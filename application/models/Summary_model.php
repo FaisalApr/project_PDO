@@ -11,16 +11,14 @@ class Summary_model extends CI_Model {
 							sum(output_control.actual)as actual,
 							sum(output_control.plan)as plan 
 						FROM output_control  
-							JOIN main_pdo ON output_control.id_pdo=main_pdo.id 
-							JOIN line ON main_pdo.id_line=line.id 
-							JOIN shift on main_pdo.id_shift=shift.id 
+							JOIN main_pdo ON output_control.id_pdo=main_pdo.id   
 						WHERE 
-							shift.keterangan='$shift' AND 
-							line.id=$line AND
+							main_pdo.id_shift='$shift' AND 
+							main_pdo.id_listcarline=$line AND
 							YEAR(output_control.time)=YEAR('$date') AND
 						    MONTH(output_control.time)=MONTH('$date')
 
-						GROUP BY DAY(output_control.time) 
+						-- GROUP BY DAY(output_control.time) 
 						ORDER BY output_control.time ASC
 					"); 
         return $query->result();
@@ -33,19 +31,20 @@ class Summary_model extends CI_Model {
 							output_control.time,
 							sum(output_control.plan)as to_plan,
 							sum(output_control.actual)as to_actual,  
-						    (
-						      if( (sum(output_control.plan))<(sum(output_control.actual)),(sum(output_control.actual))-(sum(output_control.plan)), (sum(output_control.actual))-(sum(output_control.plan))  )
+							(
+						      if( (sum(output_control.plan))<(sum(output_control.actual)),(sum(output_control.actual))-(sum(output_control.plan)), (sum(output_control.actual))-(sum(output_control.plan))
+						        )
 						    ) as balance
-						    
+
 						FROM output_control 
 							JOIN main_pdo ON output_control.id_pdo=main_pdo.id
-						    JOIN line ON main_pdo.id_line=line.id
-						    JOIN shift on main_pdo.id_shift=shift.id
+							JOIN list_carline ON main_pdo.id_listcarline=list_carline.id
+							JOIN shift on main_pdo.id_shift=shift.id
 						WHERE
-						    line.id=$line AND
-						    YEAR(output_control.time)=YEAR('$date') AND
+							list_carline.id='$line' AND
+							YEAR(output_control.time)=YEAR('$date') AND
 						    MONTH(output_control.time)=MONTH('$date')
-						    
+
 						GROUP BY DAY(output_control.time) 
 						ORDER BY output_control.time ASC
 				");
@@ -70,7 +69,7 @@ class Summary_model extends CI_Model {
 		return $q->result();
 	}
 
-	public function getTopDeffectMonthly($date)
+	public function getTopDeffectMonthly($date,$line)
 	{
 		$q = $this->db->query("SELECT  
 								    quality_control.id_jenisdeffect,
@@ -83,7 +82,8 @@ class Summary_model extends CI_Model {
 								JOIN jenis_deffect ON quality_control.id_jenisdeffect=jenis_deffect.id
 								WHERE
 									YEAR(main_pdo.tanggal)= YEAR('$date') AND
-								    MONTH(main_pdo.tanggal)= month('$date')
+								    MONTH(main_pdo.tanggal)= month('$date')AND
+                                    main_pdo.id_listcarline=$line
 								    
 								GROUP BY quality_control.id_jenisdeffect
 								ORDER BY top DESC

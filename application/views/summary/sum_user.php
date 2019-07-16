@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>PDO Dashboard</title>
+	<title>PDO Summary 📊</title>
 
 	<!-- Site favicon -->
 	<!-- <link rel="shortcut icon" href="<?php echo base_url() ?>assets/images/favicon.ico"> -->
@@ -16,9 +16,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
 	 
+	<style type="text/css">
+ 		.select2-selection__rendered {
+		    line-height: 55px !important;
+		}
+		.select2-container .select2-selection--single {
+		    height: 50px !important;
+		}
+		.select2-selection__arrow {
+		    height: 50px !important;
+		}
+ 	</style>
+
 </head>
 <body> 
-<input id="id_pdo" type="hidden" class="form-control" value="<?php echo $pdo->id ?>"> 
+	<?php 
+		$ses = $this->session->userdata('pdo_logged'); 
+		$opt = $this->session->userdata('pdo_opt'); 
+	 ?>
+	<input type="hidden" id="id_user" value="<?php echo $ses['id_user'] ?>">
+	<input type="hidden" value="<?php echo $opt['id_shift'] ?>" id="id_shift">
+	<!-- opt -->
+	<input type="hidden" value="<?php echo $opt['tgl'] ?>" id="id_tgl">
+	<input type="hidden" value="<?php echo $opt['id_line'] ?>" id="id_line">
+
 <?php $this->load->view('header/header_users'); ?>
 <?php $this->load->view('header/sidebar_users'); ?>
 
@@ -70,50 +91,112 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script> 
 		$('document').ready(function(){
+			// VAR CORE
+				var id_line = $('#id_line').val();
+				var id_shift = $('#id_shift').val();
+				var id_tgl = $('#id_tgl').val();
+				var id_pdo = 0;
 
-			//	var global
-				const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-				const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-				let today = new Date();
+			// variabel global	
+				// deklarasi nama bulan
+	 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+	 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+
+	 			var today = new Date(id_tgl);
+				var currentMonth = today.getMonth();
 				var currentYear = today.getFullYear();
-				var currentMonth = today.getMonth(); 
-				var currentDate = today.getDate();
+				var currDate = today.getDate();
+				// Set this month
+				var daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+				var awalDay =1;
 
-			// SeT TIME Default
-				//time for post data
-				var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currentDate;
-				// mencari buat start &  total hari 
-				var awalDay = (new Date(currentYear, currentMonth)).getDay();
-		        var daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+			// aditional PICKER DATE  
+				// SETTING DEFAULT DATE
+	 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
+	            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
 
-				document.getElementById('slect_date').value= days[today.getDay()]+', '+currentDate+' '+monthName[currentMonth]+' '+currentYear;
-				// time Change by picker
+
+				$(".inputs").keyup(function () {
+				    if (this.value.length == this.maxLength) {
+				      $(this).select();
+				      $(this).next('.inputs').focus();  
+				    }
+				});
+
+				$("input").click(function () {
+				   $(this).select();
+				}); 
+ 
+			
+			// TrigGER PIlih TANGGAL
 				$('.date-pickerrr').datepicker({   
 					language: "en",
 					firstDay: 1,  
-				    onSelect: function(selected, d, calendar) {
-				    	let tod = new Date(selected); 
-				    	// set on view datepicker
-				    	document.getElementById('slect_date').value=days[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-				    	
-				    	// set default change
-				    	datetimeNow = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate(); //time for post data
-				    	currentYear = tod.getFullYear();
-						currentMonth = tod.getMonth(); 
-						currentDate = tod.getDate();
+				    onSelect: function(selected, d, calendar) {   
+				    	// jika yang dipilih sama 
+				    	if (selected=='') { 
+				    		var tod = new Date(id_tgl);  
 
-						// UPDATE VAR mencari buat start &  total hari 
-						awalDay = 1;
-				        daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+				    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+				    		calendar.hide();
+				    		return ;
+				    	}else{
+				    		// post data additional
+				    		id_tgl = new Date(selected);
+				    		var tod = new Date(selected); 
+					    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+					    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
 
-				        // alert(awalDay+'/'+daysInMonth);
+					    	// post new data additional
+					    	updateOpt();
+				    	} 
 				    	calendar.hide();
-				    	show();
+
+				    	// refresh 
+				    	// showplanning();
+			    		// cariDataPdo();
+			    		// cekHariini();
+			    		show();
 				    }
 				});
- 			
+			// TRIGGEr line Change
+				$('#select_line').on('select2:select',function(e){
+					var data = e.params.data;
+					
+					id_line = data.id ;
+					// update opt to server
+					updateOpt(); 
+					show();
+					// cekHariini();
+					// console.log(data); 
+					// console.log('ln:'+id_line+'|sf:'+id_shift); 
+				});
+			// PILIH SHIFTY 
+				$('#drop_shiftt').on('click','.pilih_sf',function(){
+					var ssf = $(this).data('value'); 
+	 
+					if (ssf==1) {
+						document.getElementById('id_sifname').innerHTML= 'A';
+						document.getElementById('sf_a').classList.add("aktip");
+						document.getElementById('sf_b').classList.remove("aktip"); 	
+					} else{
+						document.getElementById('id_sifname').innerHTML= 'B';
+						document.getElementById('sf_b').classList.add("aktip");	
+						document.getElementById('sf_a').classList.remove("aktip");	
+					}
 
-			//  AUTO LOAD
+					id_shift = ssf; 
+					id_line = $('#select_line').val();
+
+					// update opt to server
+					updateOpt(); 
+					show();
+					// cekHariini();
+				});
+			
+
+			// ====  AUTOLOAD =====  
+			loadDropdown();
 			show();
 
 			function show() { 
@@ -170,7 +253,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						                    url   : '<?php echo base_url();?>index.php/Target/getThisMonth',
 						                    dataType : 'JSON', 
 						                    data:{
-						                    	tgl: datetimeNow
+						                    	tgl: id_tgl,
+						                    	id_line:id_line
 						                    },
 						                    success : function(res){  
 						                    	if (res) {  
@@ -202,7 +286,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						                    url   : '<?php echo base_url();?>index.php/Summary/getThisMonthEffA',
 						                    dataType : 'JSON', 
 						                    data:{
-						                    	tgl: datetimeNow
+						                    	tgl: id_tgl,
+						                    	id_line:id_line
 						                    },
 						                    success : function(res){  
 						                    	for (var i = 0 ; i < res.length ; i++) { 
@@ -232,7 +317,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						                    url   : '<?php echo base_url();?>index.php/Summary/getThisMonthEffB',
 						                    dataType : 'JSON',
 						                    data:{
-						                    	tgl: datetimeNow
+						                    	tgl: id_tgl,
+						                    	id_line:id_line
 						                    }, 
 						                    success : function(res){  
 						                    	for (var i = 0 ; i < res.length ; i++) { 
@@ -257,7 +343,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					        	// console.log(this.point.series.data);
 					        	var gmt = new Date(this.point.x);
 					        	// console.log(gmt);
-					        	var tgl = days[gmt.getDay()]+','+gmt.getDate()+'-'+gmt.getMonth()+'-'+gmt.getFullYear();
+					        	var tgl = daysName[gmt.getDay()]+','+gmt.getDate()+'-'+gmt.getMonth()+'-'+gmt.getFullYear();
 						 	    return '<b>'+this.point.series.name+'</b><br/>'+
 							        // 'Efficiency : '+Highcharts.numberFormat(this.point.series.data, 0)+'%<br>Tgl :'+
 							        'Efficiency : '+(this.point.y).toFixed(1)+'%<br>Tgl : '+tgl;
@@ -288,7 +374,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    url   : '<?php echo base_url();?>index.php/Summary/getProdBalance',
 		                    dataType : 'JSON', 
 		                    data:{
-		                    	tanggal: datetimeNow
+		                    	tanggal: id_tgl,
+		                    	id_line:id_line
 		                    },
 		                    success : function(result){   
 
@@ -356,9 +443,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							                    url   : '<?php echo base_url();?>index.php/Target/getThisMonth',
 							                    dataType : 'JSON', 
 							                    data:{
-							                    	tgl: datetimeNow 
+							                    	tgl: id_tgl ,
+							                    	id_line:id_line
 							                    },
-							                    success : function(res){  
+							                    success : function(res){ 
+							                    console.log('ini isi target :'+res) ;
 							                    	if (res) {  
 							                    		var i = awalDay;
 											        	for ( i ; i <= daysInMonth; i++) { 
@@ -387,7 +476,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							                    url   : '<?php echo base_url();?>index.php/Summary/getTotActPlanProductA',
 							                    dataType : 'JSON', 
 							                    data:{
-							                    	tgl: datetimeNow 
+							                    	tgl: id_tgl ,
+							                    	id_line:id_line
 							                    },
 							                    success : function(res){  
 							                    	for (var i = 0 ; i < res.length ; i++) { 
@@ -424,7 +514,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							                    url   : '<?php echo base_url();?>index.php/Summary/getTotActPlanProductB',
 							                    dataType : 'JSON', 
 							                    data:{
-							                    	tgl: datetimeNow 
+							                    	tgl: id_tgl,
+							                    	id_line:id_line
 							                    },
 							                    success : function(res){  
 
@@ -464,7 +555,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						        		};
 						        	} 
 						        	// membuat format tanggal
-						        	var tgl = days[gmt.getDay()]+','+gmt.getDate()+'-'+monthName[gmt.getMonth()]+'-'+gmt.getFullYear();
+						        	var tgl = daysName[gmt.getDay()]+','+gmt.getDate()+'-'+monthName[gmt.getMonth()]+'-'+gmt.getFullYear();
 
 						        	//membedakan tooltip
 						        	if (this.point.series.name=='Normal Target') {
@@ -561,7 +652,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							                    url   : '<?php echo base_url();?>index.php/Summary/getDataPerPdoA',
 							                    dataType : 'JSON', 
 							                    data:{
-							                    	tgl: datetimeNow 
+							                    	tgl: id_tgl,
+							                    	id_line:id_line
 							                    },
 							                    success : function(res){  
 
@@ -619,7 +711,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							                    url   : '<?php echo base_url();?>index.php/Summary/getDataPerPdoB',
 							                    dataType : 'JSON', 
 							                    data:{
-							                    	tgl: datetimeNow 
+							                    	tgl: id_tgl,
+							                    	id_line:id_line
 							                    },
 							                    success : function(res){  
 
@@ -691,7 +784,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 						        	// membuat format tanggal
-						        	var tgl = days[gmt.getDay()]+','+gmt.getDate()+'-'+monthName[gmt.getMonth()]+'-'+gmt.getFullYear();
+						        	var tgl = daysName[gmt.getDay()]+','+gmt.getDate()+'-'+monthName[gmt.getMonth()]+'-'+gmt.getFullYear();
 
 						        	//  A
 						        	html ='Tgal : '+tgl+'<br>'+
@@ -728,7 +821,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    url   : '<?php echo base_url();?>index.php/Summary/getTopDefect',
 	                    dataType : 'JSON', 
 	                    data:{
-	                    	tgl: datetimeNow 
+	                    	tgl: id_tgl ,
+	                    	id_line:id_line
 	                    },
 	                    success : function(res){   
 	                    	var html='';
@@ -763,9 +857,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                });
 
 
-
 			}
 
+			// FUnc OPT
+			// isi DATA DROPDOWN LINE
+				function loadDropdown() {
+					var idu = $('#id_user').val();
+
+					$.ajax({
+						type: 'POST',
+						url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+						dataType: "JSON",
+						data:{
+							id_user:idu
+						},
+						success: function(data){  
+	 						
+	 						$('#select_line').empty();
+	 						$('#select_line').select2({ 
+				 				placeholder: 'Pilih Line ',
+				 				minimumResultsForSearch: -1,
+				 				data:data
+
+				 			});
+						}
+
+					});
+
+				}
+			// UPDATE isi Sesion
+				function updateOpt() {
+					$.ajax({ 
+		                type  : 'POST',
+		                url   : '<?php echo site_url();?>/Login/updateDataOpt',
+		                dataType : 'JSON',  
+		                data:{
+		                	tgl: id_tgl,
+		                	sif: id_shift,
+		                	line: id_line
+		                },
+		                success : function(res){   
+							console.log(res);
+		                }
+
+		            });
+				}
 
 		});
 	</script>

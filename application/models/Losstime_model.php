@@ -44,14 +44,14 @@ class Losstime_model extends CI_Model {
                                     join output_control on lost_time.id_oc=output_control.id 
                                     join jenis_losttime on lost_time.id_jenisloss=jenis_losttime.id 
 
-                                where lost_time.id_pdo=$id order by output_control.jam_ke");
+                                where lost_time.id_pdo='".$id."' order by output_control.jam_ke");
     	return $q->result();
     }
 
     public function getLosstimeWidget($id)
     {
         # code...
-        $quer = $this->db->query('SELECT (SELECT COALESCE(SUM(durasi),0) FROM lost_time WHERE id_jenisloss=1 AND id_pdo='.$id.')as to_loss,(SELECT COALESCE(SUM(durasi),0) FROM lost_time WHERE id_jenisloss=2 AND id_pdo='.$id.')as to_exc, (SELECT (SELECT jam_kerja FROM main_pdo WHERE id='.$id.')-(select (select COALESCE(SUM(menit),0) FROM indirect_activity WHERE id_pdo='.$id.')/60)) as jam_iff,(SELECT (SELECT (SELECT (SELECT COALESCE(SUM(durasi),0) FROM lost_time WHERE id_jenisloss=1 AND id_pdo='.$id.')/60)/(SELECT (SELECT jam_kerja FROM main_pdo WHERE id='.$id.')-(select (select COALESCE(SUM(menit),0) FROM indirect_activity WHERE id_pdo='.$id.')/60)))*100)as losspercent');
+        $quer = $this->db->query("SELECT (SELECT COALESCE(SUM(durasi),0) FROM lost_time WHERE id_jenisloss=1 AND id_pdo='".$id."')as to_loss,(SELECT COALESCE(SUM(durasi),0) FROM lost_time WHERE id_jenisloss=2 AND id_pdo='".$id."')as to_exc, (SELECT (SELECT jam_kerja FROM main_pdo WHERE id='".$id."')-(select (select COALESCE(SUM(menit),0) FROM indirect_activity WHERE id_pdo='".$id."')/60)) as jam_iff,(SELECT (SELECT (SELECT (SELECT COALESCE(SUM(durasi),0) FROM lost_time WHERE id_jenisloss=1 AND id_pdo='".$id."')/60)/(SELECT (SELECT jam_kerja FROM main_pdo WHERE id='".$id."')-(select (select COALESCE(SUM(menit),0) FROM indirect_activity WHERE id_pdo='".$id."')/60)))*100)as losspercent");
         $wid = $quer->first_row();  
         return $wid;
     }

@@ -124,7 +124,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="width-50-p pull-right">
 							<div class="form-group">
 								<label>Speed</label>
-								<input id="demo1" type="number" value="" name="speed_edit"> 
+								<input id="demo1" type="number" value="" name="speed_edit_cv"> 
 								<input  type="hidden" value="" name="speed_edit_temp"> 
 							</div>
 							<br> 
@@ -432,7 +432,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<!-- <hr> -->
 						<center>
 							<div id="fom_ttd">
-								<canvas id="signature-pad" class="signature-pad" width=400 height=300></canvas>
+								<canvas id="signature_canvas" class="signature-pad" width=400 height=300></canvas>
 						  		<button id="clearr" class="btn btn-info btn-sm">ulangi</button>
 							</div> 
 						</center>  
@@ -463,6 +463,68 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 
+	<!-- =====================  NEW PDO    ========================== -->
+	<!-- modall neww AKtivitas  -->
+		<div class="modal fade" id="modalnewact" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h2 class="text-center mb-30">Tambah Aktivitas</h2>
+						<form id="form_addactiv">
+							<div class="input-group custom input-group-lg">
+								<label>Aktivitas :</label>
+								<input id="nameAct" type="text" class="form-control" style="text-align: left;" placeholder="Nama Aktivitas">
+								 
+							</div>
+							<div class="form-group">
+								<label>Durasi :</label>
+								<input type="text" value="5" name="durasi_aktivitas">
+							</div>
+
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="input-group"> 
+										<a class="btn btn-primary btn-lg btn-block" href="#" id="tambah_activ">Tambah</a>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- modall edit  AKtivitas-->
+		<div class="modal fade" id="modaledit_aktivitas" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h2 class="text-center mb-30">Edit Aktivitas</h2>
+						<form id="form_editactiv">
+							<div class="input-group custom input-group-lg">
+								<label>Aktivitas :</label>
+								<input id="nameActedit" type="text" class="form-control" style="text-align: left;" placeholder="Nama Aktivitas">
+								 
+							</div>
+							<div class="form-group">
+								<label>Durasi :</label>
+								<input type="text" value="5" name="durasi_aktivitas_edit">
+								<input id="id_edit" type="hidden"  >
+							</div>
+
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="input-group"> 
+										<a class="btn btn-primary btn-lg btn-block" href="#" id="tambah_activedit">Ubah</a>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 </div>
 <!-- End Modal --> 
 
@@ -733,11 +795,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<section>
 						<div class="col-12 align-content-center"> 
 							<div class="clearfix device-usage-chart">
-								<div id="spd_cv" style="min-width: 160px; max-width: 180px; height: 250px; margin: 0 auto"></div>
+								<div id="spd_cv_newpdo" style="min-width: 160px; max-width: 180px; height: 250px; margin: 0 auto"></div>
 								<center>
 								<div class="form-group col-md-6" style="margin-top: -40px;">
 									<label>Kecepatan Conveyor</label>
-									<input type="number" value="104" name="speed_edit">  
+									<input type="number" value="104" name="speed_edit_newpdo">  
 								</div> 
 								</center>
 							</div>
@@ -922,8 +984,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					data:{
 						id_user:idu
 					},
-					success: function(data){ 
-						console.log(data);
+					success: function(data){  
  						
  						$('#select_line').empty();
  						$('#select_line').select2({ 
@@ -941,6 +1002,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		// fungsi main
 			function showdata(pdo_id) {
 
+				console.log('ini id_pdo: '+pdo_id);
 				var htmlhead1 = '';
                 var htmlhead2 = '';
                 var htmlhead3 = '';
@@ -966,7 +1028,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         var t_act=0;
                         var id_jamke;
                         var jam_ke=0;
-
+  
                         // isi ke variabel
                         var data = res.data;
                         total_loss_detik = res.to_lossdetik.tot_loss_detik;
@@ -1581,16 +1643,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 								// cek jika itu bukan miliknya
 	                    		if ($('#id_user').val()==res.id_users) {
-	                    			showdata(res.id_pdo);
+	                    			showdata(res.id);
 	                    			// ganti speed miliknya
-	                    			// document.getElementById('btn_changesped').style.display = 'contents';
-	                    			// $("input[name='speed_edit_temp']").val(res.line_speed);
-	                    			// ganti id PDO NYA
-	                    			$("#id_pdo").val(res.id_pdo); 
+	                    			document.getElementById('btn_changesped').style.display = 'contents';
+	                    			$("input[name='speed_edit_temp']").val(res.line_speed);
+	                    			// ganti id PDO NYA 
 	                    			console.log('MILIKNYA') 
 
 	                    		}else {
-	                    			showdataBukanKamu(res.id_pdo);
+	                    			showdataBukanKamu(res.id);
 	                    			// ganti speed
 	                    			document.getElementById('btn_changesped').style.display = 'none';
 	                    			console.log('not YOU')
@@ -1599,7 +1660,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    		// speed line
 	                    		document.getElementById('id_speedline').style.display = 'contents';
 	                    		document.getElementById('id_speedline').innerHTML = res.line_speed;
-	                    		$('#speed_edit').val(res.line_speed);
+	                    		// $('#speed_edit').val(res.line_speed);
 	                    		$('#speed_edit_temp').val(res.line_speed);
 
 	                    		 //  STATUS VERIFIKASI 	
@@ -1657,8 +1718,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            });
 	        }
 		// CEK PLANNING BULANAN
-			function showplanning() {
-					console.log('plan called');
+			function showplanning() { 
 
 				$.ajax({
                     async : false,
@@ -1666,11 +1726,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     url   : '<?php echo base_url();?>index.php/Target/getThisMonth',
                     dataType : 'JSON', 
                     data:{
-                    	tgl: '2019-07-22',
-                    	line: 5//id_tgl
+                    	tgl: id_tgl,
+                    	id_line: id_line
                     },
-                    success : function(res){   
-                    	console.log(res);
+                    success : function(res){    
 
                     	if (res) {
                     		$('#id_target').val(res.id);
@@ -1706,68 +1765,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     		edittarget=false;		
                     	}
                     }  
-                }); 
-				console.log('selesai');
+                });  
 			}
-
-		// CARI PDO DI TANGGAL YANG DIPILIH
-			// function cariDataPdo() { 
-
-			// 	$.ajax({
-   //                  async : false,
-   //                  type  : 'POST',
-   //                  url   : '<?php echo base_url();?>index.php/OutputControl/getDataCari',
-   //                  dataType : 'JSON', 
-   //                  data:{
-   //                  	name_sif: name_shift,
-   //                  	tgl: datetimeNow
-   //                  },
-   //                  success : function(res){   
-
-   //                  	if (res) { 
-   //                  		// cek jika itu bukan miliknya
-   //                  		if ($('#id_user').val()==res.id_users) {
-   //                  			showdata(res.id_pdo);
-   //                  			// ganti speed miliknya
-   //                  			document.getElementById('btn_changesped').style.display = 'contents';
-   //                  			$("input[name='speed_edit_temp']").val(res.line_speed);
-   //                  			// ganti id PDO NYA
-   //                  			$("#id_pdo").val(res.id_pdo); 
-   //                  			console.log('MILIKNYA') 
-
-   //                  		}else {
-   //                  			showdataBukanKamu(res.id_pdo);
-   //                  			// ganti speed
-   //                  			document.getElementById('btn_changesped').style.display = 'none';
-   //                  			console.log('not YOU')
-   //                  		} 
-
-   //                  		// speed line
-   //                  		document.getElementById('id_speedline').style.display = 'contents';
-   //                  		document.getElementById('id_speedline').innerHTML = res.line_speed;
-
-   //                  		 //  STATUS VERIFIKASI 	
-   //                  		 if (res.status==1) {
-   //                  		 	document.getElementById('id_verif').style.display = 'block';
-   //                  		 }else{
-   //                  		 	document.getElementById('id_verif').style.display = 'none';
-   //                  		 }
-
-   //                  		console.log(res); 	
-   //                  	}else {
-   //                  		console.log('is null');
-   //                  		showdataNotFound(); 
-
-   //                  		// null
-   //                  		eff_actual=0;
-			// 				tot_mhinall=0;
-			// 				tot_mhout = 0;
-   //                  	}
-                    	
-   //                  }
-   //              });	
-			// }
-
+  
 		// trigger change assy build
 			$('#thead_outputt').on('click','.btn_changeassy',function(){
 				var id_ass = $(this).data('id_assy');
@@ -1780,8 +1780,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			});
 		// hapuss aASYY
 			$('#btn_hapus_assy').on('click',function(){
-				var ids = $('input[name="id_assy_old"]').val();
-				var id_pdo = $('#id_pdo').val();
+				var ids = $('input[name="id_assy_old"]').val(); 
 
 				$('#modal_ubah_assy').modal('hide');
 				 $.ajax({
@@ -1821,8 +1820,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			});
 		// pindahkan ASSY
 			$('#btn_pindah_assy').on('click',function(){
-				var ids = $('input[name="id_assy_old"]').val();
-				var id_pdo = $('#id_pdo').val();
+				var ids = $('input[name="id_assy_old"]').val(); 
 				var new_assy  = $('#pilihasy1').val();
 
 				if (!new_assy) return; 
@@ -1862,7 +1860,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						}
 
 	                }
-	            }); ßßßßß
+	            });
 			});
 
 		// to show new build assy modal
@@ -1916,10 +1914,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		// to SHOW NEW JAM VERTICAL
 			$('#tbody_outputt').on('click','.newJamVertical',function(){
-				let spd = Number($("input[name='speed_edit']").val()); 
+				let spd = Number($("input[name='speed_edit_temp']").val()); 
 				var toOut = (spd*loss_output);
 				// 10% dari total
 				var batas = (toOut*2)/100; 
+
 
 				// checking output SESUAI APA TIDAK 
 					// Downtime Kurang
@@ -1984,7 +1983,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				if (jum_jam == max_jamkerja) {
 					if (isireport == true) {
 						Swal.fire(
-							'Report Downtime masih kosong.  Silahkan isi ZERO downtime terlebih dahulu.'
+							'Report Jam ke-'+(jum_jam-1)+' Downtime masih kosong.  Silahkan isi ZERO downtime terlebih dahulu.'
 							).then(function(){
 						    	setTimeout(' window.location.href = "<?php echo site_url('losstime'); ?>" ');
 						    }); 
@@ -2098,8 +2097,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#btn_update_act').click(function(){ 
 				// mengambil data dari fom upadate
 				var idu = $('#id_act_editfom').val();
-				var actu = $('#act_editfom').val();
- 				var pdo = $('#id_pdo').val();
+				var actu = $('#act_editfom').val(); 
 
  				// ajax upload
  				$.ajax({
@@ -2110,7 +2108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                data : { 
 	                	id_a:idu,
 	                	act:actu,
-	                	id_pdo:pdo
+	                	id_pdo:id_pdo
 	                 },
 	                success: function(response){
 	                	if (response) { 
@@ -2140,9 +2138,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 var idr = $(this).data('idrow');
                 var idcolassy = $(this).data('idcol');
                 var baris = $(this).data('baris');
-                var kodeassy = $(this).data('kodeassy');
-                var pdo  = $('#id_pdo').val();
- 				
+                var kodeassy = $(this).data('kodeassy'); 
  				// pemberitahuan new adassy
  				Swal.fire({
 				  title: 'Anda Yakin?',
@@ -2172,7 +2168,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                			title:'Sukses ditambah sss!', 
 							      type:'success',
 							      timer: 1000
-							  }) 
+							  });
+							   cekHariini();
 		                	}else{
 		                		Swal.fire({
 								  title: 'Error!',
@@ -2275,7 +2272,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			});
 			
 		// touch spin
-			$("input[name='speed_edit']").TouchSpin({
+			$("input[name='speed_edit_cv']").TouchSpin({
 				min: 0,
 				max: 200,
 				step: 1,
@@ -2302,7 +2299,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				maxboostedstep: 10,
 				postfix: '%'
 			}); 
-			$("input[name='demo1']").TouchSpin({
+			$("input[name='durasi_aktivitas']").TouchSpin({
 				min: 0,
 				max: 60,
 				step: 1,
@@ -2312,7 +2309,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				postfix: 'menit'
 			});
 
-			$("input[name='demo1edit']").TouchSpin({
+			$("input[name='durasi_aktivitas_edit']").TouchSpin({
 				min: 0,
 				max: 60,
 				step: 1,
@@ -2323,13 +2320,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			});
 
 		// update gauge
-			let spdi = Number($("input[name='speed_edit']").val());  
+			let spdi = Number($("input[name='speed_edit_cv']").val());  
 			$('#spd_cv').highcharts().series[0].points[0].update(spdi);
 
 			// event on change value touchspin
-			$("input[name='speed_edit']").on('touchspin.on.startspin', function () {
+			$("input[name='speed_edit_cv']").on('touchspin.on.startspin', function () {
 				// get speed data
-				let spd = Number($("input[name='speed_edit']").val()); 
+				let spd = Number($("input[name='speed_edit_cv']").val()); 
 				// update gauge
 				$('#spd_cv').highcharts().series[0].points[0].update(spd);
 			});
@@ -2338,7 +2335,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#btn_changesped').click(function(){   
 
 				let spdi = Number($("input[name='speed_edit_temp']").val());  
-				$("input[name='speed_edit']").val(spdi);
+				$("input[name='speed_edit_cv']").val(spdi);
 				$('#spd_cv').highcharts().series[0].points[0].update(spdi);
 				
 				$('#scv_modal').modal('show'); 
@@ -2346,8 +2343,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		// update speed submit event 
 			$('#btn_update_speed').click(function(){
-				var sped = $("input[name='speed_edit']").val();
-				var idp = $("#id_pdo").val();
+				var sped = $("input[name='speed_edit_cv']").val(); 
  
 				$.ajax({
 					async : false,
@@ -2355,7 +2351,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					url : "<?php echo site_url('PDO_Controler/updateSpeed') ?>",
 					dataType : "JSON",
 					data : {
-						id:idp,
+						id:id_pdo,
 						spd:sped
 					},
 					success: function(data){
@@ -2595,22 +2591,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  				var passcode = p1+p2+p3+p4+p5+p6;  
 
  				$.ajax({ 
+ 					async: false,
 					url : "<?php echo site_url('VerificationSupervisor/cekPassCodeSpv') ?>",
-					data: { passcode:passcode },
+					data: { passcode:passcode,pdo:id_pdo },
 					type: 'post',
 					dataType: 'json',
 					success: function (response) {  
 					   if (response) {
-					   		
-					   		// Jika Passcode Benar
-					   		html2canvas([document.getElementById('signature-pad')], {
+					   		console.log(response);
+					   		// Jika Passcode Benar 
+					   		html2canvas([document.getElementById('signature_canvas')], {
 								onrendered: function (canvas) { 
-									var dataUrl = canvas.toDataURL();
-			           				var newDataURL = dataUrl.replace(/^data:image\/png/, "data:application/octet-stream"); //do this to clean the url.
+									var dataUrl = canvas.toDataURL('image/png'); 
+ 									var imgdat = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
 			 						// Proses Upload Signature
 									$.ajax({ 
+										async: false,
 										url : "<?php echo site_url('VerificationSupervisor/verification') ?>",
-										data: { img:newDataURL, id_pdo:$('#id_pdo').val() },
+										data: { img:imgdat, id_pdo:id_pdo,nik:response.nik },
 										type: 'post',
 										dataType: 'json',
 										success: function (response) { 
@@ -2631,7 +2629,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								}
 							});
 					   		// FInish Hide & CLEAR 			
-							document.getElementById('fom_passcode').reset();
+							// document.getElementById('fom_passcode').reset();
 			 				$('#modal_submit').modal('hide'); 
 					   }else { 
 					   		Swal.fire({
@@ -2653,7 +2651,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
  		// Signature pad
- 			var signaturePad = new SignaturePad(document.getElementById('signature-pad'), {
+ 			var signaturePad = new SignaturePad(document.getElementById('signature_canvas'), {
 			  // backgroundColor: 'rgba(255, 255, 255, 0)',
 			  penColor: 'rgb(0, 0, 0)',
 			  drawBezierCurves:true
@@ -2682,6 +2680,293 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            });
 			}
 
+
+
+			// ===== WIZARD PDO WEEELLLCOOMEEEE ===
+			// ARRAY new direct Activity 
+				var activ = []; 
+				 
+		        // ISI DATA Tabel
+		        function isi_activity(){
+		        	var html ="";
+		        	for (var i = 0; i < activ.length; i++) {
+		        		html += '<tr>'+
+								'<th scope="row">'+(i+1)+'</th>'+
+								'<td>'+activ[i].item+'</td>'+
+								'<td>'+activ[i].menit+'</td>'+
+								'<td>'+
+	                    		'<a href="javascript:void(0);" class="item_edit_aktifitas" data-posisi="'+i+'" data-id_k="'+activ[i].item+'" data-duration="'+activ[i].menit+'" ><i class="icon-copy fa fa-pencil-square-o" aria-hidden="true"></i></a>'+
+	                    		'</td>'+
+							'</tr>'; 
+		        	} 
+
+		        	html += 
+		        			'<tr>'+
+								'<th scope="row"></th>'+
+								'<td><button href="#" class="btn btn-success" data-toggle="modal" data-target="#modalnewact"  type="button">Tambah <i class="icon-copy fa fa-plus" ></i></button></td>'+
+								'<td></td> <td></td>'+
+							'</tr>';
+		        	$('#tbl_activlabor').html(html); 
+
+		        }
+
+			// init wizard
+				$(".tab-wizard").steps({
+					headerTag: "h5",
+					bodyTag: "section",
+					transitionEffect: "fade",
+					titleTemplate: '<span class="step">#index#</span> #title#',
+					labels: {
+						finish: "Create"
+					},
+					onStepChanged: function (event, currentIndex, priorIndex) {
+						$('.steps .current').prevAll().addClass('disabled');
+					},
+					onFinished: function (event, currentIndex) {
+						if (document.getElementById("ini_pernyataan").checked==true) {
+							// dl
+							var stddl = document.getElementById("f_std_dl").value;
+							var regdl = document.getElementById("f_reg_dl").value;
+							var jam_otdl = document.getElementById("f_jam_ot").value;
+							var dl_otdl = document.getElementById("f_dl_ot").value;
+							// idk
+							var stdidl = document.getElementById("f_std_idl").value;
+							var regidl = document.getElementById("f_reg_idl").value;
+							var jam_otidl = document.getElementById("f_jam_ot_idl").value;
+							var dl_otidl = document.getElementById("f_idl_ot").value;
+
+							var speed = $("input[name='speed_edit_newpdo']").val();
+							// activity
+							// console.log('stddl:'+stddl+",regdl:"+regdl+",otdl:"+jam_otdl+",dlot:"+dl_otdl+",&idl:"+stdidl+",regidl:"+regidl+",jamotidl:"+jam_otidl+",dlotidl"+dl_otidl+'|speed:'+speed);
+							// console.log(activ);
+							// console.log($('#select_line').val()); 
+
+							$.ajax({
+				            	async : false,
+				                type : "POST",
+				                url   : '<?php echo base_url();?>index.php/Welcome/newPdo',
+				                dataType : "JSON",
+				                data : {
+				                		// core opt
+				                		id_tgl:id_tgl,
+				                		id_shift:id_shift,
+				                		id_line: id_line,
+
+				                		stddl:stddl,
+				                		regdl:regdl,
+				                		jam_otdl:jam_otdl,
+				                		dl_otdl:dl_otdl,
+
+				                		stdidl:stdidl,
+				                		regidl:regidl,
+				                		jam_otidl:jam_otidl,
+				                		dl_otidl:dl_otidl,
+
+				                		speed: speed,
+				                		act: activ
+				                	},
+				                success: function(response){ 
+				                	console.log('ini resp:');
+				                	console.log(response);
+				                	// jika terdapat error / user pass salah
+									if(response.error || response.error1 || response.error2 ){  
+										Swal.fire({
+										  title: 'Error!',
+										  text: 'Terjadi kesalahan pengiriman data',
+										  type: 'error',
+										  confirmButtonText: 'Ok',
+										  allowOutsideClick: false
+										}).then(function(){ 
+									    	document.getElementById('panel_wizard').style.display = 'none';
+									    	cekHariini();
+									    }); 
+
+									}else{
+										Swal.fire({
+										  title: 'Berhasil',
+										  text: 'Planning Pdo Telah dibuat',
+										  type: 'success',
+										  confirmButtonText: 'Ok',
+										  allowOutsideClick: false
+										}).then(function(){ 
+
+											cekHariini();
+											showplanning();
+									    }); 
+									}
+						
+
+				                }
+				            }); 
+
+
+
+						}else{
+							Swal.fire({
+							  title: 'Error!',
+							  text: 'Pastikan Anda Sudah Checked Setuju',
+							  type: 'error',
+							  confirmButtonText: 'Ok',
+							  allowOutsideClick: false
+							})
+						}
+						
+					}
+				});
+	// ======== TRIGER 
+			// tombol buat pdo plann baru 
+				$('#btn_newplan').click(function()
+				{    
+					var a1 = { item:"5S + Yoidon", menit:0 };
+					var a2 = { item:"Home Position", menit:0 };
+			        activ.push(a1); 
+			        activ.push(a2);
+
+			        isi_activity();
+
+				    document.getElementById("panel_wizard").style.display="block";
+	                document.getElementById("panel_newplann").style.display="none";
+				});
+
+			// Tambah Aktivitas baru
+				 $('#tambah_activ').click(function()
+					{    
+						var named_act = document.getElementById("nameAct").value;
+						var durasi_act = $('input[name="durasi_aktivitas"]').val();
+						var temp = { item:named_act, menit:durasi_act };
+						activ.push(temp);
+						isi_activity(); 
+						$('#modalnewact').modal('hide');
+						document.getElementById('form_addactiv').reset(); 
+					}); 
+			// Edit Aktivitas terpilih
+				//get data for edit record show prompt modal
+	            $('#tbl_activlabor').on('click','.item_edit_aktifitas',function(){
+	                var namek = $(this).data('id_k'); 
+	                var duration = $(this).data('duration'); 
+	                var poss = $(this).data('posisi'); 
+	 				
+	 				document.getElementById("nameActedit").value = namek;
+					document.getElementsByName("durasi_aktivitas_edit").value = duration;
+					document.getElementById("id_edit").value = poss;
+	                $('#modaledit_aktivitas').modal('show'); 
+	            });
+            	//event edit cliked
+	            $('#tambah_activedit').click(function()
+				{    
+					var named_act = document.getElementById("nameActedit").value;
+					var durasi_act = $('input[name="durasi_aktivitas_edit"]').val();
+					var posi = document.getElementById("id_edit").value;
+					   
+					activ[posi].item = named_act;
+					activ[posi].menit = durasi_act;
+
+					isi_activity(); 
+					$('#modaledit_aktivitas').modal('hide');
+					document.getElementById('form_editactiv').reset(); 
+				});
+
+
+	        // conf 
+		        // gauge chart
+					Highcharts.chart('spd_cv_newpdo', {
+
+						chart: {
+							type: 'gauge',
+							plotBackgroundColor: null,
+							plotBackgroundImage: null,
+							plotBorderWidth: 0,
+							plotShadow: false
+						},
+						title: {
+							text: ''
+						},
+						credits: {
+							enabled: false
+						},
+						pane: {
+							startAngle: -150,
+							endAngle: 150,
+							background: [{
+								borderWidth: 0,
+								outerRadius: '109%'
+							}, {
+								borderWidth: 0,
+								outerRadius: '107%'
+							}, {
+							}, {
+								backgroundColor: '#fff',
+								borderWidth: 0,
+								outerRadius: '105%',
+								innerRadius: '103%'
+							}]
+						},
+
+						yAxis: {
+							min: 0,
+							max: 200,
+
+							minorTickInterval: 'auto',
+							minorTickWidth: 1,
+							minorTickLength: 10,
+							minorTickPosition: 'inside',
+							minorTickColor: '#666',
+
+							tickPixelInterval: 30,
+							tickWidth: 2,
+							tickPosition: 'inside',
+							tickLength: 10,
+							tickColor: '#666',
+							labels: {
+								step: 2,
+								rotation: 'auto'
+							},
+							title: {
+								text: '...'
+							},
+							plotBands: [{
+								from: 0,
+								to: 120,
+								color: '#55BF3B'
+							}, {
+								from: 120,
+								to: 160,
+								color: '#DDDF0D'
+							}, {
+								from: 160,
+								to: 200,
+								color: '#DF5353'
+							}]
+						},
+
+						series: [{
+							name: 'Speed',
+							data: [1],
+							tooltip: {
+								valueSuffix: '  dtk/Min'
+							}
+						}]
+					});
+				// touch spin
+				$("input[name='speed_edit_newpdo']").TouchSpin({
+					min: 0,
+					max: 200,
+					step: 1,
+					decimals: 0,
+					boostat: 5,
+					maxboostedstep: 10,
+					postfix: 'speed'
+				}); 
+			// update gauge
+				var spd_newpdo = Number($("input[name='speed_edit_newpdo']").val());  
+				$('#spd_cv_newpdo').highcharts().series[0].points[0].update(spd_newpdo);
+			// event on change value touchspin
+				$("input[name='speed_edit_newpdo']").on('touchspin.on.startspin', function () {
+					// get speed data
+					let spd = Number($("input[name='speed_edit_newpdo']").val()); 
+					// update gauge
+					$('#spd_cv_newpdo').highcharts().series[0].points[0].update(spd);
+				});  
 		});
 	</script>
 </html>

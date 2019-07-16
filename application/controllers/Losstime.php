@@ -26,7 +26,7 @@ class Losstime extends CI_Controller {
 		$shift =  $ses_opt['id_shift'];
 		$tanggal = $ses_opt['tgl'];  
 
-		$pdo = $this->Pdo_model->getDataByline($tanggal,$line,$shift);
+		$pdo = $this->Pdo_model->getDataBylin($tanggal,$line,$shift);
 		$data['pdo'] = $pdo;
 		// $data['data_oc'] = $this->Losstime_model->get_all_record_by_id($pdo->id);
 		$data['data_error'] = $this->Losstime_model->get_all_errRecord();

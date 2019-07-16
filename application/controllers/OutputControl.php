@@ -21,7 +21,7 @@ class OutputControl extends CI_Controller {
 	// func di DASBOARD HOME
 		public function getDataOutputControl()
 		{
-			$id = 7;//$this->input->post('id_pdo');
+			$id = $this->input->post('id_pdo');
 
 			$result['data'] = $this->OutputControl_model->getOutputControl($id);
 			$result['mhin_tot'] = $this->OutputControl_model->getMHintot($id);
@@ -35,13 +35,10 @@ class OutputControl extends CI_Controller {
 		}
 
 		public function getDataCari()
-		{ 
-			// get sesion
-			$session_data = $this->session->userdata('pdo_logged');  
-
-			$sif = $this->input->post('name_sif');
+		{  
+			$sif = $this->input->post('id_sif');
 			$date = $this->input->post('tgl');
-			$line = $this->input->post('tgl');
+			$line = $this->input->post('id_line');
 			
 			$result = $this->Pdo_model->getDataByTanggalChange($date,$sif,$line); 
 
@@ -61,7 +58,7 @@ class OutputControl extends CI_Controller {
 	public function getDataBuildAssyHeader()
 	{
 		# code...
-		$id = 7;//$this->input->post('id');
+		$id = $this->input->post('id');
 		$result = $this->OutputControl_model->getBuildAssyHead($id);
 
 		echo json_encode($result);

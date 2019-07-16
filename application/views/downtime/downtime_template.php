@@ -31,8 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$ses = $this->session->userdata('pdo_logged'); 
 		$opt = $this->session->userdata('pdo_opt'); 
 	 ?>
-
-	<!-- <input type="hidden" id="id_pdo" value="<?php echo $pdo->id ?>"> -->
+ 
 	<input type="hidden" id="id_user" value="<?php echo $ses['id_user'] ?>">
 	<input type="hidden" value="<?php echo $opt['id_shift'] ?>" id="id_shift">
 	<!-- opt -->
@@ -96,6 +95,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 				</div>
 
+				<div class="col-lg-3 col-md-6 col-sm-12 mb-10">
+					<div class="card box-shadow"> 
+						<div class="card-body"> 
+							
+						</div> 
+					</div>
+				</div>
 			</div>
 				<!-- end of top icon dashboard -->
 	 		<!-- Simple Datatable start -->
@@ -834,7 +840,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 
-				 // ========================  END UPDATE RECORD ====================================
+			// ========================  END UPDATE RECORD ====================================
 				$('.data-table-export').DataTable({
 					scrollCollapse: true,
 					autoWidth: false,

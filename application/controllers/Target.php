@@ -24,8 +24,7 @@ class Target extends CI_Controller {
 	public function getThisMonth()
 	{ 
 		$dat = $this->input->post('tgl');
-		$line = $this->input->post('line');
-		// $line = $this->input->post('line');
+		$line = $this->input->post('id_line'); 
 
 		$data = $this->Target_model->getDataMonth($dat,$line);
 

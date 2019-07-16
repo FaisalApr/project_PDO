@@ -12,22 +12,43 @@ class Pdo_model extends CI_Model {
 		return $query->result();
 	}
 
-	public function getDataByline($dat,$ln,$sf)
-	{  
-		// $query= $this->db->query("SELECT * FROM main_pdo WHERE YEAR(tanggal)=YEAR('$dat') AND MONTH(tanggal)=MONTH('$dat') AND id_line='$ln' ORDER BY tanggal ASC"); 
-		$query= $this->db->query("SELECT * FROM main_pdo JOIN shift ON main_pdo.id_shift=shift.id WHERE YEAR(tanggal)=YEAR('$dat') AND MONTH(tanggal)=MONTH('$dat') AND main_pdo.id_listcarline='$ln' AND main_pdo.id_shift='$sf' ORDER BY tanggal ASC"); 
-        return $query->result(); 
+	public function getDataBylin($dat,$ln,$sf)
+	{   
+		$query= $this->db->query("SELECT * 
+									FROM main_pdo  
+									WHERE 
+										YEAR(tanggal)=YEAR('$dat') AND 
+										MONTH(tanggal)=MONTH('$dat') AND 
+									    main_pdo.id_listcarline='$ln' AND 
+									    main_pdo.id_shift='$sf' 
+									ORDER BY tanggal ASC"); 
+        return $query->result();
+        // return $sf; 
 	}
 
 	public function getDataByLineWaktuShift($lin,$tgl,$sf)
 	{
-		$query = $this->db->query("SELECT COALESCE(main_pdo.dpm_fa,0) as dpm,main_pdo.id,tanggal FROM main_pdo JOIN shift on main_pdo.id_shift=shift.id WHERE shift.keterangan='$sf' AND id_line=$lin AND YEAR(tanggal)=YEAR('$tgl') AND MONTH(tanggal)=MONTH('$tgl') ORDER BY tanggal ASC");
+		$query = $this->db->query("SELECT 
+										COALESCE(main_pdo.dpm_fa,0) as dpm,main_pdo.id,tanggal 
+									FROM main_pdo  
+									WHERE 
+										main_pdo.id_shift='$sf' AND 
+									    main_pdo.id_listcarline=$lin  AND 
+									    YEAR(tanggal)=YEAR('$tgl') AND 
+									    MONTH(tanggal)=MONTH('$tgl') 
+									ORDER BY tanggal ASC");
 		return $query->result();
 	}
 
 	public function getDataByTanggalChange($date,$sif,$line)
 	{
-		$query = $this->db->query("SELECT *,main_pdo.id as id_pdo FROM main_pdo  JOIN shift on main_pdo.id_shift=shift.id  WHERE date(tanggal)=date('$date')  AND shift.keterangan='$sif' AND main_pdo.id_line=$line");
+		$query = $this->db->query("SELECT *,main_pdo.id as id_pdo 
+									FROM main_pdo  
+										JOIN shift on main_pdo.id_shift=shift.id  
+									WHERE 
+										date(tanggal)=date('$date') AND 
+									    main_pdo.id_listcarline=$line AND
+									    main_pdo.id_shift=$sif");
 		return $query->first_row();
 	}
 
@@ -77,8 +98,7 @@ class Pdo_model extends CI_Model {
 		$this->db->from('main_pdo');
 		$this->db->where('id_listcarline',$id_line);
 		$this->db->where('id_shift',$shift); 
-		$this->db->where('DATE(tanggal)', $tanggal );
-		$this->db->order_by('tanggal',"desc");
+		$this->db->where('DATE(tanggal)',$tanggal ); 
 		$query=$this->db->get();
 
 		if ($query->num_rows()>=1) {

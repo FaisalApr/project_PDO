@@ -19,29 +19,29 @@ class Defect extends CI_Controller {
 	public function index()
 	{
 		// get sesion
-		$session_data = $this->session->userdata('pdo_logged'); 
+		// $session_data = $this->session->userdata('pdo_logged'); 
 
 		// init data
-		$iduser = $session_data['id_user'];  
-		$shift =  $session_data['id_shift'] ; 
-		$tanggal = date("Y-m-d"); 
+		// $iduser = $session_data['id_user'];  
+		// $shift =  $session_data['id_shift'] ; 
+		// $tanggal = date("Y-m-d"); 
 
 		// jika user sudah ada data pdo
-		$result = $this->Pdo_model->cariPdo($iduser,$shift,$tanggal);
-		if ($result) { 
+		// $result = $this->Pdo_model->cariPdo($iduser,$shift,$tanggal);
+		// if ($result) { 
 			
-			$pdo = $this->Pdo_model->cariPdoItems($iduser,$shift,$tanggal);
-			$data['pdo'] = $pdo;
+		// 	$pdo = $this->Pdo_model->cariPdoItems($iduser,$shift,$tanggal);
+		// 	$data['pdo'] = $pdo;
 			
-			$data['data_oc'] = $this->Defect_model->get_all_record_by_id($pdo->id);
+		// 	$data['data_oc'] = $this->Defect_model->get_all_record_by_id($pdo->id);
 			
-			$data['defect'] = $this->Defect_model->get_all_level();
-			$this->load->view('defect/defect_templ', $data);
-		}else {  
-			// jika tidak punya data pdo
-			redirect('Welcome','refresh');
-		}
-
+		// 	$data['defect'] = $this->Defect_model->get_all_level();
+		// 	$this->load->view('defect/defect_templ', $data);
+		// }else {  
+		// 	// jika tidak punya data pdo
+		// 	redirect('Welcome','refresh');
+		// }
+		$this->load->view('defect/defect_templ');
 	}
 
 	public function newDefect()
@@ -80,6 +80,7 @@ class Defect extends CI_Controller {
 		$data['alldefect'] = $this->Defect_model->getDefCodeUser($id);
 		$data['dpm'] = $this->Defect_model->getDPM($id);
 		$data['total'] = $this->Defect_model->getTotal($id);
+		$data['list_defect'] = $this->Defect_model->get_all_level();
 
 		echo json_encode($data);
 	}

@@ -16,9 +16,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
 
+  <style type="text/css">
+      .select2-selection__rendered {
+          line-height: 55px !important;
+      }
+      .select2-container .select2-selection--single {
+          height: 50px !important;
+      }
+      .select2-selection__arrow {
+          height: 50px !important;
+      }
+  </style>
+
 </head>
 <body>
-  <input id="id_pdo" type="hidden" class="form-control" value="<?php echo $pdo->id ?>">
+  <?php 
+    $ses = $this->session->userdata('pdo_logged'); 
+    $opt = $this->session->userdata('pdo_opt'); 
+   ?>
+  <input type="hidden" id="id_user" value="<?php echo $ses['id_user'] ?>">
+  <input type="hidden" value="<?php echo $opt['id_shift'] ?>" id="id_shift">
+  <!-- opt -->
+  <input type="hidden" value="<?php echo $opt['tgl'] ?>" id="id_tgl">
+  <input type="hidden" value="<?php echo $opt['id_line'] ?>" id="id_line">
+
   <?php $this->load->view('header/header_users'); ?>
   <?php $this->load->view('header/sidebar_users'); ?>
  
@@ -245,7 +266,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="modal fade" id="i_absen-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
-            <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+            <div class=" bg-white box-shadow pd-ltr-20 border-radius-5">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
               <h2 class="text-center mb-30">Absen Pegawai</h2>
               <!-- form start -->
@@ -292,7 +313,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="modal fade" id="updt_absen_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
-            <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+            <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
               <h2 class="text-center mb-30">Absen Pegawai</h2>
               <!-- form start -->
@@ -362,18 +383,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="modal fade" id="i_reg_in-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
-            <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+            <div class=" bg-white box-shadow pd-ltr-20 border-radius-5">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
               <h2 class="text-center mb-30">MP IN</h2>
               <!-- form start -->
               <form id="form_regulasi_in">
                 <!-- input -->
                 <div class="input-group custom input-group-lg">
-                  <select class="custom-select col-12" name="in_jam_ke" id="i_jam_ke">
-                    <option disabled selected> Pilih Jam ke</option>
-                    <?php foreach ($data_oc as $key) { ?>
-                    <option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
-                    <?php }  ?>
+                  <select class="custom-select col-12" name="in_jam_ke" id="i_jam_ke"> 
+                      <!-- INI CONtainer JAm kE -->
                   </select> 
                 </div>
                 <!-- input -->
@@ -417,18 +435,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="modal fade" id="updt_regin_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
-            <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+            <div class=" bg-white box-shadow pd-ltr-20 border-radius-5">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h2 class="text-center mb-30">Absen Leader</h2>
+              <h2 class="text-center mb-30">Update Absen Leader</h2>
               <!-- form start -->
                 <!-- input -->
                 <div class="input-group custom input-group-lg">
                   
                   <select class="custom-select col-12" name="jamke_regin_updt" id="jamke_regin_update">
-                    <option disabled selected> Pilih Jam ke</option>
-                      <?php foreach ($data_oc as $key) { ?>
-                    <option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
-                      <?php }  ?>
+                        <!-- ID CONTAINER JAM KE -->
                   </select> 
                  </div>
                 <!-- input -->
@@ -497,53 +512,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="modal fade" id="i_reg_out-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-              <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h2 class="text-center mb-30">MP IN</h2>
-                <!-- form start -->
-                <form id="form_regulasi_out">
-                  <!-- input -->
-                  <div class="input-group custom input-group-lg">
-                    <select class="custom-select col-12" name="jam_ke_in" id="jam_ke_i">
-                      <option disabled selected> Pilih Jam ke</option>
-                      <?php foreach ($data_oc as $key) { ?>
-                      <option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
-                      <?php }  ?>
-                    </select> 
-                  </div>
-                  <!-- input -->
-                  <div class="input-group custom input-group-lg">
-                    <input type="text" class="form-control" placeholder="Posisi" id="posisi_i">
-                    <div class="input-group-append custom">
-                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+              <form id="form__regulasi_out">
+                <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h2 class="text-center mb-30">MP OUT</h2>
+                  <!-- form start -->
+                  <form id="form_regulasi_out">
+                    <!-- input -->
+                    <div class="input-group custom input-group-lg">
+                      <select class="custom-select col-12" name="jam_ke_in" id="jam_ke_i"> 
+
+                      </select> 
                     </div>
-                  </div>
-                  <!-- input -->
-                  <div class="input-group custom input-group-lg">
-                    <input type="text" class="form-control" placeholder="QTY MP" id="regin_qty_i">
-                    <div class="input-group-append custom">
-                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                    <!-- input -->
+                    <div class="input-group custom input-group-lg">
+                      <input type="text" class="form-control" placeholder="Posisi" id="posisi_i">
+                      <div class="input-group-append custom">
+                        <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                      </div>
                     </div>
-                  </div>
-                  <!-- input -->
-                  <div class="input-group custom input-group-lg">
-                    <input type="text" class="form-control" placeholder="JAM" id="regin_jam_i">
-                    <div class="input-group-append custom">
-                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                    <!-- input -->
+                    <div class="input-group custom input-group-lg">
+                      <input type="text" class="form-control" placeholder="QTY MP" id="regin_qty_i">
+                      <div class="input-group-append custom">
+                        <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <!-- button submit -->
-                  <div class="row">
-                    <div class="col-sm-12">
-                        <div class="input-group">
-                          <a class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit_regout">Submit</a>
-                        </div>
+                    <!-- input -->
+                    <div class="input-group custom input-group-lg">
+                      <input type="text" class="form-control" placeholder="JAM" id="regin_jam_i">
+                      <div class="input-group-append custom">
+                        <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                      </div>
                     </div>
-                  </div>
-                </form>
-                <!-- form end -->
-              </div>
+                    
+                    <!-- button submit -->
+                    <div class="row">
+                      <div class="col-sm-12">
+                          <div class="input-group">
+                            <a class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit_regout">Submit</a>
+                          </div>
+                      </div>
+                    </div>
+                  </form>
+                  <!-- form end -->
+                </div>
+              </form>
             </div>
           </div>
       </div>
@@ -552,18 +566,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="modal fade" id="updt_regout_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
-            <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+            <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h2 class="text-center mb-30">MP OUT</h2>
+              <h2 class="text-center mb-30">Edit MP OUT</h2>
               <!-- form start -->
                 <!-- input -->
                 <div class="input-group custom input-group-lg">
                   
-                  <select class="custom-select col-12" name="jamke_regout_updt" id="jamke_regout_update">
-                    <option disabled selected> Pilih Jam ke</option>
-                      <?php foreach ($data_oc as $key) { ?>
-                    <option value="<?php  echo $key->id ?>"> <?php  echo $key->jam_ke ?> </option>
-                      <?php }  ?>
+                  <select class="custom-select col-12" name="jamke_regout_updt" id="jamke_regout_update"> 
+
+
                   </select> 
                  </div>
                 <!-- input -->
@@ -694,20 +706,154 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <script>
     $('document').ready(function(){
-      // alert($('#id_pdo').val());
-    
-      // absen ajax
-      // fitur show
-      show();    
-      showDl();
-        
-      function show(){
+      // VAR CORE
+        var id_line = $('#id_line').val();
+        var id_shift = $('#id_shift').val();
+        var id_tgl = $('#id_tgl').val();
+        var id_pdo = 0;
+
+      // variabel global  
+        // deklarasi nama bulan
+        const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+        const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+
+        var today = new Date(id_tgl);
+        var currentMonth = today.getMonth();
+        var currentYear = today.getFullYear();
+        var currDate = today.getDate(); 
+      // aditional PICKER DATE  
+        // SETTING DEFAULT DATE
+        var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
+              document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
+
+
+        $(".inputs").keyup(function () {
+            if (this.value.length == this.maxLength) {
+              $(this).select();
+              $(this).next('.inputs').focus();  
+            }
+        });
+
+        $("input").click(function () {
+           $(this).select();
+        }); 
+ 
+      
+      // TrigGER PIlih TANGGAL
+        $('.date-pickerrr').datepicker({   
+          language: "en",
+          firstDay: 1,  
+            onSelect: function(selected, d, calendar) {   
+              // jika yang dipilih sama 
+              if (selected=='') { 
+                var tod = new Date(id_tgl);  
+
+                document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+                calendar.hide();
+                return ;
+              }else{
+                // post data additional
+                id_tgl = new Date(selected);
+                var tod = new Date(selected); 
+                document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+                id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+
+                // post new data additional
+                updateOpt();
+              } 
+              calendar.hide();
+
+              // refresh 
+              // showplanning();
+              // cariDataPdo();
+              // cekHariini();
+            }
+        });
+      // TRIGGEr line Change
+        $('#select_line').on('select2:select',function(e){
+          var data = e.params.data;
+          
+          id_line = data.id ;
+          // update opt to server
+          updateOpt(); 
+          // cekHariini();
+          // console.log(data); 
+          // console.log('ln:'+id_line+'|sf:'+id_shift); 
+        });
+      // PILIH SHIFTY 
+        $('#drop_shiftt').on('click','.pilih_sf',function(){
+          var ssf = $(this).data('value'); 
+   
+          if (ssf==1) {
+            document.getElementById('id_sifname').innerHTML= 'A';
+            document.getElementById('sf_a').classList.add("aktip");
+            document.getElementById('sf_b').classList.remove("aktip");  
+          } else{
+            document.getElementById('id_sifname').innerHTML= 'B';
+            document.getElementById('sf_b').classList.add("aktip"); 
+            document.getElementById('sf_a').classList.remove("aktip");  
+          }
+
+          id_shift = ssf; 
+          id_line = $('#select_line').val();
+
+          // update opt to server
+          updateOpt(); 
+          // cekHariini();
+        });
+      
+
+      // ====  AUTOLOAD =====   
+          cekHariini()
+          loadDropdown();
+
+
+ 
+      
+      // CEK Hari INI
+          function cekHariini() {
+              $.ajax({ 
+                    type  : 'POST',
+                    url   : '<?php echo base_url();?>index.php/Welcome/cekHariIni',
+                    dataType : 'JSON', 
+                    data:{
+                      id_line:id_line,
+                      id_shift:id_shift,
+                      id_tgl:id_tgl
+                    } ,
+                    success : function(res){   
+                              if (res) { 
+                                  id_pdo = res.id;
+
+                                // cek jika itu bukan miliknya
+                                  if ($('#id_user').val()==res.id_users) { 
+                                    console.log('MILIKNYA')  
+                                    
+                                  }else { 
+                                    console.log('not YOU'); 
+                                    // show_notYou(res.id);  
+                                  }    
+                                  
+                                  show(res.id);
+                                  showDl(res.id);
+                                  isi_dropdown(res.id);
+                                  show_regin(res.id);
+                                  show_regout();
+
+                              }else{ 
+                                  console.log('is null');  
+                              } 
+                        } 
+              }); 
+          }
+
+      function show(id_pdo){
         $.ajax({
           async :false,
           type  : 'POST',
           url   : '<?php echo base_url();?>index.php/DirectLabor/getAbsenPegawai',
           dataType : 'JSON',
-          data : {id_pdo:$('#id_pdo').val()},
+          data : {id_pdo:id_pdo},
           success : function(data){
           var html = '';
           var i;
@@ -747,7 +893,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
       }
     
-      function showDl() {
+      function showDl(id_pdo) {
          
          $.ajax({
             async: false,
@@ -755,12 +901,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             url: '<?php echo site_url('DirectLabor/getDirectLabor')?>',
             dataType: "JSON",
             data: {
-                id_pdo:$('#id_pdo').val()
+                id_pdo:id_pdo
             },
             success: function(response){
                 var html = '';
-                var html_b ='';
-
+                var html_b =''; 
                 html +=
                       '<tr>'+
                         '<th>STD DL</th>'+
@@ -844,7 +989,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             url  : "<?php echo site_url(); ?>/DirectLabor/editDl",
             dataType : "JSON", 
             data : { 
-              id_pdo:$('#id_pdo').val(),
+              id_pdo:id_pdo,
               std_dl:std_dl,
               reg_dl:reg_dl,
               jam_ot:jam_ot,
@@ -861,7 +1006,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     allowOutsideClick: false
                   })
                 } 
-                showDl()
+                showDl(id_pdo);
                 $('#modal_editdl').modal('hide');
               }
           });
@@ -883,7 +1028,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dataType : "JSON",
             data : {
               // model:controller
-              id_pdo:$('#id_pdo').val(),
+              id_pdo:id_pdo,
               item:absen_item,
               qty:absen_qty_mp,
               jam:absen_jam,
@@ -899,7 +1044,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               document.getElementById("form_absen_pegawai").reset();
             }
           });
-          show();
+          show(id_pdo);
 
         });
 
@@ -934,7 +1079,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $('#confirmation-modal').modal('hide');
                         // refresh()
                         
-                show();
+                show(id_pdo);
                     }
                 });
                 return false;
@@ -985,7 +1130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 success: function(data){
                   $('#updt_absen_modal').modal('hide'); 
                     // refresh();
-                    show();
+                    show(id_pdo);
                   }
               });
             });
@@ -994,14 +1139,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     // regulasi in ajax
 
       // fitur show
-      show_regin();    
-        function show_regin(){
+         
+        function show_regin(id_pdo){
           $.ajax({
             async :false,
             type  : 'POST',
             url   : '<?php echo base_url();?>index.php/DirectLabor/getRegIn',
             dataType : 'JSON',
-            data : {id_pdo:$('#id_pdo').val()},
+            data : {id_pdo:id_pdo},
             success : function(data){
             var html = '';
             var i;
@@ -1059,7 +1204,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             dataType : "JSON",
             data : {
               // controller:data view
-              id_pdo:$('#id_pdo').val(),
+              id_pdo:id_pdo,
               id_jenisreg:1,
               id_oc:regin_jam_ke,
               posisi:regin_posisi,
@@ -1077,7 +1222,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               document.getElementById("form_absen_pegawai").reset();
             }
           });
-          show_regin();
+          show_regin(id_pdo);
 
         });
 
@@ -1112,7 +1257,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $('[name="id_regin_delete"]').val("");
                         $('#conf_regin-modal').modal('hide');
                         // refresh()
-                    show_regin();
+                    show_regin(id_pdo);
                     }
                 });
 
@@ -1170,7 +1315,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 success: function(data){
                   $('#updt_regin_modal').modal('hide'); 
                     // refresh();
-                    show_regin();
+                    show_regin(id_pdo);
                   }
               });
             });
@@ -1178,15 +1323,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     // regulasi out ajax
         
-        // fitur show
-            show_regout();    
+        // fitur show     
               function show_regout(){
                 $.ajax({
                   async :false,
                   type  : 'POST',
                   url   : '<?php echo base_url();?>index.php/DirectLabor/getRegOut',
                   dataType : 'JSON',
-                  data : {id_pdo:$('#id_pdo').val()},
+                  data : {id_pdo:id_pdo},
                   success : function(data){
                   var html = '';
                   var i;
@@ -1241,7 +1385,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   dataType : "JSON",
                   data : {
                     // controller:data view
-                    id_pdo:$('#id_pdo').val(),
+                    id_pdo:id_pdo,
                     id_jenisreg:2,
                     id_oc:regout_jam_ke,
                     posisi:regout_posisi,
@@ -1356,7 +1500,82 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         //   ========================  END UPDATE RECORD ====================================
 
     // indirect act ajax
+        // FUnc OPT
+        // isi DATA DROPDOWN LINE
+          function loadDropdown() {
+            var idu = $('#id_user').val();
 
+            $.ajax({
+              type: 'POST',
+              url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+              dataType: "JSON",
+              data:{
+                id_user:idu
+              },
+              success: function(data){ 
+                console.log(data);
+                
+                $('#select_line').empty();
+                $('#select_line').select2({ 
+                  placeholder: 'Pilih Line ',
+                  minimumResultsForSearch: -1,
+                  data:data
+
+                });
+              }
+
+            });
+
+          }
+        // UPDATE isi Sesion
+          function updateOpt() {
+            $.ajax({ 
+                      type  : 'POST',
+                      url   : '<?php echo site_url();?>/Login/updateDataOpt',
+                      dataType : 'JSON',  
+                      data:{
+                        tgl: id_tgl,
+                        sif: id_shift,
+                        line: id_line
+                      },
+                      success : function(res){   
+                console.log(res);
+                      }
+
+                  });
+          }
+        // ============== dropdown TIME Jam ke===============
+          function isi_dropdown(id_pdo) {
+            $.ajax({
+                  async : false,
+                  type  : 'POST',
+                  url   : '<?php echo base_url();?>index.php/Losstime/cari_jam_ocPDO',
+                  dataType : 'JSON', 
+                  data:{ 
+                    id_pdo: id_pdo
+                  },
+                  success : function(res){    
+                    var html = '<option disabled selected> Jam ke</option>';
+                    // console.log(res);
+                    for (var i = 0; i < res.length; i++) {
+                      if (i==(res.length-1)) {
+                        html +=
+                        '<option selected value="'+res[i].id+'">'+res[i].jam_ke+'</option>';
+                      }else{
+                        html +=
+                        '<option value="'+res[i].id+'">'+res[i].jam_ke+'</option>';
+                      } 
+                      
+                    }
+
+                    $('#i_jam_ke').html(html);
+                    $('#jam_ke_i').html(html);
+                    $('#jamke_regin_update').html(html);
+                    $('#jamke_regout_update').html(html);
+                  }
+              });    
+
+          } 
     });
 
 </script>

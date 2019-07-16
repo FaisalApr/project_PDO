@@ -11,35 +11,36 @@ class DirectLabor extends CI_Controller {
 		$this->load->model('Losstime_model');
 		$this->load->model('Defect_model');
 
-		if (!$this->session->userdata('pdo_logged')) {
-			redirect('Login','refresh');
-		}   
+		// if (!$this->session->userdata('pdo_logged')) {
+		// 	redirect('Login','refresh');
+		// }   
 	}
 
 	public function index()
 	{
-		// get sesion
-		$session_data = $this->session->userdata('pdo_logged'); 
+		// // get sesion
+		// $session_data = $this->session->userdata('pdo_logged'); 
 
-		// init data
-		$iduser = $session_data['id_user'];  
-		$shift =  $session_data['id_shift'] ;  
-		$tanggal = date("Y-m-d"); 
+		// // init data
+		// $iduser = $session_data['id_user'];  
+		// $shift =  $session_data['id_shift'] ;  
+		// $tanggal = date("Y-m-d"); 
 
-		// jika user sudah ada data pdo
-		$result = $this->Pdo_model->cariPdo($iduser,$shift,$tanggal);
-		if ($result) { 
+		// // jika user sudah ada data pdo
+		// $result = $this->Pdo_model->cariPdo($iduser,$shift,$tanggal);
+		// if ($result) { 
 			
-			$pdo = $this->Pdo_model->cariPdoItems($iduser,$shift,$tanggal);
+		// 	$pdo = $this->Pdo_model->cariPdoItems($iduser,$shift,$tanggal);
 			
-			$data['pdo'] = $pdo;
-			$data['data_oc'] = $this->DirectLabor_Model->getRecordById($pdo->id);
+		// 	$data['pdo'] = $pdo;
+		// 	$data['data_oc'] = $this->DirectLabor_Model->getRecordById($pdo->id);
 
-			$this->load->view('labor/direct', $data);
-		}else {  
-			// jika tidak punya data pdo
-			redirect('Welcome','refresh');
-		}
+		// 	$this->load->view('labor/direct', $data);
+		// }else {  
+		// 	// jika tidak punya data pdo
+		// 	redirect('Welcome','refresh');
+		// }
+		$this->load->view('labor/direct');
 		
 	}
 
@@ -268,7 +269,8 @@ class DirectLabor extends CI_Controller {
 
 	public function getDirectLabor()
 	{
-		echo json_encode($this->DirectLabor_Model->getDl());
+		$pdo = $this->input->post('id_pdo');
+		echo json_encode($this->DirectLabor_Model->getDl($pdo));
 	}
 
 }

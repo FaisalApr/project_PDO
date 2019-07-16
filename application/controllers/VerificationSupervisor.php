@@ -7,10 +7,7 @@ class VerificationSupervisor extends CI_Controller {
 		parent::__construct(); 
 		$this->load->model('Verifikasi_model');
 		$this->load->model('Pdo_model');
-
-		if (!$this->session->userdata('pdo_logged')) {
-			redirect('Login','refresh');
-		}		 
+	 
 	}
 
 	public function verification()
@@ -19,12 +16,16 @@ class VerificationSupervisor extends CI_Controller {
 			date_default_timezone_set("Asia/Jakarta");
 			$new_name = date("Ymd-His");//new name
 			
-			$img = $this->input->post('img'); //get the image string from ajax post
-	        $img = substr(explode(";",$img)[1], 7); //this extract the exact image
-	        $target= $new_name.'_img.png'; //rename the image by time
-	        $image = file_put_contents('./assets/src/image-signature/'.$target,base64_decode($img)); //put the image where your image folder directory is located  
-		// insert alamat gambar
-	        $idp = $this->input->post('id_pdo');
+			$idp = $this->input->post('id_pdo');
+			$nik = $this->input->post('nik');
+
+			// Prepairing IMAGE
+			$img = $this->input->post('img'); //get the image string from ajax post 
+			$img2 = base64_decode($img);  
+	        $target= $new_name.'_'.$idp.'_'.$nik.'.png'; //rename the image by time
+	        file_put_contents('./assets/src/image-signature/'.$target,$img2); //put the image where your image folder directory is located 
+			
+			// insert alamat gambar 
 	        $dataupd = array(  
 	        	'waktu' => date("Y-m-d H:i:s"),
 				'status' => 1,
@@ -39,17 +40,17 @@ class VerificationSupervisor extends CI_Controller {
 			// );
 	  //    	$result = $this->Pdo_model->createPdoHistory($data); 
 		echo json_encode($target);
-	}
+	} 
+
+
 
 	public function cekPassCodeSpv()
-	{	
-		// mengambil data sesion
-		$ses_data = $this->session->userdata('pdo_logged'); 
+	{	 
 
 		$passcode = $this->input->post('passcode');
-		$line = $ses_data['id_line'] ; 
+		$pdo = $this->input->post('pdo');
 
-		$result = $this->Verifikasi_model->cekPasscode($passcode,$line); 
+		$result = $this->Verifikasi_model->cekPasscode($passcode,$pdo); 
 
 		echo json_encode($result);
 	}
