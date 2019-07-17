@@ -18,11 +18,6 @@ class Excel_import_model extends CI_Model {
 	}
 	
 
-	public function cekLM($value='')
-	{
-		# code...
-	}
-
 	public function ceknama($kode)
 	{
 
@@ -38,7 +33,7 @@ class Excel_import_model extends CI_Model {
 	public function cekline($nama)
 	{
 		# code...
-		$query = $this->db->query('SELECT * FROM line where nama_line="'.$nama.'"');
+		$query = $this->db->query('"'.$nama.'"');
 		return $query->first_row();
 	}
 

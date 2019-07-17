@@ -32,12 +32,19 @@ class Excel_import extends CI_Controller {
 				{
 					$id_assy= 0;
 					$kode_assy = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
-					
+					 
 					$umh = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
 					$line = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
 
 					$cekline=$this->excel_import_model->cekline($line);
-
+					// echo $cekline;
+					// return ;
+					if($cekline){
+						echo $cekline;
+					}else{
+						echo "Data is null".$row;
+					}
+					return ;
 
 					$cek = $this->excel_import_model->ceknama($kode_assy);
 					if($cek){
