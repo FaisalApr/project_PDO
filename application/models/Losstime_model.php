@@ -86,6 +86,17 @@ class Losstime_model extends CI_Model {
     	
     }
 
+    public function top5Downtime($pdo)
+    {
+        $qur = $this->db->query("SELECT * 
+                                    FROM lost_time 
+                                    JOIN jenis_error ON lost_time.id_error=jenis_error.id 
+                                    WHERE id_pdo=$pdo
+                                    ORDER BY durasi DESC
+                                    LIMIT 5");
+        return $qur->result();
+    }
+
 }
 
 /* End of file losstime_model.php */

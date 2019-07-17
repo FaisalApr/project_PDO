@@ -80,7 +80,7 @@
 					</div>
 	  			</div>
 
-	  			<div style="margin-left: 50px;" class="<?php echo $this->uri->segment(1) != 'Dasboard' ? 'hidenn': '' ?>">
+	  			<div style="margin-left: 50px;" class="<?php echo $this->uri->segment(1) != 'Dasboard' ? 'hidenn': '' ?>" id="dis_speedpdo">
 	  				<font size="46">Speed:</font> 
 					<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -10px;"><font size="56" id="id_speedline"></font><a href="#" id="btn_changesped" ><i class="fa fa-cog" aria-hidden="true"></i></a></span>
 	  			</div>	

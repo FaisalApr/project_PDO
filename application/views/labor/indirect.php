@@ -41,292 +41,296 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <?php $this->load->view('header/sidebar_users'); ?>
  
 <div class="main-container">
-  <div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
-
-
-
-    <div class="title">
-      <h4>Indirect Labor</h4>
-      <br>
-    </div>
-    
-
-  <!-- start of first row -->
-  <div class="row">
-
-    
-
-    <div class="col-md-3 col-sm-12">
-      <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-        <div class="pull-left">
-          <h5 class="text-black" style="font-size: 20px; margin-left: 5px">A.</h5>
-        </div>
-
-       <div class="project-info-right" style="margin-top: -10px">
-              <a  id="btn_trig_edita" href='#' class="btn btn-success btn-sm" data-to><i class="fa fa-cog" aria-hidden="true"></i>  Edit</a> 
-            </div>
-            <br> 
-            <!-- Table AAAAAAAAAAAA Start -->
-            <table class="table table-bordered table-striped" style="margin-top: 10px" id="tbody_a"> 
-                 
-            </table>  
+    <div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" id="container_maindata">
+      <div class="title">
+        <h4>Indirect Labor</h4>
+        <br>
       </div>
-    </div>
+    <!-- start of first row -->
+    <div class="row">
 
-    <div class="col-md-3 col-sm-12">
-      <!-- TABEL BBBBBBB START -->
-          <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-            <div class="pull-left">
-              <h5 class="text-black" style="font-size: 20px; margin-left: 5px">B.</h5>
-              <br>
-            </div>
+      
 
-            <!-- Table Start -->
-              <table class="table table-striped table-bordered"> 
-                <tbody id="tbody_b">
-                  
-                </tbody>
-              </table>
+      <div class="col-md-3 col-sm-12">
+        <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+          <div class="pull-left">
+            <h5 class="text-black" style="font-size: 20px; margin-left: 5px">A.</h5>
           </div>
 
-      <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-        <div class="pull-left">
-          <h5 class="text-black" style="font-size: 20px; margin-left: 5px">MH IN IDL</h5>
+         <div class="project-info-right" style="margin-top: -10px">
+                <a  id="btn_trig_edita" href='#' class="btn btn-success btn-sm" data-to><i class="fa fa-cog" aria-hidden="true"></i>  Edit</a> 
+              </div>
+              <br> 
+              <!-- Table AAAAAAAAAAAA Start -->
+              <table class="table table-bordered table-striped" style="margin-top: 10px" id="tbody_a"> 
+                   
+              </table>  
         </div>
+      </div>
 
-      <!-- Table Start -->
-      <table class="table table-bordered table-striped">
-        <tr>
-            <th rowspan="2" style="vertical-align : middle; text-align: center;">MH IN</th>
-            <th colspan="3" style="text-align: center">B - C</th>
-          </tr>
+      <div class="col-md-3 col-sm-12">
+        <!-- TABEL BBBBBBB START -->
+            <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+              <div class="pull-left">
+                <h5 class="text-black" style="font-size: 20px; margin-left: 5px">B.</h5>
+                <br>
+              </div>
 
+              <!-- Table Start -->
+                <table class="table table-striped table-bordered"> 
+                  <tbody id="tbody_b">
+                    
+                  </tbody>
+                </table>
+            </div>
+
+        <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+          <div class="pull-left">
+            <h5 class="text-black" style="font-size: 20px; margin-left: 5px">MH IN IDL</h5>
+          </div>
+
+        <!-- Table Start -->
+        <table class="table table-bordered table-striped">
           <tr>
+              <th rowspan="2" style="vertical-align : middle; text-align: center;">MH IN</th>
+              <th colspan="3" style="text-align: center">B - C</th>
+            </tr>
+
+            <tr>
+              
+              <th colspan="3" style="text-align: center" id="id_mh_in_idl">50</th>
+            </tr>
             
-            <th colspan="3" style="text-align: center" id="id_mh_in_idl">50</th>
-          </tr>
-          
-      </table> 
+        </table> 
+        </div>
+
       </div>
 
-    </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+          <div class="pull-left">
+          <h5 class="text-black" style="font-size: 20px; margin-left: 5px">C. NON OPERATING HOURS</h5>
+          <br>    
+        </div>
+        
+        <div class="pull-right">
+        <div class="row clearfix">  
+          <a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#input-modal" style="margin-right: 25px; width: 100px"><span class="fa fa-plus"></span> Tambah</a>
+        </div></div>
 
-    <div class="col-md-6 col-sm-12">
-      <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-        <div class="pull-left">
-        <h5 class="text-black" style="font-size: 20px; margin-left: 5px">C. NON OPERATING HOURS</h5>
-        <br>    
-      </div>
-      
-      <div class="pull-right">
-      <div class="row clearfix">  
-        <a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#input-modal" style="margin-right: 25px; width: 100px"><span class="fa fa-plus"></span> Tambah</a>
-      </div></div>
-
-      <!-- Table Start -->
-      <table class="table table-bordered table-striped">
-      
-      <thead>
-        <tr>
-            <th style="text-align: center; vertical-align: middle;" width="20%">ITEM</th>
-            <th style="text-align: center; vertical-align: middle;" width="20%">QTY MP</th>
-            <th style="text-align: center; vertical-align: middle;" width="20%">Jam</th>
-            <th style="text-align: center; vertical-align: middle;" colspan="2" width="35%">Total (Qty MP x Jam)</th> 
-            <th style="text-align: center; vertical-align: middle;" width="20%">Action</th>
-          </tr>
-      </thead>
-          
-          <tbody id="tbl_body">
+        <!-- Table Start -->
+        <table class="table table-bordered table-striped">
+        
+        <thead>
           <tr>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th colspan="2">0 </th>  
-          </tr>
-          
+              <th style="text-align: center; vertical-align: middle;" width="20%">ITEM</th>
+              <th style="text-align: center; vertical-align: middle;" width="20%">QTY MP</th>
+              <th style="text-align: center; vertical-align: middle;" width="20%">Jam</th>
+              <th style="text-align: center; vertical-align: middle;" colspan="2" width="35%">Total (Qty MP x Jam)</th> 
+              <th style="text-align: center; vertical-align: middle;" width="20%">Action</th>
+            </tr>
+        </thead>
+            
+            <tbody id="tbl_body">
+            <tr>
+              <th> </th>
+              <th> </th>
+              <th> </th>
+              <th colspan="2">0 </th>  
+            </tr>
+            
 
-          </tbody>
+            </tbody>
 
-      </table>
+        </table>
+        </div>
       </div>
-    </div>
 
 
 
-    </div>
-    <!-- end of first row -->
-      
+      </div>
+      <!-- end of first row -->
+        
 
-      <!-- absen modal -->
-        <!-- modal input -->
-        <div class="modal fade" id="input-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h2 class="text-center mb-30">Absen Leader</h2>
-                <!-- form start -->
-                <form id="form_absen_leader">
-                  <!-- input -->
-                  <div class="input-group custom input-group-lg">
-                    <input type="text" class="form-control" placeholder="ITEM" id="i_item">
-                    <input type="hidden" class="form-control" placeholder="ID" name="id_updt" id="id_update">
-                    <div class="input-group-append custom">
-                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+        <!-- absen modal -->
+          <!-- modal input -->
+          <div class="modal fade" id="input-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h2 class="text-center mb-30">Absen Leader</h2>
+                  <!-- form start -->
+                  <form id="form_absen_leader">
+                    <!-- input -->
+                    <div class="input-group custom input-group-lg">
+                      <input type="text" class="form-control" placeholder="ITEM" id="i_item">
+                      <input type="hidden" class="form-control" placeholder="ID" name="id_updt" id="id_update">
+                      <div class="input-group-append custom">
+                        <span class="input-group-text"><i class="icon-copy fa fa-id-badge" aria-hidden="true"></i></span>
+                      </div>
                     </div>
-                  </div>
-                  <!-- input -->
-                  <div class="input-group custom input-group-lg">
-                    <input type="text" class="form-control" placeholder="QTY MP" id="i_qty">
-                    <div class="input-group-append custom">
-                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                    <!-- input -->
+                    <div class="input-group custom input-group-lg">
+                      <input type="text" class="form-control" placeholder="QTY MP" id="i_qty">
+                      <div class="input-group-append custom">
+                        <span class="input-group-text"><i class="icon-copy fa fa-group" aria-hidden="true"></i></span>
+                      </div>
                     </div>
-                  </div>
-                  <!-- input -->
-                  <div class="input-group custom input-group-lg">
-                    <input type="text" class="form-control" placeholder="JAM" id="i_jam">
-                    <div class="input-group-append custom">
-                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                    <!-- input -->
+                    <div class="input-group custom input-group-lg">
+                      <input type="text" class="form-control" placeholder="JAM" id="i_jam">
+                      <div class="input-group-append custom">
+                        <span class="input-group-text"><i class="icon-copy fa fa-clock-o" aria-hidden="true"></i></span>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <!-- button submit -->
-                  <div class="row">
-                    <div class="col-sm-12">
-                        <div class="input-group">
-                          <a class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit">Submit</a>
-                        </div>
+                    
+                    <!-- button submit -->
+                    <div class="row">
+                      <div class="col-sm-12">
+                          <div class="input-group">
+                            <a class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit">Submit</a>
+                          </div>
+                      </div>
                     </div>
-                  </div>
-                </form>
-                <!-- form end -->
+                  </form>
+                  <!-- form end -->
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- modal update -->
-        <div class="modal fade" id="update_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h2 class="text-center mb-30">Absen Leader</h2>
-                <!-- form start -->
-                <form id="form_absen_leader">
-                  <!-- input -->
-                  <div class="input-group custom input-group-lg">
-                    <input type="text" class="form-control" placeholder="ITEM" id="item_update" name="item_updt">
-                    <div class="input-group-append custom">
-                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+          <!-- modal update -->
+          <div class="modal fade" id="update_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h2 class="text-center mb-30">Absen Leader</h2>
+                  <!-- form start -->
+                  <form id="form_absen_leader">
+                    <!-- input -->
+                    <div class="input-group custom input-group-lg">
+                      <input type="text" class="form-control" placeholder="ITEM" id="item_update" name="item_updt">
+                      <div class="input-group-append custom">
+                        <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                      </div>
                     </div>
-                  </div>
-                  <!-- input -->
-                  <div class="input-group custom input-group-lg">
-                    <input type="text" class="form-control" placeholder="QTY MP" id="qty_update" name="qty_updt">
-                    <div class="input-group-append custom">
-                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                    <!-- input -->
+                    <div class="input-group custom input-group-lg">
+                      <input type="text" class="form-control" placeholder="QTY MP" id="qty_update" name="qty_updt">
+                      <div class="input-group-append custom">
+                        <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                      </div>
                     </div>
-                  </div>
-                  <!-- input -->
-                  <div class="input-group custom input-group-lg">
-                    <input type="text" class="form-control" placeholder="JAM" id="jam_update" name="jam_updt">
-                    <div class="input-group-append custom">
-                      <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                    <!-- input -->
+                    <div class="input-group custom input-group-lg">
+                      <input type="text" class="form-control" placeholder="JAM" id="jam_update" name="jam_updt">
+                      <div class="input-group-append custom">
+                        <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <!-- button submit -->
-                  <div class="row">
-                    <div class="col-sm-12">
-                        <div class="input-group">
-                          <a class="btn btn-primary btn-lg btn-block" href="#" id="btn_update">Submit</a>
-                        </div>
+                    
+                    <!-- button submit -->
+                    <div class="row">
+                      <div class="col-sm-12">
+                          <div class="input-group">
+                            <a class="btn btn-primary btn-lg btn-block" href="#" id="btn_update">Submit</a>
+                          </div>
+                      </div>
                     </div>
-                  </div>
-                </form>
-                <!-- form end -->
+                  </form>
+                  <!-- form end -->
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
 
-        <!-- Confirmation modal -->
-        <div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                      <div class="modal-content">
-                        <div class="modal-body text-center font-18">
-                          <h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
-                          <div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
-                            <input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
-                            <br>
-                            <div class="col-6">
-                              <button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
-                              NO
-                            </div>
-                            <div class="col-6">
-                              <button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
-                              YES
+          <!-- Confirmation modal -->
+          <div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-body text-center font-18">
+                            <h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
+                            <div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
+                              <input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
+                              <br>
+                              <div class="col-6">
+                                <button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                                NO
+                              </div>
+                              <div class="col-6">
+                                <button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
+                                YES
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-        </div>         
-      <!-- Modal Edit Indirect LABOR -->
-      <div class="modal fade" id="modal_editdl">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content">
-              <!-- Modal Header -->
-            <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-              <h2 class="text-center mb-30">Buat Panning Bulan Ini</h2>
-            </div>
+          </div>         
+        <!-- Modal Edit Indirect LABOR -->
+        <div class="modal fade" id="modal_editdl">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header -->
+              <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+                <h2 class="text-center mb-30">Buat Panning Bulan Ini</h2>
+              </div>
 
-            <div class="modal-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label >Standart DL :</label>
-                      <input class="form-control" type="number" id="et_std_dl" >
-                      <input type="hidden" id="tmp_std_dl" >
+              <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label >Standart DL :</label>
+                        <input class="form-control" type="number" id="et_std_dl" >
+                        <input type="hidden" id="tmp_std_dl" >
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label >Reg DL :</label>
+                        <input class="form-control" type="number" id="et_reg_dl">
+                        <input type="hidden" id="tmp_reg_dl">
+                      </div>
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label >Reg DL :</label>
-                      <input class="form-control" type="number" id="et_reg_dl">
-                      <input type="hidden" id="tmp_reg_dl">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Jam Overtime :</label>
+                        <input class="form-control" type="number" id="et_jam_ot">
+                        <input type="hidden" id="tmp_jam_ot">
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Jam Overtime :</label>
-                      <input class="form-control" type="number" id="et_jam_ot">
-                      <input type="hidden" id="tmp_jam_ot">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>DL Overtime :</label>
+                        <input class="form-control" type="number" id="et_dl_ot">
+                        <input type="hidden" id="tmp_dl_ot">
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>DL Overtime :</label>
-                      <input class="form-control" type="number" id="et_dl_ot">
-                      <input type="hidden" id="tmp_dl_ot">
-                    </div>
-                  </div>
-                </div> 
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button id="btn_submit_edit_dl" type="button" class="btn btn-primary">Simpan Perubahan</button>
+                  </div> 
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="btn_submit_edit_dl" type="button" class="btn btn-primary">Simpan Perubahan</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-  </div>
+    </div>
+
+    <div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" id="no_pdodata" style="display: none;"> 
+      <center>
+        <div class="jumbotron">
+          <H1>Tidak Ada Data PDO Perpilih</H1>
+        </div>
+      </center>
+    </div>
+
 </div>
 
 
@@ -460,8 +464,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   
                                   show();
                                   showDl();
+                                  // show
+                                  document.getElementById('no_pdodata').style.display = 'none';
+                                  document.getElementById('container_maindata').style.display = 'block';
+                                  //  STATUS VERIFIKASI   
+                                   if (res.status==1) {
+                                    document.getElementById('id_verif').style.display = 'block';
+                                   }else{
+                                    document.getElementById('id_verif').style.display = 'none';
+                                   }  
+                                   
                               }else{ 
                                   console.log('is null');  
+                                  showNodata();
                               } 
                         } 
               }); 
@@ -512,6 +527,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
           });
         } 
+
+        function showNodata() {
+          document.getElementById('id_verif').style.display = 'none';
+          document.getElementById('no_pdodata').style.display = 'block';
+          document.getElementById('container_maindata').style.display = 'none';
+        }
 
 
       // button submit
@@ -711,7 +732,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $('#tmp_reg_dl').val(response.reg_idl);
 
                 $('#tmp_jam_ot').val(response.jam_ot);
-                $('#tmp_dl_ot').val(response.idl_ot);
+                $('#tmp_dl_ot').val(response.dl_ot);
                 // alert(data.mhInIdl);
                 document.getElementById('id_mh_in_idl').innerHTML=data.mhInIdl;
             }
@@ -728,6 +749,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           $('#et_reg_dl').val($('#tmp_reg_dl').val());
           $('#et_jam_ot').val($('#tmp_jam_ot').val());
           $('#et_dl_ot').val($('#tmp_dl_ot').val());
+
 
           $('#modal_editdl').modal('show');
       });
@@ -749,7 +771,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               dl_ot:dl_ot
             },
             success: function(data){
-                
+  
                 if (!data) {
                   Swal.fire({
                     title: 'Error!',
@@ -759,7 +781,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     allowOutsideClick: false
                   })
                 } 
-                showDl()
+                showDl();
                 $('#modal_editdl').modal('hide');
               }
           });

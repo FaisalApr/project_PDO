@@ -15,6 +15,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
+  <!-- bootstrap-touchspin css -->
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css">
 
   <style type="text/css">
       .select2-selection__rendered {
@@ -44,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <?php $this->load->view('header/sidebar_users'); ?>
  
   <div class="main-container">
-    <div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
+    <div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" id="container_maindata">
       <div class="title">
         <h4>Direct Labor</h4>
         <br>
@@ -139,49 +141,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               
                 <div class="pull-right">  
                   <div class="row clearfix">  
-                    <a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#i_absen-modal" style="margin-right: 25px; width: 100px"><span class="fa fa-plus"></span> Tambah</a>
+                    <a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#modalnewact" style="margin-right: 25px; width: 100px"><span class="fa fa-plus"></span> Tambah</a>
                   </div>
                 </div>
 
                 <!-- Table Start -->
                   <table class="table table-striped table-bordered">
-                    <tr>
-                        <th style="text-align: center" width="5%">ITEM</th>
-                        <th style="text-align: center" width="20%">Qty MP</th>
-                        <th style="text-align: center" width="10%">Jam</th>
-                        <th style="text-align: center" width="10%" colspan="2">Total (Qty MP x Jam)</th>
-                      </tr>
                       
                       <tr>
-                        <th> </th>
-                        <th> </th>
-                        <th> </th>
-                        <th colspan="2">0</th>
+                        <th style="text-align: center" width="5%" colspan="2">Aktivitas</th>
+                        <th style="text-align: center" width="20%">Menit</th>
+                        <th style="text-align: center" width="10%">Total Jam(Qty MP x Jam)</th>
+                        <th style="text-align: center" width="10%">aksi</th>
+                      </tr>
+                      <tbody id="tbod_indirectactivity">
                         
-                      </tr>
-                      <tr>
-                        <th> </th>
-                        <th> </th>
-                        <th> </th>
-                        <th colspan="2">0</th>
-                        
-                      </tr>
-                      <tr>
-                        <th> </th>
-                        <th> </th>
-                        <th> </th>
-                        <th colspan="2">0</th>
-                        
-                      </tr>
-
-                      <tr>
-                        <th width="20%"> </th>
-                        <th width="30%"> </th>
-                        <th width="20%">Total</th>
-                        <th width="15%">0</th>
-                        <th width="15%" style="text-align: right;">MH</th>
-                      </tr>
-
+                      </tbody>  
                   </table>
           </div>
         </div>
@@ -256,6 +231,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </div>
  
     </div>
+
+    <div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" id="no_pdodata" style="display: none;"> 
+      <center>
+        <div class="jumbotron">
+          <H1>Tidak Ada Data PDO Perpilih</H1>
+        </div>
+      </center>
+    </div>
+
   </div>
 
 
@@ -640,7 +624,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </div>       
     <!-- indirect act modal -->
 
-      <!-- Modal Edit Direct LABOR -->
+    <!-- Modal Edit Direct LABOR -->
       <div class="modal fade" id="modal_editdl">
         <div class="modal-dialog modal-dialog-centered modal-lg">
           <div class="modal-content">
@@ -692,6 +676,90 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
       </div>
 
+    <!-- Modal Indirect Activity -->
+      <!-- modall neww AKtivitas  -->
+        <div class="modal fade" id="modalnewact" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h2 class="text-center mb-30">Tambah Aktivitas</h2>
+                <form id="form_addactiv">
+                  <div class="input-group custom input-group-lg">
+                    <label>Aktivitas :</label>
+                    <input id="nameAct" type="text" class="form-control" style="text-align: left;" placeholder="Nama Aktivitas">
+                     
+                  </div>
+                  <div class="form-group">
+                    <label>Durasi :</label>
+                    <input type="text" value="5" name="durasi_aktivitas">
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="input-group"> 
+                        <a class="btn btn-primary btn-lg btn-block" href="#" id="tambah_activ">Tambah</a>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- modall edit  AKtivitas-->
+        <div class="modal fade" id="modaledit_aktivitas" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h2 class="text-center mb-30">Edit Aktivitas</h2>
+                <form id="form_editactiv">
+                  <div class="input-group custom input-group-lg">
+                    <label>Aktivitas :</label>
+                    <input id="nameActedit" type="text" class="form-control" style="text-align: left;" placeholder="Nama Aktivitas"> 
+                  </div>
+                  <div class="form-group">
+                    <label>Durasi :</label>
+                    <input type="text" value="5" name="durasi_aktivitas_edit">
+                    <input id="id_editact" type="hidden"  >
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="input-group"> 
+                        <a class="btn btn-primary btn-lg btn-block" href="#" id="submit_activedit">Ubah</a>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>       
+      <!-- Modal Hapus Aktivitas -->
+      <!-- Confirmation modal -->
+        <div class="modal fade" id="conf_del_activmodal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-body text-center font-18">
+                  <h4 class="padding-top-30 mb-30 weight-500" id="info_delete">Anda akan menghapus ?</h4>
+                  <div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
+                    <input type="hidden" id="id_activ_delete">
+                    <br>
+                    <div class="col-6">
+                      <button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                      Tidak
+                    </div>
+                    <div class="col-6">
+                      <button type="button" class="btn btn-danger border-radius-100 btn-block confirmation-btn" id="btn_delActiv" data-dismiss="modal"><i class="fa fa-check"></i></button>
+                      YA
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div> 
 </div>
 <!-- END ALL modal -->
 
@@ -703,6 +771,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   <!-- add sweet alert js & css in footer -->
   <script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>
+  <!-- TOuch SPIN -->
+  <script src="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"></script> 
 
 <script>
     $('document').ready(function(){
@@ -711,6 +781,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var id_shift = $('#id_shift').val();
         var id_tgl = $('#id_tgl').val();
         var id_pdo = 0;
+        var regDL = 0;
 
       // variabel global  
         // deklarasi nama bulan
@@ -737,8 +808,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("input").click(function () {
            $(this).select();
         }); 
- 
-      
+     
       // TrigGER PIlih TANGGAL
         $('.date-pickerrr').datepicker({   
           language: "en",
@@ -766,7 +836,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               // refresh 
               // showplanning();
               // cariDataPdo();
-              // cekHariini();
+              cekHariini();
             }
         });
       // TRIGGEr line Change
@@ -776,7 +846,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           id_line = data.id ;
           // update opt to server
           updateOpt(); 
-          // cekHariini();
+          cekHariini();
           // console.log(data); 
           // console.log('ln:'+id_line+'|sf:'+id_shift); 
         });
@@ -799,17 +869,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
           // update opt to server
           updateOpt(); 
-          // cekHariini();
+          cekHariini();
         });
-      
 
       // ====  AUTOLOAD =====   
           cekHariini()
           loadDropdown();
-
-
- 
-      
+    
       // CEK Hari INI
           function cekHariini() {
               $.ajax({ 
@@ -836,184 +902,250 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   
                                   show(res.id);
                                   showDl(res.id);
+                                  showIndirectActiv(res.id);
                                   isi_dropdown(res.id);
                                   show_regin(res.id);
                                   show_regout();
 
+                                  // show
+                                  document.getElementById('no_pdodata').style.display = 'none';
+                                  document.getElementById('container_maindata').style.display = 'block';
+                                  //  STATUS VERIFIKASI   
+                                   if (res.status==1) {
+                                    document.getElementById('id_verif').style.display = 'block';
+                                   }else{
+                                    document.getElementById('id_verif').style.display = 'none';
+                                   }  
+
                               }else{ 
                                   console.log('is null');  
+                                  showNodata();
                               } 
                         } 
               }); 
           }
 
-      function show(id_pdo){
-        $.ajax({
-          async :false,
-          type  : 'POST',
-          url   : '<?php echo base_url();?>index.php/DirectLabor/getAbsenPegawai',
-          dataType : 'JSON',
-          data : {id_pdo:id_pdo},
-          success : function(data){
-          var html = '';
-          var i;
-          var a=0;
-          for(i=0; i<data.length; i++){
-            html += 
+      // show
+        function show(id_pdo){
+          $.ajax({
+            async :false,
+            type  : 'POST',
+            url   : '<?php echo base_url();?>index.php/DirectLabor/getAbsenPegawai',
+            dataType : 'JSON',
+            data : {id_pdo:id_pdo},
+            success : function(data){
+            var html = '';
+            var i;
+            var a=0;
+            for(i=0; i<data.length; i++){
+              html += 
 
-            '<tr>'+
-              '<th style=" vertical-align: middle; text-align: center;">'+data[i].item+'</th>'+
-              '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
-              '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
-              '<th style=" vertical-align: middle; text-align: center;" colspan="2">'+data[i].total+'</th>'+
-              '<th>'+
-                '<div class="dropdown">'+
-                    '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
-                      '<i class="fa fa-ellipsis-h"></i>'+
-                    '</a>'+                     
-                    '<div class="dropdown-menu dropdown-menu-right">'+
-                      '<a class="dropdown-item item_edit_absen" href="#" data-id="'+data[i].id+'" data-item="'+data[i].item+'" data-qty="'+data[i].qty+'" data-jam="'+data[i].jam+'" data-total="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
-                      '<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
+              '<tr>'+
+                '<th style=" vertical-align: middle; text-align: center;">'+data[i].item+'</th>'+
+                '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
+                '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
+                '<th style=" vertical-align: middle; text-align: center;" colspan="2">'+data[i].total+'</th>'+
+                '<th>'+
+                  '<div class="dropdown">'+
+                      '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+                        '<i class="fa fa-ellipsis-h"></i>'+
+                      '</a>'+                     
+                      '<div class="dropdown-menu dropdown-menu-right">'+
+                        '<a class="dropdown-item item_edit_absen" href="#" data-id="'+data[i].id+'" data-item="'+data[i].item+'" data-qty="'+data[i].qty+'" data-jam="'+data[i].jam+'" data-total="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
+                        '<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
+                      '</div>'+
                     '</div>'+
-                  '</div>'+
-              '</th>'+
-            '</tr>';
+                '</th>'+
+              '</tr>';
 
-            a+=Number(data[i].total);
-          }
-          html+=
-          '<tr>'+
-          '<th width="40%" colspan="3" style=" vertical-align: middle; text-align: center;"> Total Non Operating Hours </th>'+
-          '<th colspan="2" width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
-          '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
-          '</tr>'
-          
-          $('#tbl_body').html(html);    
-          }
-        });
-      }
-    
-      function showDl(id_pdo) {
-         
-         $.ajax({
-            async: false,
-            type: "POST",
-            url: '<?php echo site_url('DirectLabor/getDirectLabor')?>',
-            dataType: "JSON",
-            data: {
-                id_pdo:id_pdo
-            },
-            success: function(response){
-                var html = '';
-                var html_b =''; 
-                html +=
-                      '<tr>'+
-                        '<th>STD DL</th>'+
-                        '<th colspan="3" style="text-align: center">'+response.std_dl+'</th>'+
-                      '</tr>'+
+              a+=Number(data[i].total);
+            }
+            html+=
+            '<tr>'+
+            '<th width="40%" colspan="3" style=" vertical-align: middle; text-align: center;"> Total Non Operating Hours </th>'+
+            '<th colspan="2" width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
+            '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
+            '</tr>'
+            
+            $('#tbl_body').html(html);    
+            }
+          });
+        }
+      
+        function showDl(id_pdo) {
+           
+           $.ajax({
+              async: false,
+              type: "POST",
+              url: '<?php echo site_url('DirectLabor/getDirectLabor')?>',
+              dataType: "JSON",
+              data: {
+                  id_pdo:id_pdo
+              },
+              success: function(response){
+                  var html = '';
+                  var html_b =''; 
 
-                      '<tr>'+
-                        '<th>REG DL</th>'+
-                        '<th colspan="3" style="text-align: center">'+response.reg_dl+'</th>'+
-                      '</tr>'+
+                  // isi jumlah regdl
+                  regDL = response.reg_dl;
 
-                      '<tr>'+
-                        '<th>JAM REG</th>'+
-                        '<th colspan="3" style="text-align: center">'+response.jam_reg+'</th>'+
-                      '</tr>'+
-
-                      '<tr>'+
-                        '<th width="50%">JAM OT</th>'+
-                        '<th style="text-align: center" width="25%">'+response.jam_ot+'</th>'+
-                      '</tr>'+
-
-                      '<tr>'+
-                        '<th>DL OT</th>'+
-                        '<th style="text-align: center">'+response.dl_ot+'</th>'+
-                      '</tr>';
-
-
-                  html_b +=
+                  html +=
                         '<tr>'+
-                          '<th style="text-align: center">MH REG (Act MP x Jam Reg)</th>'+
-                          '<th colspan="3" style="text-align: center">'+response.mh_reg+'</th>'+
-                          '<th colspan="3" style="text-align: center">MH</th>'+
+                          '<th>STD DL</th>'+
+                          '<th colspan="3" style="text-align: center">'+response.std_dl+'</th>'+
                         '</tr>'+
 
                         '<tr>'+
-                          '<th style="text-align: center">MH OT (Act MP x Jam OT)</th>'+
-                          '<th colspan="3" style="text-align: center">'+response.mh_ot+'</th>'+
-                          '<th colspan="3" style="text-align: center">MH</th>'+
+                          '<th>REG DL</th>'+
+                          '<th colspan="3" style="text-align: center">'+response.reg_dl+'</th>'+
                         '</tr>'+
 
                         '<tr>'+
-                          '<th style="text-align: center">Total</th>'+
-                          '<th colspan="3" style="text-align: center">'+response.total+'</th>'+
-                          '<th colspan="3" style="text-align: center">MH</th>'+
+                          '<th>JAM REG</th>'+
+                          '<th colspan="3" style="text-align: center">'+response.jam_reg+'</th>'+
+                        '</tr>'+
+
+                        '<tr>'+
+                          '<th width="50%">JAM OT</th>'+
+                          '<th style="text-align: center" width="25%">'+response.jam_ot+'</th>'+
+                        '</tr>'+
+
+                        '<tr>'+
+                          '<th>DL OT</th>'+
+                          '<th style="text-align: center">'+response.dl_ot+'</th>'+
                         '</tr>';
 
-                $('#tbody_a').html(html); 
-                $('#tbody_b').html(html_b); 
-                //  END 
-                // isi temp
-                $('#tmp_std_dl').val(response.std_dl); 
-                $('#tmp_reg_dl').val(response.reg_dl);
 
-                $('#tmp_jam_ot').val(response.jam_ot);
-                $('#tmp_dl_ot').val(response.dl_ot);
-            }
+                    html_b +=
+                          '<tr>'+
+                            '<th style="text-align: center">MH REG (Act MP x Jam Reg)</th>'+
+                            '<th colspan="3" style="text-align: center">'+response.mh_reg+'</th>'+
+                            '<th colspan="3" style="text-align: center">MH</th>'+
+                          '</tr>'+
+
+                          '<tr>'+
+                            '<th style="text-align: center">MH OT (Act MP x Jam OT)</th>'+
+                            '<th colspan="3" style="text-align: center">'+response.mh_ot+'</th>'+
+                            '<th colspan="3" style="text-align: center">MH</th>'+
+                          '</tr>'+
+
+                          '<tr>'+
+                            '<th style="text-align: center">Total</th>'+
+                            '<th colspan="3" style="text-align: center">'+response.total+'</th>'+
+                            '<th colspan="3" style="text-align: center">MH</th>'+
+                          '</tr>';
+
+                  $('#tbody_a').html(html); 
+                  $('#tbody_b').html(html_b); 
+                  //  END 
+                  // isi temp
+                  $('#tmp_std_dl').val(response.std_dl); 
+                  $('#tmp_reg_dl').val(response.reg_dl);
+
+                  $('#tmp_jam_ot').val(response.jam_ot);
+                  $('#tmp_dl_ot').val(response.dl_ot);
+              }
 
 
-         }); 
-      }
+           }); 
+        }
+
+        function showIndirectActiv(id_pdo) {
+            $.ajax({
+              async: false,
+              type: "POST",
+              url: '<?php echo site_url('DirectLabor/getListIndirectActivity')?>',
+              dataType: "JSON",
+              data: {
+                  pdo:id_pdo
+              },
+              success: function(response){
+                  var html = ''; 
+                  var totmh=0;
+                  for (var i = 0; i < response.length; i++) { 
+                    totmh+= Number(response[i].total);
+                    html+=
+                      '<tr>'+
+                        '<th style="width:50%" colspan="2">'+response[i].item+'</th>'+
+                        '<th>'+response[i].menit+'</th>'+
+                        '<th>'+parseFloat(response[i].total).toFixed(1)+'</th>'+
+                        '<th>'+
+                            '<div class="dropdown">'+
+                              '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+                                '<i class="fa fa-ellipsis-h"></i>'+
+                              '</a>'+                     
+                              '<div class="dropdown-menu dropdown-menu-right">'+
+                                '<a class="dropdown-item item_edit_activ" href="#" data-id="'+response[i].id+'" data-item="'+response[i].item+'" data-menit="'+response[i].menit+'"><i class="fa fa-pencil"></i> Edit </a>'+
+                                '<a class="dropdown-item item_delete_activ" href="#" data-id="'+response[i].id+'" data-item="'+response[i].item+'" ><i class="fa fa-trash"></i> Hapus </a>'+
+                              '</div>'+
+                            '</div>'+
+                        '</th>'+
+                      '</tr>';                   
+                  } 
+                  html+=
+                        '<tr>'+ 
+                          '<th style="text-align: right;" colspan="3">Total</th>'+
+                          '<th>'+totmh.toFixed(2)+'</th>'+
+                          '<th style="text-align: center;">MH</th>'+
+                        '</tr>'; 
+                  $('#tbod_indirectactivity').html(html);
+              }   
+
+           }); 
+        }
+
+        function showNodata() {
+          document.getElementById('id_verif').style.display = 'none';
+          document.getElementById('no_pdodata').style.display = 'block';
+          document.getElementById('container_maindata').style.display = 'none';
+        }
 
       // btn triger Edit
-      $('#btn_trig_edita').on('click',function(){
-          // isi data di modal  
+        $('#btn_trig_edita').on('click',function(){
+            // isi data di modal  
 
-          $('#et_std_dl').val($('#tmp_std_dl').val()); 
-          $('#et_reg_dl').val($('#tmp_reg_dl').val());
-          $('#et_jam_ot').val($('#tmp_jam_ot').val());
-          $('#et_dl_ot').val($('#tmp_dl_ot').val());
+            $('#et_std_dl').val($('#tmp_std_dl').val()); 
+            $('#et_reg_dl').val($('#tmp_reg_dl').val());
+            $('#et_jam_ot').val($('#tmp_jam_ot').val());
+            $('#et_dl_ot').val($('#tmp_dl_ot').val());
 
-          $('#modal_editdl').modal('show');
-      });
-      $('#btn_submit_edit_dl').on('click',function(){ 
-          var std_dl = $('#et_std_dl').val();
-          var reg_dl = $('#et_reg_dl').val();
-          var jam_ot = $('#et_jam_ot').val();
-          var dl_ot = $('#et_dl_ot').val();
+            $('#modal_editdl').modal('show');
+        });
+        $('#btn_submit_edit_dl').on('click',function(){ 
+            var std_dl = $('#et_std_dl').val();
+            var reg_dl = $('#et_reg_dl').val();
+            var jam_ot = $('#et_jam_ot').val();
+            var dl_ot = $('#et_dl_ot').val();
 
-          $.ajax({
-            type : "POST",
-            url  : "<?php echo site_url(); ?>/DirectLabor/editDl",
-            dataType : "JSON", 
-            data : { 
-              id_pdo:id_pdo,
-              std_dl:std_dl,
-              reg_dl:reg_dl,
-              jam_ot:jam_ot,
-              dl_ot:dl_ot
-            },
-            success: function(data){
-                
-                if (!data) {
-                  Swal.fire({
-                    title: 'Error!',
-                    text: 'Terjadi kesalahan',
-                    type: 'error',
-                    confirmButtonText: 'Ok',
-                    allowOutsideClick: false
-                  })
-                } 
-                showDl(id_pdo);
-                $('#modal_editdl').modal('hide');
-              }
-          });
+            $.ajax({
+              type : "POST",
+              url  : "<?php echo site_url(); ?>/DirectLabor/editDl",
+              dataType : "JSON", 
+              data : { 
+                id_pdo:id_pdo,
+                std_dl:std_dl,
+                reg_dl:reg_dl,
+                jam_ot:jam_ot,
+                dl_ot:dl_ot
+              },
+              success: function(data){
+                  
+                  if (!data) {
+                    Swal.fire({
+                      title: 'Error!',
+                      text: 'Terjadi kesalahan',
+                      type: 'error',
+                      confirmButtonText: 'Ok',
+                      allowOutsideClick: false
+                    })
+                  } 
+                  showDl(id_pdo);
+                  $('#modal_editdl').modal('hide');
+                }
+            });
 
-      });
-
-      
+        });
+     
       // ===================   Submit Record ===============================================
         $('#btn_submit').click(function(){
 
@@ -1500,84 +1632,197 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         //   ========================  END UPDATE RECORD ====================================
 
     // indirect act ajax
-        // FUnc OPT
-        // isi DATA DROPDOWN LINE
-          function loadDropdown() {
-            var idu = $('#id_user').val();
-
+      // New Aktivitas
+        $('#tambah_activ').click(function()
+          {    
+            var named_act = document.getElementById("nameAct").value;
+            var durasi_act = $('input[name="durasi_aktivitas"]').val();
+            var tot = (durasi_act*regDL)/60;
+            // console.log('nae:'+named_act+'|'+durasi_act+'|pdo:'+id_pdo+'|regdl:'+regDL);
             $.ajax({
-              type: 'POST',
-              url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
-              dataType: "JSON",
-              data:{
-                id_user:idu
-              },
-              success: function(data){ 
-                console.log(data);
-                
-                $('#select_line').empty();
-                $('#select_line').select2({ 
-                  placeholder: 'Pilih Line ',
-                  minimumResultsForSearch: -1,
-                  data:data
+                type: 'POST',
+                url: "<?php echo site_url('DirectLabor/newActivity')?>",
+                data: {
+                    id_pdo:id_pdo,
+                    item:named_act,
+                    qtymp:regDL,
+                    menit:durasi_act,
+                    total:tot
+                },
+                success: function(data){ 
+                    showIndirectActiv(id_pdo);
+                }
+            });
+            $('#modalnewact').modal('hide');
+            document.getElementById('form_addactiv').reset(); 
+          }); 
+      // edit act
+        //triger
+        $('#tbod_indirectactivity').on('click','.item_edit_activ',function(){
+            var nama = $(this).data('item');
+            var id = $(this).data('id');
+            var durasi = $(this).data('menit');
 
-                });
+            $('#id_editact').val(id);
+            $('#nameActedit').val(nama);
+            $('input[name="durasi_aktivitas_edit"]').val(durasi);
+            $('#modaledit_aktivitas').modal('show');  
+        });
+        // on Submit
+        $('#submit_activedit').click(function()
+        {    
+          var named_act = $('#nameActedit').val();
+          var durasi_act = $('input[name="durasi_aktivitas_edit"]').val();
+          var id = $('#id_editact').val(); 
+          var tot = (durasi_act*regDL)/60;
+          // console.log('id:'+id+'|n:'+named_act+'|d:'+durasi_act);
+
+          $.ajax({
+              type: "POST",
+              url: "<?php echo site_url('DirectLabor/updateActivity')?>",
+              data:{
+                  id: id,
+                  item: named_act,
+                  qtymp: regDL,
+                  menit: durasi_act,
+                  total: tot
+              },
+              success: function(data){
+                  showIndirectActiv(id_pdo);
               }
 
-            });
+          });
+          $('#modaledit_aktivitas').modal('hide');
+          document.getElementById('form_editactiv').reset(); 
+        });
+      // Delete
+        $('#tbod_indirectactivity').on('click','.item_delete_activ',function(){
+            var nama = $(this).data('item');
+            var id = $(this).data('id'); 
 
-          }
-        // UPDATE isi Sesion
-          function updateOpt() {
-            $.ajax({ 
-                      type  : 'POST',
-                      url   : '<?php echo site_url();?>/Login/updateDataOpt',
-                      dataType : 'JSON',  
-                      data:{
-                        tgl: id_tgl,
-                        sif: id_shift,
-                        line: id_line
-                      },
-                      success : function(res){   
-                console.log(res);
-                      }
+            $('#id_activ_delete').val(id); 
+            document.getElementById('info_delete').innerHTML = "Anda Akan Menghapus '"+nama+"'  ?";
+            $('#conf_del_activmodal').modal('show');  
+        });
+        // on Submit
+        $('#btn_delActiv').click(function()
+        {    
+          var id = $('#id_activ_delete').val(); 
+ 
+          $.ajax({
+              type: "POST",
+              url: "<?php echo site_url('DirectLabor/deleteActiv')?>",
+              data:{
+                  id: id
+              },
+              success: function(data){
+                  showIndirectActiv(id_pdo);
+              }
 
-                  });
-          }
-        // ============== dropdown TIME Jam ke===============
-          function isi_dropdown(id_pdo) {
-            $.ajax({
-                  async : false,
-                  type  : 'POST',
-                  url   : '<?php echo base_url();?>index.php/Losstime/cari_jam_ocPDO',
-                  dataType : 'JSON', 
-                  data:{ 
-                    id_pdo: id_pdo
-                  },
-                  success : function(res){    
-                    var html = '<option disabled selected> Jam ke</option>';
-                    // console.log(res);
-                    for (var i = 0; i < res.length; i++) {
-                      if (i==(res.length-1)) {
-                        html +=
-                        '<option selected value="'+res[i].id+'">'+res[i].jam_ke+'</option>';
-                      }else{
-                        html +=
-                        '<option value="'+res[i].id+'">'+res[i].jam_ke+'</option>';
-                      } 
-                      
+          });
+          $('#modaledit_aktivitas').modal('hide');
+          document.getElementById('form_editactiv').reset(); 
+        });
+
+    // COnfiG 
+      // Touchspin
+        $("input[name='durasi_aktivitas']").TouchSpin({
+          min: 0,
+          max: 60,
+          step: 1,
+          decimals: 0,
+          boostat: 5,
+          maxboostedstep: 10,
+          postfix: 'menit'
+        });
+
+        $("input[name='durasi_aktivitas_edit']").TouchSpin({
+          min: 0,
+          max: 60,
+          step: 1,
+          decimals: 0,
+          boostat: 5,
+          maxboostedstep: 10,
+          postfix: 'menit'
+        });
+      // FUnc OPT
+      // isi DATA DROPDOWN LINE
+        function loadDropdown() {
+          var idu = $('#id_user').val();
+
+          $.ajax({
+            type: 'POST',
+            url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+            dataType: "JSON",
+            data:{
+              id_user:idu
+            },
+            success: function(data){ 
+              console.log(data);
+              
+              $('#select_line').empty();
+              $('#select_line').select2({ 
+                placeholder: 'Pilih Line ',
+                minimumResultsForSearch: -1,
+                data:data
+
+              });
+            }
+
+          });
+
+        }
+      // UPDATE isi Sesion
+        function updateOpt() {
+          $.ajax({ 
+                    type  : 'POST',
+                    url   : '<?php echo site_url();?>/Login/updateDataOpt',
+                    dataType : 'JSON',  
+                    data:{
+                      tgl: id_tgl,
+                      sif: id_shift,
+                      line: id_line
+                    },
+                    success : function(res){   
+              console.log(res);
                     }
 
-                    $('#i_jam_ke').html(html);
-                    $('#jam_ke_i').html(html);
-                    $('#jamke_regin_update').html(html);
-                    $('#jamke_regout_update').html(html);
+                });
+        }
+      // ============== dropdown TIME Jam ke===============
+        function isi_dropdown(id_pdo) {
+          $.ajax({
+                async : false,
+                type  : 'POST',
+                url   : '<?php echo base_url();?>index.php/Losstime/cari_jam_ocPDO',
+                dataType : 'JSON', 
+                data:{ 
+                  id_pdo: id_pdo
+                },
+                success : function(res){    
+                  var html = '<option disabled selected> Jam ke</option>';
+                  // console.log(res);
+                  for (var i = 0; i < res.length; i++) {
+                    if (i==(res.length-1)) {
+                      html +=
+                      '<option selected value="'+res[i].id+'">'+res[i].jam_ke+'</option>';
+                    }else{
+                      html +=
+                      '<option value="'+res[i].id+'">'+res[i].jam_ke+'</option>';
+                    } 
+                    
                   }
-              });    
 
-          } 
+                  $('#i_jam_ke').html(html);
+                  $('#jam_ke_i').html(html);
+                  $('#jamke_regin_update').html(html);
+                  $('#jamke_regout_update').html(html);
+                }
+            });    
+
+        } 
+
     });
-
 </script>
 
 </body>

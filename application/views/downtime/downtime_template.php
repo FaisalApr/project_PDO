@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php $this->load->view('header/sidebar_users'); ?>
  
 	<div class="main-container">
-		<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
+		<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" id="container_maindata">
 			
 			<!-- top icon dasboard -->
 			<div class="row clearfix progress-box">
@@ -97,9 +97,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				<div class="col-lg-3 col-md-6 col-sm-12 mb-10">
 					<div class="card box-shadow"> 
-						<div class="card-body"> 
+						<!-- <div class="card-body"> 
 							
-						</div> 
+						</div>  -->
+						<div id="chart_downtime" style="height: 200px;padding: -25px;">
+							
+						</div>
 					</div>
 				</div>
 			</div>
@@ -135,6 +138,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</table>
 			</div>
 		</div>
+
+		<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" id="no_pdodata" style="display: none;"> 
+			<center>
+				<div class="jumbotron">
+					<H1>Tidak Ada Data PDO Perpilih</H1>
+				</div>
+			</center>
+		</div>
+
 	</div>
 
 <!-- MODAL -->
@@ -293,13 +305,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.responsive.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/responsive.bootstrap4.js"></script>
 	<!-- buttons for Export datatable -->
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/dataTables.buttons.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/buttons.bootstrap4.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/buttons.print.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/buttons.html5.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/buttons.flash.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/pdfmake.min.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/vfs_fonts.js"></script>
+		<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/dataTables.buttons.js"></script>
+		<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/buttons.bootstrap4.js"></script>
+		<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/buttons.print.js"></script>
+		<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/buttons.html5.js"></script>
+		<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/buttons.flash.js"></script>
+		<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/pdfmake.min.js"></script>
+		<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/vfs_fonts.js"></script>
+
+	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
+	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script> 
 
 	<script> 
 		$('document').ready(function(){
@@ -362,9 +377,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    	calendar.hide();
 
 				    	// refresh 
-				    	// showplanning();
-			    		// cariDataPdo();
-			    		// cekHariini();
+				    	cekHariini(); 
 				    }
 				});
 			// TRIGGEr line Change
@@ -374,9 +387,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					id_line = data.id ;
 					// update opt to server
 					updateOpt(); 
-					// cekHariini();
-					// console.log(data); 
-					// console.log('ln:'+id_line+'|sf:'+id_shift); 
+					cekHariini(); 
 				});
 			// PILIH SHIFTY 
 				$('#drop_shiftt').on('click','.pilih_sf',function(){
@@ -397,7 +408,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					// update opt to server
 					updateOpt(); 
-					// cekHariini();
+					cekHariini();
 				});
 			
 
@@ -433,8 +444,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    			document.getElementById('btn_adddown').style.display = 'none';
 	                    			show_notYou(res.id);  
 	                    		}    
-	                    		isi_dropdown(res.id);
-	                    		console.log(res); 	
+	                    		isi_dropdown(res.id); 
+	                    		console.log(res);
+
+	                    		//  STATUS VERIFIKASI 	
+	                    		 if (res.status==1) {
+	                    		 	document.getElementById('id_verif').style.display = 'block';
+	                    		 }else{
+	                    		 	document.getElementById('id_verif').style.display = 'none';
+	                    		 } 	
 							}else{
 								console.log(res);
 								console.log('is null'); 
@@ -521,7 +539,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			// =================== Read Record =============================================== 
 	            function show(id_pdo){
+	            		document.getElementById('no_pdodata').style.display = 'none';
+	            		document.getElementById('container_maindata').style.display = 'block';
 	            		console.log('show called');
+	            		loadChart();
 
 	                    $.ajax({
 	                        async :false,
@@ -594,7 +615,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            }
 
 	            function show_notYou(id_pdo){
+	            		document.getElementById('no_pdodata').style.display = 'none';
+	            		document.getElementById('container_maindata').style.display = 'block';
+
 	            		console.log('show show_notYou called');
+	            		loadChart();
 
 	                    $.ajax({
 	                        async :false,
@@ -654,6 +679,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	           	function show_nodata(){
 	            		console.log('show nodata called');
+
+	            		document.getElementById('id_verif').style.display = 'none';
+	            		document.getElementById('no_pdodata').style.display = 'block';
+	            		document.getElementById('container_maindata').style.display = 'none';
 
 	                    $.ajax({
 	                        async :false,
@@ -836,10 +865,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    }
 	                });
 	              });
-
-
-
-
+ 
 			// ========================  END UPDATE RECORD ====================================
 				$('.data-table-export').DataTable({
 					scrollCollapse: true,
@@ -879,8 +905,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$('#login-modal').modal('show');
 				});
 
-
-			// event ON CHANGE
+ 			// event ON CHANGE
 				$('#i_problem').on('change', function() {
 				  	// jika ini zeroo
 				  	if (this.value==13) {
@@ -933,6 +958,83 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		            });
 				}
+
+			// chart 4
+			var hiColor = ['#D50000','#f57e42','#e0c216','#3ea85a','#25b84c'];
+
+			function loadChart() {
+				console.log('load chart pdo: '); 
+				console.log(id_pdo);
+				var opt_indef = {
+							title: {
+						        text: 'Downtime'
+						    }, 
+						    chart: {
+						        renderTo: 'chart_downtime',
+						        type: 'column'
+						    },
+						    xAxis: {
+						        type: 'category'
+						    },
+						    yAxis: {
+						        title: {
+						            text: 'Durasi (Menit)'
+						        } 
+						    },
+						    legend: {
+						        enabled: false
+						    }, 
+						    plotOptions: {
+						        series: {
+						            borderWidth: 0,
+						            dataLabels: {
+						                enabled: true,
+						                format: '{point.y:.1f}menit'
+						            }
+						        }
+						    }, 
+						    tooltip: {
+						        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+						        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.1f}Menit</b> of total<br/>'
+						    }, 
+						    series: [
+						        {
+						            name: "Downtime",
+						            data: (function(){
+									        	var da = [];  
+									        	$.ajax({ 
+									        		async : false,
+								                    type  : 'POST',
+								                    url   : "<?php echo site_url('Losstime/top5downtime');?>",
+								                    dataType : 'JSON', 
+								                    data:{
+								                    	id_pdo:id_pdo
+								                    },
+								                    success : function(res){   
+								                    	for (var i = 0; i < res.length; i++) { 
+								                    		var tmp = {
+									                    				name: res[i].keterangan,
+									                    				y: parseFloat(res[i].durasi),
+									                    				color: hiColor[i]
+								                    				};
+
+								                    		da.push(tmp);
+								                    	}
+								                    }
+								                });  
+
+									        	return da;
+								        	}()
+								        )  
+						        }
+						    ],
+		            	}; 
+
+				var chart_downtime = new Highcharts.Chart(opt_indef); 
+			}
+
+
+
 		}); 
 	</script>
 

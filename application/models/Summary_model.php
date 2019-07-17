@@ -7,19 +7,20 @@ class Summary_model extends CI_Model {
 	{
 		$query= $this->db->query("
 						SELECT 
+							main_pdo.tanggal,
 							output_control.time,
 							sum(output_control.actual)as actual,
 							sum(output_control.plan)as plan 
 						FROM output_control  
 							JOIN main_pdo ON output_control.id_pdo=main_pdo.id   
 						WHERE 
-							main_pdo.id_shift='$shift' AND 
+							main_pdo.id_shift=$shift AND 
 							main_pdo.id_listcarline=$line AND
-							YEAR(output_control.time)=YEAR('$date') AND
-						    MONTH(output_control.time)=MONTH('$date')
+							YEAR(main_pdo.tanggal)=YEAR('$date') AND
+						    MONTH(main_pdo.tanggal)=MONTH('$date')
 
-						-- GROUP BY DAY(output_control.time) 
-						ORDER BY output_control.time ASC
+						GROUP BY DAY(main_pdo.tanggal) 
+						ORDER BY main_pdo.tanggal ASC
 					"); 
         return $query->result();
 	}
@@ -28,13 +29,12 @@ class Summary_model extends CI_Model {
 	{
 		$query= $this->db->query("
 						SELECT 
-							output_control.time,
+							main_pdo.tanggal, 
 							sum(output_control.plan)as to_plan,
 							sum(output_control.actual)as to_actual,  
 							(
-						      if( (sum(output_control.plan))<(sum(output_control.actual)),(sum(output_control.actual))-(sum(output_control.plan)), (sum(output_control.actual))-(sum(output_control.plan))
-						        )
-						    ) as balance
+						      if( (sum(output_control.plan))<(sum(output_control.actual)),(sum(output_control.actual))-(sum(output_control.plan)),(sum(output_control.actual))-(sum(output_control.plan)))
+							) as balance
 
 						FROM output_control 
 							JOIN main_pdo ON output_control.id_pdo=main_pdo.id
@@ -43,10 +43,10 @@ class Summary_model extends CI_Model {
 						WHERE
 							list_carline.id='$line' AND
 							YEAR(output_control.time)=YEAR('$date') AND
-						    MONTH(output_control.time)=MONTH('$date')
+							MONTH(output_control.time)=MONTH('$date')
 
-						GROUP BY DAY(output_control.time) 
-						ORDER BY output_control.time ASC
+						GROUP BY DAY(main_pdo.tanggal) 
+						ORDER BY main_pdo.tanggal ASC
 				");
         return $query->result();
 	}

@@ -42,7 +42,9 @@ class Target extends CI_Controller {
 			'mh_in' 	=> $this->input->post('in'),
 			'efisiensi' => $this->input->post('eff'),
 			'periode'	=> $this->input->post('tgl'),
-			'plan_assy' => $this->input->post('plan')
+			'plan_assy' => $this->input->post('plan'),
+			'balance_awal' => 0,
+			'balance_akhir' => 0
 		);
 
 		$result = $this->Target_model->newTarget($datanew);
@@ -76,6 +78,16 @@ class Target extends CI_Controller {
 		
 		$dataedit = array( 
 			'efisiensi'	=> $this->input->post('eff')
+		);
+
+		$result = $this->Target_model->edittarget($dataedit);
+		echo json_encode($result);	
+	}
+
+	public function editBalance()
+	{ 
+		$dataedit = array( 
+			'balance_awal'	=> $this->input->post('bal')
 		);
 
 		$result = $this->Target_model->edittarget($dataedit);

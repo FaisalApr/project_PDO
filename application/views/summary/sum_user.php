@@ -50,14 +50,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		 
 		<!-- EFFICIENCY PLAN & RESULT -->
 		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">  
-			<div id="container" style="height: 350px"></div>
+			<div id="container" style="height: 350px; "></div>
 			<br>
 		</div>
 
 		<!-- PRODUCTION PLAN & RESULT -->
 		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">  
-			<div id="planres" style="height: 350px"></div>
-			<br>
+			<div class="pull-left" style="text-align: center;">
+				Balance Bulan Sebelumnya : <br>
+				<label style="font-size: 28px" id="id_awal_balance">0</label>
+				<a href='#' id="btn_changebalance" ><i class="fa fa-cog" aria-hidden="true"></i></a>
+			</div>
+			<div class="pull-right" style="text-align: center;">
+				Sisa Balance Bulan ini : <br>
+				<label style="font-size: 28px;" id="id_sisa_balance">-18</label>
+				<!-- <a href="#" id="btn_changesped" ><i class="fa fa-cog" aria-hidden="true"></i></a> -->
+			</div>
+			<div id="planres" style="height: 350px;padding: 10px;"></div>
+			<br><br>
 		</div>
 
 		<!-- INTERNAL DEFFECT -->
@@ -80,6 +90,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 </div>
  
+ 	<!--  Modal  Plan -->
+	<div class="modal fade" id="btn_conf_balance">
+	    <div class="modal-dialog modal-dialog-centered modal-md">
+	      <div class="modal-content">
+		        <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+					<h2 class="text-center mb-30">Ubah Awal Balance</h2>
+					<form> 
+						<div class="input-group custom input-group-lg">
+							<input type="number" id="in_balance" class="form-control">
+							<input type="hidden" id="id_balance_editfom">
+
+							<div class="input-group-append custom">
+								<span class="input-group-text"><i class="icon-copy fa fa-check-square-o" aria-hidden="true"></i></span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group"> 
+									<a class="btn btn-primary btn-lg btn-block" id="btn_update_balance" href="#">update</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+	      </div>
+	    </div>
+	</div>
+
+
 </body>
 	<!-- Script Main -->
 	<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script> 
@@ -96,6 +136,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				var id_shift = $('#id_shift').val();
 				var id_tgl = $('#id_tgl').val();
 				var id_pdo = 0;
+				var balance_awal=0;
+				var id_target =0;
 
 			// variabel global	
 				// deklarasi nama bulan
@@ -256,8 +298,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						                    	tgl: id_tgl,
 						                    	id_line:id_line
 						                    },
-						                    success : function(res){  
-						                    	if (res) {  
+						                    success : function(res){   
+						                    	if (res) {   
+
+						                    		// BALANCE SETTING
+						                    		document.getElementById('btn_changebalance').style.display = 'inline';
+						                    		balance_awal = res.balance_awal;
+						                    		id_target = res.id;
+
 						                    		var i = awalDay;
 										        	for ( i ; i <= daysInMonth; i++) { 
 
@@ -265,7 +313,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										        		
 										        		da.push(a);
 										        	} 
-						                    	} 
+						                    	}else {
+						                    		balance_awal=0;
+						                    		document.getElementById('btn_changebalance').style.display = 'none';
+						                    	}
 						                    }
 						                });  
 
@@ -367,7 +418,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            	var chart = new Highcharts.Chart(options); 
 
             	// Plan & RESULT
-            		// isis data balance  
+            		// isis data balance
+            		bal += Number(balance_awal);
 	            		$.ajax({ 
 			        		async : false,
 		                    type  : 'POST',
@@ -380,7 +432,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    success : function(result){   
 
 						    	for (var i =0 ; i < result.length ; i++) {   
-					        		const tgl = new Date(result[i].time); 
+					        		const tgl = new Date(result[i].tanggal); 
 
 									var pro = {
 										 tanggal: (tgl.getFullYear()+'-'+tgl.getMonth()+'-'+tgl.getDate()), 
@@ -395,7 +447,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					        		prodPlan.push(pro);
 					        	} 
 		                    }
-		                });  
+		                }); 
+
+		            // CNAGE VAlue BalanCE
+	            	document.getElementById('id_awal_balance').innerHTML = balance_awal;
+	            	document.getElementById('id_sisa_balance').innerHTML = bal;
+
             		// config chart
         		    var panres ={
 		            		title: {
@@ -446,8 +503,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							                    	tgl: id_tgl ,
 							                    	id_line:id_line
 							                    },
-							                    success : function(res){ 
-							                    console.log('ini isi target :'+res) ;
+							                    success : function(res){  
 							                    	if (res) {  
 							                    		var i = awalDay;
 											        	for ( i ; i <= daysInMonth; i++) { 
@@ -482,7 +538,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							                    success : function(res){  
 							                    	for (var i = 0 ; i < res.length ; i++) { 
 											        		//parsing tanggal
-											        		const tgl = new Date(res[i].time);
+											        		const tgl = new Date(res[i].tanggal);
 
 													var a = [Date.UTC(tgl.getFullYear(),tgl.getMonth(),tgl.getDate()), parseFloat(res[i].actual)];
 													var aa = [Date.UTC(tgl.getFullYear(),tgl.getMonth(),tgl.getDate()), parseFloat(res[i].plan)]; 
@@ -521,7 +577,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							                    	for (var i = 0 ; i < res.length ; i++) { 
 											        		//parsing tanggal
-											        		const tgl = new Date(res[i].time);
+											        		const tgl = new Date(res[i].tanggal);
 
 											    var a = [Date.UTC(tgl.getFullYear(),tgl.getMonth(),tgl.getDate()), parseFloat(res[i].actual) ]; 
 		 
@@ -859,7 +915,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			}
 
-			// FUnc OPT
+		// TRiger BTN
+			//Btn edit balance
+				$('#btn_changebalance').on('click',function(){
+					$('#in_balance').val(balance_awal);
+					$('#id_balance_editfom').val(id_target);
+
+					$('#btn_conf_balance').modal('show');
+				});
+				$('#btn_update_balance').click(function(){
+					var ball = $('#in_balance').val();
+					var id = $('#id_balance_editfom').val();
+					// console.log('id:'+id+'|bal'+ball);
+
+					$.ajax({
+						type: "POST",
+						url: "<?php echo site_url('Target/editBalance') ?>",
+						data: {
+							id:id,
+							bal:ball
+						},
+						success: function(data){
+							console.log(data);
+							show();
+						}
+					});
+
+					$('#btn_conf_balance').modal('hide');
+				});
+
+
+		// FUnc OPT
 			// isi DATA DROPDOWN LINE
 				function loadDropdown() {
 					var idu = $('#id_user').val();

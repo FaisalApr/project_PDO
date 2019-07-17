@@ -43,8 +43,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php $this->load->view('header/sidebar_users'); ?>
  
 <div class="main-container">
-	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
-
+	
+	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" id="container_maindata">
 		<!-- top icon dasboard -->
 		<div class="row clearfix progress-box"> 
 			<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
@@ -98,10 +98,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</table>
 			
 		</div>
-
 	</div>
-</div>
 
+	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" id="no_pdodata" style="display: none;"> 
+		<center>
+			<div class="jumbotron">
+				<H1>Tidak Ada Data PDO Perpilih</H1>
+			</div>
+		</center>
+	</div>
+
+
+</div>
 
 <!-- KUMPPULAN MODAL -->
 <div>
@@ -298,7 +306,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    	// refresh 
 				    	// showplanning();
 			    		// cariDataPdo();
-			    		// cekHariini();
+			    		cekHariini();
 				    }
 				});
 			// TRIGGEr line Change
@@ -308,7 +316,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					id_line = data.id ;
 					// update opt to server
 					updateOpt(); 
-					// cekHariini();
+					cekHariini();
 					// console.log(data); 
 					// console.log('ln:'+id_line+'|sf:'+id_shift); 
 				});
@@ -331,7 +339,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					// update opt to server
 					updateOpt(); 
-					// cekHariini();
+					cekHariini();
 				});
 			
 
@@ -368,10 +376,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    		// isi Dropdown jam ke
 		                    		isi_dropdown(res.id);
 
-		                    		console.log('isi hari ini :')
-		                    		console.log(res); 	
+		                    		//  STATUS VERIFIKASI 	
+		                    		 if (res.status==1) {
+		                    		 	document.getElementById('id_verif').style.display = 'block';
+		                    		 }else{
+		                    		 	document.getElementById('id_verif').style.display = 'none';
+		                    		 } 	
 								}else{ 
-									console.log('is null');  
+									console.log('is null'); 
+									showNodata(); 
 								}
 								
 
@@ -382,6 +395,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			// =================== Read Record =============================================== 
             function show(pdo){
+            	document.getElementById('no_pdodata').style.display = 'none';
+	            document.getElementById('container_maindata').style.display = 'block';
                     $.ajax({
                         async :false,
                         type  : 'POST',
@@ -402,7 +417,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                             // setting WIDGET
                             document.getElementById('id_totaldeff').innerHTML= response.total.total;
-                            document.getElementById('id_tot_dpm').innerHTML= response.dpm.dpm;
+                            if (response.dpm.dpm) {
+                            	document.getElementById('id_tot_dpm').innerHTML= response.dpm.dpm;	
+                            }
+                            
 
                             for(i=0; i<data.length; i++){
                                 html +=  
@@ -444,6 +462,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     });
 
             }
+
+            function showNodata() {
+            	document.getElementById('id_verif').style.display = 'none';
+            	document.getElementById('no_pdodata').style.display = 'block';
+	            document.getElementById('container_maindata').style.display = 'none';
+            }
+
             // =================== End Read Record ===============================================
             //  ===================  START UPDATE Record ===============================================
 	            //get data for UPDATE record show prompt

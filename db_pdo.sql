@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 16 Jul 2019 pada 09.32
+-- Waktu pembuatan: 17 Jul 2019 pada 08.48
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 5.6.40
 
@@ -37,6 +37,13 @@ CREATE TABLE `absen_leader` (
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `absen_leader`
+--
+
+INSERT INTO `absen_leader` (`id`, `id_pdo`, `item`, `qty`, `jam`, `total`) VALUES
+(1, 15, 'AP', 1, 2, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -57,7 +64,8 @@ CREATE TABLE `absen_pegawai` (
 --
 
 INSERT INTO `absen_pegawai` (`id`, `id_pdo`, `item`, `qty`, `jam`, `total`) VALUES
-(3, 14, 'asds', 2, 4, 8);
+(3, 14, 'asds', 2, 4, 8),
+(4, 15, '1a', 2, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -151,7 +159,9 @@ INSERT INTO `build_assy` (`id`, `id_outputcontrol`, `id_pdo`, `id_assy`, `actual
 (35, 24, 14, 1196, 5, '2019-07-16 14:12:53'),
 (36, 25, 14, 1181, 10, '2019-07-16 14:13:34'),
 (37, 25, 14, 1191, 3, '2019-07-16 14:13:47'),
-(38, 26, 14, 1196, 10, '2019-07-16 14:14:20');
+(38, 26, 14, 1196, 10, '2019-07-16 14:14:20'),
+(39, 27, 15, 1163, 70, '2019-07-17 09:53:50'),
+(40, 18, 13, 1178, 20, '2019-07-17 10:36:49');
 
 --
 -- Trigger `build_assy`
@@ -212,7 +222,8 @@ INSERT INTO `direct_labor` (`id`, `id_pdo`, `std_dl`, `reg_dl`, `jam_reg`, `jam_
 (8, 11, 30, 31, 8, 0, 0, 248, 0, 248),
 (9, 12, 30, 30, 8, 0, 0, 240, 0, 240),
 (10, 13, 39, 39, 8, 0, 0, 312, 0, 312),
-(11, 14, 60, 63, 8, 0, 0, 504, 0, 504);
+(11, 14, 60, 63, 8, 0, 0, 504, 0, 504),
+(12, 15, 40, 49, 8, 0, 0, 392, 0, 392);
 
 -- --------------------------------------------------------
 
@@ -276,8 +287,10 @@ INSERT INTO `indirect_activity` (`id`, `id_pdo`, `item`, `qty_mp`, `menit`, `tot
 (15, 12, 'Home Position', 30, 0, 0),
 (16, 13, '5S + Yoidon', 39, 0, 0),
 (17, 13, 'Home Position', 39, 0, 0),
-(18, 14, '5S + Yoidon', 36, 0, 0),
-(19, 14, 'Home Position', 36, 0, 0);
+(18, 14, '5S + Yoidon', 63, 5, 5.25),
+(19, 14, 'Home Position', 63, 3, 3.15),
+(20, 15, '5S + Yoidon', 49, 3, 2.45),
+(21, 15, 'Home Position', 49, 5, 4.08333);
 
 -- --------------------------------------------------------
 
@@ -306,7 +319,8 @@ INSERT INTO `indirect_labor` (`id`, `id_pdo`, `std_idl`, `reg_idl`, `jam_reg`, `
 (8, 11, 2, 2, 8, 0, 0, 16, 0, 16),
 (9, 12, 1, 1, 8, 0, 0, 8, 0, 8),
 (10, 13, 2, 2, 8, 0, 0, 16, 0, 16),
-(11, 14, 2, 2, 8, 0, 3, 0, 0, 0);
+(11, 14, 2, 2, 8, 0, 3, 0, 0, 0),
+(12, 15, 3, 4, 8, 2, 2, 32, 4, 36);
 
 -- --------------------------------------------------------
 
@@ -535,7 +549,10 @@ INSERT INTO `lost_time` (`id`, `id_pdo`, `id_error`, `id_oc`, `id_jenisloss`, `k
 (20, 14, 12, 23, 1, 'OOPOO', 3.85),
 (21, 14, 13, 24, 1, 'Zero Downtime', 0),
 (22, 14, 13, 25, 1, 'Zero Downtime', 0),
-(23, 14, 13, 26, 1, 'Zero Downtime', 0);
+(23, 14, 8, 26, 1, 'kkkk', 8),
+(24, 14, 2, 22, 1, 'Ganti', 5),
+(25, 14, 10, 26, 1, 'ss', 2),
+(26, 15, 2, 27, 1, 'Fooo', 3);
 
 -- --------------------------------------------------------
 
@@ -572,8 +589,9 @@ CREATE TABLE `main_pdo` (
 INSERT INTO `main_pdo` (`id`, `id_shift`, `id_listcarline`, `id_users`, `tanggal`, `mh_out`, `mh_in_dl`, `mh_in_idl`, `direct_eff`, `total_productiv`, `jam_kerja`, `line_speed`, `loss_output`, `p_loss_time`, `jam_effective`, `dpm_fa`, `status`, `signature`, `waktu`) VALUES
 (11, 1, 5, 25, '2019-07-16 00:00:00', 86.59199953079224, 242.31666684150696, 16, 35.735057212317, 33.521646353513, 8, 105, 0, 0, 7.8167, 66666.666, 0, NULL, NULL),
 (12, 1, 5, 25, '2019-07-15 00:00:00', 57.727999687194824, 240, 8, 24.053333202998, 23.277419228708, 8, 104, 19, 0, 8, 50000, 0, NULL, NULL),
-(13, 2, 5, 27, '2019-07-18 00:00:00', 121.05199813842773, 312, 16, 38.79871735206, 36.906096993423, 8, 105, 0, 0, 8, 25000, 0, NULL, NULL),
-(14, 2, 5, 27, '2019-07-16 00:00:00', 410.75909972190857, 456, 0, 90.078749939015, 90.078749939015, 8, 114, 0, 0.8020833333333333, 8, 9090.909, 1, 'image-signature/20190716-141648_14_123456.png', '2019-07-16 14:16:48');
+(13, 2, 5, 27, '2019-07-18 00:00:00', 192.21799850463867, 312, 16, 61.608332854051, 58.603048324585, 8, 105, 0, 0, 8, 16666.666, 0, NULL, NULL),
+(14, 2, 5, 27, '2019-07-16 00:00:00', 410.75909972190857, 456, 0, 90.078749939015, 90.078749939015, 8, 114, 0, 3.927083333333334, 8, 9090.909, 1, 'image-signature/20190716-141648_14_123456.png', '2019-07-16 14:16:48'),
+(15, 2, 5, 27, '2019-07-17 00:00:00', 202.04799890518188, 384.46666646003723, 34, 52.552800159642, 48.282937471312, 8, 104, 0, 0.6355932203120511, 7.8667, 0, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -597,7 +615,7 @@ CREATE TABLE `output_control` (
 INSERT INTO `output_control` (`id`, `id_pdo`, `plan`, `actual`, `jam_ke`, `time`) VALUES
 (16, 11, 11, 30, 1, '2019-07-16 10:27:30'),
 (17, 12, 39, 20, 1, '2019-07-16 10:28:46'),
-(18, 13, 30, 40, 1, '2019-07-16 10:45:16'),
+(18, 13, 30, 60, 1, '2019-07-16 10:45:16'),
 (19, 14, 19, 19, 1, '2019-07-16 11:02:29'),
 (20, 14, 15, 16, 2, '2019-07-16 14:06:54'),
 (21, 14, 16, 16, 3, '2019-07-16 14:08:04'),
@@ -605,7 +623,8 @@ INSERT INTO `output_control` (`id`, `id_pdo`, `plan`, `actual`, `jam_ke`, `time`
 (23, 14, 14, 12, 5, '2019-07-16 14:10:59'),
 (24, 14, 13, 13, 6, '2019-07-16 14:12:23'),
 (25, 14, 11, 13, 7, '2019-07-16 14:13:26'),
-(26, 14, 9, 10, 8, '2019-07-16 14:14:12');
+(26, 14, 9, 10, 8, '2019-07-16 14:14:12'),
+(27, 15, 6, 70, 1, '2019-07-17 05:43:16');
 
 -- --------------------------------------------------------
 
@@ -655,7 +674,9 @@ CREATE TABLE `regulasi` (
 
 INSERT INTO `regulasi` (`id`, `id_pdo`, `id_jenisreg`, `id_oc`, `posisi`, `qty`, `jam`, `total`) VALUES
 (2, 14, 1, 19, 'aax', 2, 1, 2),
-(7, 14, 2, 19, 'sasa', 2, 21, 42);
+(7, 14, 2, 19, 'sasa', 2, 21, 42),
+(8, 15, 1, 27, 'Potong', 1, 2, 2),
+(9, 15, 2, 27, 'Cut', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -685,17 +706,18 @@ INSERT INTO `shift` (`id`, `keterangan`) VALUES
 CREATE TABLE `spv_manager` (
   `id` int(11) NOT NULL,
   `id_supervisor` int(11) NOT NULL,
-  `id_list_carline` int(11) NOT NULL,
-  `id_shift` int(11) NOT NULL
+  `id_list_carline` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `spv_manager`
 --
 
-INSERT INTO `spv_manager` (`id`, `id_supervisor`, `id_list_carline`, `id_shift`) VALUES
-(2, 10, 5, 2),
-(3, 13, 5, 2);
+INSERT INTO `spv_manager` (`id`, `id_supervisor`, `id_list_carline`) VALUES
+(2, 10, 5),
+(3, 13, 4),
+(6, 13, 3),
+(8, 13, 2);
 
 -- --------------------------------------------------------
 
@@ -716,8 +738,7 @@ CREATE TABLE `supervisor` (
 
 INSERT INTO `supervisor` (`id`, `nik`, `nama`, `passcode`) VALUES
 (10, 1641720001, 'Rasyidi', 1234567),
-(13, 123456, 'daada', 123456),
-(14, 1234, 'ddd', 1234);
+(13, 123456, 'daada Purnama', 123456);
 
 -- --------------------------------------------------------
 
@@ -732,6 +753,8 @@ CREATE TABLE `target` (
   `mh_in` double NOT NULL,
   `efisiensi` double NOT NULL,
   `plan_assy` double NOT NULL,
+  `balance_awal` int(11) NOT NULL,
+  `balance_akhir` int(11) NOT NULL,
   `periode` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -739,8 +762,8 @@ CREATE TABLE `target` (
 -- Dumping data untuk tabel `target`
 --
 
-INSERT INTO `target` (`id`, `id_list_carline`, `mh_out`, `mh_in`, `efisiensi`, `plan_assy`, `periode`) VALUES
-(10, 5, 220, 230, 97, 210, '2019-07-15');
+INSERT INTO `target` (`id`, `id_list_carline`, `mh_out`, `mh_in`, `efisiensi`, `plan_assy`, `balance_awal`, `balance_akhir`, `periode`) VALUES
+(10, 5, 220, 230, 97, 210, 2, 0, '2019-07-15');
 
 -- --------------------------------------------------------
 
@@ -980,8 +1003,7 @@ ALTER TABLE `shift`
 ALTER TABLE `spv_manager`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_supervisor` (`id_supervisor`),
-  ADD KEY `fk_list_carline` (`id_list_carline`),
-  ADD KEY `id_shift` (`id_shift`);
+  ADD KEY `fk_list_carline` (`id_list_carline`);
 
 --
 -- Indeks untuk tabel `supervisor`
@@ -1027,7 +1049,7 @@ ALTER TABLE `absen_leader`
 -- AUTO_INCREMENT untuk tabel `absen_pegawai`
 --
 ALTER TABLE `absen_pegawai`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `assembly`
@@ -1039,7 +1061,7 @@ ALTER TABLE `assembly`
 -- AUTO_INCREMENT untuk tabel `build_assy`
 --
 ALTER TABLE `build_assy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT untuk tabel `carline`
@@ -1051,7 +1073,7 @@ ALTER TABLE `carline`
 -- AUTO_INCREMENT untuk tabel `direct_labor`
 --
 ALTER TABLE `direct_labor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `district`
@@ -1069,13 +1091,13 @@ ALTER TABLE `history_pdo`
 -- AUTO_INCREMENT untuk tabel `indirect_activity`
 --
 ALTER TABLE `indirect_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT untuk tabel `indirect_labor`
 --
 ALTER TABLE `indirect_labor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `jenis_deffect`
@@ -1129,19 +1151,19 @@ ALTER TABLE `list_carline`
 -- AUTO_INCREMENT untuk tabel `lost_time`
 --
 ALTER TABLE `lost_time`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT untuk tabel `main_pdo`
 --
 ALTER TABLE `main_pdo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT untuk tabel `output_control`
 --
 ALTER TABLE `output_control`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT untuk tabel `quality_control`
@@ -1153,7 +1175,7 @@ ALTER TABLE `quality_control`
 -- AUTO_INCREMENT untuk tabel `regulasi`
 --
 ALTER TABLE `regulasi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `shift`
@@ -1165,13 +1187,13 @@ ALTER TABLE `shift`
 -- AUTO_INCREMENT untuk tabel `spv_manager`
 --
 ALTER TABLE `spv_manager`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `supervisor`
 --
 ALTER TABLE `supervisor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `target`
@@ -1183,7 +1205,7 @@ ALTER TABLE `target`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_has_line`
@@ -1303,8 +1325,7 @@ ALTER TABLE `regulasi`
 --
 ALTER TABLE `spv_manager`
   ADD CONSTRAINT `fk_id_supervisor` FOREIGN KEY (`id_supervisor`) REFERENCES `supervisor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_list_carline` FOREIGN KEY (`id_list_carline`) REFERENCES `list_carline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_shift_spvmgr` FOREIGN KEY (`id_shift`) REFERENCES `shift` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_list_carline` FOREIGN KEY (`id_list_carline`) REFERENCES `list_carline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `target`

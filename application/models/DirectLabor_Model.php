@@ -13,11 +13,31 @@ class DirectLabor_Model extends CI_Model {
 		$this->db->where('id_pdo',$id);
 		return $this->db->update('direct_labor', $data);
 	}
- 
+// Indirect Activity
 	public function arrayInsertDirectActivity($new)
 	{ 
 		$result = $this->db->insert('indirect_activity',$new);
 
+		return $result;
+	}
+
+	public function getDataIndirectPerPdo($pdo)
+	{
+		$res = $this->db->query("SELECT * FROM indirect_activity WHERE id_pdo=$pdo");
+		return $res->result();
+	}
+
+	public function updateActivity($data,$id)
+	{
+		$this->db->where('id',$id);
+
+		return $this->db->update('indirect_activity', $data);
+	}
+
+	public function deleteActivity($id)
+	{ 
+		$this->db->where('id',$id);
+		$result = $this->db->delete('indirect_activity');
 		return $result;
 	}
 

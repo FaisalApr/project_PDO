@@ -38,6 +38,11 @@ class SupervisorModel extends CI_Model {
 
 
 // detail supervisor
+
+	public function newSpvMgr($data)
+	{ 
+		return $this->db->insert('spv_manager', $data);
+	}
 	public function getRecordById($id)
 	{
 		# code...
@@ -54,7 +59,7 @@ class SupervisorModel extends CI_Model {
 	public function getListById($id)
 	{
 		# code...
-		$q = $this->db->query('SELECT *, spv_manager.id as id_man, spv_manager.id_supervisor as id_sup from spv_manager join list_carline on spv_manager.id_list_carline=list_carline.id join line on list_carline.id_line=line.id where spv_manager.id_supervisor='.$id.' ');
+		$q = $this->db->query('SELECT *, spv_manager.id as id_man, spv_manager.id_supervisor as id_sup from spv_manager join list_carline on spv_manager.id_list_carline=list_carline.id join line on list_carline.id_line=line.id join carline on list_carline.id_carline=carline.id where spv_manager.id_supervisor='.$id.' ');
 		return $q->result();
 	}
 

@@ -40,8 +40,22 @@ class Supervisor extends CI_Controller {
 	public function getSpv()
 	{
 		# code...
-		$data = $this->SupervisorModel->getSpv();
-		echo json_encode($data);
+		$result = $this->SupervisorModel->getSpv();
+
+		$daut = array();
+		foreach ($result as $key) {
+			$dat = $this->SupervisorModel->getRecordById($key->id);
+			$tmp = array(
+					'id' => $key->id,
+					'nama' => $key->nama,
+					'nik' => $key->nik,
+					'passcode' => $key->passcode,
+					'isi' => $dat
+					);
+			array_push($daut, $tmp);
+		} 
+
+		echo json_encode($daut);
 	}
 	public function updateSpv()
 	{
@@ -63,6 +77,34 @@ class Supervisor extends CI_Controller {
 	}
 
 // Supervisor detail
+
+	public function newJobLine()// new spv manager
+	{
+		// temp arraay
+		$as = array();
+
+		$id_spv = $this->input->post('id_spv');
+		$arrline = $this->input->post('linemgr');
+			 
+		if (is_array($arrline)) {
+			
+			foreach($arrline as $vl) { 
+			    $ne = array(
+				    	'id_supervisor' => $id_spv,
+				    	'id_list_carline' => $vl
+				    );
+			    array_push($as, $ne);
+
+			    $this->SupervisorModel->newSpvMgr($ne);
+			}
+
+		}else{
+			echo json_encode('NOOOO');
+		}
+
+		echo json_encode($as);
+	}
+
 	public function getUserById()
 	{
 		# code...

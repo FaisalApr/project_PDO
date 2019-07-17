@@ -1658,6 +1658,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    		} 
 
 	                    		// speed line
+	                    		document.getElementById('dis_speedpdo').style.display = 'block';
 	                    		document.getElementById('id_speedline').style.display = 'contents';
 	                    		document.getElementById('id_speedline').innerHTML = res.line_speed;
 	                    		// $('#speed_edit').val(res.line_speed);
@@ -1677,6 +1678,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								// Config Dispay
 								document.getElementById('contain_dasboard').style.display = 'none';
 								document.getElementById('panel_newplann').style.display = 'block';
+								document.getElementById('dis_speedpdo').style.display = 'none';
 
 								// DASBOARD
 								console.log('is null');
@@ -2776,7 +2778,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										  type: 'error',
 										  confirmButtonText: 'Ok',
 										  allowOutsideClick: false
-										}).then(function(){ 
+										}).then(function(){  
 									    	document.getElementById('panel_wizard').style.display = 'none';
 									    	cekHariini();
 									    }); 
@@ -2789,7 +2791,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										  confirmButtonText: 'Ok',
 										  allowOutsideClick: false
 										}).then(function(){ 
-
+											console.log('SUkses new PDO');
+									    	document.getElementById('panel_wizard').style.display = 'none';
 											cekHariini();
 											showplanning();
 									    }); 

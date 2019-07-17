@@ -15,6 +15,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
 
+	<!-- SELEct 2 -->
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/select2/dist/css/select2.min.css">
+		<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/select2/theme/select2-bootstrap.css">
+		<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/select2/theme/select2-bootstrap.min.css">
+
 <body>
 <?php $this->load->view('header/header'); ?>
 <?php $this->load->view('header/sidebar'); ?>
@@ -80,8 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<thead>
 							<tr>
 								<th style="vertical-align: middle; text-align: center;" class="table-plus datatable-nosort">No</th>
-								
-								
+								<th style="vertical-align: middle; text-align: center;" class="datatable-nosort">Carline</th>
 								<th style="vertical-align: middle; text-align: center;" class="datatable-nosort">Line</th>
 								<th style="vertical-align: middle; text-align: center;" class="datatable-nosort">Action</th>
 							</tr>
@@ -210,10 +214,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	    <!-- ==================================================================================== -->
 		<!-- kumpulan modal -->
 			<!-- modal input -->
-		        <div class="modal fade" id="i_line2-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		          <div class="modal-dialog modal-dialog-centered">
+
+		        <div class="modal fade" id="i_line2-modal">
+		          <div class="modal-dialog-lg modal-dialog">
 		            <div class="modal-content">
-		              <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+		              <div class="bg-white box-shadow pd-ltr-20 border-radius-5" style="width: 1080px; margin-left: -300px;">
 		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 		                <h2 class="text-center mb-30">Line</h2>
 		                <!-- form start -->
@@ -233,13 +238,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div> 
 									</div>
 								</div> 
+
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Job Line :</label>
+										<select class="select2 js-states form-control" id="selectlinee" name="states[]" multiple="multiple" style="width: 100%;height: 300px;">
+  
+										</select>
+									</div>
+								</div> 
+
 							</div>
+
+
 									                  
 		                  <!-- button submit -->
 		                  <div class="row">
 								<div class="col-sm-12">
 									<div class="input-group">	
-										<a class="btn btn-primary btn-lg btn-block" href="#" id="btn_line2_submit">Submit</a>
+										<a class="btn btn-primary btn-lg btn-block" href="#" id="btn_sub_promoteline">Submit</a>
 									</div>
 								</div>
 							</div>
@@ -314,9 +331,75 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.responsive.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/responsive.bootstrap4.js"></script>
 
+	<!-- SELECT2 -->
+	<script src="<?php echo base_url() ?>assets/src/plugins/select2/dist/js/select2.min.js"></script>
+
 <!-- ajax -->
 	<script>
-			$('document').ready(function(){
+		$('document').ready(function(){
+			//  GLOBAL
+				var dist=0;
+				var id_spv;
+				
+			// INIT
+				$('#selectlinee').select2({ 
+	 				placeholder: 'Pilih Line ',
+	 				allowClear: true, 
+	 				closeOnSelect: false,
+	 				tags: true,  
+	 			});
+
+ 			// DIstrict
+				$('input[type=radio][name=rad_district]').change(function() {
+
+				    if (this.value==1) {
+				        $.ajax({ 
+							type : 'POST',
+							url: '<?php  echo site_url('Users/getListByDistrict') ?>',
+							dataType: "JSON",
+							data:{ dist:this.value},
+							success: function(response){
+								data_line = response;
+
+								$('#selectlinee').empty();
+								$('#selectlinee').select2({ 
+					 				placeholder: 'Pilih Line ',
+					 				allowClear: true, 
+					 				closeOnSelect: false,
+					 				tags: true, 
+					 				data: response 
+					 			});
+							}
+						});
+
+				    }
+				    else{
+				    	$.ajax({ 
+							type : 'POST',
+							url: '<?php  echo site_url('Users/getListByDistrict') ?>',
+							dataType: "JSON",
+							data:{ dist:this.value},
+							success: function(response){ 
+								data_line = response;
+
+								$('#selectlinee').empty();
+								$('#selectlinee').select2({ 
+					 				placeholder: 'Pilih Line ',
+					 				allowClear: true, 
+					 				closeOnSelect: false,
+					 				tags: true, 
+					 				data: response 
+					 			});
+							}
+						});
+
+				    }
+				    // insert data district selct
+  					dist = this.value;
+				});
+
+
+
 				// datatable
 					$('.data-table-export').DataTable({
 						scrollCollapse: true,
@@ -351,394 +434,384 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						$(this).toggleClass('selected');
 					});
 
-				// crud view 1
-					// create
-						$('#btn_line_submit').click(function(){
-							var nik = document.getElementById("i_nik").value;
-							var nama = document.getElementById("i_nama").value;
-							var passcode = document.getElementById("i_passcode").value;
-							
-							$.ajax({
-								async : false,
-								type : "POST",
-								url : "<?php echo base_url() ?>index.php/Supervisor/newSpv",
-								dataType : "JSON",
-								data : {
-									nik:nik,
-									nama:nama,
-									passcode,passcode
-								},
-								success : function(response){
-								  	$('#i_line-modal').modal('hide');
-									if(response.error){
-										// alert('error');
-									}else{
-										// alert(response.status);
-									}
-									document.getElementById("form_input_carline").reset();
-									}
-								});
-							show();
-						});
-					// read
-						show();    
-	            		function show(){
-			          	$.ajax({
-			            async :false,
-			            type  : 'ajax',
-			            url   : '<?php echo base_url();?>index.php/Supervisor/getSpv',
-			            dataType : 'JSON',
-			            success : function(data){
-			            var html = '';
-			            var i;
-			            var a=0;
-			            // var data = data_lm.data_lm;
-			            for(i=0; i<data.length; i++){
-
-			              html += 
-			              '<tr>'+
-			                '<th style="vertical-align: middle; text-align: center;">'+(i+1)+'</th>'+
-			                '<th style="vertical-align: middle; text-align: center;">'+data[i].nik+'</th>'+
-			                '<th style="vertical-align: middle; text-align: center;">'+data[i].nama+'</th>'+
-			                '<th style="vertical-align: middle; text-align: center;">'+data[i].passcode+'</th>'+
-			                '<th style="vertical-align: middle; text-align: center;">';
-			                $.ajax({
-					            async :false,
-					            type  : 'post',
-					            url   : '<?php echo base_url();?>index.php/Supervisor/getUserById',
-					            dataType : 'JSON',
-					            data :{id:data[i].id},
-					            success : function(respon){
-					            		var limit = 0;
-					            		if(respon.length>5){
-					            			limit = 5;
-					            		}else{
-					            			limit = respon.length;
-					            		}
-					            		for(var j=0;j<limit; j++){
-					            			html +=
-					            			respon[j].nama_line+ ' , ';
-					            		}
-					            		html+=
-					            		' ('+respon.length+')';
-
-					            	}
-					            });
-			                html +='</th>'+
-			                '<th>'+
-			                  '<div class="dropdown" style="vertical-align: middle; text-align: center;">'+
-			                      '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
-			                        '<i class="fa fa-ellipsis-h"></i>'+
-			                      '</a>'+                     
-			                      '<div class="dropdown-menu dropdown-menu-right">'+
-			                        '<a class="dropdown-item item_edit" href="#" data-id="'+data[i].id+'" data-nik="'+data[i].nik+'" data-nama="'+data[i].nama+'" data-passcode="'+data[i].passcode+'"><i class="fa fa-pencil"></i> Edit </a>'+
-			                        '<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
-			                        '<a class="dropdown-item item_view" href="#" data-id="'+data[i].id+'" data-nama="'+data[i].nama+'" ><i class="fa fa-eye"></i> Detail </a>'+
-			                      
-			                      '</div>'+
-			                    '</div>'+
-			                '</th>'+
-			              '</tr>';
-
-			            }		  
-			            $('#t_user').DataTable().destroy();          
-			            $('#tbl_body').html(html);  
-			            $('#t_user').DataTable({
-							scrollCollapse: true,
-							autoWidth: false,
-							responsive: true,
-							columnDefs: [{
-								targets: "datatable-nosort",
-								orderable: false,
-							}],
-							"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-							"language": {
-								"info": "_START_-_END_ of _TOTAL_ entries",
-								searchPlaceholder: "Search"
+			// crud view 1
+				// create
+					$('#btn_line_submit').click(function(){
+						var nik = document.getElementById("i_nik").value;
+						var nama = document.getElementById("i_nama").value;
+						var passcode = document.getElementById("i_passcode").value;
+						
+						$.ajax({
+							async : false,
+							type : "POST",
+							url : "<?php echo base_url() ?>index.php/Supervisor/newSpv",
+							dataType : "JSON",
+							data : {
+								nik:nik,
+								nama:nama,
+								passcode,passcode
 							},
-						});  
-			            }
-			          });
-			        	}
-					// update
-						//get data for UPDATE record show prompt
-				            $('#tbl_body').on('click','.item_edit',function(){
-				            	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
-				                var id = $(this).data('id');
-				                var nik = $(this).data('nik');
-				                var nama = $(this).data('nama');
-				                var passcode = $(this).data('passcode');
+							success : function(response){
+							  	$('#i_line-modal').modal('hide');
+								if(response.error){
+									// alert('error');
+								}else{
+									// alert(response.status);
+								}
+								document.getElementById("form_input_carline").reset();
+								}
+							});
+						show();
+					});
+				// read
+					show();    
+            		function show(){
+		          	$.ajax({
+		            async :false,
+		            type  : 'ajax',
+		            url   : '<?php echo base_url();?>index.php/Supervisor/getSpv',
+		            dataType : 'JSON',
+		            success : function(data){  
 
-				                // memasukkan data ke form updatean
-								$('[name="id_updt"]').val(id);
-								$('[name="nik_updt"]').val(nik);
-								$('[name="nama_updt"]').val(nama);
-								$('[name="passcode_updt"]').val(passcode);
+		            var html = '';
+		            var i;
+		            var a=0;
+		            // var data = data_lm.data_lm;
+		            for(i=0; i<data.length; i++){
 
-				                $('#CLModalUpdt').modal('show');
-				                
-				            });
-				            
-				            //UPDATE record to database (submit button)
+		              html += 
+		              '<tr>'+
+		                '<th style="vertical-align: middle; text-align: center;">'+(i+1)+'</th>'+
+		                '<th style="vertical-align: middle; text-align: center;">'+data[i].nik+'</th>'+
+		                '<th style="vertical-align: middle; text-align: center;">'+data[i].nama+'</th>'+
+		                '<th style="vertical-align: middle; text-align: center;">'+data[i].passcode+'</th>'+
+		                '<th style="vertical-align: middle; text-align: center;">';
+		                	// limit max view
+		                	var limit=0; 
+		                	if(data[i].isi.length>5){
+		            			limit = 5;
+		            		}else{
+		            			limit = data[i].isi.length;
+		            		}
 
-				            $('#btn_update_line').on('click',function(){
-				                var idup = $('[name="id_updt"]').val();
-								var namaup = $('[name="nama_updt"]').val();
-								var nik = $('[name="nik_updt"]').val();
-								var passcode = $('[name="passcode_updt"]').val();
-								// alert(umhup);
-				                $.ajax({
-				                    type : "POST",
-				                    url  : "<?php echo site_url(); ?>/Supervisor/updateSpv",
-				                    dataType : "JSON",
-				                    data : { 
-				                    		id:idup,
-				                    		nama:namaup,
-				                    		nik:nik,
-				                    		passcode:passcode
-				                    		},
+		            		// Perulangan isi 
+			            		for(var j=0;j<limit; j++){
+			            			html +=
+			            			data[i].isi[j].nama_line+',';
+			            		}
+			            	html+=
+			            		' ('+data[i].isi.length+')';
 
-				                    success: function(data){
-				                    	$('#CLModalUpdt').modal('hide'); 
-				                        // refresh();
-				                        show();
-				                    }
-				                });
-				            });
-					// delete
-						//get data for delete record show prompt
-				            $('#tbl_body').on('click','.item_delete',function(){
-				                // alert($(this).data('id'))
-				                var id = $(this).data('id');
-				                // var tanggal = $(this).data('tanggal');
-				                // var judul = $(this).data('judul');
-				                // var pengumuman = $(this).data('isi');
-				               
-				                $('[name="id_dc_delete"]').val(id);  
-				                $('#confirmation-modal').modal('show');
-				                // document.getElementById("namaPengumuman_hapus").innerHTML=" '"+judul+"' ";
-				                
-				                
-				               
-				                // alert('oke');
-				            });
+		                html +='</th>'+
+		                '<th>'+
+		                  '<div class="dropdown" style="vertical-align: middle; text-align: center;">'+
+		                      '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+		                        '<i class="fa fa-ellipsis-h"></i>'+
+		                      '</a>'+                     
+		                      '<div class="dropdown-menu dropdown-menu-right">'+
+		                        '<a class="dropdown-item item_edit" href="#" data-id="'+data[i].id+'" data-nik="'+data[i].nik+'" data-nama="'+data[i].nama+'" data-passcode="'+data[i].passcode+'"><i class="fa fa-pencil"></i> Edit </a>'+
+		                        '<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
+		                        '<a class="dropdown-item item_view" href="#" data-id="'+data[i].id+'" data-nama="'+data[i].nama+'" ><i class="fa fa-eye"></i> Detail </a>'+
+		                      
+		                      '</div>'+
+		                    '</div>'+
+		                '</th>'+
+		              '</tr>';
 
-				            //delete record to database
+		            }		  
+		            $('#t_user').DataTable().destroy();          
+		            $('#tbl_body').html(html);  
+		            $('#t_user').DataTable({
+						scrollCollapse: true,
+						autoWidth: false,
+						responsive: true,
+						columnDefs: [{
+							targets: "datatable-nosort",
+							orderable: false,
+						}],
+						"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+						"language": {
+							"info": "_START_-_END_ of _TOTAL_ entries",
+							searchPlaceholder: "Search"
+						},
+					});  
+		            }
+		          });
+		        	}
+				// update
+					//get data for UPDATE record show prompt
+			            $('#tbl_body').on('click','.item_edit',function(){
+			            	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
+			                var id = $(this).data('id');
+			                var nik = $(this).data('nik');
+			                var nama = $(this).data('nama');
+			                var passcode = $(this).data('passcode');
 
-				            $('#btn_del_line').on('click',function(){
-				                var id_dc_delete = $('#id_dc_delete').val();
-				                // alert(id_dc_delete)
-				                $.ajax({
-				                    type : "POST",
-				                    url  : "<?php echo site_url(); ?>/Supervisor/delSpv",
-				                    dataType : "JSON",
-				                    data : {id:id_dc_delete},
-				                    success: function(){
-				                        $('[name="id_dc_delete"]').val("");
-				                        $('#confirmation-modal').modal('hide');
-				                        // refresh()
-				                        
-				                show();
-				                    }
-				                });
-				                return false;
-				            });
+			                // memasukkan data ke form updatean
+							$('[name="id_updt"]').val(id);
+							$('[name="nik_updt"]').val(nik);
+							$('[name="nama_updt"]').val(nama);
+							$('[name="passcode_updt"]').val(passcode);
 
-				// crud view 2
-					// view
-				    	var coba;
-						 $('#tbl_body').on('click','.item_view',function(){
-						 	var nama = $(this).data('nama');
-						 	coba = $(this).data('id');
-						 	// alert(coba);
-						 	document.getElementById('v_nama').innerHTML = ' Supervisor ' + nama;
-						 	document.getElementById('cont_1').style.display="none";
-						 	document.getElementById('cont_2').style.display="block";
-						 	sv();
-						 });
-					// button back
-						$('#btn_back').click(function(){
-							document.getElementById('cont_1').style.display="block";
-							 document.getElementById('cont_2').style.display="none";
-							 show();
+			                $('#CLModalUpdt').modal('show');
+			                
+			            });
+			            
+			            //UPDATE record to database (submit button)
+
+			            $('#btn_update_line').on('click',function(){
+			                var idup = $('[name="id_updt"]').val();
+							var namaup = $('[name="nama_updt"]').val();
+							var nik = $('[name="nik_updt"]').val();
+							var passcode = $('[name="passcode_updt"]').val();
+							// alert(umhup);
+			                $.ajax({
+			                    type : "POST",
+			                    url  : "<?php echo site_url(); ?>/Supervisor/updateSpv",
+			                    dataType : "JSON",
+			                    data : { 
+			                    		id:idup,
+			                    		nama:namaup,
+			                    		nik:nik,
+			                    		passcode:passcode
+			                    		},
+
+			                    success: function(data){
+			                    	$('#CLModalUpdt').modal('hide'); 
+			                        // refresh();
+			                        show();
+			                    }
+			                });
+			            });
+				// delete
+					//get data for delete record show prompt
+			            $('#tbl_body').on('click','.item_delete',function(){
+			                // alert($(this).data('id'))
+			                var id = $(this).data('id');
+			                // var tanggal = $(this).data('tanggal');
+			                // var judul = $(this).data('judul');
+			                // var pengumuman = $(this).data('isi');
+			               
+			                $('[name="id_dc_delete"]').val(id);  
+			                $('#confirmation-modal').modal('show');
+			                // document.getElementById("namaPengumuman_hapus").innerHTML=" '"+judul+"' ";
+			                
+			                
+			               
+			                // alert('oke');
+			            });
+
+			            //delete record to database
+
+			            $('#btn_del_line').on('click',function(){
+			                var id_dc_delete = $('#id_dc_delete').val();
+			                // alert(id_dc_delete)
+			                $.ajax({
+			                    type : "POST",
+			                    url  : "<?php echo site_url(); ?>/Supervisor/delSpv",
+			                    dataType : "JSON",
+			                    data : {id:id_dc_delete},
+			                    success: function(){
+			                        $('[name="id_dc_delete"]').val("");
+			                        $('#confirmation-modal').modal('hide');
+			                        // refresh()
+			                        
+			                show();
+			                    }
+			                });
+			                return false;
+			            });
+
+			// crud view 2
+				// view 
+					 $('#tbl_body').on('click','.item_view',function(){
+					 	var nama = $(this).data('nama');
+					 	id_spv = $(this).data('id');
+					 	// alert(id_spv);
+					 	document.getElementById('v_nama').innerHTML = ' Supervisor ' + nama;
+					 	document.getElementById('cont_1').style.display="none";
+					 	document.getElementById('cont_2').style.display="block";
+					 	sv();
+					 });
+				// button back
+					$('#btn_back').click(function(){
+						document.getElementById('cont_1').style.display="block";
+						 document.getElementById('cont_2').style.display="none";
+						 show();
+					});
+				// create
+					$('#btn_sub_promoteline').click(function(){
+
+					// 	var id_carline = id_spv;
+						var id_line = $('#selectlinee').val()
+						
+						console.log(id_line);
+						console.log(id_spv);
+						// return;
+						$.ajax({
+							async : false,
+							type : "POST",
+							url : "<?php echo base_url() ?>index.php/Supervisor/newJobLine", 
+							dataType : "JSON",
+							data : { 
+								id_spv:id_spv,
+								linemgr: id_line 
+							},
+							success : function(response){
+								$('#i_line2-modal').modal('hide');
+								console.log('sukses:');
+								console.log(response);
+								document.getElementById("form_input_line2").reset();
+							}
 						});
-					// create
-						// $('#btn_line2_submit').click(function(){
+						sv();
+					});
+				// read
+					function sv(){
+							// alert(id_spv);
+					 		var dataline ;
+							$.ajax({
+							    async :false,
+						        type  : 'post',
+					            url   : '<?php echo base_url();?>index.php/Supervisor/getListById',
+					            dataType : 'JSON',
+					            data : {id:id_spv},
+					            success : function(data){
+					            	console.log(data);
+					            // dataline = data;
+					            var html = '';
+					            var i;
+					            var a=0;
+					            // var data = data_lm.data_lm;
+					            for(i=0; i<data.length; i++){ 
+					              html += 
+						            '<tr>'+
+					                '<th style="vertical-align: middle; text-align: center;">'+(i+1)+'</th>'+  
+							         '<th style="vertical-align: middle; text-align: center;">'+data[i].nama_carline+'</th>'+
+							         '<th style="vertical-align: middle; text-align: center;">'+data[i].nama_line+'</th>'+
+							        '<th>'+
+							        '<div class="dropdown" style="vertical-align: middle; text-align: center;">'+
+							          '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+							            '<i class="fa fa-ellipsis-h"></i>'+
+							          '</a>'+                     
+							          '<div class="dropdown-menu dropdown-menu-right">'+
+							          '<a class="dropdown-item item_delete2" href="#" data-id2="'+data[i].id_man+'"><i class="fa fa-trash"></i> Hapus </a>'+
+							                      
+							          '</div>'+
+							        '</div>'+
+							        '</th>'+
+						            '</tr>';
 
-						// 	var id_carline = coba;
-						// 	var id_line = $('#pilihline').val()
+							            }		  
+							            $('#ta_user').DataTable().destroy();          
+							            $('#tbl_body2').html(html);  
+							            $('#ta_user').DataTable({
+											scrollCollapse: true,
+											autoWidth: false,
+											responsive: true,
+											columnDefs: [{
+												targets: "datatable-nosort",
+												orderable: false,
+											}],
+											"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+											"language": {
+												"info": "_START_-_END_ of _TOTAL_ entries",
+												searchPlaceholder: "Search"
+											},
+										});
+							    }
+
+							});
+
 							
-						// 	$.ajax({
-						// 		async : false,
-						// 		type : "POST",
-						// 		url : "<?php echo base_url() ?>index.php/Carline/newLC",
-							
-						// 		dataType : "JSON",
-						// 		data : {
-									
-						// 			id_carline:id_carline,
-						// 			id_line: id_line
-									
-						// 		},
-						// 		success : function(response){
-						// 			$('#i_line2-modal').modal('hide');
-						// 			if(response.error){
-						// 				// alert('error');
-						// 			}else{
-						// 				// alert(response.status);
-						// 			}
-						// 			document.getElementById("form_input_line2").reset();
-						// 		}
-						// 	});
-						// 	sv();
-						// });
-					// read
-						function sv(){
-								// alert(coba);
-						 		var dataline ;
-								$.ajax({
-								    async :false,
-							        type  : 'post',
-						            url   : '<?php echo base_url();?>index.php/Supervisor/getListById',
-						            dataType : 'JSON',
-						            data : {id:coba},
-						            success : function(data){
-						            // dataline = data;
-						            var html = '';
-						            var i;
-						            var a=0;
-						            // var data = data_lm.data_lm;
-						            for(i=0; i<data.length; i++){
+					}
+				// delete
+					//get data for delete record show prompt
+			            $('#tbl_body2').on('click','.item_delete2',function(){
+			                // alert($(this).data('id'))
+			                var id = $(this).data('id2');
+			                // alert(id);
+			                // var tanggal = $(this).data('tanggal');
+			                // var judul = $(this).data('judul');
+			                // var pengumuman = $(this).data('isi');
+			               
+			                $('[name="id_dc_delete2"]').val(id);  
+			                $('#confirmation2-modal').modal('show');
+			                // document.getElementById("namaPengumuman_hapus").innerHTML=" '"+judul+"' ";
+			                
+			                
+			               
+			                // alert('oke');
+			            });
 
+			            //delete record to database
 
+			            $('#btn_del_line2').on('click',function(){
+			                var id_dc_delete = $('#id_dc_delete2').val();
+			                // alert(id_dc_delete);
+			                $.ajax({
+			                    type : "POST",
+			                    url  : "<?php echo site_url(); ?>/Supervisor/delSM",
+			                    dataType : "JSON",
+			                    data : {id:id_dc_delete},
+			                    success: function(){
+			                        $('[name="id_dc_delete2"]').val("");
+			                        $('#confirmation2-modal').modal('hide');
+			                        // refresh()
+			                        
+			                sv();
+			                    }
+			                });
+			                return false;
 
-						              html += 
-							            '<tr>'+
-						                '<th style="vertical-align: middle; text-align: center;">'+(i+1)+'</th>'+  
-								         '<th style="vertical-align: middle; text-align: center;">'+data[i].nama_line+'</th>'+
-								        '<th>'+
-								        '<div class="dropdown" style="vertical-align: middle; text-align: center;">'+
-								          '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
-								            '<i class="fa fa-ellipsis-h"></i>'+
-								          '</a>'+                     
-								          '<div class="dropdown-menu dropdown-menu-right">'+
-								          '<a class="dropdown-item item_delete2" href="#" data-id2="'+data[i].id_man+'"><i class="fa fa-trash"></i> Hapus </a>'+
-								                      
-								          '</div>'+
-								        '</div>'+
-								        '</th>'+
-							            '</tr>';
+			            });
+			    // DIstrict
+					$('input[type=radio][name=rad_district]').change(function() {
 
-								            }		  
-								            $('#ta_user').DataTable().destroy();          
-								            $('#tbl_body2').html(html);  
-								            $('#ta_user').DataTable({
-												scrollCollapse: true,
-												autoWidth: false,
-												responsive: true,
-												columnDefs: [{
-													targets: "datatable-nosort",
-													orderable: false,
-												}],
-												"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-												"language": {
-													"info": "_START_-_END_ of _TOTAL_ entries",
-													searchPlaceholder: "Search"
-												},
-											});
-								    }
+					    if (this.value==1) {
+					        $.ajax({ 
+								type : 'POST',
+								url: '<?php  echo site_url('Users/getListByDistrict') ?>',
+								dataType: "JSON",
+								data:{ dist:this.value},
+								success: function(response){
+									data_line = response;
 
-								});
+									$('#selectlinee').empty();
+									$('#selectlinee').select2({ 
+						 				placeholder: 'Pilih Line ',
+						 				allowClear: true, 
+						 				closeOnSelect: false,
+						 				tags: true, 
+						 				data: response 
+						 			});
+								}
+							});
 
-								
-						}
-					// delete
-						//get data for delete record show prompt
-				            $('#tbl_body2').on('click','.item_delete2',function(){
-				                // alert($(this).data('id'))
-				                var id = $(this).data('id2');
-				                // alert(id);
-				                // var tanggal = $(this).data('tanggal');
-				                // var judul = $(this).data('judul');
-				                // var pengumuman = $(this).data('isi');
-				               
-				                $('[name="id_dc_delete2"]').val(id);  
-				                $('#confirmation2-modal').modal('show');
-				                // document.getElementById("namaPengumuman_hapus").innerHTML=" '"+judul+"' ";
-				                
-				                
-				               
-				                // alert('oke');
-				            });
+					    }
+					    else{
+					    	$.ajax({ 
+								type : 'POST',
+								url: '<?php  echo site_url('Users/getListByDistrict') ?>',
+								dataType: "JSON",
+								data:{ dist:this.value},
+								success: function(response){ 
+									data_line = response;
 
-				            //delete record to database
-
-				            $('#btn_del_line2').on('click',function(){
-				                var id_dc_delete = $('#id_dc_delete2').val();
-				                // alert(id_dc_delete);
-				                $.ajax({
-				                    type : "POST",
-				                    url  : "<?php echo site_url(); ?>/Supervisor/delSM",
-				                    dataType : "JSON",
-				                    data : {id:id_dc_delete},
-				                    success: function(){
-				                        $('[name="id_dc_delete2"]').val("");
-				                        $('#confirmation2-modal').modal('hide');
-				                        // refresh()
-				                        
-				                sv();
-				                    }
-				                });
-				                return false;
-
-				            });
-				    // DIstrict
-						$('input[type=radio][name=rad_district]').change(function() {
-
-						    if (this.value==1) {
-						        $.ajax({ 
-									type : 'POST',
-									url: '<?php  echo site_url('Users/getListByDistrict') ?>',
-									dataType: "JSON",
-									data:{ dist:this.value},
-									success: function(response){
-										data_line = response;
-
-										$('#selectlinee').empty();
-										$('#selectlinee').select2({ 
-							 				placeholder: 'Pilih Line ',
-							 				allowClear: true, 
-							 				closeOnSelect: false,
-							 				tags: true, 
-							 				data: response 
-							 			});
-									}
-								});
-
-						    }
-						    else{
-						    	$.ajax({ 
-									type : 'POST',
-									url: '<?php  echo site_url('Users/getListByDistrict') ?>',
-									dataType: "JSON",
-									data:{ dist:this.value},
-									success: function(response){ 
-										data_line = response;
-
-										$('#selectlinee').empty();
-										$('#selectlinee').select2({ 
-							 				placeholder: 'Pilih Line ',
-							 				allowClear: true, 
-							 				closeOnSelect: false,
-							 				tags: true, 
-							 				data: response 
-							 			});
-									}
-								});
-						    }
-						    // insert data district selct
-		  					dist = this.value;
-						});
+									$('#selectlinee').empty();
+									$('#selectlinee').select2({ 
+						 				placeholder: 'Pilih Line ',
+						 				allowClear: true, 
+						 				closeOnSelect: false,
+						 				tags: true, 
+						 				data: response 
+						 			});
+								}
+							});
+					    }
+					    // insert data district selct
+	  					dist = this.value;
+					});
 		});
 		
 

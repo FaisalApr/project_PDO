@@ -101,8 +101,8 @@ class IndirectLabor extends CI_Controller {
 	{
 		# code...
 		$pdo = $this->input->post('id_pdo');
-		$mhot = ($this->input->post('jam_ot')*$this->input->post('idl_ot'));
-		$mhreg = ($this->input->post('reg_idl')*8);
+		$mhot = ($this->input->post('jam_ot')*$this->input->post('dl_ot'));
+		$mhreg = ($this->input->post('reg_dl')*8);
 
 		$dataIDL = array( 
 				'std_idl' => $this->input->post('std_dl'),
@@ -115,7 +115,7 @@ class IndirectLabor extends CI_Controller {
 	        );
 		$result = $this->InDirectLabor_Model->updateIDL($dataIDL,$pdo);
 
-		echo json_encode($result);
+		echo json_encode($dataIDL);
 	}
 
 	public function getIndirectLabor()

@@ -259,13 +259,57 @@ class DirectLabor extends CI_Controller {
 
 
 
-// =========== AJAX  =================
-
+// =========== AJAX  // INDIRECT ACTIV  ================= 
+	//INSERT 1
 	public function anInsertActivity()
 	{ 	
 		echo json_encode($this->DirectLabor_Model->arrayInsertDirectActivity());
 	}
+	//INSERT 2
+	public function newActivity()
+	{ 
+		$isi = array(
+					'id_pdo' => $this->input->post('id_pdo'),
+					'item' => $this->input->post('item'),
+					'qty_mp' => $this->input->post('qtymp'),
+					'menit' => $this->input->post('menit'),
+					'total' => $this->input->post('total')
+				); 
 
+		$data = $this->DirectLabor_Model->arrayInsertDirectActivity($isi);
+		echo json_encode($data);
+	}
+	// get Data
+	public function getListIndirectActivity()
+	{
+		$pdo = $this->input->post('pdo');
+
+		$res = $this->DirectLabor_Model->getDataIndirectPerPdo($pdo);
+		echo json_encode($res);
+	}
+	// Update
+	public function updateActivity()
+	{ 
+		$id = $this->input->post('id');
+		$up = array( 
+					'item' => $this->input->post('item'),
+					'qty_mp' => $this->input->post('qtymp'),
+					'menit' => $this->input->post('menit'),
+					'total' => $this->input->post('total')
+				); 
+
+		$data = $this->DirectLabor_Model->updateActivity($up,$id);
+		echo json_encode($data);
+	}
+
+	// Delete
+	public function deleteActiv()
+	{
+		$id = $this->input->post('id');
+
+		$res = $this->DirectLabor_Model->deleteActivity($id);
+		echo json_encode($res);
+	}
 
 	public function getDirectLabor()
 	{
