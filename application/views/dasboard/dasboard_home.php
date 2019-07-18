@@ -76,6 +76,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <!--    Modall AREA    -->
 <div>
+
+	<!-- MODAL TOLTIP -->
+		<div class="modal fade" id="cek_downtime">
+		    <div class="modal-dialog modal-dialog-centered modal-md">
+		      <div class="modal-content"> 
+	      		<div style="min-height: 250px; text-align: center; margin-top: 10px;">
+	      			<h3>Downtime</h3>
+	      			<center><hr style="width: 75%; height:2px; margin-top: 0px; border:none; background-color: #D50000;"></center> 
+	      			<table class="table table-hover" id="tbl_downtimedetail">
+	      				 
+	      			</table>
+	      		</div> 
+		      </div>
+		    </div>
+		</div>
+
 	<!--  Modal Edit ASSSY  -->
 		<div class="modal fade" id="modal_ubah_assy">
 		    <div class="modal-dialog modal-dialog-centered modal-md">
@@ -531,7 +547,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- main container -->
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll  xs-pd-20-10">
-		
+		  
 		<!-- Dasboard  -->
 		<div id="contain_dasboard" style="display: none;">
 			<!-- top icon dasboard -->
@@ -708,13 +724,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-md-6">
 								<div class="form-group">
 									<label >Standart DL :</label>
-									<input class="form-control" type="number" id="f_std_dl" >
+									<input class="form-control" type="number" id="f_std_dl" value="0">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label >Reg DL :</label>
-									<input class="form-control" type="number" id="f_reg_dl">
+									<input class="form-control" type="number" id="f_reg_dl" value="0">
 								</div>
 							</div>
 						</div>
@@ -722,13 +738,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Jam Overtime :</label>
-									<input class="form-control" type="number" id="f_jam_ot">
+									<input class="form-control" type="number" id="f_jam_ot" value="0">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>DL Overtime :</label>
-									<input class="form-control" type="number" id="f_dl_ot">
+									<input class="form-control" type="number" id="f_dl_ot" value="0">
 								</div>
 							</div>
 						</div> 
@@ -741,13 +757,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-md-6">
 								<div class="form-group">
 									<label >Standart IDL :</label>
-									<input class="form-control" type="number" id="f_std_idl">
+									<input class="form-control" type="number" id="f_std_idl" value="0">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label >Reg IDL :</label>
-									<input class="form-control" type="number" id="f_reg_idl">
+									<input class="form-control" type="number" id="f_reg_idl" value="0">
 								</div>
 							</div>
 						</div>
@@ -755,13 +771,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Jam Overtime :</label>
-									<input class="form-control" type="number" id="f_jam_ot_idl">
+									<input class="form-control" type="number" id="f_jam_ot_idl" value="0">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>IDL Overtime :</label>
-									<input class="form-control" type="number" id="f_idl_ot">
+									<input class="form-control" type="number" id="f_idl_ot" value="0">
 								</div>
 							</div>
 						</div> 
@@ -816,7 +832,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</form>
 			</div>
 		</div>
+ 		
 
+ 		<!-- Verifikasi Terlebih Dahulu -->
+		<div id="panel_infoverif" class="login-wrap customscroll align-items-center flex-wrap justify-content-center pd-20" style="display: none;">
+			<div class="bg-white box-shadow pd-30 border-radius-5">
+				 <h1 class="text-center">Verifikasi PDO</h1>
+				 <br>
+				 <div class="alert alert-warning" role="alert" id="info_isidowntime" >
+				 	<label id="infoo_verf"></label>
+				 </div>
+				 <br>
+				 <br>
+				 <center>
+				 <input type="hidden" id="tglnotverif">
+				 <button id="pindah_verifikasi" type="button" class="btn" data-bgcolor="#5C92FF" data-color="#ffffff">Verifikasi Sekarang <i class="icon-copy fa fa-check-square" ></i></button> 
+				</center>
+			</div>
+		</div>
+
+
+		<!-- NO PDO DATA -->
+		<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" id="no_pdodata" style="display: none;"> 
+			<center>
+				<div class="jumbotron">
+					<H1>Tidak Ada Data PDO Perpilih</H1>
+				</div>
+			</center>
+		</div>
 
 
 	</div>
@@ -970,32 +1013,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			cekHariini();
 			showplanning();
 
-			// cekVerif();
-
 
 		// isi DATA DROPDOWN LINE
 			function loadDropdown() {
 				var idu = $('#id_user').val();
+				var lv  = <?php echo $ses['level'] ?>; 
 
-				$.ajax({
-					type: 'POST',
-					url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
-					dataType: "JSON",
-					data:{
-						id_user:idu
-					},
-					success: function(data){  
- 						
- 						$('#select_line').empty();
- 						$('#select_line').select2({ 
-			 				placeholder: 'Pilih Line ',
-			 				minimumResultsForSearch: -1,
-			 				data:data
+				// jika admin
+				if (lv==1) {
+					var id_district = <?php echo $ses['id_district'] ?>; 
 
-			 			});
-					}
+					$.ajax({
+						type: 'POST',
+						url: '<?php echo site_url("Users/getListLineCarlineByAdmin");?>',
+						dataType: "JSON",
+						data:{
+							id_district: id_district
+						},
+						success: function(data){ 
+	 						$('#select_line').empty();
+	 						$('#select_line').select2({ 
+				 				placeholder: 'Pilih Line ',
+				 				minimumResultsForSearch: -1,
+				 				data:data
 
-				});
+				 			});
+						}
+
+					});
+				}else {
+					$.ajax({
+						type: 'POST',
+						url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+						dataType: "JSON",
+						data:{
+							id_user:idu
+						},
+						success: function(data){  
+	 						
+	 						$('#select_line').empty();
+	 						$('#select_line').select2({ 
+				 				placeholder: 'Pilih Line ',
+				 				minimumResultsForSearch: -1,
+				 				data:data
+
+				 			});
+						}
+
+					});
+				}  
 
 			}
 
@@ -1036,7 +1102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         //mencari status pdo set img 
                         //  SEt TTD IMG
                         status_pdo = res.pdo.status;
-                        if (status_pdo==1) { 
+                        if (status_pdo) { 
                         	document.getElementById('info_lastupdt').innerHTML = 'Terahir Diperbarui Pada '+res.pdo.waktu+' WIB'; 
                         	document.getElementById('info_lastupdt').style.display = 'block'; 
                         }
@@ -1097,7 +1163,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							// jika output tidak sesuai
 							if (Number(data[i].actual)<Number(data[i].plan)) {
 								tm+=
-								'<td scope="row" bgcolor="#FF525B">'+data[i].actual+'</td>'; 
+								'<td scope="row" rel="popover" class="not_enouge" bgcolor="#FF525B" data-id="'+data[i].id+'" >'+data[i].actual+'</td>'; 
 								output_sesuai = false;
 								loss_output += data[i].plan - data[i].actual; 
 							}else {
@@ -1131,7 +1197,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                				if (db_head[ir].id_assy==response[a].id_assy ) {
 
 			                					tmphtml = 
-				                				'<td><a href="#" class="item_edit" data-actual="'+response[a].actual+'" data-ida="'+response[a].id+'">'+response[a].actual+'</a></td>'; 
+				                				'<td class="item_edit" data-actual="'+response[a].actual+'" data-ida="'+response[a].id+'">'+response[a].actual+'</td>'; 
+				                				// '<td class="inner">'+response[a].actual+'</td>'; 
 			                					
 				                				found = true; 
 				                				// counter jumlah Act 
@@ -1266,6 +1333,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }); 
 				
 				// set dropdown assycode
+					// alert(id_line);
 					$.ajax({
 	                    async : false,
 	                    type  : 'POST',
@@ -1274,7 +1342,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    data:{
 	                    	id_line:id_line
 	                    },
-	                    success : function(dat){ 
+	                    success : function(dat){
+	                    	console.log(dat) ;
 	                    	html = '<option disabled selected> Pilih Assy </option>';
 	 
 	                    	// mengulang jika ada yang sama dengan column head 
@@ -1554,9 +1623,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				// set dropdown assycode
 					$.ajax({
 	                    async : false,
-	                    type  : 'ajax',
+	                    type  : 'POST',
 	                    url   : '<?php echo base_url();?>index.php/Assycode/getAssyCodeDasboard',
 	                    dataType : 'JSON',
+	                    data:{
+	                    	id_line:id_line
+	                    },
 	                    success : function(dat){ 
 	                    	html = '<option disabled selected> Pilih Assy </option>';
 	 
@@ -1577,7 +1649,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							$('#pilihasy').html(html);
 							$('#pilihasy1').html(html);
 	                    }
-	                });
+	                }); 
 
 				showplanning();
 			}
@@ -1622,6 +1694,60 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $('#tbud').html('<div class="jumbotron"><h3 class="text-center">DATA TIDAK TERSEDIA </h3></div>');
 			}
 
+		// tes TOolTiP
+			$('#tbody_outputt').on('click','.not_enouge',function(){
+				var id = $(this).data('id');
+
+				$.ajax({
+					async: false,
+					type: "POST",
+					url: "<?php echo site_url('Losstime/cariDowntimeByOC') ?>",
+					dataType: "JSON",
+					data:{
+						id_oc:id
+					},
+					success: function(res){
+						var htm ='';
+						// console.log(res);
+						// alert(res.length);
+						for (var i = 0; i < res.length; i++) { 
+							htm +=
+							'<tr>'+
+		      					'<td>'+res[i].durasi+' Menit</td>'+
+		      					'<td style="text-align: left;">'+res[i].keterangan+'</td>'+
+		      				'</tr>';  
+						}  
+						$('#tbl_downtimedetail').html(htm);
+					}
+				});
+
+				$('#cek_downtime').modal('show');
+			});
+	 
+
+			$("#tbody_outputt").on('dblclick','.inner',function (e) {
+		        e.stopPropagation();
+		        var currentEle = $(this);
+		        var value = $(this).html();
+		        updateVal(currentEle, value);
+		    });
+
+	    function updateVal(currentEle, value) {
+		    $(currentEle).html('<input class="thVal form-control" style="width: 85px;" type="number" value="' + value + '" />');
+		    $(".thVal").focus();
+		    $(".thVal").select();
+		    $(".thVal").keyup(function (event) {
+		        if (event.keyCode == 13) {
+		            $(currentEle).html($(".thVal").val().trim());
+		            console.log('enter');
+		        }
+		    });
+
+		    $(document).click(function () {
+		            $(currentEle).html($(".thVal").val().trim());
+		    });
+		}
+
 		// CEK Hari INI
 			function cekHariini() {
 				$.ajax({ 
@@ -1641,8 +1767,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								document.getElementById('contain_dasboard').style.display = 'block';
 								document.getElementById('panel_newplann').style.display = 'none';
 
+								// jika admin
+								var lv  = <?php echo $ses['level'] ?>; 
+
 								// cek jika itu bukan miliknya
-	                    		if ($('#id_user').val()==res.id_users) {
+	                    		if ($('#id_user').val()==res.id_users || lv==1) {
 	                    			showdata(res.id);
 	                    			// ganti speed miliknya
 	                    			document.getElementById('btn_changesped').style.display = 'contents';
@@ -1661,6 +1790,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    		document.getElementById('dis_speedpdo').style.display = 'block';
 	                    		document.getElementById('id_speedline').style.display = 'contents';
 	                    		document.getElementById('id_speedline').innerHTML = res.line_speed;
+	                    		// non verif
+	                    		document.getElementById('panel_infoverif').style.display = 'none';
 	                    		// $('#speed_edit').val(res.line_speed);
 	                    		$('#speed_edit_temp').val(res.line_speed);
 
@@ -1671,18 +1802,74 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    		 	document.getElementById('id_verif').style.display = 'none';
 	                    		 }
 
+	                    		 // conf
+	                    		document.getElementById('contain_dasboard').style.display = 'block';
+
+	                    		document.getElementById('panel_infoverif').style.display = 'none';   
+								document.getElementById('panel_newplann').style.display = 'none';
+								document.getElementById('no_pdodata').style.display = 'none'; 
+
 	                    		console.log(res);
 							}else{
 								console.log(res);
-								
-								// Config Dispay
-								document.getElementById('contain_dasboard').style.display = 'none';
-								document.getElementById('panel_newplann').style.display = 'block';
-								document.getElementById('dis_speedpdo').style.display = 'none';
+								// cekVerif(); 
+								$.ajax({
+					                async : false,
+					                type  : 'POST',
+					                url   : '<?php echo base_url();?>index.php/Welcome/cekBelumVerifikasi',
+					                dataType : 'JSON',  
+					                data:{
+					                	id_line:id_line,
+					                	id_shift:id_shift,
+					                	id_tgl:id_tgl},
+					                success : function(res){ 
+					                		console.log('ini verif');
+											if (res) {
+												console.log(res);
+												// membuat tgl
+												$('#tglnotverif').val(res.tgl);
+												var tod = new Date(res.tgl); 
+
+												document.getElementById('infoo_verf').innerHTML= "Data Report PDO Kemarin Tanggal : <b>"+daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear()+"</b> Belum Di Verifikasi.<br><b>Silahkan Verifikasi Terlebih Dahulu.</b>";
+
+												document.getElementById('panel_infoverif').style.display = 'block';
+
+												document.getElementById('contain_dasboard').style.display = 'none'; 
+												document.getElementById('dis_speedpdo').style.display = 'none';
+												document.getElementById('panel_newplann').style.display = 'none';
+												document.getElementById('no_pdodata').style.display = 'none'; 
+											}else{
+												console.log(res);
+												var todd = new Date();
+												var temptod = new Date(id_tgl);
+
+												if (temptod>todd) {
+													document.getElementById('no_pdodata').style.display = 'block'; 
+
+													document.getElementById('contain_dasboard').style.display = 'none'; 
+													document.getElementById('dis_speedpdo').style.display = 'none';
+													document.getElementById('panel_newplann').style.display = 'none';
+													document.getElementById('panel_infoverif').style.display = 'none';
+												}else{
+													// Config Dispay
+													document.getElementById('panel_newplann').style.display = 'block';
+
+													document.getElementById('contain_dasboard').style.display = 'none'; 
+													document.getElementById('dis_speedpdo').style.display = 'none'; 
+													document.getElementById('panel_infoverif').style.display = 'none';
+													document.getElementById('no_pdodata').style.display = 'none'; 
+												}
+												
+											}
+											
+
+					                }
+
+					            });
 
 								// DASBOARD
-								console.log('is null');
-	                    		showdataNotFound(); 
+								console.log('is no data');
+	                    		showdataNotFound();   
 
 	                    		// null
 	                    		eff_actual=0;
@@ -1696,22 +1883,56 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            }); 
 			}
 
+
+
 		// Cek VERIFIKASI
 			function cekVerif() { 
 	        	$.ajax({
 	                async : false,
-	                type  : 'ajax',
+	                type  : 'POST',
 	                url   : '<?php echo base_url();?>index.php/Welcome/cekBelumVerifikasi',
 	                dataType : 'JSON',  
-	                success : function(res){   
+	                data:{
+	                	id_line:id_line,
+	                	id_shift:id_shift,
+	                	id_tgl:id_tgl},
+	                success : function(res){ 
+	                		console.log('ini verif');
 							if (res) {
 								console.log(res);
-								// pdo_id = res.id;
-								// document.getElementById('info_isidowntime').innerHTML= "Data Report PDO Kemarin "+res.tanggal+" Belum Di Verifikasi.<br>Silahkan Verifikasi Terlebih Dahulu.";
-								// document.getElementById('panel_infoverif').style.display = 'block';
+								// membuat tgl
+								$('#tglnotverif').val(res.tgl);
+								var tod = new Date(res.tgl); 
+
+								document.getElementById('infoo_verf').innerHTML= "Data Report PDO Kemarin Tanggal : <b>"+daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear()+"</b> Belum Di Verifikasi.<br><b>Silahkan Verifikasi Terlebih Dahulu.</b>";
+
+								document.getElementById('panel_infoverif').style.display = 'block';
+
+								document.getElementById('contain_dasboard').style.display = 'none'; 
+								document.getElementById('dis_speedpdo').style.display = 'none';
+								document.getElementById('panel_newplann').style.display = 'none';
+								document.getElementById('no_pdodata').style.display = 'none'; 
 							}else{
 								console.log(res);
-								document.getElementById('panel_newplann').style.display = 'block';
+								var tod = new Date(); 
+
+								if (today>tod) {
+									document.getElementById('no_pdodata').style.display = 'block'; 
+
+									document.getElementById('contain_dasboard').style.display = 'none'; 
+									document.getElementById('dis_speedpdo').style.display = 'none';
+									document.getElementById('panel_newplann').style.display = 'none';
+									document.getElementById('panel_infoverif').style.display = 'none';
+								}else{
+									// Config Dispay
+									document.getElementById('panel_newplann').style.display = 'block';
+
+									document.getElementById('contain_dasboard').style.display = 'none'; 
+									document.getElementById('dis_speedpdo').style.display = 'none'; 
+									document.getElementById('panel_infoverif').style.display = 'none';
+									document.getElementById('no_pdodata').style.display = 'none'; 
+								}
+								
 							}
 							
 
@@ -1719,6 +1940,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	            });
 	        }
+
+	        $('#pindah_verifikasi').click(function(){
+	        	// hidden
+	        	document.getElementById('panel_infoverif').style.display = 'none';
+
+	        	var tgl = $('#tglnotverif').val();
+	        	var tod = new Date(tgl); 
+	        	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+
+	        	id_tgl =tgl;
+	        	updateOpt();
+	        	cekHariini();
+	        });
+
+
 		// CEK PLANNING BULANAN
 			function showplanning() { 
 

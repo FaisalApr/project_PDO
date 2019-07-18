@@ -75,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<h5 class="text-blue" style="font-size: 46px">Defect Data Table</h5> 	
 			</div>
 			<div class="pull-right">
-				<div class="row clearfix">	
+				<div class="row clearfix" id="btn_adddeff" style="display: none;">	
 					<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#login-modal" style="margin-right: 25px; width: 193px"><span class="fa fa-plus"></span> Tambah </a>
 				</div>
 			</div>
@@ -363,16 +363,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								if (res) { 
 									id_pdo = res.id;
 
-									// cek jika itu bukan miliknya
-		                    		if ($('#id_user').val()==res.id_users) { 
-		                    			console.log('MILIKNYA')  
-		                    			
-		                    		}else { 
-		                    			console.log('not YOU'); 
-		                    			// show_notYou(res.id);  
-		                    		}    
+									// admin bebas
+									var lv  = <?php echo $ses['level'] ?>; 
 
-		                    		show(res.id);  
+									// cek jika itu bukan miliknya
+		                    		if ($('#id_user').val()==res.id_users || lv==1) { 
+		                    			console.log('MILIKNYA')  
+		                    			show(res.id);  
+		                    		}else { 
+		                    			console.log('not YOU');  
+		                    			showNotYou(res.id);
+		                    		}     
 		                    		// isi Dropdown jam ke
 		                    		isi_dropdown(res.id);
 
@@ -397,6 +398,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             function show(pdo){
             	document.getElementById('no_pdodata').style.display = 'none';
 	            document.getElementById('container_maindata').style.display = 'block';
+	            // btn add
+	            document.getElementById('btn_adddeff').style.display = 'block';
                     $.ajax({
                         async :false,
                         type  : 'POST',
@@ -462,7 +465,66 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     });
 
             }
+            function showNotYou(pdo){
+            	document.getElementById('no_pdodata').style.display = 'none';
+	            document.getElementById('container_maindata').style.display = 'block';
+	            // btn add
+	            document.getElementById('btn_adddeff').style.display = 'none';
+                    $.ajax({
+                        async :false,
+                        type  : 'POST',
+                        url   : '<?php echo base_url();?>index.php/Defect/getDefectsUser',
+                        dataType : 'json',
+                        data : {id_pdo:pdo},
+                        success : function(response){
+                            var html = '';
+                            var i; 
 
+                            console.log('isi show:');
+                            console.log(response);
+
+                            var data = response.alldefect; 
+
+                            // isi list defect dropdown
+                            isi_listDefect(response.list_defect);
+
+                            // setting WIDGET
+                            document.getElementById('id_totaldeff').innerHTML= response.total.total;
+                            if (response.dpm.dpm) {
+                            	document.getElementById('id_tot_dpm').innerHTML= response.dpm.dpm;	
+                            }
+                            
+
+                            for(i=0; i<data.length; i++){
+                                html +=  
+                                '<tr>'+
+									'<td class="table-plus">'+data[i].jam_ke+'</td>'+
+									'<td>'+data[i].keterangan+'</td>'+
+									'<td>'+data[i].item+'</td>'+
+									'<td>'+data[i].total+'</td>'+
+									'<td>-</td>'+
+								'</tr>';    
+                            }
+                            $('#t_user').DataTable().destroy();
+                            $('#tbl_body').html(html);
+                        	$('#t_user').DataTable({
+								scrollCollapse: true,
+								autoWidth: false,
+								responsive: true,
+								columnDefs: [{
+									targets: "datatable-nosort",
+									orderable: false,
+								}],
+								"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+								"language": {
+									"info": "_START_-_END_ of _TOTAL_ entries",
+									searchPlaceholder: "Search"
+								},
+							});
+                        }
+                    });
+
+            }
             function showNodata() {
             	document.getElementById('id_verif').style.display = 'none';
             	document.getElementById('no_pdodata').style.display = 'block';
@@ -608,27 +670,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			// isi DATA DROPDOWN LINE
 				function loadDropdown() {
 					var idu = $('#id_user').val();
+					var lv  = <?php echo $ses['level'] ?>; 
 
-					$.ajax({
-						type: 'POST',
-						url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
-						dataType: "JSON",
-						data:{
-							id_user:idu
-						},
-						success: function(data){ 
-							console.log(data);
-	 						
-	 						$('#select_line').empty();
-	 						$('#select_line').select2({ 
-				 				placeholder: 'Pilih Line ',
-				 				minimumResultsForSearch: -1,
-				 				data:data
+					// jika admin
+					if (lv==1) {
+						var id_district = <?php echo $ses['id_district'] ?>; 
 
-				 			});
-						}
+						$.ajax({
+							type: 'POST',
+							url: '<?php echo site_url("Users/getListLineCarlineByAdmin");?>',
+							dataType: "JSON",
+							data:{
+								id_district: id_district
+							},
+							success: function(data){ 
+		 						$('#select_line').empty();
+		 						$('#select_line').select2({ 
+					 				placeholder: 'Pilih Line ',
+					 				minimumResultsForSearch: -1,
+					 				data:data
 
-					});
+					 			});
+							}
+
+						});
+					}else {
+						$.ajax({
+							type: 'POST',
+							url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+							dataType: "JSON",
+							data:{
+								id_user:idu
+							},
+							success: function(data){  
+		 						
+		 						$('#select_line').empty();
+		 						$('#select_line').select2({ 
+					 				placeholder: 'Pilih Line ',
+					 				minimumResultsForSearch: -1,
+					 				data:data
+
+					 			});
+							}
+
+						});
+					}  
 
 				}
 			// UPDATE isi Sesion

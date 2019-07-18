@@ -38,6 +38,7 @@ $(document).ready(function(){
 	$('#import_form').on('submit', function(event){
 		event.preventDefault();
 		$.ajax({
+			async: false,
 			url:"<?php echo site_url(); ?>/Excel_import/import",
 			method:"POST",
 			data:new FormData(this),

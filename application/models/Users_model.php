@@ -91,6 +91,60 @@ class Users_model extends CI_Model {
 		return $que->result();
 	}
 
+	// login admin carline dist
+	public function cariCarlineByDistric($dist)
+	{
+		$q = $this->db->query("SELECT * FROM carline WHERE id_district=$dist");
+
+		if ($q->num_rows()>0) {
+			return $q->first_row();
+		}else{
+			return false;
+		} 
+	}
+
+	public function getAdminLineAutoPicker($crl)
+	{
+		$q = $this->db->query("SELECT *,list_carline.id as id_lst 
+									from list_carline 
+									JOIN line on list_carline.id_line=line.id
+									WHERE list_carline.id_carline=$crl");
+		if ($q->num_rows()>0) {
+			return $q->first_row();
+		}else{
+			return false;
+		} 
+	}
+
+	// admin carline
+	public function getAdminCarlineGroup($dist)
+	{
+		// $que = $this->db->query("SELECT * 
+		// 							FROM user_has_line 
+		// 							JOIN list_carline on user_has_line.id_listcarline=list_carline.id
+		// 							JOIN carline on list_carline.id_carline=carline.id
+		// 							WHERE carline.id_district='$dist'
+		// 							GROUP BY list_carline.id_carline ORDER BY carline.nama_carline ASC ");
+		$que = $this->db->query("SELECT *  
+								FROM list_carline
+								JOIN carline on list_carline.id_carline=carline.id
+
+								WHERE carline.id_district=1
+								GROUP BY list_carline.id_carline 
+								ORDER BY carline.nama_carline ASC");
+		return $que->result();
+	}
+
+	// dropdown admin
+	public function getAdminCarlineDropdown($dist)
+	{
+		$que = $this->db->query("SELECT *,list_carline.id as id_lst
+								from list_carline 
+								    JOIN line on list_carline.id_line=line.id
+								WHERE list_carline.id_carline=$dist");
+		return $que->result();
+	}
+
 
 }
 

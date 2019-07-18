@@ -45,6 +45,12 @@ class AssyCode_model extends CI_Model {
  		$this->db->where('id',$id);
  		return $this->db->update('assembly', $data);
 	}
+	// update2
+	public function updateACode2($id,$data)
+	{  
+ 		$this->db->where('id',$id);
+ 		return $this->db->update('assembly', $data);
+	}
 
 }
 

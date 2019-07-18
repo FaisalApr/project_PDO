@@ -11,9 +11,10 @@ class LineManager extends CI_Controller {
 
 	public function index()
 	{
-		$data['data_line'] = $this->LineManagerModel->getLine();
-		$data['data_assy'] = $this->LineManagerModel->getAssy();
-		$this->load->view('LineManager/LineMgr', $data);
+		// $data['data_line'] = $this->LineManagerModel->getLine();
+		// $data['data_assy'] = $this->LineManagerModel->getAssy();
+		// $this->load->view('LineManager/LineMgr', $data);
+		$this->load->view('Line/Line_temp');
 	}
 
 	public function newLM()
@@ -65,7 +66,7 @@ class LineManager extends CI_Controller {
 		echo json_encode($result);
 	}
 
-	public function getUserById()
+	public function getAssByLine()
 	{
 		# code...
 		$data = $this->LineManagerModel->getRecordById($this->input->post('id'));

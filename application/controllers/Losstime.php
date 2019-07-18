@@ -134,6 +134,13 @@ class Losstime extends CI_Controller {
 		echo json_encode($result);	
 	}
 
+	public function cariDowntimeByOC()
+	{
+		$id_pdo = $this->input->post('id_oc'); 
+		$result = $this->Losstime_model->cariDowntimeByOC($id_pdo);
+		echo json_encode($result);	
+	}
+
 }
 
 /* End of file downtime.php */

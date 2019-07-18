@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>DeskApp Dashboard</title>
+	<title>PDO Line Manager</title>
 
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,11 +14,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
+	<style type="text/css">
+ 		.select2-selection__rendered {
+		    line-height: 55px !important;
+		}
+		.select2-container .select2-selection--single {
+		    height: 50px !important;
+		}
+		.select2-selection__arrow {
+		    height: 50px !important;
+		}
+ 	</style>
 
 </head>
 <body>
-<?php $this->load->view('header/header'); ?>
-<?php $this->load->view('header/sidebar'); ?>
+	<?php 
+		$ses = $this->session->userdata('pdo_logged'); 
+		$opt = $this->session->userdata('pdo_opt'); 
+	 ?>
+	<input type="hidden" id="id_user" value="<?php echo $ses['id_user'] ?>">
+	<input type="hidden" value="<?php echo $opt['id_shift'] ?>" id="id_shift">
+	<!-- opt -->
+	<input type="hidden" value="<?php echo $opt['tgl'] ?>" id="id_tgl">
+	<input type="hidden" value="<?php echo $opt['id_line'] ?>" id="id_line">
+
+	<?php $this->load->view('header/header_users'); ?>
+	<?php $this->load->view('header/sidebar_users'); ?>
  
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
@@ -26,23 +47,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<!-- BODY CONTAINER --> 
 		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" id="cont_1"> 
 			<div class="pull-left">
-				<h5 class="text-blue" style="font-size: 46px">Line Data Table</h5> 	
+				<h5 class="text-blue" style="font-size: 46px">Data Line Manager</h5> 	
 			</div>
 			<div class="pull-right">
 				<div class="row clearfix">	
+					<a class="btn btn-primary" data-toggle="modal" href='#modal_importexcl' style="margin-right: 25px;">Import File .Xlsx</a>
+					
 					<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#i_line-modal" style="margin-right: 30px; width: 193px"><span class="fa fa-plus"></span> Tambah </a>
 				</div>
 			</div>
-			<br><br><br>
-
+			<br><br><br> 
 			<!-- TABEL -->
 			<table class="data-table stripe hover nowrap" id="t_user">
 				<thead>
 					<tr>
 						<th style="vertical-align: middle; text-align: center;" class="table-plus datatable-nosort">No</th>
-						
-						<th style="vertical-align: middle; text-align: center;" class="datatable-nosort">Line</th>
-						<th style="vertical-align: middle; text-align: center;" class="datatable-nosort">Kode Assy</th>
+						<th style="vertical-align: middle; text-align: center;" >Carline</th>
+						<th style="vertical-align: middle; text-align: center;" >Line</th>
+						<th style="vertical-align: middle; text-align: center;" >Kode Assy</th>
 						<th style="vertical-align: middle; text-align: center;" class="datatable-nosort">Action</th>
 					</tr>
 				</thead>
@@ -52,10 +74,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</table>
 		</div>
 
-
 		<!-- BODY CONTAINER 2--> 
-			<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" id="cont_2" style="display: none;"> 
-			
+		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" id="cont_2" style="display: none;">  
 			<div class="row">
 				<div class="col-md-3 col-sm-12">
 					<a href="#" class="btn btn-danger" id="btn_back" data-backdrop="static" style="margin-left: : 20px; width: 100px"><span class="fa fa-arrow-left"></span>  </a>
@@ -72,26 +92,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#i_line2-modal" style="margin-right: 10px; width: 193px"><span class="fa fa-plus"></span> Tambah </a>
 					</div>
 				</div>
-			</div>
-				
-				<br>
-
-				<!-- TABEL -->
-				<table class="data-table stripe hover nowrap" id="ta_user">
-					<thead>
-						<tr>
-							<th style="vertical-align: middle; text-align: center;" class="table-plus datatable-nosort">No</th>
-							
-							
-							<th style="vertical-align: middle; text-align: center;" class="datatable-nosort">Kode Assy</th>
-							<th style="vertical-align: middle; text-align: center;" class="datatable-nosort">Action</th>
-						</tr>
-					</thead>
-					<tbody id="tbl_body2">
+			</div> 
+			<br> 
+			<!-- TABEL -->
+			<table class="data-table stripe hover nowrap" id="ta_user">
+				<thead>
+					<tr>
+						<th style="vertical-align: middle; text-align: center;" class="table-plus datatable-nosort">No</th>
 						
-					</tbody>
-				</table>
-			</div>
+						
+						<th style="vertical-align: middle; text-align: center;" class="datatable-nosort">Kode Assy</th>
+						<th style="vertical-align: middle; text-align: center;" class="datatable-nosort">Action</th>
+					</tr>
+				</thead>
+				<tbody id="tbl_body2">
+					
+				</tbody>
+			</table>
+		</div>
 
 	<!-- ==================================================================================== -->
 	<!-- kumpulan modal -->
@@ -269,7 +287,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
               </div>
     <!-- ==================================================================================== -->
-	</div>
+	
+    	<!-- import file -->
+			<div class="modal fade" id="modal_importexcl">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Import File EXCEL (.Xlsx)</h4>
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+						</div>
+						<div class="modal-body">
+							<form method="post" id="import_form" enctype="multipart/form-data">
+								<p><label>Select Excel File</label>
+								<input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
+								<br />
+								<input type="submit" name="import" value="Import" class="btn btn-info" />
+							</form>
+
+						</div> 
+					</div>
+				</div>
+			</div>
+
+	</div>  
 </div>
 
 <!-- grup script -->
@@ -281,8 +321,108 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- grup end -->
 	<script>
 		$('document').ready(function(){
-			// datatable
-				
+			// VAR CORE
+				var id_line = $('#id_line').val();
+				var id_shift = $('#id_shift').val();
+				var id_tgl = $('#id_tgl').val();
+				var id_pdo = 0;
+				var balance_awal=0;
+				var id_target =0;
+			// variabel global	
+				// deklarasi nama bulan
+	 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+	 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+
+	 			var today = new Date(id_tgl);
+				var currentMonth = today.getMonth();
+				var currentYear = today.getFullYear();
+				var currDate = today.getDate();
+				// Set this month
+				var daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+				var awalDay =1;
+			// aditional PICKER DATE  
+				// SETTING DEFAULT DATE
+	 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
+	            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
+
+
+				$(".inputs").keyup(function () {
+				    if (this.value.length == this.maxLength) {
+				      $(this).select();
+				      $(this).next('.inputs').focus();  
+				    }
+				});
+
+				$("input").click(function () {
+				   $(this).select();
+				}); 	 
+			// TrigGER PIlih TANGGAL
+				$('.date-pickerrr').datepicker({   
+					language: "en",
+					firstDay: 1,  
+				    onSelect: function(selected, d, calendar) {   
+				    	// jika yang dipilih sama 
+				    	if (selected=='') { 
+				    		var tod = new Date(id_tgl);  
+
+				    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+				    		calendar.hide();
+				    		return ;
+				    	}else{
+				    		// post data additional
+				    		id_tgl = new Date(selected);
+				    		var tod = new Date(selected); 
+					    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+					    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+
+					    	// post new data additional
+					    	updateOpt();
+				    	} 
+				    	calendar.hide();
+
+				    	// refresh 
+				    	// showplanning();
+			    		// cariDataPdo();
+			    		// cekHariini(); 
+				    }
+				});
+			// TRIGGEr line Change
+				$('#select_line').on('select2:select',function(e){
+					var data = e.params.data;
+					
+					id_line = data.id ;
+					// update opt to server
+					updateOpt();  
+					// cekHariini();
+					// console.log(data); 
+					// console.log('ln:'+id_line+'|sf:'+id_shift); 
+				});
+			// PILIH SHIFTY 
+				$('#drop_shiftt').on('click','.pilih_sf',function(){
+					var ssf = $(this).data('value'); 
+	 
+					if (ssf==1) {
+						document.getElementById('id_sifname').innerHTML= 'A';
+						document.getElementById('sf_a').classList.add("aktip");
+						document.getElementById('sf_b').classList.remove("aktip"); 	
+					} else{
+						document.getElementById('id_sifname').innerHTML= 'B';
+						document.getElementById('sf_b').classList.add("aktip");	
+						document.getElementById('sf_a').classList.remove("aktip");	
+					}
+
+					id_shift = ssf; 
+					id_line = $('#select_line').val();
+
+					// update opt to server
+					updateOpt();   
+				});
+			
+			// ====  AUTOLOAD =====  
+			loadDropdown();
+			show(); 
+
+			// INIT datatable 
 				$('.data-table-export').DataTable({
 					scrollCollapse: true,
 					autoWidth: false,
@@ -315,7 +455,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$('.multiple-select-row tbody').on('click', 'tr', function () {
 					$(this).toggleClass('selected');
 				});
-			// crud
+			 
+
+
+			// =====================  CONTAINER 1  ========================
 				// create
 					$('#btn_line_submit').click(function(){
 						var nama = document.getElementById("i_nama").value;
@@ -342,84 +485,86 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						});
 						show();
 					});
-				// read
-					show();    
+				// read  
             		function show(){
-		          	$.ajax({
-		            async :false,
-		            type  : 'ajax',
-		            url   : '<?php echo base_url();?>index.php/Line/getLine',
-		            dataType : 'JSON',
-		            success : function(data){
-		            var html = '';
-		            var i;
-		            var a=0;
-		            // var data = data_lm.data_lm;
-		            for(i=0; i<data.length; i++){
-
-		              html += 
-		              '<tr>'+
-		                '<th style="vertical-align: middle; text-align: center;">'+(i+1)+'</th>'+
-		                '<th style="vertical-align: middle; text-align: center;">'+data[i].nama_line+'</th>'+
-		                '<th style="vertical-align: middle; text-align: center;">';
-		                $.ajax({
+			          	$.ajax({
 				            async :false,
-				            type  : 'post',
-				            url   : '<?php echo base_url();?>index.php/LineManager/getUserById',
+				            type  : 'ajax',
+				            url   : '<?php echo base_url();?>index.php/Line/getLine',
 				            dataType : 'JSON',
-				            data :{id:data[i].id },
-				            success : function(respon){
-				            		var limit = 0;
-				            		if(respon.length>5){
-				            			limit = 5;
-				            		}else{
-				            			limit = respon.length;
-				            		}
-				            		for(var j=0;j<limit; j++){
-				            			html +=
-				            			respon[j].kode_assy+ ' , ';
-				            		}
-				            		html+=
-				            		' ('+respon.length+')';
+				            success : function(data){
+				            var html = '';
+				            var i;
+				            var a=0;
+				            // var data = data_lm.data_lm;
+				            // console.log(data);
+				            // return;
+				            for(i=0; i<data.length; i++){
 
-				            	}
-				            });
-		                html +='</th>'+
-		                '<th>'+
-		                  '<div class="dropdown" style="vertical-align: middle; text-align: center;">'+
-		                      '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
-		                        '<i class="fa fa-ellipsis-h"></i>'+
-		                      '</a>'+                     
-		                      '<div class="dropdown-menu dropdown-menu-right">'+
-		                        '<a class="dropdown-item item_edit" href="#" data-id="'+data[i].id+'" data-nama_line="'+data[i].nama_line+'" data-id_line="'+data[i].id_line+'" data-id_assy="'+data[i].id_assy+'"><i class="fa fa-pencil"></i> Edit </a>'+
-		                        '<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
-		                        '<a class="dropdown-item item_view" href="#" data-nama="'+data[i].nama_line+'" data-id="'+data[i].id+'"><i class="fa fa-eye"></i> Detail </a>'+
-		                      
-		                      '</div>'+
-		                    '</div>'+
-		                '</th>'+
-		              '</tr>';
+				              html += 
+				              '<tr>'+
+				                '<th style="vertical-align: middle; text-align: center;">'+(i+1)+'</th>'+
+				                '<th style="vertical-align: middle; text-align: center;">'+data[i].nama_carline+'</th>'+
+				                '<th style="vertical-align: middle; text-align: center;">'+data[i].nama_line+'</th>'+
+				                '<th style="vertical-align: middle; text-align: center;">';
+				                $.ajax({
+						            async :false,
+						            type  : 'post',
+						            url   : '<?php echo base_url();?>index.php/LineManager/getAssByLine',
+						            dataType : 'JSON',
+						            data :{id:data[i].id_carline },
+						            success : function(respon){
+						            		var limit = 0;
+						            		if(respon.length>5){
+						            			limit = 5;
+						            		}else{
+						            			limit = respon.length;
+						            		}
+						            		for(var j=0;j<limit; j++){
+						            			html +=
+						            			respon[j].kode_assy+ ' , ';
+						            		}
+						            		html+=
+						            		' ('+respon.length+')';
 
-		            }		  
-		            $('#t_user').DataTable().destroy();          
-		            $('#tbl_body').html(html);  
-		            $('#t_user').DataTable({
-						scrollCollapse: true,
-						autoWidth: false,
-						responsive: true,
-						columnDefs: [{
-							targets: "datatable-nosort",
-							orderable: false,
-						}],
-						"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-						"language": {
-							"info": "_START_-_END_ of _TOTAL_ entries",
-							searchPlaceholder: "Search"
-						},
-					});  
-		            }
-		          });
-		        }
+						            	}
+						            });
+				                html +='</th>'+
+				                '<th>'+
+				                  '<div class="dropdown" style="vertical-align: middle; text-align: center;">'+
+				                      '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+				                        '<i class="fa fa-ellipsis-h"></i>'+
+				                      '</a>'+                     
+				                      '<div class="dropdown-menu dropdown-menu-right">'+
+				                        '<a class="dropdown-item item_edit" href="#" data-id="'+data[i].id+'" data-nama_line="'+data[i].nama_line+'" data-id_line="'+data[i].id_line+'" data-id_assy="'+data[i].id_assy+'"><i class="fa fa-pencil"></i> Edit </a>'+
+				                        '<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
+				                        '<a class="dropdown-item item_view" href="#" data-nama="'+data[i].nama_line+'" data-id="'+data[i].id+'"><i class="fa fa-eye"></i> Detail </a>'+
+				                      
+				                      '</div>'+
+				                    '</div>'+
+				                '</th>'+
+				              '</tr>';
+
+				            }		  
+				            $('#t_user').DataTable().destroy();          
+				            $('#tbl_body').html(html);  
+				            $('#t_user').DataTable({
+								scrollCollapse: true,
+								autoWidth: false,
+								responsive: true,
+								columnDefs: [{
+									targets: "datatable-nosort",
+									orderable: false,
+								}],
+								"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+								"language": {
+									"info": "_START_-_END_ of _TOTAL_ entries",
+									searchPlaceholder: "Search"
+								},
+							});  
+			           	 }
+			        	});
+		        	}
 				// update
 					//get data for UPDATE record show prompt
 			            $('#tbl_body').on('click','.item_edit',function(){
@@ -471,14 +616,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                $('[name="id_dc_delete"]').val(id);  
 			                $('#confirmation-modal').modal('show');
 			                // document.getElementById("namaPengumuman_hapus").innerHTML=" '"+judul+"' ";
-			                
-			                
-			               
+			                  
 			                // alert('oke');
 			            });
 
-			            //delete record to database
-
+			            //delete record to database 
 			            $('#btn_del_line').on('click',function(){
 			                var id_dc_delete = $('#id_dc_delete').val();
 			                // alert(id_dc_delete)
@@ -499,7 +641,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            });
 
 
-// ---------------------------------------view------------------------------------------------------------
+			// =====================  CONTAINER 2  ======================== 
 
 			// spv_manager
 				var coba;
@@ -684,7 +826,101 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			            });
 
+			// FUnc OPT
+				// isi DATA DROPDOWN LINE
+					function loadDropdown() {
+						var idu = $('#id_user').val();
+						var lv  = <?php echo $ses['level'] ?>; 
 
+						// jika admin
+						if (lv==1) {
+							var id_district = <?php echo $ses['id_district'] ?>; 
+
+							$.ajax({
+								type: 'POST',
+								url: '<?php echo site_url("Users/getListLineCarlineByAdmin");?>',
+								dataType: "JSON",
+								data:{
+									id_district: id_district
+								},
+								success: function(data){ 
+			 						$('#select_line').empty();
+			 						$('#select_line').select2({ 
+						 				placeholder: 'Pilih Line ',
+						 				minimumResultsForSearch: -1,
+						 				data:data
+
+						 			});
+								}
+
+							});
+						}else {
+							$.ajax({
+								type: 'POST',
+								url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+								dataType: "JSON",
+								data:{
+									id_user:idu
+								},
+								success: function(data){  
+			 						
+			 						$('#select_line').empty();
+			 						$('#select_line').select2({ 
+						 				placeholder: 'Pilih Line ',
+						 				minimumResultsForSearch: -1,
+						 				data:data
+
+						 			});
+								}
+
+							});
+						}  
+
+					}
+				// UPDATE isi Sesion
+					function updateOpt() {
+						$.ajax({ 
+			                type  : 'POST',
+			                url   : '<?php echo site_url();?>/Login/updateDataOpt',
+			                dataType : 'JSON',  
+			                data:{
+			                	tgl: id_tgl,
+			                	sif: id_shift,
+			                	line: id_line
+			                },
+			                success : function(res){   
+								console.log(res);
+			                }
+
+			            });
+					}
+
+			// Import FIle
+				$('#import_form').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						async: false,
+						url:"<?php echo site_url(); ?>/Excel_import/importLineMgr",
+						method:"POST",
+						data:new FormData(this),
+						contentType:false,
+						cache:false,
+						processData:false,
+						success:function(data){
+							$('#file').val('');
+							console.log(data);
+							$('#modal_importexcl').modal('hide');
+
+							Swal.fire({
+							  position: 'center',
+							  title: 'Selesai Menambahkan',
+							  type: 'success', 
+							});
+
+							show(); 
+						}
+					})
+				});
 
 
 		});

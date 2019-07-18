@@ -19,8 +19,7 @@ class Excel_import_model extends CI_Model {
 	
 
 	public function ceknama($kode)
-	{
-
+	{ 
 		# code...
 		$query = $this->db->query('SELECT * FROM assembly where kode_assy="'.$kode.'"');
 		if($query->num_rows()>0){
@@ -36,6 +35,63 @@ class Excel_import_model extends CI_Model {
 		$query = $this->db->query('"'.$nama.'"');
 		return $query->first_row();
 	}
+
+	//  IMPORT
+		public function cekComp($nama)
+		{ 
+			# code...
+			$query = $this->db->query('SELECT * FROM district where nama="'.$nama.'"');
+			if($query->num_rows()>0){
+				return $query->first_row();
+			}else{
+				return false;
+			}
+		}
+
+		public function cekNamaCarline($nama,$id)
+		{ 
+			# code...
+			$query = $this->db->query("SELECT * FROM carline WHERE id_district='".$id."' AND nama_carline='".$nama."'");
+			if($query->num_rows()>0){
+				return $query->first_row();
+			}else{
+				return false;
+			}
+		}
+
+		public function cekNamaLine($nama)
+		{ 
+			# code...
+			$query = $this->db->query('SELECT * FROM line where nama_line="'.$nama.'"');
+			if($query->num_rows()>0){
+				return $query->first_row();
+			}else{
+				return false;
+			}
+		}
+
+		// mencari di list carline id carline n Line
+		public function cekListCarlineOnCrnLn($cl,$ln)
+		{ 
+			# code...
+			$query = $this->db->query("SELECT * FROM list_carline WHERE id_carline=$cl AND id_line=$ln");
+			if($query->num_rows()>0){
+				return $query->first_row();
+			}else{
+				return false;
+			}
+		}		
+
+		public function cekLineManager($lstcr,$assy)
+		{  
+			$query = $this->db->query("SELECT * FROM line_manager WHERE id_list_carline=$lstcr AND id_assy=$assy");
+			if($query->num_rows()>0){
+				return $query->first_row();
+			}else{
+				return false;
+			}
+		}
+
 
 }
 

@@ -41,25 +41,55 @@ class Login extends CI_Controller {
 		$result = $this->Login_model->login($usr,$pwd);
 		if ($result) { 
 			$sess_array = array();
-			
+
 			// mengisi sesion utama
 			$sess_array = array(
 					'id_user' => $result->id_usr,
 					'nama' => $result->nama, 
 					'level' => $result->level,
 					'id_shift' => $result->id_shift,
-					'keterangan' => $result->keterangan
+					'keterangan' => $result->keterangan,
+					'id_district' => $result->id_district
 				);	  
 
-			// megisi SESION Optional
-			$carl = $this->Users_model->getUsersCarlineGroup($result->id_usr);
-			$cline = $this->Users_model->getUsersLineByCarline($result->id_usr,$carl[0]->id_carline);
+			// isi sesion admin
+			if ($result->level==1) {
 
-			$ses_additional = array(
-					'tgl'  => date("Y-m-d"),
-					'id_shift' => $result->id_shift,
-					'id_line'  => $cline[0]->id_lst
-				);
+				// membuat auto pick line
+				// mencari carline di distric  id_district
+				$carl = $this->Users_model->cariCarlineByDistric($result->id_district);
+				if (!$carl) {
+					$this->session->unset_userdata('pdo_logged');
+					$this->session->unset_userdata('pdo_opt');
+					$output['error'] = true;
+				} 
+
+				$cline = $this->Users_model->getAdminLineAutoPicker($carl->id);
+
+				if ($cline) {
+					$ses_additional = array(
+										'tgl'  => date("Y-m-d"),
+										'id_shift' => $result->id_shift,
+										'id_line'  => $cline->id_lst
+									); 
+				}else{
+					$this->session->unset_userdata('pdo_logged');
+					$this->session->unset_userdata('pdo_opt');
+					$output['error'] = true;
+				}  
+
+			}else{
+
+				// megisi SESION Optional
+				$carl = $this->Users_model->getUsersCarlineGroup($result->id_usr);
+				$cline = $this->Users_model->getUsersLineByCarline($result->id_usr,$carl[0]->id_carline); //setting aouto pick line
+
+				$ses_additional = array(
+						'tgl'  => date("Y-m-d"),
+						'id_shift' => $result->id_shift,
+						'id_line'  => $cline[0]->id_lst
+					);
+			} 
 
 			// set sesion logined
 			$this->session->set_userdata('pdo_logged',$sess_array); 

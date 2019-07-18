@@ -19,10 +19,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/select2/dist/css/select2.min.css">
 		<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/select2/theme/select2-bootstrap.css">
 		<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/select2/theme/select2-bootstrap.min.css">
+	
+	<style type="text/css">
+ 		.select2-selection__rendered {
+		    line-height: 55px !important;
+		}
+		.select2-container .select2-selection--single {
+		    height: 50px !important;
+		}
+		.select2-selection__arrow {
+		    height: 50px !important;
+		}
+ 	</style>
 
 <body>
-<?php $this->load->view('header/header'); ?>
-<?php $this->load->view('header/sidebar'); ?>
+	<?php 
+		$ses = $this->session->userdata('pdo_logged'); 
+		$opt = $this->session->userdata('pdo_opt'); 
+	 ?>
+	<input type="hidden" id="id_user" value="<?php echo $ses['id_user'] ?>">
+	<input type="hidden" value="<?php echo $opt['id_shift'] ?>" id="id_shift">
+	<!-- opt -->
+	<input type="hidden" value="<?php echo $opt['tgl'] ?>" id="id_tgl">
+	<input type="hidden" value="<?php echo $opt['id_line'] ?>" id="id_line">
+
+<?php $this->load->view('header/header_users'); ?>
+<?php $this->load->view('header/sidebar_users'); ?>
+
  
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
@@ -337,6 +360,106 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- ajax -->
 	<script>
 		$('document').ready(function(){
+			// VAR CORE
+				var id_line = $('#id_line').val();
+				var id_shift = $('#id_shift').val();
+				var id_tgl = $('#id_tgl').val();
+				var id_pdo = 0;
+				var balance_awal=0;
+				var id_target =0;
+			// variabel global	
+				// deklarasi nama bulan
+	 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+	 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+
+	 			var today = new Date(id_tgl);
+				var currentMonth = today.getMonth();
+				var currentYear = today.getFullYear();
+				var currDate = today.getDate();
+				// Set this month
+				var daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+				var awalDay =1;
+			// aditional PICKER DATE  
+				// SETTING DEFAULT DATE
+	 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
+	            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
+
+
+				$(".inputs").keyup(function () {
+				    if (this.value.length == this.maxLength) {
+				      $(this).select();
+				      $(this).next('.inputs').focus();  
+				    }
+				});
+
+				$("input").click(function () {
+				   $(this).select();
+				}); 	 
+			// TrigGER PIlih TANGGAL
+				$('.date-pickerrr').datepicker({   
+					language: "en",
+					firstDay: 1,  
+				    onSelect: function(selected, d, calendar) {   
+				    	// jika yang dipilih sama 
+				    	if (selected=='') { 
+				    		var tod = new Date(id_tgl);  
+
+				    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+				    		calendar.hide();
+				    		return ;
+				    	}else{
+				    		// post data additional
+				    		id_tgl = new Date(selected);
+				    		var tod = new Date(selected); 
+					    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+					    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+
+					    	// post new data additional
+					    	updateOpt();
+				    	} 
+				    	calendar.hide();
+
+				    	// refresh 
+				    	// showplanning();
+			    		// cariDataPdo();
+			    		// cekHariini(); 
+				    }
+				});
+			// TRIGGEr line Change
+				$('#select_line').on('select2:select',function(e){
+					var data = e.params.data;
+					
+					id_line = data.id ;
+					// update opt to server
+					updateOpt();  
+					// cekHariini();
+					// console.log(data); 
+					// console.log('ln:'+id_line+'|sf:'+id_shift); 
+				});
+			// PILIH SHIFTY 
+				$('#drop_shiftt').on('click','.pilih_sf',function(){
+					var ssf = $(this).data('value'); 
+	 
+					if (ssf==1) {
+						document.getElementById('id_sifname').innerHTML= 'A';
+						document.getElementById('sf_a').classList.add("aktip");
+						document.getElementById('sf_b').classList.remove("aktip"); 	
+					} else{
+						document.getElementById('id_sifname').innerHTML= 'B';
+						document.getElementById('sf_b').classList.add("aktip");	
+						document.getElementById('sf_a').classList.remove("aktip");	
+					}
+
+					id_shift = ssf; 
+					id_line = $('#select_line').val();
+
+					// update opt to server
+					updateOpt();   
+				});
+			
+			// ====  AUTOLOAD =====  
+			loadDropdown();
+
 			//  GLOBAL
 				var dist=0;
 				var id_spv;
@@ -812,9 +935,77 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					    // insert data district selct
 	  					dist = this.value;
 					});
-		});
 		
+			// FUnc OPT
+				// isi DATA DROPDOWN LINE
+					function loadDropdown() {
+						var idu = $('#id_user').val();
+						var lv  = <?php echo $ses['level'] ?>; 
 
+						// jika admin
+						if (lv==1) {
+							var id_district = <?php echo $ses['id_district'] ?>; 
+
+							$.ajax({
+								type: 'POST',
+								url: '<?php echo site_url("Users/getListLineCarlineByAdmin");?>',
+								dataType: "JSON",
+								data:{
+									id_district: id_district
+								},
+								success: function(data){ 
+			 						$('#select_line').empty();
+			 						$('#select_line').select2({ 
+						 				placeholder: 'Pilih Line ',
+						 				minimumResultsForSearch: -1,
+						 				data:data
+
+						 			});
+								}
+
+							});
+						}else {
+							$.ajax({
+								type: 'POST',
+								url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+								dataType: "JSON",
+								data:{
+									id_user:idu
+								},
+								success: function(data){  
+			 						
+			 						$('#select_line').empty();
+			 						$('#select_line').select2({ 
+						 				placeholder: 'Pilih Line ',
+						 				minimumResultsForSearch: -1,
+						 				data:data
+
+						 			});
+								}
+
+							});
+						}  
+
+					}
+				// UPDATE isi Sesion
+					function updateOpt() {
+						$.ajax({ 
+			                type  : 'POST',
+			                url   : '<?php echo site_url();?>/Login/updateDataOpt',
+			                dataType : 'JSON',  
+			                data:{
+			                	tgl: id_tgl,
+			                	sif: id_shift,
+			                	line: id_line
+			                },
+			                success : function(res){   
+								console.log(res);
+			                }
+
+			            });
+					}
+
+		}); 
 	</script>
 
 </body>

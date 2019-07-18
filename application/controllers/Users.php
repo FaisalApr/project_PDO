@@ -168,6 +168,46 @@ class Users extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	public function getListLineCarlineByAdmin()
+	{
+		$idst = $this->input->post('id_district');
+		$carl = $this->Users_model->getAdminCarlineGroup($idst);
+		$data = array(); 
+
+		foreach ($carl as $key) {
+			// mencari isi setiap carline
+			$cline = $this->Users_model->getAdminCarlineDropdown($key->id_carline);
+			$line = array();
+			foreach ($cline as $ckey) {
+				// get sesion
+				$ses_opt = $this->session->userdata('pdo_opt'); 
+
+				if ($ckey->id_lst==$ses_opt['id_line']) {
+					$tmp = array(
+							'id' => $ckey->id_lst,  // id_ tbl-list-carline
+							'text' => $ckey->nama_line, //nama_line tbl-line
+							"selected" => true
+						);
+				}else{
+					$tmp = array(
+							'id' => $ckey->id_lst,  // id_ tbl-list-carline
+							'text' => $ckey->nama_line //nama_line tbl-line
+						);
+				}
+				array_push($line, $tmp); 
+			}
+
+			// insert data ke arr utama
+		 	$isi = array(
+		 			'text' => $key->nama_carline, // nama_car tbl-carline
+		 			'children' => $line
+		 			);
+		 	array_push($data, $isi); 
+		}
+
+		echo json_encode($data);
+	}
+
 
 }
 

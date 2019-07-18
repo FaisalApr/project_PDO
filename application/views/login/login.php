@@ -8,7 +8,8 @@
 	<!--Custom styles-->
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/vendors/styles/login_styles.css">
 </head>
-<body style="background-image: url(<?php echo base_url('assets/src/wp/wp.jpg') ?>);">
+<body style="background-image: url(<?php echo base_url('assets/src/wp/wp.jpg') ?>);"> 
+	
 <div class="container" id="id_content">
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
@@ -30,22 +31,23 @@
 						</div>
 						<input id="pwd_input" type="password" class="form-control" placeholder="password">
 					</div>
-					<div class="row align-items-center remember">
+					<!-- <div class="row align-items-center remember">
 						<input type="checkbox">Remember Me
-					</div>
+					</div> -->
+					<br>
 					<div class="form-group">
 						<a id="btn_login"  class="btn float-right login_btn">Login</a> 
 					</div>
 				</form>
 			</div>
-			<div class="card-footer">
+			<!-- <div class="card-footer">
 				<div class="d-flex justify-content-center links">
 					Don't have an account?<a href="#">Sign Up</a>
 				</div>
 				<div class="d-flex justify-content-center">
 					<a href="#">Forgot your password?</a>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
@@ -85,6 +87,7 @@
 				},
 				success: function(data){ 
 					// console.log(data);
+					// return;
 					// jika tidak error / pass benar
 					if (!data.error) {
 						Swal.close();

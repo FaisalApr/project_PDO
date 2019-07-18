@@ -10,10 +10,14 @@ class LineModel extends CI_Model {
 	}
 
 	public function getLine()
-	{
-		# code...
-		$this->db->order_by('nama_line','asc');
-		$query = $this->db->get('line');
+	{ 
+		$query = $this->db->query("SELECT * 
+										FROM district
+										JOIN carline on carline.id_district=district.id
+										JOIN list_carline on carline.id=list_carline.id_carline
+										JOIN line on list_carline.id_line=line.id 
+										ORDER BY carline.nama_carline ASC
+								");
 		return $query->result();
 	}
 

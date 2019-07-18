@@ -165,14 +165,12 @@ class Welcome extends CI_Controller {
  		echo json_encode($result);
  	}
  	public function cekBelumVerifikasi()
- 	{
- 		// get sesion
-		$session_data = $this->session->userdata('pdo_logged'); 
-		
- 		$date = date("Y-m-d");
- 		$user = $session_data['id_user'];  
+ 	{  	
+ 		$date = $this->input->post('id_tgl');
+ 		$line = $this->input->post('id_line');
+ 		$shift = $this->input->post('id_shift');
 
- 		$result = $this->Verifikasi_model->cariNotVerif($date,$user);
+ 		$result = $this->Verifikasi_model->cariNotVerif($date,$line,$shift);
 
  		echo json_encode($result);
  		# code...

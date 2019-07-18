@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <h5 class="text-black" style="font-size: 20px; margin-left: 5px">A.</h5>
           </div>
 
-         <div class="project-info-right" style="margin-top: -10px">
+              <div class="project-info-right" style="margin-top: -10px" id="conf_editIdl" style="display: none;">
                 <a  id="btn_trig_edita" href='#' class="btn btn-success btn-sm" data-to><i class="fa fa-cog" aria-hidden="true"></i>  Edit</a> 
               </div>
               <br> 
@@ -114,7 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         
         <div class="pull-right">
-        <div class="row clearfix">  
+        <div class="row clearfix" id="add_nonoprh" style="display: none;">  
           <a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#input-modal" style="margin-right: 25px; width: 100px"><span class="fa fa-plus"></span> Tambah</a>
         </div></div>
 
@@ -450,82 +450,275 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       id_tgl:id_tgl
                     } ,
                     success : function(res){   
-                              if (res) { 
-                                  id_pdo = res.id;
+                        if (res) { 
+                            id_pdo = res.id;
 
-                                // cek jika itu bukan miliknya
-                                  if ($('#id_user').val()==res.id_users) { 
-                                    console.log('MILIKNYA')  
-                                    
-                                  }else { 
-                                    console.log('not YOU'); 
-                                    // show_notYou(res.id);  
-                                  }    
-                                  
-                                  show();
-                                  showDl();
-                                  // show
-                                  document.getElementById('no_pdodata').style.display = 'none';
-                                  document.getElementById('container_maindata').style.display = 'block';
-                                  //  STATUS VERIFIKASI   
-                                   if (res.status==1) {
-                                    document.getElementById('id_verif').style.display = 'block';
-                                   }else{
-                                    document.getElementById('id_verif').style.display = 'none';
-                                   }  
-                                   
-                              }else{ 
-                                  console.log('is null');  
-                                  showNodata();
-                              } 
+                          // cek jika itu bukan miliknya
+                            if ($('#id_user').val()==res.id_users) { 
+                              console.log('MILIKNYA');
+                              showIsYou();
+                            }else { 
+                              console.log('not YOU'); 
+                              // show_notYou(res.id);  
+                              showNotYou();
+                            }    
+                             
+                            // show
+                            document.getElementById('no_pdodata').style.display = 'none';
+                            document.getElementById('container_maindata').style.display = 'block';
+                            //  STATUS VERIFIKASI   
+                             if (res.status==1) {
+                              document.getElementById('id_verif').style.display = 'block';
+                             }else{
+                              document.getElementById('id_verif').style.display = 'none';
+                             }  
+                             
+                        }else{ 
+                            console.log('is null');  
+                            showNodata();
                         } 
+                    } 
               }); 
           }
  
-        function show(){
-          $.ajax({
-            async :false,
-            type  : 'post',
-            url   : '<?php echo base_url();?>index.php/IndirectLabor/getAbsenLeader',
-            dataType : 'JSON',
-            data : {id_pdo:id_pdo},
-            success : function(data){
-            var html = '';
-            var i;
-            var a=0;
-            for(i=0; i<data.length; i++){
-              html += 
+        function showIsYou(){
+            document.getElementById('add_nonoprh').style.display = 'block';
+            document.getElementById('conf_editIdl').style.display = 'block';
 
-              '<tr>'+
-                '<th style=" vertical-align: middle; text-align: center;">'+data[i].item+'</th>'+
-                '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
-                '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
-                '<th colspan="2" style=" vertical-align: middle; text-align: center;">'+data[i].total+'</th>'+
-                '<th>'+
-                  '<div class="dropdown" style=" vertical-align: middle; text-align: center;">'+
-                      '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
-                        '<i class="fa fa-ellipsis-h"></i>'+
-                      '</a>'+                     
-                      '<div class="dropdown-menu dropdown-menu-right">'+
-                        '<a class="dropdown-item item_edit" href="#" data-id="'+data[i].id+'" data-item="'+data[i].item+'" data-qty="'+data[i].qty+'" data-jam="'+data[i].jam+'" data-total="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
-                        '<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
+            // iDL
+            $.ajax({
+              async :false,
+              type  : 'post',
+              url   : '<?php echo base_url();?>index.php/IndirectLabor/getAbsenLeader',
+              dataType : 'JSON',
+              data : {id_pdo:id_pdo},
+              success : function(data){
+              var html = '';
+              var i;
+              var a=0;
+              for(i=0; i<data.length; i++){
+                html += 
+
+                '<tr>'+
+                  '<th style=" vertical-align: middle; text-align: center;">'+data[i].item+'</th>'+
+                  '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
+                  '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
+                  '<th colspan="2" style=" vertical-align: middle; text-align: center;">'+data[i].total+'</th>'+
+                  '<th>'+
+                    '<div class="dropdown" style=" vertical-align: middle; text-align: center;">'+
+                        '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+                          '<i class="fa fa-ellipsis-h"></i>'+
+                        '</a>'+                     
+                        '<div class="dropdown-menu dropdown-menu-right">'+
+                          '<a class="dropdown-item item_edit" href="#" data-id="'+data[i].id+'" data-item="'+data[i].item+'" data-qty="'+data[i].qty+'" data-jam="'+data[i].jam+'" data-total="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
+                          '<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
+                        '</div>'+
                       '</div>'+
-                    '</div>'+
-                '</th>'+
-              '</tr>';
+                  '</th>'+
+                '</tr>';
 
-              a+=Number(data[i].total);
-            }
-            html+=
-            '<tr>'+
-            '<th width="40%" colspan="3" style=" vertical-align: middle; text-align: center;"> Total Non Operating Hours </th>'+
-            '<th colspan="2" width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
-            '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
-            '</tr>'
-            
-            $('#tbl_body').html(html);    
-            }
-          });
+                a+=Number(data[i].total);
+              }
+              html+=
+              '<tr>'+
+              '<th width="40%" colspan="3" style=" vertical-align: middle; text-align: center;"> Total Non Operating Hours </th>'+
+              '<th colspan="2" width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
+              '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
+              '</tr>'
+              
+              $('#tbl_body').html(html);    
+              }
+            });
+            // DL
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '<?php echo site_url('IndirectLabor/getIndirectLabor')?>',
+                dataType: "JSON",
+                data: {
+                    id_pdo:id_pdo
+                },
+                success: function(data){
+                    console.log('ini show dl');
+                    console.log(data);
+
+                    var html = '';
+                    var html_b ='';
+                    var response = data.data; 
+                    html +=
+                          '<tr>'+
+                            '<th>STD DL</th>'+
+                            '<th colspan="3" style="text-align: center">'+response.std_idl+'</th>'+
+                          '</tr>'+
+
+                          '<tr>'+
+                            '<th>REG DL</th>'+
+                            '<th colspan="3" style="text-align: center">'+response.reg_idl+'</th>'+
+                          '</tr>'+
+
+                          '<tr>'+
+                            '<th>JAM REG</th>'+
+                            '<th colspan="3" style="text-align: center">'+response.jam_reg+'</th>'+
+                          '</tr>'+
+
+                          '<tr>'+
+                            '<th width="50%">JAM OT</th>'+
+                            '<th style="text-align: center" width="25%">'+response.jam_ot+'</th>'+
+                          '</tr>'+
+
+                          '<tr>'+
+                            '<th>DL OT</th>'+
+                            '<th style="text-align: center">'+response.dl_ot+'</th>'+
+                          '</tr>';
+
+
+                      html_b +=
+                            '<tr>'+
+                              '<th style="text-align: center">MH REG (Act MP x Jam Reg)</th>'+
+                              '<th colspan="3" style="text-align: center">'+response.mh_reg+'</th>'+
+                              '<th colspan="3" style="text-align: center">MH</th>'+
+                            '</tr>'+
+
+                            '<tr>'+
+                              '<th style="text-align: center">MH OT (Act MP x Jam OT)</th>'+
+                              '<th colspan="3" style="text-align: center">'+response.mh_ot+'</th>'+
+                              '<th colspan="3" style="text-align: center">MH</th>'+
+                            '</tr>'+
+
+                            '<tr>'+
+                              '<th style="text-align: center">Total</th>'+
+                              '<th colspan="3" style="text-align: center">'+response.total+'</th>'+
+                              '<th colspan="3" style="text-align: center">MH</th>'+
+                            '</tr>';
+
+                    $('#tbody_a').html(html); 
+                    $('#tbody_b').html(html_b); 
+                    //  END 
+                    // isi temp
+                    $('#tmp_std_dl').val(response.std_idl); 
+                    $('#tmp_reg_dl').val(response.reg_idl);
+
+                    $('#tmp_jam_ot').val(response.jam_ot);
+                    $('#tmp_dl_ot').val(response.dl_ot);
+                    // alert(data.mhInIdl);
+                    document.getElementById('id_mh_in_idl').innerHTML=data.mhInIdl;
+                }
+             }); 
+        } 
+
+        function showNotYou(){
+            document.getElementById('add_nonoprh').style.display = 'none';
+            document.getElementById('conf_editIdl').style.display = 'none';
+
+            // iDL
+            $.ajax({
+              async :false,
+              type  : 'post',
+              url   : '<?php echo base_url();?>index.php/IndirectLabor/getAbsenLeader',
+              dataType : 'JSON',
+              data : {id_pdo:id_pdo},
+              success : function(data){
+              var html = '';
+              var i;
+              var a=0;
+              for(i=0; i<data.length; i++){
+                html += 
+
+                '<tr>'+
+                  '<th style=" vertical-align: middle; text-align: center;">'+data[i].item+'</th>'+
+                  '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
+                  '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
+                  '<th colspan="2" style=" vertical-align: middle; text-align: center;">'+data[i].total+'</th>'+
+                  '<th>-</th>'+
+                '</tr>';
+
+                a+=Number(data[i].total);
+              }
+              html+=
+              '<tr>'+
+              '<th width="40%" colspan="3" style=" vertical-align: middle; text-align: center;"> Total Non Operating Hours </th>'+
+              '<th colspan="2" width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
+              '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
+              '</tr>'
+              
+              $('#tbl_body').html(html);    
+              }
+            });
+            // DL
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '<?php echo site_url('IndirectLabor/getIndirectLabor')?>',
+                dataType: "JSON",
+                data: {
+                    id_pdo:id_pdo
+                },
+                success: function(data){
+                    console.log('ini show dl');
+                    console.log(data);
+
+                    var html = '';
+                    var html_b ='';
+                    var response = data.data; 
+                    html +=
+                          '<tr>'+
+                            '<th>STD DL</th>'+
+                            '<th colspan="3" style="text-align: center">'+response.std_idl+'</th>'+
+                          '</tr>'+
+
+                          '<tr>'+
+                            '<th>REG DL</th>'+
+                            '<th colspan="3" style="text-align: center">'+response.reg_idl+'</th>'+
+                          '</tr>'+
+
+                          '<tr>'+
+                            '<th>JAM REG</th>'+
+                            '<th colspan="3" style="text-align: center">'+response.jam_reg+'</th>'+
+                          '</tr>'+
+
+                          '<tr>'+
+                            '<th width="50%">JAM OT</th>'+
+                            '<th style="text-align: center" width="25%">'+response.jam_ot+'</th>'+
+                          '</tr>'+
+
+                          '<tr>'+
+                            '<th>DL OT</th>'+
+                            '<th style="text-align: center">'+response.dl_ot+'</th>'+
+                          '</tr>';
+
+
+                      html_b +=
+                            '<tr>'+
+                              '<th style="text-align: center">MH REG (Act MP x Jam Reg)</th>'+
+                              '<th colspan="3" style="text-align: center">'+response.mh_reg+'</th>'+
+                              '<th colspan="3" style="text-align: center">MH</th>'+
+                            '</tr>'+
+
+                            '<tr>'+
+                              '<th style="text-align: center">MH OT (Act MP x Jam OT)</th>'+
+                              '<th colspan="3" style="text-align: center">'+response.mh_ot+'</th>'+
+                              '<th colspan="3" style="text-align: center">MH</th>'+
+                            '</tr>'+
+
+                            '<tr>'+
+                              '<th style="text-align: center">Total</th>'+
+                              '<th colspan="3" style="text-align: center">'+response.total+'</th>'+
+                              '<th colspan="3" style="text-align: center">MH</th>'+
+                            '</tr>';
+
+                    $('#tbody_a').html(html); 
+                    $('#tbody_b').html(html_b); 
+                    //  END 
+                    // isi temp
+                    $('#tmp_std_dl').val(response.std_idl); 
+                    $('#tmp_reg_dl').val(response.reg_idl);
+
+                    $('#tmp_jam_ot').val(response.jam_ot);
+                    $('#tmp_dl_ot').val(response.dl_ot);
+                    // alert(data.mhInIdl);
+                    document.getElementById('id_mh_in_idl').innerHTML=data.mhInIdl;
+                }
+             }); 
         } 
 
         function showNodata() {
@@ -566,8 +759,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               document.getElementById("form_absen_leader").reset();
             }
           });
-          show();
-          showDl();
+          cekHariini();
         });
 
       // ===================   Delete Record ===============================================
@@ -599,8 +791,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $('#confirmation-modal').modal('hide');
                         // refresh()
                         
-                show();
-                showDl();
+                      cekHariini();
                     }
                 });
                 return false;
@@ -652,94 +843,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             success: function(data){
               $('#update_modal').modal('hide'); 
                 // refresh();
-                show();
-                showDl(); 
+                cekHariini();
               }
           });
         });
       //   ========================  END UPDATE RECORD ====================================
 
-
-
-      function showDl() {
-         
-         $.ajax({
-            async: false,
-            type: "POST",
-            url: '<?php echo site_url('IndirectLabor/getIndirectLabor')?>',
-            dataType: "JSON",
-            data: {
-                id_pdo:id_pdo
-            },
-            success: function(data){
-                console.log('ini show dl');
-                console.log(data);
-
-                var html = '';
-                var html_b ='';
-                var response = data.data; 
-                html +=
-                      '<tr>'+
-                        '<th>STD DL</th>'+
-                        '<th colspan="3" style="text-align: center">'+response.std_idl+'</th>'+
-                      '</tr>'+
-
-                      '<tr>'+
-                        '<th>REG DL</th>'+
-                        '<th colspan="3" style="text-align: center">'+response.reg_idl+'</th>'+
-                      '</tr>'+
-
-                      '<tr>'+
-                        '<th>JAM REG</th>'+
-                        '<th colspan="3" style="text-align: center">'+response.jam_reg+'</th>'+
-                      '</tr>'+
-
-                      '<tr>'+
-                        '<th width="50%">JAM OT</th>'+
-                        '<th style="text-align: center" width="25%">'+response.jam_ot+'</th>'+
-                      '</tr>'+
-
-                      '<tr>'+
-                        '<th>DL OT</th>'+
-                        '<th style="text-align: center">'+response.dl_ot+'</th>'+
-                      '</tr>';
-
-
-                  html_b +=
-                        '<tr>'+
-                          '<th style="text-align: center">MH REG (Act MP x Jam Reg)</th>'+
-                          '<th colspan="3" style="text-align: center">'+response.mh_reg+'</th>'+
-                          '<th colspan="3" style="text-align: center">MH</th>'+
-                        '</tr>'+
-
-                        '<tr>'+
-                          '<th style="text-align: center">MH OT (Act MP x Jam OT)</th>'+
-                          '<th colspan="3" style="text-align: center">'+response.mh_ot+'</th>'+
-                          '<th colspan="3" style="text-align: center">MH</th>'+
-                        '</tr>'+
-
-                        '<tr>'+
-                          '<th style="text-align: center">Total</th>'+
-                          '<th colspan="3" style="text-align: center">'+response.total+'</th>'+
-                          '<th colspan="3" style="text-align: center">MH</th>'+
-                        '</tr>';
-
-                $('#tbody_a').html(html); 
-                $('#tbody_b').html(html_b); 
-                //  END 
-                // isi temp
-                $('#tmp_std_dl').val(response.std_idl); 
-                $('#tmp_reg_dl').val(response.reg_idl);
-
-                $('#tmp_jam_ot').val(response.jam_ot);
-                $('#tmp_dl_ot').val(response.dl_ot);
-                // alert(data.mhInIdl);
-                document.getElementById('id_mh_in_idl').innerHTML=data.mhInIdl;
-            }
-
-
-         }); 
-      }
 
       // btn triger Edit
       $('#btn_trig_edita').on('click',function(){
@@ -781,7 +890,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     allowOutsideClick: false
                   })
                 } 
-                showDl();
+                cekHariini();
                 $('#modal_editdl').modal('hide');
               }
           });

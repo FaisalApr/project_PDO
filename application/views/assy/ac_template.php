@@ -14,185 +14,213 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
+
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
 	
-	
+	<style type="text/css">
+ 		.select2-selection__rendered {
+		    line-height: 55px !important;
+		}
+		.select2-container .select2-selection--single {
+		    height: 50px !important;
+		}
+		.select2-selection__arrow {
+		    height: 50px !important;
+		}
+ 	</style>
+
 </head>
 <body>
-	<input id="id_pdo" type="hidden" class="form-control" value="<?php echo $pdo->id ?>"> 
-<?php $this->load->view('header/header'); ?>
-<?php $this->load->view('header/sidebar'); ?>
+	
+	<?php 
+		$ses = $this->session->userdata('pdo_logged'); 
+		$opt = $this->session->userdata('pdo_opt'); 
+	 ?>
+	<input type="hidden" id="id_user" value="<?php echo $ses['id_user'] ?>">
+	<input type="hidden" value="<?php echo $opt['id_shift'] ?>" id="id_shift">
+	<!-- opt -->
+	<input type="hidden" value="<?php echo $opt['tgl'] ?>" id="id_tgl">
+	<input type="hidden" value="<?php echo $opt['id_line'] ?>" id="id_line">
+
+<?php $this->load->view('header/header_users'); ?>
+<?php $this->load->view('header/sidebar_users'); ?>
  
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
-		<div class="min-height-200px">
-				<div class="page-header">
-					<div class="row">
-						<div class="col-md-6 col-sm-12">
-							<div class="title">
-								<h4>Assembly Code Table</h4>
-							</div>
-							<nav aria-label="breadcrumb" role="navigation">
-								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="index.php">Setting Kode</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Assy</li>
-								</ol>
-							</nav>
-						</div>
-				</div>
-				<!-- Simple Datatable start -->
-				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
-					<div class="clearfix mb-20">
-						<div class="pull-left">
-							<h5 class="text-blue" style="font-size: 50px">Assembly Data Table</h5>
-							<!-- <p class="font-14">you can find more options <a class="text-primary" href="https://datatables.net/" target="_blank">Click Here</a></p> -->
-						</div>
-					</div>
-					<div class="row">
-						<div class="card-body">
+		 
+		<!-- Simple Datatable start -->
+		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+			<div class="clearfix mb-20">
+				<div class="pull-left">
+					<h5 class="text-blue" style="font-size: 50px">Assembly Data Table</h5> 
+				</div> 
+				<div class="pull-right">
+					<a class="btn btn-primary" data-toggle="modal" href='#modal_importexcl' style="margin-right: 25px;">Import File .Xlsx</a>
 
-							<div class="pull-right">
-						<div class="row clearfix">	
-								<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#login-modal" style="margin-right: 25px; width: 193px">
-									<span class="fa fa-plus"></span> Tambah </a>
-								</div>
-							<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered">
-									<div class="modal-content">
-										<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-											<!-- <img src="vendors/images/login-img.png" alt="login" class="login-img"> -->
+					<a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#login-modal" style="margin-right: 25px; width: 193px">
+					<span class="fa fa-plus"></span> Tambah </a>
+				</div> 
+			</div> 
 
-											<h2 class="text-center mb-30">Assembly Code</h2>
-											<form id="form_assy">
-
-												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="Assy Code" id="i_code" required>
-													
-													<div class="valid-feedback"></div>
-    												<div class="invalid-feedback"><small id="kodeHelp" class="form-text text-muted">Kode Assy Harus di isi</small></div>
-													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
-													</div>
-												</div>
-												
-												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="UMH" id="i_umh" required>
-													<small id="kodeHelp" class="form-text text-muted">UMH Harus di isi</small>
-													<div class="input-group-append custom">
-
-														<span class="input-group-text"><i class="fa fa-money" aria-hidden="true"></i></span>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-sm-12">
-														<div class="input-group">
-															<!--
-																use code for form submit
-																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
-															-->
-															<a class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit">Submit</a>
-														</div>
-													</div>
-												</div>
-											
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<!-- update modal -->
-							
-
-							<div class="modal fade" id="Modal_upd" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered">
-									<div class="modal-content">
-										<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-											<!-- <img src="vendors/images/login-img.png" alt="login" class="login-img"> -->
-
-											<h2 class="text-center mb-30">Assembly Code</h2>
-											<form id="formupdate">
-												<div class="input-group custom input-group-lg">
-													
-													<input type="text" class="form-control" placeholder="Assy Code" name="kodeupdt" id="kodeupdt">
-													<input type="hidden" class="form-control" placeholder="Assy Code" name="id_k" id="id_k">
-													<div class="input-group-append custom">
-														<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
-													</div>
-												</div>
-												
-												<div class="input-group custom input-group-lg">
-													<input type="text" class="form-control" placeholder="UMH" id="umhupdt" name="umhupdt">
-													<div class="input-group-append custom">
-
-														<span class="input-group-text"><i class="fa fa-money" aria-hidden="true"></i></span>
-													</div>
-												</div>
-												<div class="row">
-													<div class="col-sm-12">
-														<div class="input-group">
-															<!--
-																use code for form submit
-																<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
-															-->
-															<a id="btn_update" type="submit" class="btn btn-primary btn-lg btn-block" href="#" >Update</a>
-														</div>
-													</div>
-												</div>
-											
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-
-
-						</div>
-					</div></div>
-
-						<table class="data-table stripe hover nowrap">
-							<thead>
-								<tr>
-									<th class="table-plus datatable-nosort">No</th>
-									<th>Assy Code</th>
-									<th>UMH</th>
-									<th class="datatable-nosort">Action</th>
-								</tr>
-							</thead>
-							<tbody id="tbl_body">
-								
-							</tbody>
-						</table>
-
+			<table class="data-table stripe hover nowrap">
+				<thead>
+					<tr>
+						<th class="table-plus datatable-nosort">No</th>
+						<th>Assy Code</th>
+						<th>UMH</th>
+						<th class="datatable-nosort">Action</th>
+					</tr>
+				</thead>
+				<tbody id="tbl_body">
 					
-			<!-- Confirmation modal -->
-							<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered" role="document">
-									<div class="modal-content">
-										<div class="modal-body text-center font-18">
-											<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
-											<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
-												<input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
-												<br>
-												<div class="col-6">
-													<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
-													NO
-												</div>
-												<div class="col-6">
-													<button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
-													YES
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>					
+				</tbody>
+			</table> 
+		</div>					
 
 
 	</div>
 </div>
+
+
+<!-- ALLL MODAL -->
+<div>
+	<!-- Modal Ntah  -->
+		<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<!-- <img src="vendors/images/login-img.png" alt="login" class="login-img"> -->
+
+						<h2 class="text-center mb-30">Assembly Code</h2>
+						<form id="form_assy">
+
+							<div class="input-group custom input-group-lg">
+								<input type="text" class="form-control" placeholder="Assy Code" id="i_code" required>
+								
+								<div class="valid-feedback"></div>
+								<div class="invalid-feedback"><small id="kodeHelp" class="form-text text-muted">Kode Assy Harus di isi</small></div>
+								<div class="input-group-append custom">
+									<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+								</div>
+							</div>
+							
+							<div class="input-group custom input-group-lg">
+								<input type="text" class="form-control" placeholder="UMH" id="i_umh" required>
+								<small id="kodeHelp" class="form-text text-muted">UMH Harus di isi</small>
+								<div class="input-group-append custom">
+
+									<span class="input-group-text"><i class="fa fa-money" aria-hidden="true"></i></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="input-group">
+										<!--
+											use code for form submit
+											<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+										-->
+										<a class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit">Submit</a>
+									</div>
+								</div>
+							</div>
+						
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<!-- update modal --> 
+		<div class="modal fade" id="Modal_upd" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<!-- <img src="vendors/images/login-img.png" alt="login" class="login-img"> -->
+
+						<h2 class="text-center mb-30">Assembly Code</h2>
+						<form id="formupdate">
+							<div class="input-group custom input-group-lg">
+								
+								<input type="text" class="form-control" placeholder="Assy Code" name="kodeupdt" id="kodeupdt">
+								<input type="hidden" class="form-control" placeholder="Assy Code" name="id_k" id="id_k">
+								<div class="input-group-append custom">
+									<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+								</div>
+							</div>
+							
+							<div class="input-group custom input-group-lg">
+								<input type="text" class="form-control" placeholder="UMH" id="umhupdt" name="umhupdt">
+								<div class="input-group-append custom">
+
+									<span class="input-group-text"><i class="fa fa-money" aria-hidden="true"></i></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="input-group">
+										<!--
+											use code for form submit
+											<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+										-->
+										<a id="btn_update" type="submit" class="btn btn-primary btn-lg btn-block" href="#" >Update</a>
+									</div>
+								</div>
+							</div>
+						
+						</form>
+					</div>
+				</div>
+			</div>
+		</div> 
+
+	<!-- Confirmation modal -->
+		<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-body text-center font-18">
+						<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
+						<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
+							<input type="hidden" name="id_dc_delete" id="id_dc_delete" class="form-control">
+							<br>
+							<div class="col-6">
+								<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+								NO
+							</div>
+							<div class="col-6">
+								<button type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn" id="btn_del" data-dismiss="modal"><i class="fa fa-check"></i></button>
+								YES
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+ 	
+ 	<!-- import file -->
+	<div class="modal fade" id="modal_importexcl">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Modal title</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+				</div>
+				<div class="modal-body">
+					<form method="post" id="import_form" enctype="multipart/form-data">
+						<p><label>Select Excel File</label>
+						<input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
+						<br />
+						<input type="submit" name="import" value="Import" class="btn btn-info" />
+					</form>
+
+				</div> 
+			</div>
+		</div>
+	</div>
+
+</div>
+
 
 <script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
@@ -208,10 +236,118 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/pdfmake.min.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/vfs_fonts.js"></script>
 
+	<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>  
+
+
 	<script>
 		$('document').ready(function(){
+			// VAR CORE
+				var id_line = $('#id_line').val();
+				var id_shift = $('#id_shift').val();
+				var id_tgl = $('#id_tgl').val();
+				var id_pdo = 0;
+				var balance_awal=0;
+				var id_target =0;
+
+			// variabel global	
+				// deklarasi nama bulan
+	 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+	 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+
+	 			var today = new Date(id_tgl);
+				var currentMonth = today.getMonth();
+				var currentYear = today.getFullYear();
+				var currDate = today.getDate();
+				// Set this month
+				var daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+				var awalDay =1;
+
+			// aditional PICKER DATE  
+				// SETTING DEFAULT DATE
+	 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
+	            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
+
+
+				$(".inputs").keyup(function () {
+				    if (this.value.length == this.maxLength) {
+				      $(this).select();
+				      $(this).next('.inputs').focus();  
+				    }
+				});
+
+				$("input").click(function () {
+				   $(this).select();
+				}); 
+ 
 			
+			// TrigGER PIlih TANGGAL
+				$('.date-pickerrr').datepicker({   
+					language: "en",
+					firstDay: 1,  
+				    onSelect: function(selected, d, calendar) {   
+				    	// jika yang dipilih sama 
+				    	if (selected=='') { 
+				    		var tod = new Date(id_tgl);  
+
+				    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+				    		calendar.hide();
+				    		return ;
+				    	}else{
+				    		// post data additional
+				    		id_tgl = new Date(selected);
+				    		var tod = new Date(selected); 
+					    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+					    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+
+					    	// post new data additional
+					    	updateOpt();
+				    	} 
+				    	calendar.hide();
+
+				    	// refresh 
+				    	// showplanning();
+			    		// cariDataPdo();
+			    		// cekHariini(); 
+				    }
+				});
+			// TRIGGEr line Change
+				$('#select_line').on('select2:select',function(e){
+					var data = e.params.data;
+					
+					id_line = data.id ;
+					// update opt to server
+					updateOpt();  
+					// cekHariini();
+					// console.log(data); 
+					// console.log('ln:'+id_line+'|sf:'+id_shift); 
+				});
+			// PILIH SHIFTY 
+				$('#drop_shiftt').on('click','.pilih_sf',function(){
+					var ssf = $(this).data('value'); 
+	 
+					if (ssf==1) {
+						document.getElementById('id_sifname').innerHTML= 'A';
+						document.getElementById('sf_a').classList.add("aktip");
+						document.getElementById('sf_b').classList.remove("aktip"); 	
+					} else{
+						document.getElementById('id_sifname').innerHTML= 'B';
+						document.getElementById('sf_b').classList.add("aktip");	
+						document.getElementById('sf_a').classList.remove("aktip");	
+					}
+
+					id_shift = ssf; 
+					id_line = $('#select_line').val();
+
+					// update opt to server
+					updateOpt();   
+				});
+			
+
+			// ====  AUTOLOAD =====  
+			loadDropdown();
 			show();    
+
+
             function show(){
                     $.ajax({
                         async :false,
@@ -401,7 +537,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 
- 		$('.data-table-export').DataTable({
+ 			$('.data-table-export').DataTable({
 				scrollCollapse: true,
 				autoWidth: false,
 				responsive: true,
@@ -434,6 +570,103 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$(this).toggleClass('selected');
 			});
 
+
+			// FUnc OPT
+			// isi DATA DROPDOWN LINE
+				function loadDropdown() {
+					var idu = $('#id_user').val();
+					var lv  = <?php echo $ses['level'] ?>; 
+
+					// jika admin
+					if (lv==1) {
+						var id_district = <?php echo $ses['id_district'] ?>; 
+
+						$.ajax({
+							type: 'POST',
+							url: '<?php echo site_url("Users/getListLineCarlineByAdmin");?>',
+							dataType: "JSON",
+							data:{
+								id_district: id_district
+							},
+							success: function(data){ 
+		 						$('#select_line').empty();
+		 						$('#select_line').select2({ 
+					 				placeholder: 'Pilih Line ',
+					 				minimumResultsForSearch: -1,
+					 				data:data
+
+					 			});
+							}
+
+						});
+					}else {
+						$.ajax({
+							type: 'POST',
+							url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+							dataType: "JSON",
+							data:{
+								id_user:idu
+							},
+							success: function(data){  
+		 						
+		 						$('#select_line').empty();
+		 						$('#select_line').select2({ 
+					 				placeholder: 'Pilih Line ',
+					 				minimumResultsForSearch: -1,
+					 				data:data
+
+					 			});
+							}
+
+						});
+					}  
+
+				}
+			// UPDATE isi Sesion
+				function updateOpt() {
+					$.ajax({ 
+		                type  : 'POST',
+		                url   : '<?php echo site_url();?>/Login/updateDataOpt',
+		                dataType : 'JSON',  
+		                data:{
+		                	tgl: id_tgl,
+		                	sif: id_shift,
+		                	line: id_line
+		                },
+		                success : function(res){   
+							console.log(res);
+		                }
+
+		            });
+				}
+
+
+
+			$('#import_form').on('submit', function(event){
+				event.preventDefault();
+				$.ajax({
+					async: false,
+					url:"<?php echo site_url(); ?>/Excel_import/importAssy",
+					method:"POST",
+					data:new FormData(this),
+					contentType:false,
+					cache:false,
+					processData:false,
+					success:function(data){
+						$('#file').val('');
+						console.log(data);
+						$('#modal_importexcl').modal('hide');
+
+						Swal.fire({
+						  position: 'center',
+						  title: 'Selesai Menambahkan',
+						  type: 'success', 
+						});
+
+						show(); 
+					}
+				})
+			});
 
 
 		});

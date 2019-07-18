@@ -7,11 +7,17 @@
 	  background-color: #DDF2FF;
 	  color: #0099FF;
 	}
+	.hidenn{
+	  display: none;
+	} 
 </style>
+<?php 
+	$sesi = $this->session->userdata('pdo_logged'); 
+?>
 
 	<div class="left-side-bar">
 		<div class="brand-logo">
-			<a href="index.php">
+			<a href="<?php echo site_url('Dasboard') ?>">
 				<img src="<?php echo base_url() ?>assets/vendors/images/SAI.png" alt="">
 			</a>
 		</div>
@@ -53,12 +59,47 @@
 						</ul>
 					</li>
 					
-					<li class=" <?php echo $this->uri->segment(1) == 'Export' ? 'aktip': '' ?>">
+					<li class=" <?php echo $this->uri->segment(1) == 'Export' ? 'aktip': '' ?>  <?php echo $sesi['level']!=1 ? 'hidenn': '' ?>">
 						<a href="<?php echo site_url() ?>/Export" class="dropdown-toggle no-arrow"> 
 							<i class="icon-copy fa fa-file-archive-o" aria-hidden="true"></i><span class="mtext">Export</span>
 						</a>
-					</li>  					
-					 
+					</li> 
+
+					<!-- FITUR EXTRA ADMIN -->
+					<hr class="<?php echo $sesi['level']!=1 ? 'hidenn': '' ?>"> 
+					
+					<li class=" <?php echo $this->uri->segment(1) == 'supervisor' ? 'aktip': '' ?>  <?php echo $sesi['level']!=1 ? 'hidenn': '' ?>">
+						<a href="<?php echo site_url() ?>/supervisor" class="dropdown-toggle no-arrow"> 
+							<i class="icon-copy fa fa-id-badge" aria-hidden="true"></i><span class="mtext">Supervisor</span>
+						</a>
+					</li>
+					
+					<li class=" <?php echo $this->uri->segment(1) == 'Users' ? 'aktip': '' ?>  <?php echo $sesi['level']!=1 ? 'hidenn': '' ?>">
+						<a href="<?php echo site_url() ?>/Users" class="dropdown-toggle no-arrow"> 
+							<i class="icon-copy fa fa-id-card-o" aria-hidden="true"></i><span class="mtext">Users</span>
+						</a>
+					</li> 
+
+					<li class=" <?php echo $this->uri->segment(1) == 'carline' ? 'aktip': '' ?>  <?php echo $sesi['level']!=1 ? 'hidenn': '' ?>">
+						<a href="<?php echo site_url() ?>/carline" class="dropdown-toggle no-arrow"> 
+							<i class="icon-copy fa fa-car" aria-hidden="true"></i><span class="mtext">Carline</span>
+						</a>
+					</li> 
+
+					<li class=" <?php echo $this->uri->segment(1) == 'line' ? 'aktip': '' ?>  <?php echo $sesi['level']!=1 ? 'hidenn': '' ?>">
+						<a href="<?php echo site_url() ?>/line" class="dropdown-toggle no-arrow"> 
+							<i class="icon-copy fa fa-code-fork" aria-hidden="true"></i><span class="mtext">Line Manager</span>
+						</a>
+					</li> 
+
+					<li class=" <?php echo $this->uri->segment(1) == 'assycode' ? 'aktip': '' ?>  <?php echo $sesi['level']!=1 ? 'hidenn': '' ?>">
+						<a href="<?php echo site_url() ?>/assycode" class="dropdown-toggle no-arrow"> 
+							<i class="icon-copy fa fa-briefcase" aria-hidden="true"></i><span class="mtext">Assy Manager</span>
+						</a>
+					</li> 
+					
+
+
 				</ul>
 			</div>
 		</div>

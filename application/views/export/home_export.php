@@ -39,25 +39,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!-- opt -->
 	<input type="hidden" value="<?php echo $opt['tgl'] ?>" id="id_tgl">
 	<input type="hidden" value="<?php echo $opt['id_line'] ?>" id="id_line">
-<?php $this->load->view('header/header_users'); ?>
-<?php $this->load->view('header/sidebar_users'); ?>
+	
+	<?php $this->load->view('header/header_users'); ?>
+	<?php $this->load->view('header/sidebar_users'); ?>
 
 
 <!-- main container -->
 <div class="main-container">
-	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
+	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" id="main_containerexport">
 
 		<!-- DAILY SUMMARY QCD-->
 		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30 text" >  
 			<H2 class="text-center">Daily Summary QCD</H2>
-			<div class="pull-right" style="margin-top: -30px;">
+			<div class="pull-right" style="margin-top: -30px;" id="id_btndownloaddiv" style="display: none;">
 				<button id="donload_qcd" class="btn btn-primary btn-sm"><i class="icon-copy fa fa-download" aria-hidden="true"></i> Download</button>
 			</div>
 			<hr>
-			<h5 id="tgl_qcd">Tanggal : Rabu, 10 July 2019</h5>
-			<h5 id="shift_qcd">Shift &nbsp&nbsp&nbsp&nbsp&nbsp: A</h5>
-			<h5 id="line_qcd">Line &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: 1B</h5>
-			<h5 id="status_qcd">Status  &nbsp&nbsp: Checked</h5> 
+			<h5 id="tgl_qcd">Tanggal : -</h5>
+			<h5 id="shift_qcd">Shift &nbsp&nbsp&nbsp&nbsp&nbsp: -</h5>
+			<h5 id="line_qcd">Line &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: -</h5>
+			<h5 id="status_qcd">Status  &nbsp&nbsp: -</h5> 
 			 <br>
 			<div class="row"> 
 				<div class="col-sm-12 col-md-8 col-lg-9 xs-mb-20"> 
@@ -79,19 +80,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tbody>
 							<tr>
 								<th>MH OUT</th>
-								<td id="id_mhout_qcd">220</td>	
+								<td id="id_mhout_qcd">-</td>	
 							</tr>
 							<tr>
 								<th>MH IN DL</th>
-								<td id="id_mhindl_qcd">320</td>	
+								<td id="id_mhindl_qcd">-</td>	
 							</tr>
 							<tr>
 								<th>MH IN IDL</th>
-								<td id="id_mhinidl_qcd">40</td>	
+								<td id="id_mhinidl_qcd">-</td>	
 							</tr>
 							<tr>
 								<th>Direct EFF</th>
-								<td id="id_directeff_qcd">93%</td>	
+								<td id="id_directeff_qcd">-%</td>	
 							</tr>
 						</tbody>
 					</table>
@@ -130,19 +131,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tbody>
 							<tr>
 								<th>Jam Effective</th>
-								<td id="id_jameff_downtime">220</td>	
+								<td id="id_jameff_downtime">-</td>	
 							</tr>
 							<tr>
 								<th>Prosentase Losstime</th>
-								<td id="id_ploss">320</td>	
+								<td id="id_ploss">-</td>	
 							</tr>
 							<tr>
 								<th>Total Losstime</th>
-								<td id="id_tolsstime">40</td>	
+								<td id="id_tolsstime">-</td>	
 							</tr>
 							<tr>
 								<th>Total Exclude</th>
-								<td id="id_to_exc">93%</td>	
+								<td id="id_to_exc">-%</td>	
 							</tr>
 						</tbody>
 					</table>
@@ -150,8 +151,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
  
-
 	</div>
+
+	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" id="no_pdodata" style="display: none;"> 
+		<center>
+			<div class="jumbotron">
+				<H1>Tidak Ada Data PDO Perpilih</H1>
+			</div>
+		</center>
+	</div>
+
 </div>
  
 </body>
@@ -240,10 +249,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 
 					if (ssf==1) {
 						document.getElementById('id_sifname').innerHTML= 'A';
+						document.getElementById('shift_qcd').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: A';
+						document.getElementById('shift_downtime').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: A';
+						
 						document.getElementById('sf_a').classList.add("aktip");
 						document.getElementById('sf_b').classList.remove("aktip"); 	
 					} else{
 						document.getElementById('id_sifname').innerHTML= 'B';
+						document.getElementById('shift_qcd').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: B';
+						document.getElementById('shift_downtime').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: B';
 						document.getElementById('sf_b').classList.add("aktip");	
 						document.getElementById('sf_a').classList.remove("aktip");	
 					}
@@ -258,10 +272,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			
 
 			// ====  AUTOLOAD ===== 
-				loadDropdown();
-
-				// document.getElementById('line_qcd').innerHTML= "Line &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: "+document.getElementById('name_line').innerHTML;
-				// document.getElementById('line_downtime').innerHTML= "Line &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: "+document.getElementById('name_line').innerHTML;
+             	document.getElementById('shift_qcd').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: '+document.getElementById('id_sifname').innerHTML;
+				document.getElementById('shift_downtime').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: '+document.getElementById('id_sifname').innerHTML;
+				loadDropdown(); 
 				cariDataPdo();
 
 
@@ -380,11 +393,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    		document.getElementById('id_mhindl_qcd').innerHTML = parseFloat(res.mh_in_dl).toFixed(2);
 	                    		document.getElementById('id_mhinidl_qcd').innerHTML = parseFloat(res.mh_in_idl).toFixed(1);
 	                    		document.getElementById('id_directeff_qcd').innerHTML = parseFloat(res.direct_eff).toFixed(1)+'%';
+	                    		// btn download
+	                    		document.getElementById('id_btndownloaddiv').style.display = 'block';
+	                    		// hidden nodata
+	                    		 document.getElementById('no_pdodata').style.display = 'none';
+	                    		 document.getElementById('main_containerexport').style.display = 'block'; 
+
+	                    		 //  STATUS VERIFIKASI 	
+	                    		 if (res.status==1) {
+	                    		 	document.getElementById('id_verif').style.display = 'block';
+	                    		 }else{
+	                    		 	document.getElementById('id_verif').style.display = 'none';
+	                    		 }
+
 
 	                    		console.log(res); 	
 	                    		loadData();
 	                    	}else {
-	                    		console.log('is null');  
+	                    		console.log('is null');
+	                    		 // hidden nodata
+	                    		 document.getElementById('no_pdodata').style.display = 'block';
+	                    		 document.getElementById('main_containerexport').style.display = 'none';
+	                    		loadData();
+	                    		// settt
+	                    		document.getElementById('id_mhout_qcd').innerHTML = '-';
+	                    		document.getElementById('id_mhindl_qcd').innerHTML = '-';
+	                    		document.getElementById('id_mhinidl_qcd').innerHTML = '-';
+	                    		document.getElementById('id_directeff_qcd').innerHTML = '-%';
+	                    		// stat
+	                    		document.getElementById('status_qcd').innerHTML = 'Status  &nbsp&nbsp: -';	
+	                    		document.getElementById('status_downtime').innerHTML = 'Status  &nbsp&nbsp: -';
+	                    		// btn download
+	                    		document.getElementById('id_btndownloaddiv').style.display = 'none';
+
+	                    		//
+	                    		document.getElementById('id_verif').style.display = 'none';
+
 	                    	}
 	                    	
 	                    }
@@ -412,27 +456,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			// isi DATA DROPDOWN LINE
 				function loadDropdown() {
 					var idu = $('#id_user').val();
+					var lv  = <?php echo $ses['level'] ?>; 
 
-					$.ajax({
-						type: 'POST',
-						url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
-						dataType: "JSON",
-						data:{
-							id_user:idu
-						},
-						success: function(data){ 
-							console.log(data);
-	 						
-	 						$('#select_line').empty();
-	 						$('#select_line').select2({ 
-				 				placeholder: 'Pilih Line ',
-				 				minimumResultsForSearch: -1,
-				 				data:data
+					// jika admin
+					if (lv==1) {
+						var id_district = <?php echo $ses['id_district'] ?>; 
 
-				 			});
-						}
+						$.ajax({
+							type: 'POST',
+							url: '<?php echo site_url("Users/getListLineCarlineByAdmin");?>',
+							dataType: "JSON",
+							data:{
+								id_district: id_district
+							},
+							success: function(data){ 
+								console.log(data);
+								
+		 						$('#select_line').empty();
+		 						$('#select_line').select2({ 
+					 				placeholder: 'Pilih Line ',
+					 				minimumResultsForSearch: -1,
+					 				data:data 
+					 			});
+							}
 
-					});
+						});
+					}else {
+						$.ajax({
+							type: 'POST',
+							url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+							dataType: "JSON",
+							data:{
+								id_user:idu
+							},
+							success: function(data){  
+		 						
+		 						$('#select_line').empty();
+		 						$('#select_line').select2({ 
+					 				placeholder: 'Pilih Line ',
+					 				minimumResultsForSearch: -1,
+					 				data:data
+
+					 			});
+							}
+
+						});
+					}  
 
 				}
 			// UPDATE isi Sesion

@@ -97,6 +97,13 @@ class Losstime_model extends CI_Model {
         return $qur->result();
     }
 
+    public function cariDowntimeByOC($oc)
+    {
+        $qur = $this->db->query("SELECT *  FROM lost_time JOIN jenis_error on lost_time.id_error=jenis_error.id WHERE id_oc=$oc LIMIT 5");
+        return $qur->result();
+    }
+
+
 }
 
 /* End of file losstime_model.php */

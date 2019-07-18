@@ -18,23 +18,24 @@ class Assycode extends CI_Controller {
 	public function index()
 	{
 		// get sesion
-		$session_data = $this->session->userdata('pdo_logged'); 
+		// $session_data = $this->session->userdata('pdo_logged'); 
 
-		// init data
-		$username = $session_data['id_user'];  
-		$shift =  "1" ; 
-		$tanggal = date("Y-m-d"); 
+		// // init data
+		// $username = $session_data['id_user'];  
+		// $shift =  "1" ; 
+		// $tanggal = date("Y-m-d"); 
 
-		// jika user sudah ada data pdo
-		$result = $this->Pdo_model->cariPdo($username,$shift,$tanggal);
-		if ($result) { 
+		// // jika user sudah ada data pdo
+		// $result = $this->Pdo_model->cariPdo($username,$shift,$tanggal);
+		// if ($result) { 
 			
-			$data['pdo'] = $this->Pdo_model->cariPdoItems($username,$shift,$tanggal);
-			$this->load->view('assy/ac_template', $data);
-		}else {  
-			// jika tidak punya data pdo
-			redirect('Welcome','refresh');
-		}
+		// 	$data['pdo'] = $this->Pdo_model->cariPdoItems($username,$shift,$tanggal);
+		// 	$this->load->view('assy/ac_template', $data);
+		// }else {  
+		// 	// jika tidak punya data pdo
+		// 	redirect('Welcome','refresh');
+		// }
+		$this->load->view('assy/ac_template');
 
 	}
 

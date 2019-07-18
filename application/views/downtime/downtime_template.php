@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="row clearfix progress-box">
 				
 				<div class="col-lg-2 col-md-6 col-sm-12 mb-10">
-					<div class="card box-shadow">
+					<div class="card box-shadow" style="height: 200px;">
 						<h5 class="card-header text-center weight-500">Jam Effective</h5>
 						<div class="card-body"> 
 							<div class="project-info-progress">
@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 
 				<div class="col-lg-3 col-md-6 col-sm-12 mb-10">
-					<div class="card box-shadow">
+					<div class="card box-shadow" style="height: 200px;">
 						<h5 class="card-header text-center weight-500">Prosentase Losstime</h5>
 						<div class="card-body"> 
 							<div class="project-info-progress">
@@ -74,7 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 
 				<div class="col-lg-2 col-md-6 col-sm-12 mb-10">
-					<div class="card box-shadow">
+					<div class="card box-shadow" style="height: 200px;">
 						<h5 class="card-header text-center weight-500">Total Losstime</h5>
 						<div class="card-body"> 
 							<center>
@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 				
 				<div class="col-lg-2 col-md-6 col-sm-12 mb-10">
-					<div class="card box-shadow">
+					<div class="card box-shadow" style="height: 200px;"">
 						<h5 class="card-header text-center weight-500">Total Exclude</h5>
 						<div class="card-body"> 
 							<center>
@@ -434,8 +434,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							if (res) { 
 								id_pdo = res.id;
 
+								// jika admin bebas
+								var lv  = <?php echo $ses['level'] ?>; 
+
 								// cek jika itu bukan miliknya
-	                    		if ($('#id_user').val()==res.id_users) { 
+	                    		if ($('#id_user').val()==res.id_users || lv==1) { 
 	                    			console.log('MILIKNYA') 
 	                    			document.getElementById('btn_adddown').style.display = 'block';
 	                    			show(res.id);  
@@ -915,30 +918,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				  	}
 
 				});
-			// isi DATA DROPDOWN LINE
+			// isi DATA DROPDOWN LINE 
 				function loadDropdown() {
 					var idu = $('#id_user').val();
+					var lv  = <?php echo $ses['level'] ?>; 
 
-					$.ajax({
-						type: 'POST',
-						url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
-						dataType: "JSON",
-						data:{
-							id_user:idu
-						},
-						success: function(data){ 
-							console.log(data);
-	 						
-	 						$('#select_line').empty();
-	 						$('#select_line').select2({ 
-				 				placeholder: 'Pilih Line ',
-				 				minimumResultsForSearch: -1,
-				 				data:data
+					// jika admin
+					if (lv==1) {
+						var id_district = <?php echo $ses['id_district'] ?>; 
 
-				 			});
-						}
+						$.ajax({
+							type: 'POST',
+							url: '<?php echo site_url("Users/getListLineCarlineByAdmin");?>',
+							dataType: "JSON",
+							data:{
+								id_district: id_district
+							},
+							success: function(data){ 
+		 						$('#select_line').empty();
+		 						$('#select_line').select2({ 
+					 				placeholder: 'Pilih Line ',
+					 				minimumResultsForSearch: -1,
+					 				data:data
 
-					});
+					 			});
+							}
+
+						});
+					}else {
+						$.ajax({
+							type: 'POST',
+							url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+							dataType: "JSON",
+							data:{
+								id_user:idu
+							},
+							success: function(data){  
+		 						
+		 						$('#select_line').empty();
+		 						$('#select_line').select2({ 
+					 				placeholder: 'Pilih Line ',
+					 				minimumResultsForSearch: -1,
+					 				data:data
+
+					 			});
+							}
+
+						});
+					}  
 
 				}
 			// UPDATE isi Sesion

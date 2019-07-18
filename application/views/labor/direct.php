@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <h5 class="text-black" style="font-size: 20px; margin-left: 5px">A.</h5>
 
             </div>
-            <div class="project-info-right" style="margin-top: -10px">
+            <div class="project-info-right" style="margin-top: -10px" id="btn_editdll">
               <a  id="btn_trig_edita" href='#' class="btn btn-success btn-sm" data-to><i class="fa fa-cog" aria-hidden="true"></i>  Edit</a> 
             </div>
             <br> 
@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div>
             
               <div class="pull-right">
-                <div class="row clearfix">  
+                <div class="row clearfix" id="add_nonopr">  
                 <a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#i_absen-modal" style="margin-right: 25px; width: 100px"><span class="fa fa-plus"></span> Tambah</a>
                 </div>
               </div>
@@ -140,7 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
               
                 <div class="pull-right">  
-                  <div class="row clearfix">  
+                  <div class="row clearfix" id="btn_add_unactiv" style="display: none;">  
                     <a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#modalnewact" style="margin-right: 25px; width: 100px"><span class="fa fa-plus"></span> Tambah</a>
                   </div>
                 </div>
@@ -172,7 +172,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div>
           
               <div class="pull-right">
-                <div class="row clearfix">  
+                <div class="row clearfix" id="add_btn_mpin" style="display: none;">  
                   <a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#i_reg_in-modal" style="margin-right: 25px; width: 100px"><span class="fa fa-plus"></span> Tambah</a>
                 </div>
               </div>
@@ -204,7 +204,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div>
           
               <div class="pull-right">
-                <div class="row clearfix">  
+                <div class="row clearfix" id="add_mpbout" style="display: none;">  
                   <a href="#" class="btn btn-success" data-backdrop="static" data-toggle="modal" data-target="#i_reg_out-modal" style="margin-right: 25px; width: 100px"><span class="fa fa-plus"></span> Tambah </a>
                 </div>
               </div>
@@ -893,23 +893,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                 // cek jika itu bukan miliknya
                                   if ($('#id_user').val()==res.id_users) { 
-                                    console.log('MILIKNYA')  
-                                    
+                                    console.log('MILIKNYA') 
+                                    isyou(id_pdo)  
+                                    isi_dropdown(res.id); 
+                                    show_regout();
                                   }else { 
-                                    console.log('not YOU'); 
-                                    // show_notYou(res.id);  
-                                  }    
-                                  
-                                  show(res.id);
-                                  showDl(res.id);
-                                  showIndirectActiv(res.id);
-                                  isi_dropdown(res.id);
-                                  show_regin(res.id);
-                                  show_regout();
-
+                                    console.log('not YOU');  
+                                    notyou(res.id); 
+                                    show_regout();
+                                  }      
                                   // show
                                   document.getElementById('no_pdodata').style.display = 'none';
                                   document.getElementById('container_maindata').style.display = 'block';
+
                                   //  STATUS VERIFIKASI   
                                    if (res.status==1) {
                                     document.getElementById('id_verif').style.display = 'block';
@@ -926,55 +922,445 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           }
 
       // show
-        function show(id_pdo){
-          $.ajax({
-            async :false,
-            type  : 'POST',
-            url   : '<?php echo base_url();?>index.php/DirectLabor/getAbsenPegawai',
-            dataType : 'JSON',
-            data : {id_pdo:id_pdo},
-            success : function(data){
-            var html = '';
-            var i;
-            var a=0;
-            for(i=0; i<data.length; i++){
-              html += 
+        // function show(id_pdo){
+        //   $.ajax({
+        //     async :false,
+        //     type  : 'POST',
+        //     url   : '<?php echo base_url();?>index.php/DirectLabor/getAbsenPegawai',
+        //     dataType : 'JSON',
+        //     data : {id_pdo:id_pdo},
+        //     success : function(data){
+        //     var html = '';
+        //     var i;
+        //     var a=0;
+        //     for(i=0; i<data.length; i++){
+        //       html += 
 
-              '<tr>'+
-                '<th style=" vertical-align: middle; text-align: center;">'+data[i].item+'</th>'+
-                '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
-                '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
-                '<th style=" vertical-align: middle; text-align: center;" colspan="2">'+data[i].total+'</th>'+
-                '<th>'+
-                  '<div class="dropdown">'+
-                      '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
-                        '<i class="fa fa-ellipsis-h"></i>'+
-                      '</a>'+                     
-                      '<div class="dropdown-menu dropdown-menu-right">'+
-                        '<a class="dropdown-item item_edit_absen" href="#" data-id="'+data[i].id+'" data-item="'+data[i].item+'" data-qty="'+data[i].qty+'" data-jam="'+data[i].jam+'" data-total="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
-                        '<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
-                      '</div>'+
-                    '</div>'+
-                '</th>'+
-              '</tr>';
+        //       '<tr>'+
+        //         '<th style=" vertical-align: middle; text-align: center;">'+data[i].item+'</th>'+
+        //         '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
+        //         '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
+        //         '<th style=" vertical-align: middle; text-align: center;" colspan="2">'+data[i].total+'</th>'+
+        //         '<th>'+
+        //           '<div class="dropdown">'+
+        //               '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+        //                 '<i class="fa fa-ellipsis-h"></i>'+
+        //               '</a>'+                     
+        //               '<div class="dropdown-menu dropdown-menu-right">'+
+        //                 '<a class="dropdown-item item_edit_absen" href="#" data-id="'+data[i].id+'" data-item="'+data[i].item+'" data-qty="'+data[i].qty+'" data-jam="'+data[i].jam+'" data-total="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
+        //                 '<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
+        //               '</div>'+
+        //             '</div>'+
+        //         '</th>'+
+        //       '</tr>';
 
-              a+=Number(data[i].total);
-            }
-            html+=
-            '<tr>'+
-            '<th width="40%" colspan="3" style=" vertical-align: middle; text-align: center;"> Total Non Operating Hours </th>'+
-            '<th colspan="2" width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
-            '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
-            '</tr>'
+        //       a+=Number(data[i].total);
+        //     }
+        //     html+=
+        //     '<tr>'+
+        //     '<th width="40%" colspan="3" style=" vertical-align: middle; text-align: center;"> Total Non Operating Hours </th>'+
+        //     '<th colspan="2" width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
+        //     '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
+        //     '</tr>'
             
-            $('#tbl_body').html(html);    
-            }
-          });
-        }
+        //     $('#tbl_body').html(html);    
+        //     }
+        //   });
+        // }
       
-        function showDl(id_pdo) {
+        // function showDl(id_pdo) {
            
-           $.ajax({
+        //    $.ajax({
+        //       async: false,
+        //       type: "POST",
+        //       url: '<?php echo site_url('DirectLabor/getDirectLabor')?>',
+        //       dataType: "JSON",
+        //       data: {
+        //           id_pdo:id_pdo
+        //       },
+        //       success: function(response){
+        //           var html = '';
+        //           var html_b =''; 
+
+        //           // isi jumlah regdl
+        //           regDL = response.reg_dl;
+
+        //           html +=
+        //                 '<tr>'+
+        //                   '<th>STD DL</th>'+
+        //                   '<th colspan="3" style="text-align: center">'+response.std_dl+'</th>'+
+        //                 '</tr>'+
+
+        //                 '<tr>'+
+        //                   '<th>REG DL</th>'+
+        //                   '<th colspan="3" style="text-align: center">'+response.reg_dl+'</th>'+
+        //                 '</tr>'+
+
+        //                 '<tr>'+
+        //                   '<th>JAM REG</th>'+
+        //                   '<th colspan="3" style="text-align: center">'+response.jam_reg+'</th>'+
+        //                 '</tr>'+
+
+        //                 '<tr>'+
+        //                   '<th width="50%">JAM OT</th>'+
+        //                   '<th style="text-align: center" width="25%">'+response.jam_ot+'</th>'+
+        //                 '</tr>'+
+
+        //                 '<tr>'+
+        //                   '<th>DL OT</th>'+
+        //                   '<th style="text-align: center">'+response.dl_ot+'</th>'+
+        //                 '</tr>';
+
+
+        //             html_b +=
+        //                   '<tr>'+
+        //                     '<th style="text-align: center">MH REG (Act MP x Jam Reg)</th>'+
+        //                     '<th colspan="3" style="text-align: center">'+response.mh_reg+'</th>'+
+        //                     '<th colspan="3" style="text-align: center">MH</th>'+
+        //                   '</tr>'+
+
+        //                   '<tr>'+
+        //                     '<th style="text-align: center">MH OT (Act MP x Jam OT)</th>'+
+        //                     '<th colspan="3" style="text-align: center">'+response.mh_ot+'</th>'+
+        //                     '<th colspan="3" style="text-align: center">MH</th>'+
+        //                   '</tr>'+
+
+        //                   '<tr>'+
+        //                     '<th style="text-align: center">Total</th>'+
+        //                     '<th colspan="3" style="text-align: center">'+response.total+'</th>'+
+        //                     '<th colspan="3" style="text-align: center">MH</th>'+
+        //                   '</tr>';
+
+        //           $('#tbody_a').html(html); 
+        //           $('#tbody_b').html(html_b); 
+        //           //  END 
+        //           // isi temp
+        //           $('#tmp_std_dl').val(response.std_dl); 
+        //           $('#tmp_reg_dl').val(response.reg_dl);
+
+        //           $('#tmp_jam_ot').val(response.jam_ot);
+        //           $('#tmp_dl_ot').val(response.dl_ot);
+        //       }
+
+        //    }); 
+        // }
+
+        // function showIndirectActiv(id_pdo) {
+        //     $.ajax({
+        //       async: false,
+        //       type: "POST",
+        //       url: '<?php echo site_url('DirectLabor/getListIndirectActivity')?>',
+        //       dataType: "JSON",
+        //       data: {
+        //           pdo:id_pdo
+        //       },
+        //       success: function(response){
+        //           var html = ''; 
+        //           var totmh=0;
+        //           for (var i = 0; i < response.length; i++) { 
+        //             totmh+= Number(response[i].total);
+        //             html+=
+        //               '<tr>'+
+        //                 '<th style="width:50%" colspan="2">'+response[i].item+'</th>'+
+        //                 '<th>'+response[i].menit+'</th>'+
+        //                 '<th>'+parseFloat(response[i].total).toFixed(1)+'</th>'+
+        //                 '<th>'+
+        //                     '<div class="dropdown">'+
+        //                       '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+        //                         '<i class="fa fa-ellipsis-h"></i>'+
+        //                       '</a>'+                     
+        //                       '<div class="dropdown-menu dropdown-menu-right">'+
+        //                         '<a class="dropdown-item item_edit_activ" href="#" data-id="'+response[i].id+'" data-item="'+response[i].item+'" data-menit="'+response[i].menit+'"><i class="fa fa-pencil"></i> Edit </a>'+
+        //                         '<a class="dropdown-item item_delete_activ" href="#" data-id="'+response[i].id+'" data-item="'+response[i].item+'" ><i class="fa fa-trash"></i> Hapus </a>'+
+        //                       '</div>'+
+        //                     '</div>'+
+        //                 '</th>'+
+        //               '</tr>';                   
+        //           } 
+        //           html+=
+        //                 '<tr>'+ 
+        //                   '<th style="text-align: right;" colspan="3">Total</th>'+
+        //                   '<th>'+totmh.toFixed(2)+'</th>'+
+        //                   '<th style="text-align: center;">MH</th>'+
+        //                 '</tr>'; 
+        //           $('#tbod_indirectactivity').html(html);
+        //       }   
+
+        //    }); 
+        // }
+
+        function showNodata() {
+          document.getElementById('id_verif').style.display = 'none';
+          document.getElementById('no_pdodata').style.display = 'block';
+          document.getElementById('container_maindata').style.display = 'none';
+        }
+
+        function notyou(id_pdo) {
+            document.getElementById('btn_add_unactiv').style.display = 'none';
+            document.getElementById('add_nonopr').style.display = 'none';
+            document.getElementById('add_btn_mpin').style.display = 'none';
+            document.getElementById('add_mpbout').style.display = 'none';
+            document.getElementById('btn_editdll').style.display = 'none';
+            
+            // showIndirectActiv
+                $.ajax({
+                  async: false,
+                  type: "POST",
+                  url: '<?php echo site_url('DirectLabor/getListIndirectActivity')?>',
+                  dataType: "JSON",
+                  data: {
+                      pdo:id_pdo
+                  },
+                  success: function(response){
+                      var html = ''; 
+                      var totmh=0;
+                      for (var i = 0; i < response.length; i++) { 
+                        totmh+= Number(response[i].total);
+                        html+=
+                          '<tr>'+
+                            '<th style="width:50%" colspan="2">'+response[i].item+'</th>'+
+                            '<th>'+response[i].menit+'</th>'+
+                            '<th>'+parseFloat(response[i].total).toFixed(1)+'</th>'+
+                            '<th>-</th>'+
+                          '</tr>';                   
+                      } 
+                      html+=
+                            '<tr>'+ 
+                              '<th style="text-align: right;" colspan="3">Total</th>'+
+                              '<th>'+totmh.toFixed(2)+'</th>'+
+                              '<th style="text-align: center;">MH</th>'+
+                            '</tr>'; 
+                      $('#tbod_indirectactivity').html(html);
+                  }   
+
+               }); 
+
+            // showDl
+             $.ajax({
+                async: false,
+                type: "POST",
+                url: '<?php echo site_url('DirectLabor/getDirectLabor')?>',
+                dataType: "JSON",
+                data: {
+                    id_pdo:id_pdo
+                },
+                success: function(response){
+                    var html = '';
+                    var html_b =''; 
+
+                    // isi jumlah regdl
+                    regDL = response.reg_dl;
+
+                    html +=
+                          '<tr>'+
+                            '<th>STD DL</th>'+
+                            '<th colspan="3" style="text-align: center">'+response.std_dl+'</th>'+
+                          '</tr>'+
+
+                          '<tr>'+
+                            '<th>REG DL</th>'+
+                            '<th colspan="3" style="text-align: center">'+response.reg_dl+'</th>'+
+                          '</tr>'+
+
+                          '<tr>'+
+                            '<th>JAM REG</th>'+
+                            '<th colspan="3" style="text-align: center">'+response.jam_reg+'</th>'+
+                          '</tr>'+
+
+                          '<tr>'+
+                            '<th width="50%">JAM OT</th>'+
+                            '<th style="text-align: center" width="25%">'+response.jam_ot+'</th>'+
+                          '</tr>'+
+
+                          '<tr>'+
+                            '<th>DL OT</th>'+
+                            '<th style="text-align: center">'+response.dl_ot+'</th>'+
+                          '</tr>';
+
+
+                      html_b +=
+                            '<tr>'+
+                              '<th style="text-align: center">MH REG (Act MP x Jam Reg)</th>'+
+                              '<th colspan="3" style="text-align: center">'+response.mh_reg+'</th>'+
+                              '<th colspan="3" style="text-align: center">MH</th>'+
+                            '</tr>'+
+
+                            '<tr>'+
+                              '<th style="text-align: center">MH OT (Act MP x Jam OT)</th>'+
+                              '<th colspan="3" style="text-align: center">'+response.mh_ot+'</th>'+
+                              '<th colspan="3" style="text-align: center">MH</th>'+
+                            '</tr>'+
+
+                            '<tr>'+
+                              '<th style="text-align: center">Total</th>'+
+                              '<th colspan="3" style="text-align: center">'+response.total+'</th>'+
+                              '<th colspan="3" style="text-align: center">MH</th>'+
+                            '</tr>';
+
+                    $('#tbody_a').html(html); 
+                    $('#tbody_b').html(html_b); 
+                    //  END 
+                    // isi temp
+                    $('#tmp_std_dl').val(response.std_dl); 
+                    $('#tmp_reg_dl').val(response.reg_dl);
+
+                    $('#tmp_jam_ot').val(response.jam_ot);
+                    $('#tmp_dl_ot').val(response.dl_ot);
+                }
+             }); 
+
+            // show NON OPERATING HOURS
+              $.ajax({
+                  async :false,
+                  type  : 'POST',
+                  url   : '<?php echo base_url();?>index.php/DirectLabor/getAbsenPegawai',
+                  dataType : 'JSON',
+                  data : {id_pdo:id_pdo},
+                  success : function(data){
+                  var html = '';
+                  var i;
+                  var a=0;
+                  for(i=0; i<data.length; i++){
+                    html += 
+
+                    '<tr>'+
+                      '<th style=" vertical-align: middle; text-align: center;">'+data[i].item+'</th>'+
+                      '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
+                      '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
+                      '<th style=" vertical-align: middle; text-align: center;" colspan="2">'+data[i].total+'</th>'+
+                      '<th>-</th>'+
+                    '</tr>';
+
+                    a+=Number(data[i].total);
+                  }
+                  html+=
+                  '<tr>'+
+                  '<th width="40%" colspan="3" style=" vertical-align: middle; text-align: center;"> Total Non Operating Hours </th>'+
+                  '<th colspan="2" width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
+                  '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
+                  '</tr>'
+                  
+                  $('#tbl_body').html(html);    
+                  }
+              });
+        
+            // SHOW getRegOut
+               $.ajax({
+                    async :false,
+                    type  : 'POST',
+                    url   : '<?php echo base_url();?>index.php/DirectLabor/getRegOut',
+                    dataType : 'JSON',
+                    data : {id_pdo:id_pdo},
+                    success : function(data){
+                    var html = '';
+                    var i;
+                    var a=0;
+                    for(i=0; i<data.length; i++){
+                      html += 
+
+                      '<tr>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam_ke+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].posisi+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].total+'</th>'+
+                        '<th>-</th>'+
+                      '</tr>';
+
+                      a+=Number(data[i].total);
+                    }
+                    html+=
+                    '<tr>'+
+                    '<th width="40%" colspan="4" style=" vertical-align: middle; text-align: center;"> Total </th>'+
+                    '<th width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
+                    '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
+                    '</tr>'
+                    
+                    $('#regout_tbody').html(html);    
+                    }
+                });
+
+            // SHOW REG IN
+              // SHOW REG IN
+               $.ajax({
+                    async :false,
+                    type  : 'POST',
+                    url   : '<?php echo base_url();?>index.php/DirectLabor/getRegIn',
+                    dataType : 'JSON',
+                    data : {id_pdo:id_pdo},
+                    success : function(data){
+                    var html = '';
+                    var i;
+                    var a=0;
+                    for(i=0; i<data.length; i++){
+                      html += 
+
+                      '<tr>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam_ke+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].posisi+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].total+'</th>'+
+                        '<th>-</th>'+
+                      '</tr>';
+
+                      a+=Number(data[i].total);
+                    }
+                    html+=
+                    '<tr>'+
+                    '<th width="40%" colspan="4" style=" vertical-align: middle; text-align: center;"> Total </th>'+
+                    '<th width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
+                    '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
+                    '</tr>'
+                    
+                    $('#regin_tbody').html(html);    
+                    }
+                });
+        }
+
+        function isyou(id_pdo) {
+            document.getElementById('btn_add_unactiv').style.display = 'block';
+            document.getElementById('add_nonopr').style.display = 'block';
+            document.getElementById('add_btn_mpin').style.display = 'block';
+            document.getElementById('add_mpbout').style.display = 'block';
+            document.getElementById('btn_editdll').style.display = 'block';
+            // showIndirectActiv
+                $.ajax({
+                  async: false,
+                  type: "POST",
+                  url: '<?php echo site_url('DirectLabor/getListIndirectActivity')?>',
+                  dataType: "JSON",
+                  data: {
+                      pdo:id_pdo
+                  },
+                  success: function(response){
+                      var html = ''; 
+                      var totmh=0;
+                      for (var i = 0; i < response.length; i++) { 
+                        totmh+= Number(response[i].total);
+                        html+=
+                          '<tr>'+
+                            '<th style="width:50%" colspan="2">'+response[i].item+'</th>'+
+                            '<th>'+response[i].menit+'</th>'+
+                            '<th>'+parseFloat(response[i].total).toFixed(1)+'</th>'+
+                            '<th>'+
+                                 
+                            '-</th>'+
+                          '</tr>';                   
+                      } 
+                      html+=
+                            '<tr>'+ 
+                              '<th style="text-align: right;" colspan="3">Total</th>'+
+                              '<th>'+totmh.toFixed(2)+'</th>'+
+                              '<th style="text-align: center;">MH</th>'+
+                            '</tr>'; 
+                      $('#tbod_indirectactivity').html(html);
+                  }   
+
+               }); 
+
+            // showDl
+               $.ajax({
               async: false,
               type: "POST",
               url: '<?php echo site_url('DirectLabor/getDirectLabor')?>',
@@ -1046,58 +1432,144 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   $('#tmp_dl_ot').val(response.dl_ot);
               }
 
+             }); 
 
-           }); 
-        }
+            // show
+              $.ajax({
+                  async :false,
+                  type  : 'POST',
+                  url   : '<?php echo base_url();?>index.php/DirectLabor/getAbsenPegawai',
+                  dataType : 'JSON',
+                  data : {id_pdo:id_pdo},
+                  success : function(data){
+                  var html = '';
+                  var i;
+                  var a=0;
+                  for(i=0; i<data.length; i++){
+                    html += 
 
-        function showIndirectActiv(id_pdo) {
-            $.ajax({
-              async: false,
-              type: "POST",
-              url: '<?php echo site_url('DirectLabor/getListIndirectActivity')?>',
-              dataType: "JSON",
-              data: {
-                  pdo:id_pdo
-              },
-              success: function(response){
-                  var html = ''; 
-                  var totmh=0;
-                  for (var i = 0; i < response.length; i++) { 
-                    totmh+= Number(response[i].total);
-                    html+=
+                    '<tr>'+
+                      '<th style=" vertical-align: middle; text-align: center;">'+data[i].item+'</th>'+
+                      '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
+                      '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
+                      '<th style=" vertical-align: middle; text-align: center;" colspan="2">'+data[i].total+'</th>'+
+                      '<th>'+
+                        '<div class="dropdown">'+
+                            '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+                              '<i class="fa fa-ellipsis-h"></i>'+
+                            '</a>'+                     
+                            '<div class="dropdown-menu dropdown-menu-right">'+
+                              '<a class="dropdown-item item_edit_absen" href="#" data-id="'+data[i].id+'" data-item="'+data[i].item+'" data-qty="'+data[i].qty+'" data-jam="'+data[i].jam+'" data-total="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
+                              '<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
+                            '</div>'+
+                          '</div>'+
+                      '</th>'+
+                    '</tr>';
+
+                    a+=Number(data[i].total);
+                  }
+                  html+=
+                  '<tr>'+
+                  '<th width="40%" colspan="3" style=" vertical-align: middle; text-align: center;"> Total Non Operating Hours </th>'+
+                  '<th colspan="2" width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
+                  '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
+                  '</tr>'
+                  
+                  $('#tbl_body').html(html);    
+                  }
+                });
+
+            // SHOW REG OUT 
+               $.ajax({
+                    async :false,
+                    type  : 'POST',
+                    url   : '<?php echo base_url();?>index.php/DirectLabor/getRegOut',
+                    dataType : 'JSON',
+                    data : {id_pdo:id_pdo},
+                    success : function(data){
+                    var html = '';
+                    var i;
+                    var a=0;
+                    for(i=0; i<data.length; i++){
+                      html += 
+
                       '<tr>'+
-                        '<th style="width:50%" colspan="2">'+response[i].item+'</th>'+
-                        '<th>'+response[i].menit+'</th>'+
-                        '<th>'+parseFloat(response[i].total).toFixed(1)+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam_ke+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].posisi+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].total+'</th>'+
                         '<th>'+
-                            '<div class="dropdown">'+
+                          '<div style=" vertical-align: middle; text-align: center;" class="dropdown">'+
                               '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
                                 '<i class="fa fa-ellipsis-h"></i>'+
                               '</a>'+                     
                               '<div class="dropdown-menu dropdown-menu-right">'+
-                                '<a class="dropdown-item item_edit_activ" href="#" data-id="'+response[i].id+'" data-item="'+response[i].item+'" data-menit="'+response[i].menit+'"><i class="fa fa-pencil"></i> Edit </a>'+
-                                '<a class="dropdown-item item_delete_activ" href="#" data-id="'+response[i].id+'" data-item="'+response[i].item+'" ><i class="fa fa-trash"></i> Hapus </a>'+
+                                '<a  class="dropdown-item item_edit_regout" href="#" data-id_oc_regout="'+data[i].id_oc+'" data-id_regout="'+data[i].id+'" data-posisi_out="'+data[i].posisi+'" data-qty_regout="'+data[i].qty+'" data-jam_regout="'+data[i].jam+'" data-total_regout="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
+                                '<a class="dropdown-item item_delete_regout" href="#" data-id_regout="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
                               '</div>'+
                             '</div>'+
                         '</th>'+
-                      '</tr>';                   
-                  } 
-                  html+=
-                        '<tr>'+ 
-                          '<th style="text-align: right;" colspan="3">Total</th>'+
-                          '<th>'+totmh.toFixed(2)+'</th>'+
-                          '<th style="text-align: center;">MH</th>'+
-                        '</tr>'; 
-                  $('#tbod_indirectactivity').html(html);
-              }   
+                      '</tr>';
 
-           }); 
-        }
+                      a+=Number(data[i].total);
+                    }
+                    html+=
+                    '<tr>'+
+                    '<th width="40%" colspan="4" style=" vertical-align: middle; text-align: center;"> Total </th>'+
+                    '<th width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
+                    '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
+                    '</tr>'
+                    
+                    $('#regout_tbody').html(html);    
+                    }
+                });
 
-        function showNodata() {
-          document.getElementById('id_verif').style.display = 'none';
-          document.getElementById('no_pdodata').style.display = 'block';
-          document.getElementById('container_maindata').style.display = 'none';
+            // SHOW REG IN
+               $.ajax({
+                    async :false,
+                    type  : 'POST',
+                    url   : '<?php echo base_url();?>index.php/DirectLabor/getRegIn',
+                    dataType : 'JSON',
+                    data : {id_pdo:id_pdo},
+                    success : function(data){
+                    var html = '';
+                    var i;
+                    var a=0;
+                    for(i=0; i<data.length; i++){
+                      html += 
+
+                      '<tr>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam_ke+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].posisi+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
+                        '<th style=" vertical-align: middle; text-align: center;">'+data[i].total+'</th>'+
+                        '<th>'+
+                          '<div style=" vertical-align: middle; text-align: center;" class="dropdown">'+
+                              '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+                                '<i class="fa fa-ellipsis-h"></i>'+
+                              '</a>'+                     
+                              '<div class="dropdown-menu dropdown-menu-right">'+
+                                '<a  class="dropdown-item item_edit_regin" href="#" data-id_oc_regin="'+data[i].id_oc+'" data-id_regin="'+data[i].id+'" data-posisi="'+data[i].posisi+'" data-qty_regin="'+data[i].qty+'" data-jam_regin="'+data[i].jam+'" data-total_regin="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
+                                '<a class="dropdown-item item_delete_regin" href="#" data-id_regin="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
+                              '</div>'+
+                            '</div>'+
+                        '</th>'+
+                      '</tr>';
+
+                      a+=Number(data[i].total);
+                    }
+                    html+=
+                    '<tr>'+
+                    '<th width="40%" colspan="4" style=" vertical-align: middle; text-align: center;"> Total </th>'+
+                    '<th width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
+                    '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
+                    '</tr>'
+                    
+                    $('#regin_tbody').html(html);    
+                    }
+                });
         }
 
       // btn triger Edit
@@ -1270,55 +1742,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     // regulasi in ajax
 
-      // fitur show
-         
-        function show_regin(id_pdo){
-          $.ajax({
-            async :false,
-            type  : 'POST',
-            url   : '<?php echo base_url();?>index.php/DirectLabor/getRegIn',
-            dataType : 'JSON',
-            data : {id_pdo:id_pdo},
-            success : function(data){
-            var html = '';
-            var i;
-            var a=0;
-            for(i=0; i<data.length; i++){
-              html += 
-
-              '<tr>'+
-                '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam_ke+'</th>'+
-                '<th style=" vertical-align: middle; text-align: center;">'+data[i].posisi+'</th>'+
-                '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
-                '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
-                '<th style=" vertical-align: middle; text-align: center;">'+data[i].total+'</th>'+
-                '<th>'+
-                  '<div style=" vertical-align: middle; text-align: center;" class="dropdown">'+
-                      '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
-                        '<i class="fa fa-ellipsis-h"></i>'+
-                      '</a>'+                     
-                      '<div class="dropdown-menu dropdown-menu-right">'+
-                        '<a  class="dropdown-item item_edit_regin" href="#" data-id_oc_regin="'+data[i].id_oc+'" data-id_regin="'+data[i].id+'" data-posisi="'+data[i].posisi+'" data-qty_regin="'+data[i].qty+'" data-jam_regin="'+data[i].jam+'" data-total_regin="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
-                        '<a class="dropdown-item item_delete_regin" href="#" data-id_regin="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
-                      '</div>'+
-                    '</div>'+
-                '</th>'+
-              '</tr>';
-
-              a+=Number(data[i].total);
-            }
-            html+=
-            '<tr>'+
-            '<th width="40%" colspan="4" style=" vertical-align: middle; text-align: center;"> Total </th>'+
-            '<th width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
-            '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
-            '</tr>'
-            
-            $('#regin_tbody').html(html);    
-            }
-          });
-        }
-
 
       // --------------------------- submit - insert-----------------------------
         $('#btn_submit_regin').click(function(){
@@ -1453,56 +1876,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
       //   ========================  END UPDATE RECORD ====================================
 
-    // regulasi out ajax
-        
-        // fitur show     
-              function show_regout(){
-                $.ajax({
-                  async :false,
-                  type  : 'POST',
-                  url   : '<?php echo base_url();?>index.php/DirectLabor/getRegOut',
-                  dataType : 'JSON',
-                  data : {id_pdo:id_pdo},
-                  success : function(data){
-                  var html = '';
-                  var i;
-                  var a=0;
-                  for(i=0; i<data.length; i++){
-                    html += 
-
-                    '<tr>'+
-                      '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam_ke+'</th>'+
-                      '<th style=" vertical-align: middle; text-align: center;">'+data[i].posisi+'</th>'+
-                      '<th style=" vertical-align: middle; text-align: center;">'+data[i].qty+'</th>'+
-                      '<th style=" vertical-align: middle; text-align: center;">'+data[i].jam+'</th>'+
-                      '<th style=" vertical-align: middle; text-align: center;">'+data[i].total+'</th>'+
-                      '<th>'+
-                        '<div style=" vertical-align: middle; text-align: center;" class="dropdown">'+
-                            '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
-                              '<i class="fa fa-ellipsis-h"></i>'+
-                            '</a>'+                     
-                            '<div class="dropdown-menu dropdown-menu-right">'+
-                              '<a  class="dropdown-item item_edit_regout" href="#" data-id_oc_regout="'+data[i].id_oc+'" data-id_regout="'+data[i].id+'" data-posisi_out="'+data[i].posisi+'" data-qty_regout="'+data[i].qty+'" data-jam_regout="'+data[i].jam+'" data-total_regout="'+data[i].total+'"><i class="fa fa-pencil"></i> Edit </a>'+
-                              '<a class="dropdown-item item_delete_regout" href="#" data-id_regout="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
-                            '</div>'+
-                          '</div>'+
-                      '</th>'+
-                    '</tr>';
-
-                    a+=Number(data[i].total);
-                  }
-                  html+=
-                  '<tr>'+
-                  '<th width="40%" colspan="4" style=" vertical-align: middle; text-align: center;"> Total </th>'+
-                  '<th width="20%" style=" vertical-align: middle; text-align: center;">'+ a +'</th>'+
-                  '<th width="20%" style=" vertical-align: middle; text-align: center;"> MH </th>'+
-                  '</tr>'
-                  
-                  $('#regout_tbody').html(html);    
-                  }
-                });
-              }
-        // end fitur show    
+    // regulasi out ajax      
 
         // --------------------------- submit - insert-----------------------------
             $('#btn_submit_regout').click(function(){
@@ -1749,27 +2123,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       // isi DATA DROPDOWN LINE
         function loadDropdown() {
           var idu = $('#id_user').val();
+          var lv  = <?php echo $ses['level'] ?>; 
 
-          $.ajax({
-            type: 'POST',
-            url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
-            dataType: "JSON",
-            data:{
-              id_user:idu
-            },
-            success: function(data){ 
-              console.log(data);
-              
-              $('#select_line').empty();
-              $('#select_line').select2({ 
-                placeholder: 'Pilih Line ',
-                minimumResultsForSearch: -1,
-                data:data
+          // jika admin
+          if (lv==1) {
+            var id_district = <?php echo $ses['id_district'] ?>; 
 
-              });
-            }
+            $.ajax({
+              type: 'POST',
+              url: '<?php echo site_url("Users/getListLineCarlineByAdmin");?>',
+              dataType: "JSON",
+              data:{
+                id_district: id_district
+              },
+              success: function(data){ 
+                $('#select_line').empty();
+                $('#select_line').select2({ 
+                  placeholder: 'Pilih Line ',
+                  minimumResultsForSearch: -1,
+                  data:data
 
-          });
+                });
+              }
+
+            });
+          }else {
+            $.ajax({
+              type: 'POST',
+              url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+              dataType: "JSON",
+              data:{
+                id_user:idu
+              },
+              success: function(data){  
+                
+                $('#select_line').empty();
+                $('#select_line').select2({ 
+                  placeholder: 'Pilih Line ',
+                  minimumResultsForSearch: -1,
+                  data:data
+
+                });
+              }
+
+            });
+          }  
 
         }
       // UPDATE isi Sesion

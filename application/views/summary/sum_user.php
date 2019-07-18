@@ -949,26 +949,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			// isi DATA DROPDOWN LINE
 				function loadDropdown() {
 					var idu = $('#id_user').val();
+					var lv  = <?php echo $ses['level'] ?>; 
 
-					$.ajax({
-						type: 'POST',
-						url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
-						dataType: "JSON",
-						data:{
-							id_user:idu
-						},
-						success: function(data){  
-	 						
-	 						$('#select_line').empty();
-	 						$('#select_line').select2({ 
-				 				placeholder: 'Pilih Line ',
-				 				minimumResultsForSearch: -1,
-				 				data:data
+					// jika admin
+					if (lv==1) {
+						var id_district = <?php echo $ses['id_district'] ?>; 
 
-				 			});
-						}
+						$.ajax({
+							type: 'POST',
+							url: '<?php echo site_url("Users/getListLineCarlineByAdmin");?>',
+							dataType: "JSON",
+							data:{
+								id_district: id_district
+							},
+							success: function(data){ 
+		 						$('#select_line').empty();
+		 						$('#select_line').select2({ 
+					 				placeholder: 'Pilih Line ',
+					 				minimumResultsForSearch: -1,
+					 				data:data
 
-					});
+					 			});
+							}
+
+						});
+					}else {
+						$.ajax({
+							type: 'POST',
+							url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+							dataType: "JSON",
+							data:{
+								id_user:idu
+							},
+							success: function(data){  
+		 						
+		 						$('#select_line').empty();
+		 						$('#select_line').select2({ 
+					 				placeholder: 'Pilih Line ',
+					 				minimumResultsForSearch: -1,
+					 				data:data
+
+					 			});
+							}
+
+						});
+					}  
 
 				}
 			// UPDATE isi Sesion
