@@ -135,13 +135,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</select>
 							</div> 
 							<div class="input-group custom input-group-lg">
-								<input id="i_ket" type="text" class="form-control" placeholder="Keterangan">
+								<input id="i_ket" name="i_ket" type="text" class="form-control" placeholder="Keterangan">
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 								</div>
 							</div> 
 							<div class="input-group custom input-group-lg">
-								<input type="number" class="form-control" placeholder="Total" id="i_total">
+								<input type="number" class="form-control" placeholder="Total" name="i_total" id="i_total">
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="fa fa-database" aria-hidden="true"></i></span>
 								</div>
@@ -171,7 +171,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
 					<h2 class="text-center mb-30">Defect</h2>
 					
-					<form id="formDefect"> 
+					<form id="formDefect1"> 
 						<input type="hidden" name="id_updt" id="id_update">
 						<div class="input-group custom input-group-lg"> 
 							<label>Pilih Jam :</label>
@@ -242,6 +242,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.bootstrap4.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.responsive.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/responsive.bootstrap4.js"></script> 
+	<script src="<?php echo base_url() ?>assets/src/plugins/jquery-validation-1.19.1/dist/jquery.validate.min.js"></script>
 
 	<script>
 		$('document').ready(function(){
@@ -276,9 +277,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				$("input").click(function () {
 				   $(this).select();
-				}); 
- 
-			
+				}); 			
 			// TrigGER PIlih TANGGAL
 				$('.date-pickerrr').datepicker({   
 					language: "en",
@@ -533,8 +532,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             // =================== End Read Record ===============================================
             //  ===================  START UPDATE Record ===============================================
+            $( "#formDefect1" ).validate({
+				  rules: {
+				  	jam_updt: {
+				      required: true
+				    },
+				    jenis_updt: {
+				      required: true
+				    },
+				    ket_updt:{
+				    	required: true
+				    },
+				    total_updt: {
+				    	required: true
+				    }				    
+				  }
+				});
 	            //get data for UPDATE record show prompt
 	            $('#tbl_body').on('click','.item_edit',function(){
+	            	if (!$('#formDefect1').valid()) { 
+	   					return;
+	   				} 
 	            	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
 	                var id = $(this).data('id');
 	                var id_oc = $(this).data('id_oc');
@@ -587,12 +605,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	              }); 
 			 // ========================  END UPDATE RECORD ====================================
 
-
-
-
             // =================== Create Record ===============================================
-	   			$('#btn_submit').click(function(){
+	   			
 
+            	$( "#formDefect" ).validate({
+				  rules: {
+				  	levelupp: {
+				      required: true
+				    },
+				    i_listdefect: {
+				      required: true
+				    },
+				    i_ket:{
+				    	required: true
+				    },
+				    i_total: {
+				    	required: true
+				    }				    
+				  }
+				});
+
+	   			$('#btn_submit').click(function(){
+	   				if (!$('#formDefect').valid()) { 
+	   					return;
+	   				} 
 					var def_jam = document.getElementById("i_jam").value;
 					var def_ket = document.getElementById("i_ket").value;
 					var def_total = document.getElementById("i_total").value;
