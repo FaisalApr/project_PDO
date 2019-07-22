@@ -184,17 +184,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<h2 class="text-center mb-30">Downtime</h2>
 						<form id="form_losstime_updt">
 							<!-- id -->
-							<input type="hidden" class="form-control" placeholder="Assy Code" name="id_updt" id="id_update">
+							<input type="hidden" class="form-control" placeholder="Assy Code" name="id_update" id="id_update">
 
 							<div class="input-group custom input-group-lg"> 
-								<select class="custom-select col-12" name="jam_updt" id="jam_update"> 
+								<select class="custom-select col-12" name="jam_update" id="jam_update"> 
 									<!-- CONTAINER -->
 									<!-- JAM KEEEEEEE --> 
 								</select>
 							</div> 
 							
 							<div class="input-group custom input-group-lg">
-								<select class="custom-select col-12" name="problem_updt" id="problem_update">
+								<select class="custom-select col-12" name="problem_update" id="problem_update">
 									<option disabled selected> Problem</option>
 										<?php foreach ($data_error as $key) { ?>
 											<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
@@ -203,14 +203,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 
 							<div class="input-group custom input-group-lg">
-								<input type="text" class="form-control" placeholder="KETERANGAN" name="ket_updt" id="ket_update">
+								<input type="text" class="form-control" placeholder="KETERANGAN" name="ket_update" id="ket_update">
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="icon-copy fa fa-sticky-note-o" aria-hidden="true"></i></span>
 								</div>
 							</div>
 
 							<div class="input-group custom input-group-lg"> 
-								<select class="custom-select col-12" name="jenis_updt" id="jenis_update">
+								<select class="custom-select col-12" name="jenis_update" id="jenis_update">
 									<option disabled selected> Pilih Jenis Downtime</option>
 										<?php foreach ($data_losttime as $key) { ?>
 											<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
@@ -219,7 +219,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 
 							<div class="input-group custom input-group-lg">
-								<input type="number" class="form-control" placeholder="Time" name="time_updt" id="time_update">
+								<input type="number" class="form-control" placeholder="Durasi (Menit)" name="time_update" id="time_update">
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="icon-copy fa fa-clock-o" aria-hidden="true"></i></span>
 								</div>
@@ -248,12 +248,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<h2 class="text-center mb-30">Downtime</h2>
 						<form id="form_losstime">
 							<div class="input-group custom input-group-lg">
-								<select class="custom-select col-12" name="levelupp" id="i_jam">
+								<select class="custom-select col-12" name="i_jam" id="i_jam">
 								 
 								</select>
 							</div> 
 							<div class="input-group custom input-group-lg">
-								<select class="custom-select col-12" name="levelupp" id="i_problem">
+								<select class="custom-select col-12" name="i_problem" id="i_problem">
 									<option disabled selected> Problem</option>
 											<?php foreach ($data_error as $key) { ?>
 												<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
@@ -262,13 +262,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</select>
 							</div> 
 							<div class="input-group custom input-group-lg">
-								<input type="text" class="form-control" placeholder="KETERANGAN" id="i_ket">
+								<input type="text" class="form-control" placeholder="KETERANGAN" id="i_ket" name="i_ket">
 								<div class="input-group-append custom">
-									<span class="input-group-text"></span>
+									<span class="input-group-text"><i class="icon-copy fa fa-sticky-note-o" aria-hidden="true"></i></span>
 								</div>
 							</div> 
 							<div class="input-group custom input-group-lg">
-								<select class="custom-select col-12" name="levelupp" id="i_jenis">
+								<select class="custom-select col-12" name="i_jenis" id="i_jenis">
 									<option disabled selected> Pilih Jenis Downtime</option>
 											<?php foreach ($data_losttime as $key) { ?>
 												<option value="<?php  echo $key->id ?>"> <?php  echo $key->keterangan ?> </option>
@@ -277,16 +277,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</select>
 							</div> 
 							<div class="input-group custom input-group-lg">
-								<input type="number" class="form-control" placeholder="Time" id="i_time">
+								<input type="number" class="form-control" placeholder="Durasi (Menit)" id="i_time" name="i_time">
 								<div class="input-group-append custom">
-									<span class="input-group-text"></span>
+									<span class="input-group-text"><i class="icon-copy fa fa-clock-o" aria-hidden="true"></i></span>
 								</div>
 							</div> 
 							<br> 
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="input-group"> 
-										<a class="btn btn-primary btn-lg btn-block" id="btn_submit" href="#">Submit</a>
+										<a  class="btn btn-primary btn-lg btn-block" id="btn_submit" href="#">Submit</a>
 									</div>
 								</div>
 							</div> 
@@ -315,6 +315,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script> 
+	<script src="<?php echo base_url() ?>assets/src/plugins/jquery-validation-1.19.1/dist/jquery.validate.min.js"></script>
 
 	<script> 
 		$('document').ready(function(){
@@ -439,16 +440,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 								// cek jika itu bukan miliknya
 	                    		if ($('#id_user').val()==res.id_users || lv==1) { 
-	                    			console.log('MILIKNYA') 
+	                    			// console.log('MILIKNYA') 
 	                    			document.getElementById('btn_adddown').style.display = 'block';
 	                    			show(res.id);  
 	                    		}else { 
-	                    			console.log('not YOU');
+	                    			// console.log('not YOU');
 	                    			document.getElementById('btn_adddown').style.display = 'none';
 	                    			show_notYou(res.id);  
 	                    		}    
 	                    		isi_dropdown(res.id); 
-	                    		console.log(res);
+	                    		// console.log(res);
 
 	                    		//  STATUS VERIFIKASI 	
 	                    		 if (res.status==1) {
@@ -533,7 +534,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    	}
 
 	                    	$('#i_jam').html(html);
-	                    	$('#jam_update').html(html);
+	                    	$('#jam_update').html(html); 
 	                    }
 	                });	
 
@@ -544,7 +545,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            function show(id_pdo){
 	            		document.getElementById('no_pdodata').style.display = 'none';
 	            		document.getElementById('container_maindata').style.display = 'block';
-	            		console.log('show called');
+	            		// console.log('show called');
 	            		loadChart();
 
 	                    $.ajax({
@@ -563,9 +564,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                            // console.log(respon);
 	                            for(i=0; i<data.length; i++){
 	                            	x = data[i].durasi*60;
+		                        	jm = (x/3600);
 		                        	menit = (x%3600)/60;
 		                        	detik = (x%3600)%60;
-		                        	var duras = Math.floor(menit)+' Menit '+Math.floor(detik)+' Detik';
+
+		                        	if (Math.floor(jm)!=0) {
+		                        		var duras = Math.floor(jm)+' Jam '+Math.floor(menit)+' Menit '+Math.floor(detik)+' Detik';	
+		                        	}else{
+		                        		if (Math.floor(menit)!=0) {
+		                        			var duras = Math.floor(menit)+' Menit '+Math.floor(detik)+' Detik';
+		                        		}else{
+		                        			var duras = Math.floor(detik)+' Detik';
+		                        		} 	
+		                        	}
 		                        	
 	                                html +=  
 	                                '<tr>'+
@@ -727,8 +738,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             // =================== End Read Record ============================================
 
             // =================== Create Record ===============================================
+	   			$( "#form_losstime" ).validate({
+				  rules: {
+				  	i_time: {
+				      required: true
+				    },
+				    i_ket: {
+				      required: true
+				    },
+				    i_jenis:{
+				    	required: true
+				    },
+				    i_problem: {
+				    	required: true
+				    }				    
+				  }
+				});
+
 	   			$('#btn_submit').click(function(){ 
 
+	   				// check is valid or not
+	   				if (!$('#form_losstime').valid()) { 
+	   					return;
+	   				} 
 					var down_jam = document.getElementById("i_jam").value;
 					var down_problem = document.getElementById("i_problem").value;
 					var down_ket = document.getElementById("i_ket").value;
@@ -820,16 +852,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                var durasi = $(this).data('durasi');
   					 
 
-	                // memasukkan data ke form updatean
-					$('input[name="id_updt"]').val(id);   
+	                 // memasukkan data ke form updatean
+					$('#id_update').val(id);   
 
 					// fix
 					$("#problem_update option[value='"+id_error+"']").prop('selected', true);
 					$("#jenis_update option[value='"+id_jenisloss+"']").prop('selected', true);
 					$("#jam_update option[value='"+id_oc+"']").prop('selected', true);
 
-					$('[name="ket_updt"]').val(keterangan);
-					$('[name="time_updt"]').val(durasi);
+					$('#ket_update').val(keterangan);
+					$('#time_update').val(durasi);
 
 
 
@@ -838,15 +870,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            });
             
             //UPDATE record to database (submit button)
-	            $('#btn_update').on('click',function(){
-	                var idup = $('[name="id_updt"]').val();
-	                var iderrorup = $('[name="problem_updt"]').val();
-	                var idocup = $('[name="jam_updt"]').val();
-	                var idjenislossup = $('[name="jenis_updt"]').val();
-	                var ketup = $('[name="ket_updt"]').val();
-	                var durasiup = $('[name="time_updt"]').val();
+            	$( "#form_losstime_updt" ).validate({
+				  rules: {
+				  	jam_update: {
+				      required: true
+				    },
+				    problem_update: {
+				      required: true
+				    },
+				    jenis_update:{
+				    	required: true
+				    },
+				    ket_update: {
+				    	required: true
+				    },
+				    time_update: {
+				    	required: true
+				    }
+				  }
+				}); 
 
-					// alert(umhup);
+	            $('#btn_update').on('click',function(){
+	            	// check is valid or not
+	   				if (!$('#form_losstime_updt').valid()) { 
+	   					return;
+	   				}  
+
+	                var idup = $('#id_update').val();
+	                var iderrorup = $('#problem_update').val();
+	                var idocup = $('#jam_update').val();
+	                var idjenislossup = $('#jenis_update').val();
+	                var ketup = $('#ket_update').val();
+	                var durasiup = $('#time_update').val();
+
+	                // alert('id:'+idup+'|id errup:'+iderrorup+'|id_ocup:'+idocup+'|jenislossoutp:'+idjenislossup+'|ketup:'+ketup+'|durasiup:'+durasiup);
+	                // return;
+
 	                $.ajax({
 	                    type : "POST",
 	                    url  : "<?php echo site_url(); ?>/Losstime/updateLosstime",
@@ -991,8 +1050,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			var hiColor = ['#D50000','#f57e42','#e0c216','#3ea85a','#25b84c'];
 
 			function loadChart() {
-				console.log('load chart pdo: '); 
-				console.log(id_pdo);
+				// console.log('load chart pdo: '); 
+				// console.log(id_pdo);
 				var opt_indef = {
 							title: {
 						        text: 'Downtime'
