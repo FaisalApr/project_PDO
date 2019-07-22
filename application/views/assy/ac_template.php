@@ -84,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <!-- ALLL MODAL -->
 <div>
-	<!-- Modal Ntah  -->
+	<!-- Modal create  -->
 		<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
@@ -96,18 +96,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<form id="form_assy">
 
 							<div class="input-group custom input-group-lg">
-								<input type="text" class="form-control" placeholder="Assy Code" id="i_code" required>
+								<input type="text" class="form-control" placeholder="Assy Code" id="i_code" name="i_code" required>
 								
-								<div class="valid-feedback"></div>
-								<div class="invalid-feedback"><small id="kodeHelp" class="form-text text-muted">Kode Assy Harus di isi</small></div>
 								<div class="input-group-append custom">
 									<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
 								</div>
 							</div>
 							
 							<div class="input-group custom input-group-lg">
-								<input type="text" class="form-control" placeholder="UMH" id="i_umh" required>
-								<small id="kodeHelp" class="form-text text-muted">UMH Harus di isi</small>
+								<input type="text" class="form-control" placeholder="UMH" id="i_umh" name="i_umh" required>
+								
 								<div class="input-group-append custom">
 
 									<span class="input-group-text"><i class="fa fa-money" aria-hidden="true"></i></span>
@@ -239,12 +237,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/buttons.flash.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/pdfmake.min.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/button/vfs_fonts.js"></script>
-
+	<script src="<?php echo base_url() ?>assets/src/plugins/jquery-validation-1.19.1/dist/jquery.validate.min.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>  
 
 
 	<script>
 		$('document').ready(function(){
+
 			// VAR CORE
 				var id_line = $('#id_line').val();
 				var id_shift = $('#id_shift').val();
@@ -350,7 +349,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			// ====  AUTOLOAD =====  
 			loadDropdown();
 			show();    
-
+			 $( "#form_assy" ).validate({
+				  rules: {
+				  	i_code: {
+				      required: true
+				    },
+				    i_umh: {
+				      required: true
+				    }	    
+				  }
+				});
 
             function show(){
                     $.ajax({
@@ -389,10 +397,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             }
 
-
+            
 
 			$('#btn_submit').click(function(){
-
+				if (!$('#form_assy').valid()) { 
+	   					return;
+	   				}
 				var def_code = document.getElementById("i_code").value;
 				var def_umh = document.getElementById("i_umh").value;
 				// alert(def_code+","+def_ket);
@@ -486,6 +496,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			 //  ===================  START UPDATE Record ===============================================
             //get data for UPDATE record show prompt
+            $( "#formupdate" ).validate({
+				  rules: {
+				  	kodeupdt: {
+				      required: true
+				    },
+				    umhupdt: {
+				      required: true
+				    }	    
+				  }
+				});
+
+
             $('#tbl_body').on('click','.item_edit',function(){
             	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
                 var idd = $(this).data('id');
@@ -513,6 +535,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             //UPDATE record to database (submit button)
 
             $('#btn_update').on('click',function(){
+            	if (!$('#formupdate').valid()) { 
+	   					return;
+	   				}
                 var idkode = $('[name="id_k"]').val();
 				var kodeup = $('[name="kodeupdt"]').val();
 				var umhup = $('[name="umhupdt"]').val();
