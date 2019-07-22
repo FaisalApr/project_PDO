@@ -260,21 +260,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <input type="text" class="form-control" placeholder="ITEM" id="i_item">
                   
                   <div class="input-group-append custom">
-                    <span class="input-group-text"><i class="fa fa-id-badge" aria-hidden="true"></i></span>
+                    <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
                   </div>
                 </div>
                 <!-- input -->
                 <div class="input-group custom input-group-lg">
-                  <input type="number" class="form-control" placeholder="QTY MP" id="i_qty">
+                  <input type="text" class="form-control" placeholder="QTY MP" id="i_qty">
                   <div class="input-group-append custom">
-                    <span class="input-group-text"><i class="fa fa-group" aria-hidden="true"></i></span>
+                    <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
                   </div>
                 </div>
                 <!-- input -->
                 <div class="input-group custom input-group-lg">
-                  <input type="number" class="form-control" placeholder="JAM" id="i_jam">
+                  <input type="text" class="form-control" placeholder="JAM" id="i_jam">
                   <div class="input-group-append custom">
-                    <span class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+                    <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
                   </div>
                 </div>
                 
@@ -382,21 +382,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="input-group custom input-group-lg">
                   <input type="text" class="form-control" placeholder="Posisi" id="i_posisi">
                   <div class="input-group-append custom">
-                    <span class="input-group-text"><i class="fa fa-id-badge" aria-hidden="true"></i></span>
+                    <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
                   </div>
                 </div>
                 <!-- input -->
                 <div class="input-group custom input-group-lg">
-                  <input type="number" class="form-control" placeholder="QTY MP" id="i_regin_qty">
+                  <input type="text" class="form-control" placeholder="QTY MP" id="i_regin_qty">
                   <div class="input-group-append custom">
-                    <span class="input-group-text"><i class="fa fa-group" aria-hidden="true"></i></span>
+                    <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
                   </div>
                 </div>
                 <!-- input -->
                 <div class="input-group custom input-group-lg">
-                  <input type="number" class="form-control" placeholder="JAM" id="i_regin_jam">
+                  <input type="text" class="form-control" placeholder="JAM" id="i_regin_jam">
                   <div class="input-group-append custom">
-                    <span class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+                    <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
                   </div>
                 </div>
                 
@@ -435,21 +435,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <input type="text" class="form-control" placeholder="POSISI" id="posisi_update" name="posisi_updt">
                   <input type="hidden" class="form-control" placeholder="ID" name="id_regin_updt" id="id_regin_update">
                   <div class="input-group-append custom">
-                    <span class="input-group-text"><i class="fa fa-id-badge" aria-hidden="true"></i></span>
+                    <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
                   </div>
                 </div>
                 <!-- input -->
                 <div class="input-group custom input-group-lg">
-                  <input type="number" class="form-control" placeholder="QTY MP" id="qty_regin_update" name="qty_regin_updt">
+                  <input type="text" class="form-control" placeholder="QTY MP" id="qty_regin_update" name="qty_regin_updt">
                   <div class="input-group-append custom">
-                    <span class="input-group-text"><i class="fa fa-group" aria-hidden="true"></i></span>
+                    <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
                   </div>
                 </div>
                 <!-- input -->
                 <div class="input-group custom input-group-lg">
-                  <input type="number" class="form-control" placeholder="JAM" id="jam_regin_update" name="jam_regin_updt">
+                  <input type="text" class="form-control" placeholder="JAM" id="jam_regin_update" name="jam_regin_updt">
                   <div class="input-group-append custom">
-                    <span class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+                    <span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
                   </div>
                 </div>
                 
