@@ -149,7 +149,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
       </div>
-      <!-- end of first row -->
+    <!-- end of first row -->
         
 
         <!-- absen modal -->

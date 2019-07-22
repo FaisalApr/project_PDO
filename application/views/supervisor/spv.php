@@ -125,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		        <div class="modal fade" id="i_line-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		          <div class="modal-dialog modal-dialog-centered">
 		            <div class="modal-content">
-		              <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+		              <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
 		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 		                <h2 class="text-center mb-30">Supervisor</h2>
 		                <!-- form start -->
@@ -133,7 +133,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                  
 		                  <!-- input -->
 							<div class="input-group custom input-group-lg">
-								<input type="text" class="form-control" placeholder="NIK" id="i_nik" required>
+								<input type="number" class="form-control" placeholder="NIK" id="i_nik">
 								<div class="valid-feedback"></div>
 	    						
 							</div>
@@ -145,7 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 		                  <!-- input -->
 							<div class="input-group custom input-group-lg">
-								<input type="text" class="form-control" placeholder="passcode" id="i_passcode" required>
+								<input type=number class="form-control" placeholder="passcode" id="i_passcode" required>
 								<div class="valid-feedback"></div>
 							</div>
 		
@@ -169,14 +169,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			      <div class="modal fade" id="CLModalUpdt" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 			        <div class="modal-dialog modal-dialog-centered">
 			          <div class="modal-content">
-			            <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+			            <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
 			              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			              <h2 class="text-center mb-30">Update Supervisor</h2>
 			              <!-- form start -->
 			              <form id="formUpdtCarline">
 			              	<!-- input -->
 							<div class="input-group custom input-group-lg">
-								<input type="text" class="form-control" placeholder="NIK" name="nik_updt" id="nik_update">
+								<input type="number" class="form-control" placeholder="NIK" name="nik_updt" id="nik_update">
 								<div class="valid-feedback"></div>
 	    						
 							</div>
@@ -188,7 +188,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 		                  <!-- input -->
 							<div class="input-group custom input-group-lg">
-								<input type="text" class="form-control" placeholder="passcode" name="passcode_updt" id="passcode_update">
+								<input type="number" class="form-control" placeholder="passcode" name="passcode_updt" id="passcode_update">
 								<div class="valid-feedback"></div>
 							</div>
 			               <!-- input -->

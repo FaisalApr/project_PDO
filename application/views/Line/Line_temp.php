@@ -298,6 +298,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<div class="modal-body">
 							<form method="post" id="import_form" enctype="multipart/form-data">
+								<div class="alert alert-warning" role="alert">
+									Pastikan Data .Xlsx Yang dimasukkan Sesuai Dengan Format.
+									<img src="<?php echo base_url()?>/assets/src/images/format_assy.png">
+								</div>
 								<p><label>Select Excel File</label>
 								<input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
 								<br />

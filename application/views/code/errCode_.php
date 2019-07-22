@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <?php $this->load->view('header/header'); ?>
-<?php $this->load->view('header/sidebar'); ?>
+<?php $this->load->view('header/sidebar_users'); ?>
  
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">

@@ -60,13 +60,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 				</div>
 
-				<div class="col-lg-3 col-md-6 col-sm-12 mb-10">
+				<div class="col-lg-2 col-md-6 col-sm-12 mb-10">
 					<div class="card box-shadow" style="height: 200px;">
-						<h5 class="card-header text-center weight-500">Prosentase Losstime</h5>
+						<h5 class="card-header text-center weight-500" style="font-size: 19.1px">Prosentase Losstime</h5>
 						<div class="card-body"> 
 							<div class="project-info-progress">
 								<center>
-								<span class="col-sm-12 align-content-center text-blue weight-800"><font size="46" id="id_prcent_loss">0</font>%</span>
+								<span class="col-sm-10 align-content-center text-blue weight-800"><font size="46" id="id_prcent_loss">0</font>%</span>
 								</center>
 							</div>
 						</div> 
@@ -95,7 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 				</div>
 
-				<div class="col-lg-3 col-md-6 col-sm-12 mb-10">
+				<div class="col-lg-4 col-md-6 col-sm-12 mb-10">
 					<div class="card box-shadow"> 
 						<!-- <div class="card-body"> 
 							
@@ -264,7 +264,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="input-group custom input-group-lg">
 								<input type="text" class="form-control" placeholder="KETERANGAN" id="i_ket">
 								<div class="input-group-append custom">
-									<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+									<span class="input-group-text"></span>
 								</div>
 							</div> 
 							<div class="input-group custom input-group-lg">
@@ -279,7 +279,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="input-group custom input-group-lg">
 								<input type="number" class="form-control" placeholder="Time" id="i_time">
 								<div class="input-group-append custom">
-									<span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+									<span class="input-group-text"></span>
 								</div>
 							</div> 
 							<br> 
@@ -912,6 +912,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$('#i_problem').on('change', function() {
 				  	// jika ini zeroo
 				  	if (this.value==13) {
+				  		document.getElementById('i_time').disabled=true;
 				  		document.getElementById('i_ket').value= "Zero Downtime";
 				  		$('#i_jenis').val("1");
 				  		document.getElementById('i_time').value= 0;

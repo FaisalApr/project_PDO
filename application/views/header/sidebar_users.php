@@ -98,7 +98,11 @@
 						</a>
 					</li> 
 					
-
+					<li class=" <?php echo $this->uri->segment(1) == 'errcode' ? 'aktip': '' ?>  <?php echo $sesi['level']!=1 ? 'hidenn': '' ?>">
+						<a href="<?php echo site_url() ?>/errcode" class="dropdown-toggle no-arrow"> 
+							<i class="icon-copy fa fa-arrow-circle-down" aria-hidden="true"></i><span class="mtext">Downtime Manager</span>
+						</a>
+					</li>
 
 				</ul>
 			</div>
