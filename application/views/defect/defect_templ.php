@@ -550,9 +550,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				});
 	            //get data for UPDATE record show prompt
 	            $('#tbl_body').on('click','.item_edit',function(){
-	            	if (!$('#formDefect1').valid()) { 
-	   					return;
-	   				} 
+	            	
 	            	// memasukkan data yang dipilih dari tbl list agenda updatean ke variabel 
 	                var id = $(this).data('id');
 	                var id_oc = $(this).data('id_oc');
@@ -576,6 +574,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            
 	            //UPDATE record to database (submit button)
 	            $('#btn_update').on('click',function(){
+	            	if (!$('#formDefect1').valid()) { 
+	   					return;
+	   				} 
 	                var idup = $('[name="id_updt"]').val();
 	                var id_oc_up = $('[name="jam_updt"]').val();
 	                var id_jenis_up = $('[name="jenis_updt"]').val();
