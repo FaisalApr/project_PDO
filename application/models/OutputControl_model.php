@@ -75,6 +75,36 @@ class OutputControl_model extends CI_Model {
         return $query->first_row();
 	}
 
+	public function getEffExclude($pdo)
+	{
+		$q = $this->db->query("SELECT
+								    (SELECT COALESCE(SUM(actual*umh),0) 
+								        FROM build_assy 
+								        JOIN assembly ON id_assy=assembly.id
+								        WHERE id_pdo=$pdo
+								    )/
+								    (
+								        (
+								            SELECT 
+								                (SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=1 AND id_pdo=$pdo)
+								                +
+								                (
+								                  SELECT
+								                    (
+								                      (select (SELECT jam_kerja FROM main_pdo WHERE id=$pdo)-(select (select COALESCE(SUM(menit),0) FROM indirect_activity WHERE id_pdo=$pdo)/60))*(SELECT reg_dl FROM direct_labor WHERE id_pdo=$pdo)+
+								                      (SELECT 
+								                        (SELECT jam_ot FROM direct_labor WHERE id_pdo=$pdo)*(SELECT dl_ot FROM direct_labor WHERE id_pdo=$pdo)
+								                      )
+								                    )
+								                )
+								        )
+								        -(SELECT COALESCE(SUM(total),0) FROM absen_pegawai WHERE id_pdo=$pdo)
+								         -(SELECT COALESCE(SUM(total),0) FROM indirect_activity WHERE id_pdo=$pdo)
+								        -(SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=2 AND id_pdo=$pdo)
+								    )*100 as eff_excl");
+		return $q->first_row();
+	}
+
 
 	public function createBuildAssy()
 	{
@@ -88,6 +118,11 @@ class OutputControl_model extends CI_Model {
 			'actual' => 0,
 			'time' => date("Y-m-d H:i:s")
 		);
+		return $this->db->insert('build_assy',$dataBuildAssy);
+	}
+
+	public function createBuildAssyData($dataBuildAssy)
+	{ 
 		return $this->db->insert('build_assy',$dataBuildAssy);
 	}
 
