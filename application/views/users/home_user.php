@@ -132,7 +132,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<th>Jabatan</th>
 								<th>Shift</th>
 								<th>District</th>
-								<th>Status</th> 
+								<th>Job Line</th> 
 								<th class="datatable-nosort">Action</th>
 							</tr>
 						</thead>
@@ -144,7 +144,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<!-- Simple Datatable End -->
 		</div>
 
-		<!-- NEW USERS --> 
+		<!-- NEW USERS WIZARD --> 
 		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" id="container_newuser" style="display: none;">
 			<div class="clearfix">
 				<h4 class="text-blue">Step User Baru</h4>
@@ -162,13 +162,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-md-6">
 									<div class="form-group">
 										<label for="in_nama" >Nama :</label>
-										<input id="in_nama" type="text" class="form-control" >
+										<input id="in_nama" name="in_nama" type="text" class="form-control" >
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label for="in_nik" >NIK :</label>
-										<input id="in_nik" type="Number" class=" form-control" >
+										<input id="in_nik" name="in_nik" type="Number" class=" form-control" >
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -278,104 +278,85 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <!-- START KUMPULAN MODAL --> 
-<div>
-	
-	<!-- START MODAL NEW USER -->
-	<div class="modal fade bs-example-modal-lg" id="modal_new_user" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header text-center">
-					<h4 class="modal-title w-100">User Baru</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				</div>
-				<div class="modal-body">
-					<form id="fom_addusr"> 
-						<!-- <div class="form-group" id="fom_iusername">
-							<label class="form-control-label">Username</label>
-							<input id="i_user" type="text" class="form-control">
-							<div id="tipsss" style="display: none;" class="form-control-feedback">maaf, username ini sudah digunakan. Coba yang lain?</div> 
-						</div> -->
-						<select class="selectpicker my-select" multiple data-max-options="2">
-						  <option>Mustard</option>
-						  <option>Ketchup</option>
-						  <option>Relish</option>
-						</select>
-
-						<div class="form-group">
-							<label class="form-control-label">Password</label>
-							<!-- <input id="i_pass" type="Password" class="form-control">  -->
-						</div>
-
-						<div class="form-group ">
-							<label class="form-control-label">Shift</label>
-							<select class="selectpicker form-control" name="i_shift" data-style="btn-outline-secondary">
-								<option value="1" selected="">A (Siang)</option>
-								<option value="2">B (Malam)</option> 
-							</select>
-						</div>
-
-						<div class="form-group ">
-							<label class="form-control-label">Line</label>
-							<select class="custom-select2 form-control" name="i_line" style="width: 100%; height: 38px;">
-								<option disabled selected>Pilih Line</option>
-								<?php foreach ($line as $key) { ?>
-								<option value="<?php  echo $key->id ?>"> <?php  echo $key->nama_line ?> </option>
-							<?php }  ?>
-							</select>
-						</div>
-
-						<br>
-						<center>
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary" id="btn_submit_newusr">Tambahkan</button>
-						</center>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- END MODAL NEW USER -->
+<div> 
 
 	<!-- START MODAL EDIT USER -->
 		<div class="modal fade bs-example-modal-md" id="modal_edit_user" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header text-center">
 						<h4 class="modal-title w-100">EDIT USER</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					</div>
 					<div class="modal-body">
-						<form id="fom_editusr"> 
-							<div class="form-group" id="fom_iusername">
-								<label class="form-control-label">Username</label>
-								<input id="ie_user" type="text" class="form-control">
-								<div id="tipsss" style="display: none;" class="form-control-feedback">maaf, username ini sudah digunakan. Coba yang lain?</div> 
-							</div>
+						<form id="fom_editusr">  
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="form-control-label">NIK</label>
+										<input id="ie_nik" name="ie_nik" type="Number" class="form-control" min="0"> 
+									</div>
+									<div class="form-group">
+										<label class="form-control-label">Nama</label>
+										<input id="ie_nama" name="ie_nama" type="text" class="form-control" minlength="4"> 
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group" id="fom_iusername">
+										<label class="form-control-label">Username</label>
+										<input id="ie_user" name="ie_user" type="text" class="form-control">
+										<div id="tipsss" style="display: none;" class="form-control-feedback">maaf, username ini sudah digunakan. Coba yang lain?</div> 
+									</div>
 
-							<div class="form-group">
-								<label class="form-control-label">Password</label>
-								<input id="ie_pass" type="Password" class="form-control"> 
-							</div>
+									<div class="form-group">
+										<label class="form-control-label">Password</label>
+										<input id="ie_pass" name="ie_pass" type="Password" class="form-control" minlength="4"> 
+									</div> 
+								</div>
+							</div> 
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Pilih District :</label>
+										<div class="row" style="margin-left: 100px">
+											<div class="custom-control custom-radio mb-5">
+												<input type="radio" id="customRadio8" name="edt_rad_district" value="1" class="custom-control-input">
+												<label class="custom-control-label" for="customRadio8">SAI T</label>
+											</div>
+											<div class="custom-control custom-radio mb-5" style="margin-left: 20px;">
+												<input type="radio" id="customRadio9" name="edt_rad_district" value="2" class="custom-control-input">
+												<label class="custom-control-label" for="customRadio9">SAI B</label>
+											</div> 
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6"></div>
+								<div class="form-group col-md-6">
+									<label class="form-control-label">Shift :</label>
+									<select class="selectpicker_sf form-control" id="ie_shift" name="ie_shift" data-style="btn-outline-secondary">
+										<option disabled selected>Pilih Shift</option>
+										<option value="1">A</option>
+										<option value="2">B</option> 
+									</select> 
+								</div>
 
-							<div class="form-group ">
-								<label class="form-control-label">Shift</label>
-								<select class="selectpicker form-control" id="ie_shift" name="ie_shift" data-style="btn-outline-secondary">
-									<option disabled selected>Pilih Shift</option>
-									<option value="1">A (Siang)</option>
-									<option value="2">B (Malam)</option> 
-								</select>
-								<input type="hidden" id="iet_shift">
-							</div>
+								<div class="form-group col-md-6">
+									<label class="form-control-label">Jabatan :</label>
+									<select class="selectpicker_j form-control" id="ie_jabatan" name="ie_jabatan" data-style="btn-outline-secondary">
+										<option disabled selected>Pilih Jabatan</option>
+										<option value="4">Group Line Assy</option>
+										<option value="3">Group Line Inspect</option> 
+										<option value="2">Line Leader</option> 
+									</select>
+									<input type="hidden" id="iet_shift">
+								</div>
+							</div> 
 
 							<div class="form-group ">
 								<label class="form-control-label">Line</label>
-								<select class="custom-select2 form-control" id="ie_line" name="ie_line" style="width: 100%; height: 38px;">
-									<option disabled selected>Pilih Line</option>
-									<?php foreach ($line as $key) { ?>
-									<option value="<?php  echo $key->id ?>"> <?php  echo $key->nama_line ?> </option>
-								<?php }  ?>
-								</select>
-								<input type="hidden" id="iet_line">
+								<select class="select2 js-states form-control" id="ie_line" name="ie_line" multiple="multiple" style="width: 100%;height: 300px;">
+								 	
+								</select> 
 							</div>
 
 							<input type="hidden" id="id_u">
@@ -440,118 +421,117 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script> 
 		$('document').ready(function(){ 
-			// VAR CORE
-				var id_line = $('#id_line').val();
-				var id_shift = $('#id_shift').val();
-				var id_tgl = $('#id_tgl').val();
-				var id_pdo = 0;
-				var balance_awal=0;
-				var id_target =0;
+			// confG
+				// VAR CORE
+					var id_line = $('#id_line').val();
+					var id_shift = $('#id_shift').val();
+					var id_tgl = $('#id_tgl').val();
+					var id_pdo = 0;
+					var balance_awal=0;
+					var id_target =0;
 
-			// variabel global	
-				// deklarasi nama bulan
-	 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-	 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+				// variabel global	
+					// deklarasi nama bulan
+		 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+		 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 
-	 			var today = new Date(id_tgl);
-				var currentMonth = today.getMonth();
-				var currentYear = today.getFullYear();
-				var currDate = today.getDate();
-				// Set this month
-				var daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
-				var awalDay =1;
+		 			var today = new Date(id_tgl);
+					var currentMonth = today.getMonth();
+					var currentYear = today.getFullYear();
+					var currDate = today.getDate();
+					// Set this month
+					var daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+					var awalDay =1;
 
-			// aditional PICKER DATE  
-				// SETTING DEFAULT DATE
-	 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
-	            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
+				// aditional PICKER DATE  
+					// SETTING DEFAULT DATE
+		 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
+		            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
 
 
-				$(".inputs").keyup(function () {
-				    if (this.value.length == this.maxLength) {
-				      $(this).select();
-				      $(this).next('.inputs').focus();  
-				    }
-				});
+					$(".inputs").keyup(function () {
+					    if (this.value.length == this.maxLength) {
+					      $(this).select();
+					      $(this).next('.inputs').focus();  
+					    }
+					});
 
-				$("input").click(function () {
-				   $(this).select();
-				}); 
- 
-			
-			// TrigGER PIlih TANGGAL
-				$('.date-pickerrr').datepicker({   
-					language: "en",
-					firstDay: 1,  
-				    onSelect: function(selected, d, calendar) {   
-				    	// jika yang dipilih sama 
-				    	if (selected=='') { 
-				    		var tod = new Date(id_tgl);  
-
-				    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-				    		calendar.hide();
-				    		return ;
-				    	}else{
-				    		// post data additional
-				    		id_tgl = new Date(selected);
-				    		var tod = new Date(selected); 
-					    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-					    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
-
-					    	// post new data additional
-					    	updateOpt();
-				    	} 
-				    	calendar.hide();
-
-				    	// refresh 
-				    	// showplanning();
-			    		// cariDataPdo();
-			    		// cekHariini(); 
-				    }
-				});
-			// TRIGGEr line Change
-				$('#select_line').on('select2:select',function(e){
-					var data = e.params.data;
-					
-					id_line = data.id ;
-					// update opt to server
-					updateOpt();  
-					// cekHariini();
-					// console.log(data); 
-					// console.log('ln:'+id_line+'|sf:'+id_shift); 
-				});
-			// PILIH SHIFTY 
-				$('#drop_shiftt').on('click','.pilih_sf',function(){
-					var ssf = $(this).data('value'); 
+					$("input").click(function () {
+					   $(this).select();
+					}); 
 	 
-					if (ssf==1) {
-						document.getElementById('id_sifname').innerHTML= 'A';
-						document.getElementById('sf_a').classList.add("aktip");
-						document.getElementById('sf_b').classList.remove("aktip"); 	
-					} else{
-						document.getElementById('id_sifname').innerHTML= 'B';
-						document.getElementById('sf_b').classList.add("aktip");	
-						document.getElementById('sf_a').classList.remove("aktip");	
-					}
+				
+				// TrigGER PIlih TANGGAL
+					$('.date-pickerrr').datepicker({   
+						language: "en",
+						firstDay: 1,  
+					    onSelect: function(selected, d, calendar) {   
+					    	// jika yang dipilih sama 
+					    	if (selected=='') { 
+					    		var tod = new Date(id_tgl);  
 
-					id_shift = ssf; 
-					id_line = $('#select_line').val();
+					    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+					    		calendar.hide();
+					    		return ;
+					    	}else{
+					    		// post data additional
+					    		id_tgl = new Date(selected);
+					    		var tod = new Date(selected); 
+						    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+						    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
 
-					// update opt to server
-					updateOpt();   
-				});
+						    	// post new data additional
+						    	updateOpt();
+					    	} 
+					    	calendar.hide();
+
+					    	// refresh 
+					    	// showplanning();
+				    		// cariDataPdo();
+				    		// cekHariini(); 
+					    }
+					});
+				// TRIGGEr line Change
+					$('#select_line').on('select2:select',function(e){
+						var data = e.params.data;
+						
+						id_line = data.id ;
+						// update opt to server
+						updateOpt();  
+						// cekHariini();
+						// console.log(data); 
+						// console.log('ln:'+id_line+'|sf:'+id_shift); 
+					});
+				// PILIH SHIFTY 
+					$('#drop_shiftt').on('click','.pilih_sf',function(){
+						var ssf = $(this).data('value'); 
+		 
+						if (ssf==1) {
+							document.getElementById('id_sifname').innerHTML= 'A';
+							document.getElementById('sf_a').classList.add("aktip");
+							document.getElementById('sf_b').classList.remove("aktip"); 	
+						} else{
+							document.getElementById('id_sifname').innerHTML= 'B';
+							document.getElementById('sf_b').classList.add("aktip");	
+							document.getElementById('sf_a').classList.remove("aktip");	
+						}
+
+						id_shift = ssf; 
+						id_line = $('#select_line').val();
+
+						// update opt to server
+						updateOpt();   
+					});
 			
-
 			// ====  AUTOLOAD =====  
 			loadDropdown();
 			show();
 
-
 			// Variabel Wizard
-	 		var data_line;
-	 		var dist;
-	 		var level;
-	 		var shift;
+		 		var data_line;
+		 		var dist;
+		 		var level;
+		 		var shift;
 
  			// Additional
  				// form wizz 
@@ -573,7 +553,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					    		document.getElementById('viw_nama').innerHTML = 'Nama    : '+$('#in_nama').val();
 					    		document.getElementById('viw_uname').innerHTML = 'Username    : '+$('#in_username').val();
 					    		document.getElementById('viw_pass').innerHTML = 'Password    : '+$('#in_pass').val();
-
 					    	}
 
 					        form.validate().settings.ignore = ":disabled,:hidden";
@@ -627,15 +606,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					    }
 					}).validate({
 						rules: {
-							in_username: {
-								required: true,
-								minlength: 6,
+							in_nama: {
+								required: true
+							},
+							in_nik: {
+								required: true
 							}
-						},
-						messages: {
-							in_username: {
-								required: "Username Wajib Di isi",
-							}
+
 						}
 					});
 
@@ -658,8 +635,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					        $('#selectlinee').val(null).trigger("change");
 					        $("#selectlinee").select2({
 					        	placeholder: 'Pilih Line ',  
-							    maximumSelectionLength: 1
-							});
+							    maximumSelectionLength: 2
+							}); 
 					    }
 					    else if (this.value==3) {
 					        $('#selectlinee').val(null).trigger("change");
@@ -667,8 +644,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					        	placeholder: 'Pilih Line ',
 				 				allowClear: true, 
 				 				closeOnSelect: false,
-				 				tags: true, 
-							    maximumSelectionLength: 2
+				 				tags: true
 							});
 					    }
 					    else if (this.value==2) {
@@ -677,8 +653,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					        	placeholder: 'Pilih Line ',
 				 				allowClear: true, 
 				 				closeOnSelect: false,
-				 				tags: true, 
-							    maximumSelectionLength: 3
+				 				tags: true
 							});
 					    }
 
@@ -743,17 +718,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  
  
 			function show() {
-				console.log('show called')
+				// console.log('show called :');
+				$("#t_user").DataTable().destroy(); 
+				$('#body_user').html('');
+
 				$.ajax({
 					async: true,
 					type : 'ajax',
 					url: '<?php  echo site_url('Users/showUser') ?>',
 					dataType: "JSON",
-					success: function(response){
-						$('#body_user').html('');
-
-						console.log(response);
-
+					success: function(response){   
+						// console.log(response); 
 						var data = response['all'];
 						// var aa = response['aa'];
 						// var bb = response['bb'];
@@ -772,21 +747,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										$('<td>').text(data[i].jabatan),
 										$('<td>').text(data[i].keterangan),
 										$('<td>').text(data[i].dis),
-										$('<td>').text('Active'),
-										$('<td>').html('<div class="dropdown" style="vertical-align: middle; text-align: center;">'+
-		                      							'<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
-		                        						'<i class="fa fa-ellipsis-h"></i></a>'+
-		                        						'<div class="dropdown-menu dropdown-menu-right">'+
-		                        							'<a class="dropdown-item item_view" href="#" ><i class="fa fa-eye"></i> Detail </a>'+
-									                        '<a class="dropdown-item item_edit" href="#" ><i class="fa fa-pencil"></i> Edit </a>'+
-									                        '<a class="dropdown-item item_delete" href="#" data-uname="'+data[i].nama+'" data-idu="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+ 
-									                    '</div>'+
-									                    '</div>'
-		                        					)
+										$('<td>').html('total ('+data[i].job.length+')'),
+										$('<td>').html(
+											`<div class="dropdown" style="vertical-align: middle; text-align: center;">`+
+                      							`<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">`+
+                        						`<i class="fa fa-ellipsis-h"></i></a>`+
+                        						`<div class="dropdown-menu dropdown-menu-right">`+
+                        							`<a class="dropdown-item item_view" href="#" ><i class="fa fa-eye"></i> Detail </a>`+
+							                        `<a class="dropdown-item item_edit" href="#" data-idu="`+data[i].id+`" data-id_dis="`+data[i].id_dis+`" data-nik="`+data[i].nik+`" data-nama="`+data[i].nama+`" data-uname="`+data[i].username+`" data-pass="`+data[i].password+`" data-id_sf="`+data[i].id_sf+`"  data-level="`+data[i].level+`" data-job='`+JSON.stringify(data[i].job)+`'><i class="fa fa-pencil"></i> Edit </a>`+
+							                        `<a class="dropdown-item item_delete" href="#" data-uname="`+data[i].nama+`" data-idu="`+data[i].id+`"><i class="fa fa-trash"></i> Hapus </a>`+ 
+							                    `</div>`+
+							                `</div>`
+                        					)
 									);
 							tr.appendTo('#body_user');
-						}
-						$("#t_user").DataTable().destroy();    
+						}    
 						$('#t_user').DataTable({
 							scrollCollapse: true,
 							autoWidth: false,
@@ -854,7 +829,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 				document.getElementById('container_home').style.display = 'block';
 	 				document.getElementById('container_newuser').style.display = 'none';
 	 			});
- 			// =====   END USER  ==============
+ 			// =====    END  NEW USER  ==============
 
  			// username checked availabe
 	 			document.getElementById("in_username").onchange = function() {myFunction()};
@@ -888,72 +863,302 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$('#t_user').on('click','.item_edit',function(){
 					// memasukkan data dari row terpilih kedalam id inputa di modal
 					$('#id_u').val( $(this).data('idu') );
+					$('#ie_nik').val( $(this).data('nik') );
+					$('#ie_nama').val( $(this).data('nama') );
+
 					$('#ie_user').val( $(this).data('uname') );
 	 				$('#ie_pass').val( $(this).data('pass') );
-	 				$('#iet_shift').val( $(this).data('sif') );
-	 				$('#iet_line').val( $(this).data('line') );
-	 
+	 				$('#ie_jabatan').val( $(this).data('level'));
+	 				$('#ie_shift').val( $(this).data('id_sf'));
+	 				// list job sekarang
+	 				var jobline = $(this).data('job');  
+	 				var jabatan = $(this).data('level'); 
+
+	 				var iddis = $(this).data('id_dis');
+		 			// isi Value
+		 				if (iddis==1) {
+		 					$("#customRadio8").prop("checked", true);
+					        $.ajax({ 
+								type : 'POST',
+								url: '<?php  echo site_url('Users/getListByDistrict') ?>',
+								dataType: "JSON", 
+								data:{ dist:iddis},
+								success: function(response){ 
+									
+									var dat = response;
+									// mencari data terpilih
+									for (var i = 0; i < jobline.length; i++) {
+										for (var ii = 0; ii < dat.length; ii++) {
+											
+											// jika carline sama
+											if (jobline[i].carline==dat[ii].text) {
+
+												for (var z = 0; z < dat[ii].children.length; z++) {
+													// jika nama line sama
+													if (dat[ii].children[z].text==jobline[i].nama_line) {
+														dat[ii].children[z]['selected'] = true;
+														// console.log(dat[ii].children[z]);
+													}
+												}
+											}
+											
+										}
+									}
+
+									$('#ie_line').empty();
+									if (jabatan==4) {
+										$('#ie_line').select2({ 
+							 				placeholder: 'Pilih Line ',
+							 				allowClear: true, 
+							 				maximumSelectionLength: 2,
+							 				tags: true, 
+							 				data: dat 
+							 			});	 
+									}else{
+										$('#ie_line').select2({ 
+							 				placeholder: 'Pilih Line ',
+							 				allowClear: true, 
+							 				closeOnSelect: false,
+							 				tags: true, 
+							 				data: dat 
+							 			});	
+									}									
+								}
+							}); 
+					    }
+					    else{
+					    	$("#customRadio9").prop("checked", true);
+					    	$.ajax({ 
+								type : 'POST',
+								url: '<?php  echo site_url('Users/getListByDistrict') ?>',
+								dataType: "JSON", 
+								data:{ dist:iddis},
+								success: function(response){ 
+
+									var dat = response;
+									// mencari data terpilih
+									for (var i = 0; i < jobline.length; i++) {
+										for (var ii = 0; ii < dat.length; ii++) {
+											
+											// jika carline sama
+											if (jobline[i].carline==dat[ii].text) {
+
+												for (var z = 0; z < dat[ii].children.length; z++) {
+													// jika nama line sama
+													if (dat[ii].children[z].text==jobline[i].nama_line) {
+														dat[ii].children[z]['selected'] = true;
+														// console.log(dat[ii].children[z]);
+													}
+												}
+											}
+											
+										}
+									}  
+
+									$('#ie_line').empty();
+									if (jabatan==4) {
+										$('#ie_line').select2({ 
+							 				placeholder: 'Pilih Line ',
+							 				allowClear: true, 
+							 				maximumSelectionLength: 2, 
+							 				data: dat 
+							 			});	 
+									}else{
+										$('#ie_line').select2({ 
+							 				placeholder: 'Pilih Line ',
+							 				allowClear: true, 
+							 				closeOnSelect: false,
+							 				tags: true, 
+							 				data: dat 
+							 			});	
+									}
+								}
+							}); 
+					    }
 
 	 				$('#modal_edit_user').modal('show');
-	 
 				}); 
+				// validasi
+				$( "#fom_editusr" ).validate({
+				  rules: {
+				  	ie_nik: {
+				      required: true
+				    },
+				    ie_nama: {
+				      required: true
+				    },
+				    ie_user:{
+				    	required: true
+				    },
+				    ie_pass:{
+				    	required: true
+				    },
+				    ie_shift:{
+				    	required: true
+				    },
+				    ie_jabatan:{
+				    	required: true
+				    },
+				    ie_line:{
+				    	required: true
+				    }			    
+				  }
+				});
 				$('#btn_submit_updateusr').click(function(){
+					// check is valid or not
+	   				if (!$('#fom_editusr').valid()) { 
+	   					return;
+	   				}
 					// get data from modal update
 					var idu = $('#id_u').val();
+					var nik = $('#ie_nik').val();
+					var nama = $('#ie_nama').val();
 					var uname = $('#ie_user').val();
 					var pass = $('#ie_pass').val();
 					// old dropdown
-					var ido_shift = $('#iet_shift').val();
-					var ido_line = $('#iet_line').val(); 
-					// new drop
-					var sif = $('select[name=ie_shift]').val();
-					var ln = $('select[name=ie_line]').val();
+					var i_dis = $("input[name=edt_rad_district]:checked").val();
+					var i_sf = $('#ie_shift').val();
+					var i_lv = $('#ie_jabatan').val();
+					var i_ln = $('#ie_line').val();  
 
-	 				// jika dro[down berubah]
-	 				if (sif!=null) {
-	 					ido_shift = $('select[name=ie_shift]').val();
-	 				}
-	 				if (ln!=null) {
-	 					ido_line = $('select[name=ie_line]').val();
-	 				} 
+					// var isi = 'nik:'+nik+'|nam:'+nama+'|uname:'+uname+'|pass:'+pass+'|sif:'+i_sf+'|level:'+i_lv+'|Line: '+i_ln;
+					// console.log(isi);
 
-						$.ajax({
-		 					async: false,
-		 					type: 'POST',
-		 					url: '<?php echo site_url("Users/updateUser") ?>',
-		 					dataType: "JSON",
-		 					data:{
-		 						idu: idu,
-		 						uname: uname,
-		 						pass: pass,
-		 						sif: ido_shift,
-		 						ln: ido_line
-		 					},
-		 					success: function(data){
+					// return;
+						$.ajax({ 
+				    		async: false,
+							type : 'POST',
+							url: '<?php  echo site_url('Users/updateUser') ?>',
+							dataType: "JSON",
+							data:{ 
+								idu:idu,
+								nama:nama,
+								nik:nik,
+								uname:uname,
+								pass:pass,
+								dist:i_dis,
+								level: i_lv,
+								shift: i_sf,
+								linemgr:i_ln
+							},
+							success: function(response){ 
 
-		 						if (data) { 
-		 							Swal.fire({ 
+								if (!response.error) {
+									Swal.fire({ 
 									  type: 'success',
-									  title: 'Berhasil Update Data', 
-									})
-		 							document.getElementById('fom_editusr').reset();
-		 							$('#modal_edit_user').modal('hide');
-		 							show(); 
-		 						}else{
-		 							Swal.fire({
+									  title: 'Berhasil Memperbarui Data `'+nama+'`', 
+									}); 
+								}else {
+									Swal.fire({
 									  type: 'error',
 									  title: 'Oops...',
 									  text: 'Something went wrong!'
 									})
-		 						}
-		 					}
-
-		 				});
+								}
+								// console.log(response.message);
+								show();
+								$('#modal_edit_user').modal('hide');
+							}
+						});
 
 				});
+				//======= ALL ABOUT  TRIGGERRED di EDIT = =========
+					// jabatan on change
+					$('#ie_jabatan').on('change', function() {
+					    if (this.value==4) { 
+					        $('#ie_line').val(null).trigger("change");
+					        $("#ie_line").select2({
+					        	placeholder: 'Pilih Line ',  
+							    maximumSelectionLength: 2
+							}); 
+					    }
+					    else if (this.value==3) {
+					        $('#ie_line').val(null).trigger("change");
+					        $("#ie_line").select2({
+					        	placeholder: 'Pilih Line ',
+				 				allowClear: true, 
+				 				closeOnSelect: false,
+				 				tags: true
+							});
+					    }
+					    else if (this.value==2) {
+					        $('#ie_line').val(null).trigger("change");
+					        $("#ie_line").select2({
+					        	placeholder: 'Pilih Line ',
+				 				allowClear: true, 
+				 				closeOnSelect: false,
+				 				tags: true
+							});
+					    } 
+					});
+					// district on change
+					$('input[type=radio][name=edt_rad_district]').change(function() {
+						var i_lv = $('#ie_jabatan').val();
+
+					    if (this.value==1) {
+					        $.ajax({ 
+								type : 'POST',
+								url: '<?php  echo site_url('Users/getListByDistrict') ?>',
+								dataType: "JSON",
+								data:{ dist:this.value},
+								success: function(response){
+									data_line = response;
+
+									$('#ie_line').empty();
+									if (i_lv==4) { 
+										$('#ie_line').select2({ 
+							 				placeholder: 'Pilih Line ',
+							 				allowClear: true,  
+							 				maximumSelectionLength: 2,
+							 				data: response 
+							 			});
+									}else{ 
+										$('#ie_line').select2({ 
+							 				placeholder: 'Pilih Line ',
+							 				allowClear: true, 
+							 				closeOnSelect: false, 
+							 				data: response 
+							 			});
+									} 
+								}
+							});
+
+					    }
+					    else{
+					    	$.ajax({ 
+								type : 'POST',
+								url: '<?php  echo site_url('Users/getListByDistrict') ?>',
+								dataType: "JSON",
+								data:{ dist:this.value},
+								success: function(response){ 
+									data_line = response;
+
+									$('#ie_line').empty();
+									if (i_lv==4) { 
+										$('#ie_line').select2({ 
+							 				placeholder: 'Pilih Line ',
+							 				allowClear: true,  
+							 				maximumSelectionLength: 2,
+							 				data: response 
+							 			});
+									}else{ 
+										$('#ie_line').select2({ 
+							 				placeholder: 'Pilih Line ',
+							 				allowClear: true, 
+							 				closeOnSelect: false, 
+							 				data: response 
+							 			});
+									} 
+								}
+							});
+
+					    }
+					    // insert data district selct
+	  					dist = this.value;
+					});
 			// =====   END EDIT USER  ==============
 
-			// ===== START DELETE ======
+			// ===== START DELETE USERS ======
 				$('#t_user').on('click','.item_delete',function(){
 					var unam = $(this).data('uname');
 					$('#id_u_delete').val( $(this).data('idu') );
@@ -973,7 +1178,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 					data:{
 	 						idu: idu
 	 					},
-	 					success: function(data){
+	 					success: function(data){ 
+	 						show(); 
 
 	 						if (data) { 
 	 							Swal.fire({ 
@@ -982,7 +1188,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								  timer: 1000 
 								}) 
 	 							$('#confirmation-modal').modal('hide');
-	 							show(); 
+	 							
 	 						}else{
 	 							Swal.fire({
 								  type: 'error',
@@ -995,76 +1201,77 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 				});
 
 				});	
-			// ===== END DELETE ======
+			// ===== END DELETE  USERS  ======
+
  			
 			// FUnc OPT
-			// isi DATA DROPDOWN LINE
-				function loadDropdown() {
-					var idu = $('#id_user').val();
-					var lv  = <?php echo $ses['level'] ?>; 
+				// isi DATA DROPDOWN LINE
+					function loadDropdown() {
+						var idu = $('#id_user').val();
+						var lv  = <?php echo $ses['level'] ?>; 
 
-					// jika admin
-					if (lv==1) {
-						var id_district = <?php echo $ses['id_district'] ?>; 
+						// jika admin
+						if (lv==1) {
+							var id_district = <?php echo $ses['id_district'] ?>; 
 
-						$.ajax({
-							type: 'POST',
-							url: '<?php echo site_url("Users/getListLineCarlineByAdmin");?>',
-							dataType: "JSON",
-							data:{
-								id_district: id_district
-							},
-							success: function(data){ 
-		 						$('#select_line').empty();
-		 						$('#select_line').select2({ 
-					 				placeholder: 'Pilih Line ',
-					 				minimumResultsForSearch: -1,
-					 				data:data
+							$.ajax({
+								type: 'POST',
+								url: '<?php echo site_url("Users/getListLineCarlineByAdmin");?>',
+								dataType: "JSON",
+								data:{
+									id_district: id_district
+								},
+								success: function(data){ 
+			 						$('#select_line').empty();
+			 						$('#select_line').select2({ 
+						 				placeholder: 'Pilih Line ',
+						 				minimumResultsForSearch: -1,
+						 				data:data
 
-					 			});
-							}
+						 			});
+								}
 
-						});
-					}else {
-						$.ajax({
-							type: 'POST',
-							url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
-							dataType: "JSON",
-							data:{
-								id_user:idu
-							},
-							success: function(data){  
-		 						
-		 						$('#select_line').empty();
-		 						$('#select_line').select2({ 
-					 				placeholder: 'Pilih Line ',
-					 				minimumResultsForSearch: -1,
-					 				data:data
+							});
+						}else {
+							$.ajax({
+								type: 'POST',
+								url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+								dataType: "JSON",
+								data:{
+									id_user:idu
+								},
+								success: function(data){  
+			 						
+			 						$('#select_line').empty();
+			 						$('#select_line').select2({ 
+						 				placeholder: 'Pilih Line ',
+						 				minimumResultsForSearch: -1,
+						 				data:data
 
-					 			});
-							}
+						 			});
+								}
 
-						});
-					}  
+							});
+						}  
 
-				}
-			// UPDATE isi Sesion
-				function updateOpt() {
-					$.ajax({ 
-		                type  : 'POST',
-		                url   : '<?php echo site_url();?>/Login/updateDataOpt',
-		                dataType : 'JSON',  
-		                data:{
-		                	tgl: id_tgl,
-		                	sif: id_shift,
-		                	line: id_line
-		                },
-		                success : function(res){   
-							console.log(res);
-		                }
+					}
+				// UPDATE isi Sesion
+					function updateOpt() {
+						$.ajax({ 
+			                type  : 'POST',
+			                url   : '<?php echo site_url();?>/Login/updateDataOpt',
+			                dataType : 'JSON',  
+			                data:{
+			                	tgl: id_tgl,
+			                	sif: id_shift,
+			                	line: id_line
+			                },
+			                success : function(res){   
+								console.log(res);
+			                }
 
-		            });
-				}
+			            });
+					}
 
 		});
 	</script>

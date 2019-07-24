@@ -746,12 +746,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    i_ket: {
 				      required: true
 				    },
-				    i_jenis:{
+				    i_jam:{
 				    	required: true
-				    },
-				    i_problem: {
-				    	required: true
-				    }				    
+				    }			    
 				  }
 				});
 

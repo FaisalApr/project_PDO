@@ -60,18 +60,60 @@ class Users extends CI_Controller {
 				echo json_encode('NOOOO');
 			}
 			
-		}
-
-		
-		echo json_encode($data);
-		
+		} 
+		echo json_encode($data); 
 	}
 
-
 	public function updateUser()
-	{ 
-		$data = $this->Users_model->updateUserrr();
-		echo json_encode($data);
+	{  
+		$out['error']=false;
+
+		$id = $this->input->post('idu');
+		// new user data
+		$usr = array(
+					'nama' => ($this->input->post('nama')),
+					'nik' => ($this->input->post('nik')), 
+					'username' => $this->input->post('uname'),
+					'password' => $this->input->post('pass'),
+					'id_district' => $this->input->post('dist'),
+					'level' => $this->input->post('level'),
+					'id_shift' => $this->input->post('shift'),
+					'active' => 1
+				);	 
+		// update data
+		$data = $this->Users_model->updateUserrr($usr,$id); 
+		if ($data) {
+			// delete all dara user has line
+			$del = $this->Users_model->delAllUserHasLine($id);
+
+			if (!$del) {
+				$out['error'] = true;
+				$out['message'] = 'Gagal menghapus Job line lama';
+			}
+			$arrline = $this->input->post('linemgr');  
+			if (is_array($arrline)) {
+				$as_tmp = array();
+				foreach($arrline as $vl) { 
+				    $ne = array(
+					    	'id_user' => $id,
+					    	'id_listcarline' => $vl
+					    );
+				    array_push($as_tmp, $ne);
+
+				    $this->Users_model->newUserHasLine($ne);
+				}
+
+ 				$out['message'] = $as_tmp;
+			}else{
+				$out['error'] = true;
+				$out['message']= 'Line Masih Kosong';
+			}
+			
+		}else{
+			$out['error'] = true;
+			$out['message']= 'Gagal Memperbarui data Pengguana';
+		} 
+		echo json_encode($out); 
 	}
 
 	public function deleteUser()
@@ -82,9 +124,43 @@ class Users extends CI_Controller {
 
 	public function showUser()
 	{
-		$result['all'] = $this->Users_model->getAllUser();
+		$all = $this->Users_model->getAllUser();
+		
 		// $result['aa'] = $this->Users_model->getAllUserA();
 		// $result['bb'] = $this->Users_model->getAllUserB();
+
+		$dataUsr = array();
+		foreach ($all as $key) {
+			// cari job line
+			$jl = $this->Users_model->getUserJobLine($key->id);	
+			$jobln = array();
+			foreach ($jl as $key2) {
+				$tmp= array(
+						'id' => $key2->id_listcarline,
+						'carline' => $key2->nama_carline,
+						'nama_line' => $key2->nama_line
+					);
+				array_push($jobln, $tmp);
+			}
+
+			$usr = array(
+					'id' => $key->id,
+					'id_dis' => $key->id_dis,
+					'dis' => $key->dis,
+					'nik' => $key->nik,
+					'nama' => $key->nama,
+					'username' => $key->username,
+					'password' => $key->password,
+					'keterangan' => $key->keterangan,
+					'id_sf' => $key->id_sf,
+					'jabatan' => $key->jabatan,
+					'level' => $key->level,
+					'job' => $jobln
+				);
+			array_push($dataUsr, $usr);
+		}
+
+		$result['all'] = $dataUsr;
 
 		echo json_encode($result);
 	}

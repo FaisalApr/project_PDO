@@ -41,6 +41,12 @@ class Assycode extends CI_Controller {
 
 
 // ===========   AJAX ===============
+	public function searchAssyName()
+	{
+		$data = $this->AssyCode_model->getAssyCode($this->input->post('name'));	
+		echo json_encode($data);
+	}
+
 	public function newAssyCode()
 	{
 		# code... 

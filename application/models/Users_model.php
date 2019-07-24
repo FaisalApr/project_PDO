@@ -14,33 +14,36 @@ class Users_model extends CI_Model {
 		return $this->db->insert('user_has_line', $data);
 	}
 
-	 public function updateUserrr()
+	public function delAllUserHasLine($id)
+	{
+		$this->db->where('id_user', $id ); 
+		return $this->db->delete('user_has_line');
+	}
+
+	 public function updateUserrr($new,$id)
 	{ 
-		$new = array(
-					'username' => $this->input->post('uname'),
-					'password' => $this->input->post('pass'),  
-					'id_shift' => $this->input->post('sif'),
-					'id_line' => $this->input->post('ln')
-				);	
-		$this->db->where('id', $this->input->post('idu') );
+		$this->db->where('id', $id);
 		return $this->db->update('users', $new);
 	}
 
 	public function deleteUserrr()
 	{
-		$this->db->where('id', $this->input->post('idu') );
-		$result = $this->db->delete('users');
-		return $result;
+		$data = array('active' => 0);
+
+		$this->db->where('id', $this->input->post('idu') ); 
+		return $this->db->update('users',$data);
 	}
 
 	public function getAllUser()
 	{
 		$query = $this->db->query("SELECT 
-										users.id,users.nik,users.username,users.nama,users.password,users.level,shift.keterangan,district.nama as dis,users.active,level.jabatan
+										users.id,users.nik,users.username,users.nama,users.password,users.level,shift.id as id_sf,shift.keterangan,district.id as id_dis,district.nama as dis,users.active,level.jabatan
 									FROM users 
 									JOIN district on users.id_district=district.id 
 									JOIN shift on users.id_shift=shift.id
 									JOIN level on users.level=level.id
+
+									where users.level!=1 AND users.active=1
 								");
         return $query->result();
 	}
@@ -69,7 +72,18 @@ class Users_model extends CI_Model {
         return $query->result();
 	}
  
-	
+	public function getUserJobLine($idu)
+	{
+		$q = $this->db->query("SELECT * 
+									FROM user_has_line 
+									JOIN list_carline on user_has_line.id_listcarline=list_carline.id
+									JOIN carline on list_carline.id_carline=carline.id
+                                    JOIN line ON list_carline.id_line=line.id
+									WHERE id_user='$idu'
+									-- GROUP BY list_carline.id_carline 
+									ORDER BY carline.nama_carline ASC");
+		return $q->result();
+	}
 	public function getUsersCarlineGroup($idu)
 	{
 		$que = $this->db->query("SELECT * 

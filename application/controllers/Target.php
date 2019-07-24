@@ -31,56 +31,91 @@ class Target extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	public function getResultThisMonth()
+	{ 
+		date_default_timezone_set("UTC");
+
+		$dat = $this->input->post('tgl');
+		$line = $this->input->post('id_line'); 
+
+		$data = $this->Target_model->getResultDataMonth($dat,$line); 
+
+		echo json_encode($data);
+	}
+
 
 	public function newTargetBulan()
 	{ 
+		$enddays = $this->input->post('enddays');
+		$bln = $this->input->post('bln');
+		$tahun = $this->input->post('tahun');
+		$arr = array();
 
-		//data new
-		$datanew = array(
-			'id_list_carline'	=> $this->input->post('id_cline'),
-			'mh_out'	=> $this->input->post('out'),
-			'mh_in' 	=> $this->input->post('in'),
-			'efisiensi' => $this->input->post('eff'),
-			'periode'	=> $this->input->post('tgl'),
-			'plan_assy' => $this->input->post('plan'),
-			'balance_awal' => 0,
-			'balance_akhir' => 0
-		);
+		// perulangan insert
+		for ($i=1; $i <=$enddays ; $i++) {  
+			$tgl = $tahun.'-'.$bln.'-'.$i;
 
-		$result = $this->Target_model->newTarget($datanew);
-		echo json_encode($result);
+			// new data
+			$datanew = array(
+				'id_list_carline'	=> $this->input->post('id_cline'),
+				'mh_out'	=> $this->input->post('out'),
+				'mh_in' 	=> $this->input->post('in'),
+				'efisiensi' => $this->input->post('eff'),
+				'periode'	=> $tgl,
+				'plan_assy' => $this->input->post('plan'),
+				'balance_awal' => 0,
+				'balance_akhir' => 0
+			); 
+
+			$cari = $this->Target_model->cariDataTarget($tgl,$this->input->post('id_cline'));
+			// cari jika ada data yang sama
+			if (!$cari) {
+				array_push($arr, $datanew);
+				$this->Target_model->newTarget($datanew);	
+			}else{
+				// update
+				$this->Target_model->edittarget2($datanew,$cari->id);	 
+			} 
+		}
+
+		echo json_encode($arr);
 	}
 
 	public function editMhOut()
 	{
-		
+		$st = $this->input->post('tgl_start');
+		$end = $this->input->post('tgl_end'); 
+
 		$dataedit = array( 
 			'mh_out'	=> $this->input->post('out')
 		);
 
-		$result = $this->Target_model->edittarget($dataedit);
+		$result = $this->Target_model->edittarget3($dataedit,$st,$end);
 		echo json_encode($result);	
 	}
 
 	public function editMhIn()
 	{
-		
+		$st = $this->input->post('tgl_start');
+		$end = $this->input->post('tgl_end');
+
 		$dataedit = array( 
 			'mh_in'	=> $this->input->post('in')
 		);
 
-		$result = $this->Target_model->edittarget($dataedit);
+		$result = $this->Target_model->edittarget3($dataedit,$st,$end);
 		echo json_encode($result);	
 	}
 
 	public function editEff()
-	{
-		
+	{  
+		$st = $this->input->post('tgl_start');
+		$end = $this->input->post('tgl_end'); 
+
 		$dataedit = array( 
 			'efisiensi'	=> $this->input->post('eff')
-		);
-
-		$result = $this->Target_model->edittarget($dataedit);
+		); 
+		$result = $this->Target_model->edittarget3($dataedit,$st,$end);
 		echo json_encode($result);	
 	}
 

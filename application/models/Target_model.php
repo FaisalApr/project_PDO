@@ -10,12 +10,29 @@ class Target_model extends CI_Model {
 		$query= $this->db->query("SELECT * FROM target 
 									WHERE 
 										YEAR(periode)=YEAR('$dat') AND 
-									    MONTH(periode)=MONTH('$dat') AND 
-									    id_list_carline='$ln' 
-									order by periode DESC");
+										MONTH(periode)=MONTH('$dat') AND  
+									    DAY(periode)=DAY('$dat') AND
+										id_list_carline='$ln' 
+									order by periode ASC");
         
         if ($query->num_rows()>=1) {
-			return $query->first_row(); 
+			return $query->first_row();  
+		}else{
+			return false;
+		}
+	}
+
+	public function getResultDataMonth($dat,$ln)
+	{ 
+		$query= $this->db->query("SELECT * FROM target 
+									WHERE 
+										YEAR(periode)=YEAR('$dat') AND 
+										MONTH(periode)=MONTH('$dat') AND 
+										id_list_carline='$ln' 
+									order by periode ASC");
+        
+        if ($query->num_rows()>=1) {
+			return $query->result();  
 		}else{
 			return false;
 		}
@@ -31,6 +48,36 @@ class Target_model extends CI_Model {
 		$this->db->where('id',$this->input->post('id'));
 		return $this->db->update('target',$data);
 	} 
+
+	public function edittarget2($data,$id)
+	{
+		$this->db->where('id',$id);
+		return $this->db->update('target',$data);
+	}
+
+	public function edittarget3($data,$start,$end)
+	{ 
+		$this->db->where('periode>=',$start);
+		$this->db->where('periode<=',$end);
+		return $this->db->update('target',$data);
+	} 
+
+	public function cariDataTarget($dat,$ln)
+	{
+		$query= $this->db->query("SELECT * FROM target 
+									WHERE 
+										YEAR(periode)=YEAR('$dat') AND 
+										MONTH(periode)=MONTH('$dat') AND  
+									    DAY(periode)=DAY('$dat') AND
+										id_list_carline='$ln'
+								");
+        
+        if ($query->num_rows()>=1) {
+			return $query->first_row();  
+		}else{
+			return false;
+		}
+	}
 
 
 }

@@ -26,7 +26,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/select2/dist/css/select2.min.css">
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/select2/theme/select2-bootstrap.css">
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/select2/theme/select2-bootstrap.min.css">
-
+	<!-- DATE PICKERS -->
+	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/daterangepicker/daterangepicker.css">
 
 	<!-- jQuery (required) & jQuery UI + theme (optional) --> 
 	<!-- keyboard extensions (optional) -->
@@ -54,6 +55,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		.select2-selection__arrow {
 		    height: 50px !important;
 		}
+
+		/* REMOVE SECOND CALENDAR */
+		.drp-calendar.right thead>tr:nth-child(2) {
+		    display: none;
+		}
+		.drp-calendar.right tbody {
+		    display: none;
+		}
+		.daterangepicker.ltr .ranges, .daterangepicker.ltr .drp-calendar {
+		    float: none !important;
+		}
+		.daterangepicker .drp-calendar.right .daterangepicker_input {
+		    position: absolute;
+		    top: 45px;
+		    left: 15px;
+		    width: 230px;
+		}
+		.drp-calendar.left .drp-calendar-table {
+		    margin-top: 45px;
+		}
+
+		.daterangepicker .drp-calendar.right {
+		    display: none;
+		    right: 0 !important;
+		    top: 0 !important;
+		}
+		/* REMOVE SECOND CALENDAR */
 	</style>
 </head>
 <body> 
@@ -62,8 +90,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	$ses = $this->session->userdata('pdo_logged'); 
 	$opt = $this->session->userdata('pdo_opt'); 
  ?>
-
-<!-- <input id="id_pdo" type="hidden" class="form-control" value="<?php echo $pdo->id ?>">  -->
 <input id="id_target" type="hidden" class="form-control" value=""> 
 <input type="hidden" id="id_user" value="<?php echo $ses['id_user'] ?>">
 <input type="hidden" value="<?php echo $opt['id_shift'] ?>" id="id_shift">
@@ -227,11 +253,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									  
 								</select>
 							</div>
+ 
+							<br>
+							<div style="margin-bottom: -10px"><a id="btn_buatassybaru" href="#" style="color: #AB0000;">Assy Baru</a></div> 
 						</div>
-						<div class="modal-footer">
+						<div class="modal-footer"> 
 							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 							<input id="idjamke" type="hidden" class="form-control" > 
 							<button type="button" class="btn btn-primary" id="btn_newbuildassy">Tambahkan</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	<!--  modal New Assy Baru  -->
+		<div class="modal fade" id="modalnewassyinvalid">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<form id="fomaddbuild_newassy">
+						<div class="modal-header">
+							<h4 class="modal-title">Assy Baru</h4>
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+						</div>
+						<div class="modal-body"> 
+							<div class="alert alert-danger" role="alert">
+								Form ini HANYA digunakan untuk membuat assy yang belum tersedia.
+
+							</div>
+							<div class="form-group">
+								<label>Nama Assy :</label>
+								<input id="in_newassybaru" type="text" class="form-control" placeholder="Masukkan Nama Assy">
+								<div id="tipsss" style="display: none;" class="form-control-feedback">maaf, Nama Assy ini sudah digunakan.</div> 
+							</div>
+ 
+							<br> 
+						</div>
+						<div class="modal-footer"> 
+							<center><button type="button" class="btn btn-primary" id="btn_newassybaru" disabled="">Tambahkan</button></center>
 						</div>
 					</form>
 				</div>
@@ -255,7 +313,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<div class="form-group">
 							<label>Jumlah Plan 🎯 :</label>
-							<input id="jum_plann" type="number" class="form-control" > 
+							<input id="jum_plann" type="number" class="form-control" min="1"> 
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -363,11 +421,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="modal-content">
 					<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-						<h2 class="text-center mb-30">Edit Panning MH-OUT</h2>
+						<h2 class="text-center mb-30" id="id_infoplanmhout">Edit Pan</h2>
 						<form> 
-							<div class="modal-body"> 
+							<div class="modal-body">  
 								<div class="form-group">
-									<label>Plan Bulan Ini</label>
+									<label>Tanggal  :</label>
+									<input class="form-control rangepick" type="text">
+								</div>
+								<div class="form-group">
+									<label>MH-Out  :</label>
 									<input type="text" class="form-control" name="edit_target_mhout">
 								</div>
 							</div>
@@ -392,6 +454,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<h2 class="text-center mb-30">Edit Panning MH-IN</h2>
 						<form> 
 							<div class="modal-body"> 
+								<div class="form-group">
+									<label>Tanggal  :</label>
+									<input class="form-control rangepick" type="text">
+								</div>
 								<div class="form-group">
 									<label>Plan Bulan Ini</label>
 									<input type="text" class="form-control" name="edit_target_mhin">
@@ -418,6 +484,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<h2 class="text-center mb-30">Edit Efficiency</h2>
 						<form> 
 							<div class="modal-body"> 
+								<div class="form-group">
+									<label>Tanggal  :</label>
+									<input class="form-control rangepick" type="text">
+								</div>
+
 								<div class="form-group">
 									<label>Plan Bulan Ini</label>
 									<input type="text" class="form-control" name="edit_target_eff" value="98%">
@@ -631,9 +702,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="col-lg-2 col-md-6 col-sm-12 mb-30">
 					<div class="card box-shadow">
 						<div class="card-header"> 
-							<div class="project-info-center">
-								<h5 class="text-center weight-500">Efficiency</h5>
+							<div class="project-info-center"> 
+								<h5 class="dropdown-toggle text-center weight-500" href="#" role="button" data-toggle="dropdown">
+									<a href="#" id="id_name_eff">Efficiency</a>
+								</h5>
+								<div class="dropdown-menu dropdown-menu-right" id="drop_eff">  
+									<a class="dropdown-item pilih_eff aktip" id="itm_eff_n" href="#" data-value="1">Efficiency</a>
+									<a class="dropdown-item pilih_eff" id="item_eff_ex" href="#" data-value="2">Efficiency Exclude</a>
+								</div> 
 							</div>
+
 							<div class="project-info-right" style="margin-top: -23px">
 								<a href="#" id="trigger_eff" class="text-right"><i class="fa fa-cog" aria-hidden="true"></i></a>	
 							</div>
@@ -646,9 +724,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									 
 									<div class="col-sm-6 text-muted weight-500">Act</div>
 									<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="id_act_eff">0%</div>
+									<div class="col-sm-6 text-right weight-500 font-14 text-muted" id="id_act_eff_excl" style="display: none;">0%</div> 
 								</div>
 								<div class="progress" style="height: 20px; margin-top: 10px;">
 									<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" id="id_act_eff_progres"></div>
+									<div class="progress-bar bg-blue progress-bar-striped progress-bar-animated" role="progressbar" id="id_act_eff_progresexcl" style="display: none;"></div>
 								</div>
 							</div>
 						</div> 
@@ -724,13 +804,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-md-6">
 								<div class="form-group">
 									<label >Standart DL :</label>
-									<input class="form-control" type="number" id="f_std_dl" value="0">
+									<input class="form-control" type="number" id="f_std_dl" value="0" min="0" max="200">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label >Reg DL :</label>
-									<input class="form-control" type="number" id="f_reg_dl" value="0">
+									<input class="form-control" type="number" id="f_reg_dl" value="0" min="0" max="200">
 								</div>
 							</div>
 						</div>
@@ -738,13 +818,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Jam Overtime :</label>
-									<input class="form-control" type="number" id="f_jam_ot" value="0">
+									<input class="form-control" type="number" id="f_jam_ot" value="0" min="0" max="4">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>DL Overtime :</label>
-									<input class="form-control" type="number" id="f_dl_ot" value="0">
+									<input class="form-control" type="number" id="f_dl_ot" value="0" min="0" max="4">
 								</div>
 							</div>
 						</div> 
@@ -757,13 +837,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-md-6">
 								<div class="form-group">
 									<label >Standart IDL :</label>
-									<input class="form-control" type="number" id="f_std_idl" value="0">
+									<input class="form-control" type="number" id="f_std_idl" value="0" min="0" max="50">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label >Reg IDL :</label>
-									<input class="form-control" type="number" id="f_reg_idl" value="0">
+									<input class="form-control" type="number" id="f_reg_idl" value="0" min="0" max="50">
 								</div>
 							</div>
 						</div>
@@ -771,13 +851,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Jam Overtime :</label>
-									<input class="form-control" type="number" id="f_jam_ot_idl" value="0">
+									<input class="form-control" type="number" id="f_jam_ot_idl" value="0" min="0" max="4">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>IDL Overtime :</label>
-									<input class="form-control" type="number" id="f_idl_ot" value="0">
+									<input class="form-control" type="number" id="f_idl_ot" value="0" min="0" max="4">
 								</div>
 							</div>
 						</div> 
@@ -815,7 +895,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<center>
 								<div class="form-group col-md-6" style="margin-top: -40px;">
 									<label>Kecepatan Conveyor</label>
-									<input type="number" value="104" name="speed_edit_newpdo">  
+									<input type="number" value="104" name="speed_edit_newpdo" min="0">  
 								</div> 
 								</center>
 							</div>
@@ -867,148 +947,186 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  
 </body>
 	<!-- Script Main -->
-	<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script> 
-	<!-- add sweet alert js & css in footer -->
-	<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>  
-	<!-- Spedometer charts -->
-	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
-	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
-	<!-- TOuch SPIN -->
-	<script src="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"></script> 
-	<!-- you load jquery somewhere before jSignature ... -->
-	<script src="<?php echo base_url() ?>assets/src/plugins/jsignature-pad/js/signature_pad.umd.js"></script>
-	<!-- JQuery Steps -->
-	<script src="<?php echo base_url() ?>assets/src/plugins/jquery-steps/build/jquery.steps.js"></script>
-	<!-- jQuery (required) & jQuery UI + theme (optional) -->  
-	<script src="<?php echo base_url() ?>assets/src/plugins/Keyboard-master/js/jquery-ui-custom.min.js"></script> 
-	<script src="<?php echo base_url() ?>assets/src/plugins/Keyboard-master/js/jquery.keyboard.js"></script> 
-	<script src="<?php echo base_url() ?>assets/src/plugins/Keyboard-master/js/jquery.keyboard.extension-typing.js"></script>
- 	
- 	<!-- SELECT 2 -->
-	<script src="<?php echo base_url() ?>assets/src/plugins/select2/dist/js/select2.min.js"></script>
+		<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script> 
+		<!-- add sweet alert js & css in footer -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>  
+		<!-- Spedometer charts -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
+		<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
+		<!-- TOuch SPIN -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"></script> 
+		<!-- you load jquery somewhere before jSignature ... -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/jsignature-pad/js/signature_pad.umd.js"></script>
+		<!-- JQuery Steps -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/jquery-steps/build/jquery.steps.js"></script>
+		<!-- jQuery (required) & jQuery UI + theme (optional) -->  
+		<script src="<?php echo base_url() ?>assets/src/plugins/Keyboard-master/js/jquery-ui-custom.min.js"></script> 
+		<script src="<?php echo base_url() ?>assets/src/plugins/Keyboard-master/js/jquery.keyboard.js"></script> 
+		<script src="<?php echo base_url() ?>assets/src/plugins/Keyboard-master/js/jquery.keyboard.extension-typing.js"></script>
+	 	<!-- SELECT 2 -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/select2/dist/js/select2.min.js"></script>
+		<!-- DATE PICKER -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/daterangepicker/daterangepicker.js"></script>
 
 	<script> 
 		$('document').ready(function(){ 
-		// VAR CORE
-			var id_line = $('#id_line').val();
-			var id_shift = $('#id_shift').val();
-			var id_tgl = $('#id_tgl').val();
-			var id_pdo = 0;
-		// VARIABEL GLOBAL
- 			// deklarasi nama bulan
- 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
- 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+		// conf
+			// VAR CORE
+				var id_line = $('#id_line').val();
+				var id_shift = $('#id_shift').val();
+				var id_tgl = $('#id_tgl').val();
+				var id_pdo = 0;
+				var id_listcarline = 0;
 
- 			var today = new Date(id_tgl);
-			var currentMonth = today.getMonth();
-			var currentYear = today.getFullYear();
-			var currDate = today.getDate();
-			var jum_jam = 0;
-			var output_sesuai = false;
-			var loss_output = 0;
-			var total_loss_detik=0;
-			var tot_mhout = 0; //witget mhout actual
-			var tot_mhinall = 0 ; //for widget mhin actual total
-			var eff_actual = 0; //for widget eff actual
-			var edittarget= false; // jika target sudah ada maka bisa diedit
-			var max_jamkerja = 0; 
-			var status_pdo = 0 ; 
+				var tgl_start =0;
+				var tgl_end=0;
+			// VARIABEL GLOBAL
+	 			// deklarasi nama bulan
+	 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+	 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 
-			// 
+	 			var today = new Date(id_tgl);
+				var currentMonth = today.getMonth();
+				var currentYear = today.getFullYear();
+				var currDate = today.getDate();
+				var jum_jam = 0;
+				var output_sesuai = false;
+				var loss_output = 0;
+				var total_loss_detik=0;
+				var tot_mhout = 0; //witget mhout actual
+				var tot_mhinall = 0 ; //for widget mhin actual total
+				var eff_actual = 0; //for widget eff actual
+				var eff_excl = 0;
+				var edittarget= false; // jika target sudah ada maka bisa diedit
+				var max_jamkerja = 0; 
+				var status_pdo = 0 ;
+				var daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+
+	 			// SETTING DEFAULT DATE 
+	            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
+				$('.rangepick').val('01/'+(currentMonth+1)+'/'+currentYear+' - '+daysInMonth+'/'+(currentMonth+1)+'/'+currentYear);
+				tgl_start = currentYear+'-'+(currentMonth+1)+'-1';
+				tgl_end = currentYear+'-'+(currentMonth+1)+'-'+daysInMonth;
+
+			// DAtepickers
+				$('.rangepick').daterangepicker({
+				    "showWeekNumbers": false,
+				    "linkedCalendars": false, 
+				    // "startDate": "07/1/2019",
+				    // "endDate": "07/31/2019", 
+				    "minDate": "01/7/2019",
+				    "maxDate": "31/7/2019",
+				    locale: {
+			            format: 'DD/MM/YYYY'
+			        }
+				}, function(start, end, label) {
+				  	console.log('start :' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+				  	tgl_start = start.format('YYYY-MM-DD');
+				  	tgl_end = end.format('YYYY-MM-DD');
+				});
+
+			// aditional Setting
+				$(".inputs").keyup(function () {
+				    if (this.value.length == this.maxLength) {
+				      $(this).select();
+				      $(this).next('.inputs').focus();  
+				    }
+				});
+
+				$("input").click(function () {
+				   $(this).select();
+				}); 
+	 		
+	 		// TrigGER PIlih TANGGAL
+				$('.date-pickerrr').datepicker({   
+					language: "en",
+					firstDay: 1,  
+				    onSelect: function(selected, d, calendar) {   
+				    	// jika yang dipilih sama 
+				    	if (selected=='') { 
+				    		var tod = new Date(id_tgl);  
+
+				    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+				    		calendar.hide();
+				    		return ;
+				    	}else{
+				    		// post data additional
+				    		id_tgl = new Date(selected);
+				    		var tod = new Date(selected); 
+					    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+					    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+
+					    	// post new data additional
+					    	updateOpt();
+				    	} 
+				    	calendar.hide();
+
+				    	// refresh 
+				    	// showplanning();
+			    		// cariDataPdo();
+			    		cekHariini();
+				    }
+				});
+			// TRIGGEr line Change
+				$('#select_line').on('select2:select',function(e){
+					var data = e.params.data;
+					
+					id_line = data.id ;
+					// update opt to server
+					updateOpt(); 
+					cekHariini();  
+				});
+			// PILIH SHIFTY 
+				$('#drop_shiftt').on('click','.pilih_sf',function(){
+					var ssf = $(this).data('value'); 
+	 
+					if (ssf==1) {
+						document.getElementById('id_sifname').innerHTML= 'A';
+						document.getElementById('sf_a').classList.add("aktip");
+						document.getElementById('sf_b').classList.remove("aktip"); 	
+					} else{
+						document.getElementById('id_sifname').innerHTML= 'B';
+						document.getElementById('sf_b').classList.add("aktip");	
+						document.getElementById('sf_a').classList.remove("aktip");	
+					}
+
+					id_shift = ssf; 
+					id_line = $('#select_line').val();
+
+					// update opt to server
+					updateOpt(); 
+					cekHariini();
+				});
+			// PILIH Jenis EFF 
+				$('#drop_eff').on('click','.pilih_eff',function(){
+					var ssf = $(this).data('value');  
+					if (ssf==1) {
+						document.getElementById('id_name_eff').innerHTML= 'Efficiency';
+						document.getElementById('itm_eff_n').classList.add("aktip");
+						document.getElementById('item_eff_ex').classList.remove("aktip");
+						// excl 
+						document.getElementById('id_act_eff').style.display = 'block';
+						document.getElementById('id_act_eff_progres').style.display = 'block';
+						document.getElementById('id_act_eff_excl').style.display = 'none';
+						document.getElementById('id_act_eff_progresexcl').style.display = 'none'; 
+
+					} else{
+						document.getElementById('id_name_eff').innerHTML= 'Efficiency Exclude';
+						document.getElementById('itm_eff_n').classList.remove("aktip");	
+						document.getElementById('item_eff_ex').classList.add("aktip");	 
+						// excl
+						document.getElementById('id_act_eff_progresexcl').style.display = 'block';
+						document.getElementById('id_act_eff_excl').style.display = 'block';
+						document.getElementById('id_act_eff_progres').style.display = 'none'; 
+						document.getElementById('id_act_eff').style.display = 'none';
+					} 
+
+					// update opt to server
+
+				});
+
+		// AUTooOOOO LOAD 
 			var name_shift = document.getElementById('id_sifname').innerHTML;
-
- 			
- 			// SETTING DEFAULT DATE
- 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
-            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
-
-		// aditional Setting
-			$(".inputs").keyup(function () {
-			    if (this.value.length == this.maxLength) {
-			      $(this).select();
-			      $(this).next('.inputs').focus();  
-			    }
-			});
-
-			$("input").click(function () {
-			   $(this).select();
-			});
-
-			// $('input').keyboard({
-			// 		layout : 'num',
-			// 		restrictInput : true, // Prevent keys not in the displayed keyboard from being typed in
-			// 		preventPaste : true,  // prevent ctrl-v and right click
-			// 		autoAccept : true
-			// 	})
-			// 	.addTyping(); 
- 		
-
- 		// TrigGER PIlih TANGGAL
-			$('.date-pickerrr').datepicker({   
-				language: "en",
-				firstDay: 1,  
-			    onSelect: function(selected, d, calendar) {   
-			    	// jika yang dipilih sama 
-			    	if (selected=='') { 
-			    		var tod = new Date(id_tgl);  
-
-			    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-			    		calendar.hide();
-			    		return ;
-			    	}else{
-			    		// post data additional
-			    		id_tgl = new Date(selected);
-			    		var tod = new Date(selected); 
-				    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-				    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
-
-				    	// post new data additional
-				    	updateOpt();
-			    	} 
-			    	calendar.hide();
-
-			    	// refresh 
-			    	// showplanning();
-		    		// cariDataPdo();
-		    		cekHariini();
-			    }
-			});
-		// TRIGGEr line Change
-			$('#select_line').on('select2:select',function(e){
-				var data = e.params.data;
-				
-				id_line = data.id ;
-				// update opt to server
-				updateOpt(); 
-				cekHariini();
-				// console.log(data); 
-				// console.log('ln:'+id_line+'|sf:'+id_shift); 
-			});
-		// PILIH SHIFTY 
-			$('#drop_shiftt').on('click','.pilih_sf',function(){
-				var ssf = $(this).data('value'); 
- 
-				if (ssf==1) {
-					document.getElementById('id_sifname').innerHTML= 'A';
-					document.getElementById('sf_a').classList.add("aktip");
-					document.getElementById('sf_b').classList.remove("aktip"); 	
-				} else{
-					document.getElementById('id_sifname').innerHTML= 'B';
-					document.getElementById('sf_b').classList.add("aktip");	
-					document.getElementById('sf_a').classList.remove("aktip");	
-				}
-
-				id_shift = ssf; 
-				id_line = $('#select_line').val();
-
-				// update opt to server
-				updateOpt(); 
-				cekHariini();
-			});
-
-		// AUTooOOOO LOAD
-			// showdata($('#id_pdo').val());
-			// cariDataPdo();    
 			loadDropdown();
 			cekHariini();
 			showplanning();
@@ -1102,7 +1220,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         //mencari status pdo set img 
                         //  SEt TTD IMG
                         status_pdo = res.pdo.status;
-                        if (status_pdo) { 
+                        if ( res.pdo.waktu != '0000-00-00 00:00:00' ) { 
                         	document.getElementById('info_lastupdt').innerHTML = 'Terahir Diperbarui Pada '+res.pdo.waktu+' WIB'; 
                         	document.getElementById('info_lastupdt').style.display = 'block'; 
                         }
@@ -1299,7 +1417,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						// eff actual
 						var eff = (parseFloat(tot_mhout)/parseFloat(res.mhin.mhin))*100; 
 						document.getElementById('id_act_eff').innerHTML= eff.toFixed(1)+"%"; 
+						// EFF EXCL
+						document.getElementById('id_act_eff_excl').innerHTML= parseFloat(res.eff_exc.eff_excl).toFixed(1)+"%"; 
+
 						eff_actual = eff;
+						eff_excl = res.eff_exc.eff_excl;
                         // productivity 
                         var prod = ((tot_mhout)/parseFloat(res.mhin_tot.mhin_dlidl))*100;
                         document.getElementById('id_prod_percent').innerHTML= prod.toFixed(1); 
@@ -1587,7 +1709,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						// eff actual
 						var eff = (parseFloat(tot_mhout)/parseFloat(res.mhin.mhin))*100; 
 						document.getElementById('id_act_eff').innerHTML= eff.toFixed(1)+"%"; 
-						eff_actual = eff;
+						eff_actual = eff.toFixed(1);
+						eff_actual = res.eff_exc.eff_excl;
+						// EFF EXCl
+						document.getElementById('id_act_eff_excl').innerHTML= parseFloat(res.eff_exc.eff_excl).toFixed(1)+"%"; 
                         // productivity 
                         var prod = ((tot_mhout)/parseFloat(res.mhin_tot.mhin_dlidl))*100;
                         document.getElementById('id_prod_percent').innerHTML= prod.toFixed(1); 
@@ -1688,7 +1813,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 document.getElementById('id_act_eff_progres').style.width= '0%'; 
                 document.getElementById('id_act_eff_progres').innerHTML= '0%';
-
+                // exclude
+                document.getElementById('id_act_eff_progresexcl').style.width= '0%'; 
+                document.getElementById('id_act_eff_progresexcl').innerHTML= '0%';
+                 
                 $('#tbody_outputt').html('');
                 $('#thead_outputt').html(''); 
                 $('#tbud').html('<div class="jumbotron"><h3 class="text-center">DATA TIDAK TERSEDIA </h3></div>');
@@ -1809,6 +1937,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								document.getElementById('panel_newplann').style.display = 'none';
 								document.getElementById('no_pdodata').style.display = 'none'; 
 
+								id_listcarline = res.id_listcarline ; 
 	                    		console.log(res);
 							}else{
 								console.log(res);
@@ -1873,6 +2002,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	                    		// null
 	                    		eff_actual=0;
+	                    		eff_excl =0;
 								tot_mhinall=0;
 								tot_mhout = 0;
 							}
@@ -1992,7 +2122,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         	// percent Efficiency
                         	var percent_eff = (eff_actual/Number(res.efisiensi))*100; 
                         	document.getElementById('id_act_eff_progres').style.width= percent_eff.toFixed(1)+'%';
-                        	document.getElementById('id_act_eff_progres').innerHTML= percent_eff.toFixed(1)+'%';
+                        	document.getElementById('id_act_eff_progres').innerHTML= percent_eff.toFixed(1)+'%'; 
+                        	// percent EFF EXCL
+                        	var percent_eff_excl = (eff_excl/Number(res.efisiensi))*100; 
+                        	document.getElementById('id_act_eff_progresexcl').style.width= percent_eff_excl.toFixed(1)+'%';
+                        	document.getElementById('id_act_eff_progresexcl').innerHTML= percent_eff_excl.toFixed(1)+'%'; 
 
                         	edittarget=true;		
                     	}else {
@@ -2162,11 +2296,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					// Downtime Kurang
 					if (total_loss_detik<(toOut-batas) && output_sesuai== false) {
 						Swal.fire({
-							type: 'error',
 	  						title: 'Output Actual yang dihasilkan tidak sesuai.',
 							text:'"Kurang Banyak Downtime"',
-							footer:'Total Downtime harus di Atas: '+(toOut-batas)+'  |&nbsp Downtime sekarang: '+total_loss_detik
-						});
+							footer:'Total Downtime harus di Atas: '+(toOut-batas)+'  |&nbsp Downtime sekarang: '+total_loss_detik,
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: 'Revisi Downtime'
+						}).then((result) => {
+						  if (result.value) {
+						  		setTimeout(' window.location.href = "<?php echo site_url('losstime/index/1'); ?>" ');
+						  }
+						}); 
 						return;
 					}
 					// Downtime kelebihan
@@ -2175,7 +2314,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							type: 'error',
 	  						title: 'Output Actual yang dihasilkan tidak sesuai.',
 							text:'"Terlalu Banyak Downtime"',
-							footer:'Total Downtime harus Di Bawah: '+(toOut+batas)+'  |&nbsp Downtime sekarang: '+total_loss_detik
+							footer:'Total Downtime harus Di Bawah: '+(toOut+batas)+'  |&nbsp Downtime sekarang: '+total_loss_detik,
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: 'Revisi Downtime'
+						}).then((result) => {
+						  if (result.value) {
+						  		setTimeout(' window.location.href = "<?php echo site_url('losstime/index/1'); ?>" ');
+						  }
 						});
 						return;
 					}  
@@ -2628,7 +2773,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				var eff = $('input[name="eff_new"]').val();
 				var plan = $('input[name="target_plan"]').val();
 
-				// alert('in'+inn+'|ou:'+out+'|ef:'+eff);
+				// alert('in'+inn+'|ou:'+out+'|ef:'+eff); 
+				var daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+				 
+				// console.log('dyinmont:'+daysInMonth);
+				// console.log('bln: '+currentMonth);
+				// console.log('thn: '+currentYear);
 
 				$.ajax({
 					async : false,
@@ -2639,9 +2789,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						id_cline:id_line,
 						out:out,
 						in:inn,
-						eff:eff,
-						tgl:id_tgl,
-						plan:plan
+						eff:eff, 
+						plan:plan,
+						tahun:currentYear,
+						bln:(currentMonth+1),
+						enddays:daysInMonth
 					},
 					success: function(data){
 						$('#scv_modal').modal('hide');
@@ -2672,6 +2824,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		//============ Trigger Target Edit ============
 			// target mh-OUT EDIT
 			$('#trigger_mhout').on('click',function(){
+				document.getElementById('id_infoplanmhout').innerHTML = "Plan MH OUT "+monthName[currentMonth]+' :';
 				// jika sudah ada target
 				if (edittarget) {   
 					$('#modal_edit_mhout').modal('show');
@@ -2703,7 +2856,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					dataType : "JSON",
 					data : {
 						out:out,
-						id:$('#id_target').val()
+						tgl_start:tgl_start,
+						tgl_end:tgl_end
 					},
 					success: function(data){ 
 						if (data) {
@@ -2737,7 +2891,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					dataType : "JSON",
 					data : {
 						in:inn,
-						id:$('#id_target').val()
+						tgl_start:tgl_start,
+						tgl_end:tgl_end
 					},
 					success: function(data){ 
 						if (data) {
@@ -2771,7 +2926,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					dataType : "JSON",
 					data : {
 						eff:eff,
-						id:$('#id_target').val()
+						tgl_start:tgl_start,
+						tgl_end:tgl_end
 					},
 					success: function(data){ 
 						if (data) {
@@ -2898,6 +3054,83 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#clearr').on('click',function(){
 				signaturePad.clear();
 			});
+
+
+		//  BUAT ASSY BARU DADAKAN
+			// trigger
+			$('#btn_buatassybaru').click(function(){
+
+				$('#modalnewbuild').modal('hide'); 
+				$('#modalnewassyinvalid').modal('show');
+			});
+			// submit
+			$('#btn_newassybaru').click(function(){
+				var name = $('#in_newassybaru').val(); 
+				var idjam  = $('#idjamke').val(); 
+ 				 
+ 				// 
+				 $.ajax({
+	            	async : false,
+	                type : "POST",
+	                url   : '<?php echo base_url();?>index.php/OutputControl/newBuildAssyDadakan',
+	                dataType : "JSON",
+	                data : {
+	                		id_oc:idjam, 
+	                		name:name,
+	                		pdo:id_pdo,
+	                		lstcarline:id_listcarline
+	                	}, 
+	                success: function(response){  
+						if(response){  
+							$('#modalnewassyinvalid').modal('hide');
+							loadDropdown();
+							cekHariini();
+						}
+						else{
+							Swal.fire({
+							  title: 'Error!',
+							  text: 'Pastikan Inputan benar',
+							  type: 'error',
+							  confirmButtonText: 'Ok',
+							  allowOutsideClick: false
+							})
+							console.log("Ada error");
+						}
+
+	                }
+	            });
+ 
+			});
+		// ASSY CODE checked availabe
+ 			$('#in_newassybaru').keyup(function(){
+ 				var assy = $('#in_newassybaru').val();
+ 				if (assy.length===0) {
+ 					document.getElementById("in_newassybaru").classList.remove("form-control-success");
+ 					document.getElementById("btn_newassybaru").disabled = true;
+ 					return;
+ 				}
+				$.ajax({ 
+ 					type: 'POST',
+ 					url: '<?php echo site_url("Assycode/searchAssyName") ?>',
+ 					dataType: "JSON",
+ 					data:{
+ 						name: assy
+ 					},
+ 					success: function(data){
+ 						if (data.length==0) {  
+ 							document.getElementById("in_newassybaru").classList.remove("form-control-danger");
+ 							document.getElementById("in_newassybaru").classList.add("form-control-success"); 
+ 							document.getElementById("tipsss").style.display= 'none';
+ 							document.getElementById("btn_newassybaru").disabled = false;
+ 						}else{
+ 							document.getElementById("in_newassybaru").classList.remove("form-control-success");
+ 							document.getElementById("in_newassybaru").classList.add("form-control-danger"); 
+ 							document.getElementById("tipsss").style.display= 'block';
+ 							document.getElementById("btn_newassybaru").disabled = true;
+ 						}
+ 					} 
+ 				});
+ 			}); 
 
 
 		// UPDATE isi Sesion

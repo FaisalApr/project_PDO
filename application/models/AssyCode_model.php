@@ -3,6 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class AssyCode_model extends CI_Model {
 
+	public function cariAssy($id_ln)
+	{ 
+		$q = $this->db->query("SELECT * FROM assembly WHERE kode_assy='$id_ln'");
+		return $q->first_row();
+	}
+
 	public function createAssyCode($data)
 	{
 		# code...
@@ -50,6 +56,13 @@ class AssyCode_model extends CI_Model {
 	{  
  		$this->db->where('id',$id);
  		return $this->db->update('assembly', $data);
+	}
+
+	// cari nama sama assy code
+	public function getAssyCode($name)
+	{
+		$query = $this->db->get_where('assembly',array('kode_assy'=>$name));
+        return $query->result();
 	}
 
 }

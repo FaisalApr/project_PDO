@@ -131,112 +131,108 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script> 
 		$('document').ready(function(){
-			// VAR CORE
-				var id_line = $('#id_line').val();
-				var id_shift = $('#id_shift').val();
-				var id_tgl = $('#id_tgl').val();
-				var id_pdo = 0;
-				var balance_awal=0;
-				var id_target =0;
+			// conf
+				// VAR CORE
+					var id_line = $('#id_line').val();
+					var id_shift = $('#id_shift').val();
+					var id_tgl = $('#id_tgl').val();
+					var id_pdo = 0;
+					var balance_awal=0;
+					var id_target =0;
+				// variabel global	
+					// deklarasi nama bulan
+		 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+		 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 
-			// variabel global	
-				// deklarasi nama bulan
-	 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-	 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-
-	 			var today = new Date(id_tgl);
-				var currentMonth = today.getMonth();
-				var currentYear = today.getFullYear();
-				var currDate = today.getDate();
-				// Set this month
-				var daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
-				var awalDay =1;
-
-			// aditional PICKER DATE  
-				// SETTING DEFAULT DATE
-	 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
-	            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
+		 			var today = new Date(id_tgl);
+					var currentMonth = today.getMonth();
+					var currentYear = today.getFullYear();
+					var currDate = today.getDate();
+					// Set this month
+					var daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+					var awalDay =1;
+				// aditional PICKER DATE  
+					// SETTING DEFAULT DATE
+		 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
+		            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
 
 
-				$(".inputs").keyup(function () {
-				    if (this.value.length == this.maxLength) {
-				      $(this).select();
-				      $(this).next('.inputs').focus();  
-				    }
-				});
+					$(".inputs").keyup(function () {
+					    if (this.value.length == this.maxLength) {
+					      $(this).select();
+					      $(this).next('.inputs').focus();  
+					    }
+					});
 
-				$("input").click(function () {
-				   $(this).select();
-				}); 
- 
+					$("input").click(function () {
+					   $(this).select();
+					}); 
+				// TrigGER PIlih TANGGAL
+					$('.date-pickerrr').datepicker({   
+						language: "en",
+						firstDay: 1,  
+					    onSelect: function(selected, d, calendar) {   
+					    	// jika yang dipilih sama 
+					    	if (selected=='') { 
+					    		var tod = new Date(id_tgl);  
+
+					    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+					    		calendar.hide();
+					    		return ;
+					    	}else{
+					    		// post data additional
+					    		id_tgl = new Date(selected);
+					    		var tod = new Date(selected); 
+						    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+						    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+
+						    	// post new data additional
+						    	updateOpt();
+					    	} 
+					    	calendar.hide();
+
+					    	// refresh 
+					    	// showplanning();
+				    		// cariDataPdo();
+				    		// cekHariini();
+				    		show();
+					    }
+					});
+				// TRIGGEr line Change
+					$('#select_line').on('select2:select',function(e){
+						var data = e.params.data;
+						
+						id_line = data.id ;
+						// update opt to server
+						updateOpt(); 
+						show();
+						// cekHariini();
+						// console.log(data); 
+						// console.log('ln:'+id_line+'|sf:'+id_shift); 
+					});
+				// PILIH SHIFTY 
+					$('#drop_shiftt').on('click','.pilih_sf',function(){
+						var ssf = $(this).data('value'); 
+		 
+						if (ssf==1) {
+							document.getElementById('id_sifname').innerHTML= 'A';
+							document.getElementById('sf_a').classList.add("aktip");
+							document.getElementById('sf_b').classList.remove("aktip"); 	
+						} else{
+							document.getElementById('id_sifname').innerHTML= 'B';
+							document.getElementById('sf_b').classList.add("aktip");	
+							document.getElementById('sf_a').classList.remove("aktip");	
+						}
+
+						id_shift = ssf; 
+						id_line = $('#select_line').val();
+
+						// update opt to server
+						updateOpt(); 
+						show();
+						// cekHariini();
+					});
 			
-			// TrigGER PIlih TANGGAL
-				$('.date-pickerrr').datepicker({   
-					language: "en",
-					firstDay: 1,  
-				    onSelect: function(selected, d, calendar) {   
-				    	// jika yang dipilih sama 
-				    	if (selected=='') { 
-				    		var tod = new Date(id_tgl);  
-
-				    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-				    		calendar.hide();
-				    		return ;
-				    	}else{
-				    		// post data additional
-				    		id_tgl = new Date(selected);
-				    		var tod = new Date(selected); 
-					    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-					    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
-
-					    	// post new data additional
-					    	updateOpt();
-				    	} 
-				    	calendar.hide();
-
-				    	// refresh 
-				    	// showplanning();
-			    		// cariDataPdo();
-			    		// cekHariini();
-			    		show();
-				    }
-				});
-			// TRIGGEr line Change
-				$('#select_line').on('select2:select',function(e){
-					var data = e.params.data;
-					
-					id_line = data.id ;
-					// update opt to server
-					updateOpt(); 
-					show();
-					// cekHariini();
-					// console.log(data); 
-					// console.log('ln:'+id_line+'|sf:'+id_shift); 
-				});
-			// PILIH SHIFTY 
-				$('#drop_shiftt').on('click','.pilih_sf',function(){
-					var ssf = $(this).data('value'); 
-	 
-					if (ssf==1) {
-						document.getElementById('id_sifname').innerHTML= 'A';
-						document.getElementById('sf_a').classList.add("aktip");
-						document.getElementById('sf_b').classList.remove("aktip"); 	
-					} else{
-						document.getElementById('id_sifname').innerHTML= 'B';
-						document.getElementById('sf_b').classList.add("aktip");	
-						document.getElementById('sf_a').classList.remove("aktip");	
-					}
-
-					id_shift = ssf; 
-					id_line = $('#select_line').val();
-
-					// update opt to server
-					updateOpt(); 
-					show();
-					// cekHariini();
-				});
-			
-
 			// ====  AUTOLOAD =====  
 			loadDropdown();
 			show();
@@ -292,31 +288,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							        	$.ajax({ 
 							        		async : false,
 						                    type  : 'POST',
-						                    url   : '<?php echo base_url();?>index.php/Target/getThisMonth',
+						                    url   : '<?php echo base_url();?>index.php/Target/getResultThisMonth',
 						                    dataType : 'JSON', 
 						                    data:{
 						                    	tgl: id_tgl,
 						                    	id_line:id_line
 						                    },
 						                    success : function(res){   
-						                    	if (res) {   
-
+						                    	console.log('ini res this month');
+						                    	console.log(res);
+						                    	if (res) {    
 						                    		// BALANCE SETTING
 						                    		document.getElementById('btn_changebalance').style.display = 'inline';
-						                    		balance_awal = res.balance_awal;
-						                    		id_target = res.id;
+						                    		// balance_awal = res.balance_awal;
+						                    		// id_target = res.id; 
+						                    		
+										        	for (var i = 0; i < res.length; i++) {  
+										        		var tgl = new Date(res[i].periode).getTime();
 
-						                    		var i = awalDay;
-										        	for ( i ; i <= daysInMonth; i++) { 
-
-										        		var a = [Date.UTC(currentYear, currentMonth, i), parseFloat(res.efisiensi) ];
-										        		
+										        		var a = [tgl , parseFloat(res[i].efisiensi) ];  
 										        		da.push(a);
 										        	} 
+
 						                    	}else {
 						                    		balance_awal=0;
 						                    		document.getElementById('btn_changebalance').style.display = 'none';
 						                    	}
+						                    	console.log(da);
 						                    }
 						                });  
 
@@ -343,9 +341,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						                    success : function(res){  
 						                    	for (var i = 0 ; i < res.length ; i++) { 
 										        	//parsing tanggal
-										        	const tgl = new Date(res[i].tanggal);
+										        	const tgl = new Date(res[i].tanggal).getTime();
 
-										    var a = [Date.UTC(tgl.getFullYear(),tgl.getMonth(),tgl.getDate()), parseFloat(res[i].direct_eff) ]; 
+										    		var a = [tgl, parseFloat(res[i].direct_eff) ]; 
 	 
 										        	da.push(a);
 										        }	
@@ -376,7 +374,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										        		//parsing tanggal
 										        		const tgl = new Date(res[i].tanggal);
 
-										    var a = [Date.UTC(tgl.getFullYear(),tgl.getMonth(),tgl.getDate()), parseFloat(res[i].direct_eff) ]; 
+										    var a = [Date.UTC(tgl.getFullYear(),(tgl.getMonth()+1),tgl.getDate()), parseFloat(res[i].direct_eff) ]; 
 	 
 										        		da.push(a);
 										        }	
@@ -394,7 +392,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					        	// console.log(this.point.series.data);
 					        	var gmt = new Date(this.point.x);
 					        	// console.log(gmt);
-					        	var tgl = daysName[gmt.getDay()]+','+gmt.getDate()+'-'+gmt.getMonth()+'-'+gmt.getFullYear();
+					        	var tgl = daysName[gmt.getDay()]+','+gmt.getDate()+'-'+(gmt.getMonth()+1)+'-'+gmt.getFullYear();
 						 	    return '<b>'+this.point.series.name+'</b><br/>'+
 							        // 'Efficiency : '+Highcharts.numberFormat(this.point.series.data, 0)+'%<br>Tgl :'+
 							        'Efficiency : '+(this.point.y).toFixed(1)+'%<br>Tgl : '+tgl;
@@ -419,41 +417,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             	// Plan & RESULT
             		// isis data balance
-            		bal += Number(balance_awal);
-	            		$.ajax({ 
-			        		async : false,
-		                    type  : 'POST',
-		                    url   : '<?php echo base_url();?>index.php/Summary/getProdBalance',
-		                    dataType : 'JSON', 
-		                    data:{
-		                    	tanggal: id_tgl,
-		                    	id_line:id_line
-		                    },
-		                    success : function(result){   
+           			//bal += Number(balance_awal);
+	             		//$.ajax({ 
+			        		// async : false,
+		       	              //type  : 'POST',
+		                    // url   : '<?php echo base_url();?>index.php/Summary/getProdBalance',
+		                    // dataType : 'JSON', 
+		                    // data:{
+		                    	// tanggal: id_tgl,
+		                    	// id_line:id_line
+		                    // },
+		                    // success : function(result){   
 
-						    	for (var i =0 ; i < result.length ; i++) {   
-					        		const tgl = new Date(result[i].tanggal); 
+						   //  	for (var i =0 ; i < result.length ; i++) {   
+					    //     		const tgl = new Date(result[i].tanggal); 
 
-									var pro = {
-										 tanggal: (tgl.getFullYear()+'-'+tgl.getMonth()+'-'+tgl.getDate()), 
-										 sisa: bal,
-										 balance: Number(result[i].balance)+bal,
-										 to_plan: result[i].to_plan,
-										 to_act: result[i].to_actual
+									// var pro = {
+									// 	 tanggal: (tgl.getFullYear()+'-'+tgl.getMonth()+'-'+tgl.getDate()), 
+									// 	 sisa: bal,
+									// 	 balance: Number(result[i].balance)+bal,
+									// 	 to_plan: result[i].to_plan,
+									// 	 to_act: result[i].to_actual
 										 
-										};
-					        		bal = Number(result[i].balance)+bal;
+									// 	};
+					    //     		bal = Number(result[i].balance)+bal;
 
-					        		prodPlan.push(pro);
-					        	} 
-		                    }
-		                }); 
+					    //     		prodPlan.push(pro);
+					    //     	} 
+		                    // }
+		                // }); 
 
 		            // CNAGE VAlue BalanCE
-	            	document.getElementById('id_awal_balance').innerHTML = balance_awal;
-	            	document.getElementById('id_sisa_balance').innerHTML = bal;
+	            	// document.getElementById('id_awal_balance').innerHTML = balance_awal;
+	            	// document.getElementById('id_sisa_balance').innerHTML = bal;
 
-            		// config chart
+            	// config chart
         		    var panres ={
 		            		title: {
 						        text: 'PRODUCTION PLAN & RESULT'
@@ -497,7 +495,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								        	$.ajax({ 
 								        		async : false,
 							                    type  : 'POST',
-							                    url   : '<?php echo base_url();?>index.php/Target/getThisMonth',
+							                    url   : '<?php echo base_url();?>index.php/Target/getResultThisMonth',
 							                    dataType : 'JSON', 
 							                    data:{
 							                    	tgl: id_tgl ,
@@ -505,11 +503,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							                    },
 							                    success : function(res){  
 							                    	if (res) {  
-							                    		var i = awalDay;
-											        	for ( i ; i <= daysInMonth; i++) { 
+							                    		for (var i = 0; i < res.length; i++) {  
+											        		var tgl = new Date(res[i].periode).getTime();
 
-											        		var a = [Date.UTC(currentYear, currentMonth, i), parseFloat(res.plan_assy) ];
-											        		
+											        		var a = [tgl , parseFloat(res[i].plan_assy) ];  
 											        		da.push(a);
 											        	} 
 							                    	} 
@@ -885,9 +882,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    	var to=0;
 	                    	var warna = ['bg-light-orange','bg-light-purple','bg-light-green'];
 	                    	var max = 3;
-
+	                    	// memberi batas max 
 	                    	if (res.length<3) { max = res.length; }
-
+	                    	// membuat progress bar
 	                    	for (var z = 0 ; z < res.length ; z++) { to += Number(res[z].top); }
 	                    	
 	                    	for (var i = 0 ; i < max ; i++) {  
@@ -907,6 +904,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										'</div>'+
 									'</div>'+
 								'</div>';
+					        }
+					        if (res.length==0) {
+					        	html+=
+					        		"<div class='jumbotron text-center'>Deffect Not Found</div>"
 					        }
 					        $('#topdefect_container').html(html);
 	                    }

@@ -102,7 +102,7 @@ class DirectLabor_Model extends CI_Model {
 	{
 		# code...
 		// urut abjad
-			$q = $this->db->query('SELECT regulasi.id, output_control.jam_ke, regulasi.posisi, regulasi.qty, regulasi.jam, regulasi.total  from regulasi join output_control on output_control.id=regulasi.id_oc join jenis_regulasi on jenis_regulasi.id=regulasi.id_jenisreg where regulasi.id_pdo='.$id.' AND regulasi.id_jenisreg=1 ORDER BY output_control.jam_ke ASC');
+			$q = $this->db->query('SELECT id_oc, regulasi.id, output_control.jam_ke, regulasi.posisi, regulasi.qty, regulasi.jam, regulasi.total  from regulasi join output_control on output_control.id=regulasi.id_oc join jenis_regulasi on jenis_regulasi.id=regulasi.id_jenisreg where regulasi.id_pdo='.$id.' AND regulasi.id_jenisreg=1 ORDER BY output_control.jam_ke ASC');
 
 			return $q->result();
 	}
@@ -146,7 +146,7 @@ class DirectLabor_Model extends CI_Model {
 	{
 		# code...
 		// urut abjad
-			$q = $this->db->query('SELECT regulasi.id, output_control.jam_ke, regulasi.posisi, regulasi.qty, regulasi.jam, regulasi.total  from regulasi join output_control on output_control.id=regulasi.id_oc join jenis_regulasi on jenis_regulasi.id=regulasi.id_jenisreg where regulasi.id_pdo='.$id.' AND regulasi.id_jenisreg=2 ORDER BY output_control.jam_ke ASC');
+			$q = $this->db->query('SELECT output_control.id as idoc,regulasi.id, output_control.jam_ke, regulasi.posisi, regulasi.qty, regulasi.jam, regulasi.total  from regulasi join output_control on output_control.id=regulasi.id_oc join jenis_regulasi on jenis_regulasi.id=regulasi.id_jenisreg where regulasi.id_pdo='.$id.' AND regulasi.id_jenisreg=2 ORDER BY output_control.jam_ke ASC');
 
 			return $q->result();
 	}
