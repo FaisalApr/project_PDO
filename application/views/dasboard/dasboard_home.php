@@ -1220,7 +1220,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         //mencari status pdo set img 
                         //  SEt TTD IMG
                         status_pdo = res.pdo.status;
-                        if ( res.pdo.waktu != '0000-00-00 00:00:00' ) { 
+
+                        if ( res.pdo.waktu != '0000-00-00 00:00:00') { 
                         	document.getElementById('info_lastupdt').innerHTML = 'Terahir Diperbarui Pada '+res.pdo.waktu+' WIB'; 
                         	document.getElementById('info_lastupdt').style.display = 'block'; 
                         }
@@ -2366,7 +2367,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				if (jum_jam == max_jamkerja) {
 					if (isireport == true) {
 						Swal.fire(
-							'Report Jam ke-'+(jum_jam-1)+' Downtime masih kosong.  Silahkan isi ZERO downtime terlebih dahulu.'
+							'Report Jam ke-'+(jum_jam)+' Downtime masih kosong.  Silahkan isi ZERO downtime terlebih dahulu.'
 							).then(function(){
 						    	setTimeout(' window.location.href = "<?php echo site_url('losstime'); ?>" ');
 						    }); 

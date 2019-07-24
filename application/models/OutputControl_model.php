@@ -128,9 +128,12 @@ class OutputControl_model extends CI_Model {
 
 	public function updateBuildAssy()
 	{  
+		date_default_timezone_set("Asia/Jakarta");
+		
 		//data new
 		$dataupdateBuildAssy = array( 
-			'actual' => $this->input->post('act')
+			'actual' => $this->input->post('act'),
+			'time' => date("Y-m-d H:i:s")
 		);
 		$this->db->where('id', $this->input->post('id_a'));
 		return $this->db->update('build_assy',$dataupdateBuildAssy);

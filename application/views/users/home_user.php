@@ -162,32 +162,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-md-6">
 									<div class="form-group">
 										<label for="in_nama" >Nama :</label>
-										<input id="in_nama" name="in_nama" type="text" class="form-control" >
+										<input id="in_nama" name="in_nama" type="text" class="form-control" minlength="4">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label for="in_nik" >NIK :</label>
-										<input id="in_nik" name="in_nik" type="Number" class=" form-control" >
+										<input id="in_nik" name="in_nik" type="Number" class=" form-control" minlength="5">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label for="in_username">Username :</label>
-										<input id="in_username" type="text" class=" form-control" >
+										<input id="in_username" name="in_username" type="text" class=" form-control" minlength="4">
 										<div id="tipsss" style="display: none;" class="form-control-feedback">maaf, username ini sudah digunakan. Coba yang lain?</div> 
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label for="in_pass">Password :</label>
-										<input id="in_pass" type="Password" class="form-control" >
+										<input id="in_pass" name="in_pass" type="Password" class="form-control" minlength="4">
 									</div>
 								</div>
 							</div> 
 							<div class="row">
 								<div class="col-md-6">
-									<div class="form-group required">
+									<div class="form-group">
 										<label>Pilih District :</label>
 										<div class="custom-control custom-radio mb-5">
 											<input type="radio" id="customRadio1" name="rad_district" value="1" class="custom-control-input">
@@ -238,7 +238,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-md-12">
 									<div class="form-group">
 										<label>Job Line :</label>
-										<select class="select2 js-states form-control" id="selectlinee" name="states[]" multiple="multiple" style="width: 100%;height: 300px;">
+										<select class="select2 js-states form-control" id="selectlinee" name="selectlinee" multiple="multiple" style="width: 100%;height: 300px;">
   
 										</select>
 									</div>
@@ -537,84 +537,102 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  				// form wizz 
  				var form = $("#fom_newusr");
 				// form. 
-					form.children("div").steps({ 
-						headerTag: "h5",
-						bodyTag: "section",
-						transitionEffect: "fade",
-						titleTemplate: '<span class="step">#index#</span> #title#',
-						labels: {
-							finish: "Submit"
-						},
-						 onStepChanging: function (event, currentIndex, newIndex)
-					    {
-					    	if (newIndex==2) {
-					    		console.log('ENDDDD');  
-					    		document.getElementById('viw_nik').innerHTML = 'NIK    : '+$('#in_nik').val();
-					    		document.getElementById('viw_nama').innerHTML = 'Nama    : '+$('#in_nama').val();
-					    		document.getElementById('viw_uname').innerHTML = 'Username    : '+$('#in_username').val();
-					    		document.getElementById('viw_pass').innerHTML = 'Password    : '+$('#in_pass').val();
-					    	}
+				form.validate({
+				    errorPlacement: function errorPlacement(error, element) { element.before(error); },
+				    rules: {
+				        in_nama: { 
+				        	required: true
+				        },
+				        in_nik:{
+				        	required: true
+				        },
+				        in_username:{
+				        	required: true
+				        },
+				        in_pass:{
+				        	required: true
+				        },
+				        rad_district:{
+				        	required: true
+				        },
+				        rad_shift:{
+				        	required: true
+				        },
+				        rad_jabatan:{
+				        	required: true
+				        },
+				        selectlinee:{
+				        	required: true
+				        }
+				    }
+				});	
+				form.children("div").steps({ 
+					headerTag: "h5",
+					bodyTag: "section",
+					transitionEffect: "fade",
+					titleTemplate: '<span class="step">#index#</span> #title#',
+					labels: {
+						finish: "Submit"
+					},
+					 onStepChanging: function (event, currentIndex, newIndex)
+				    {
+				    	if (newIndex==2) {
+				    		console.log('ENDDDD');  
+				    		document.getElementById('viw_nik').innerHTML = 'NIK    : '+$('#in_nik').val();
+				    		document.getElementById('viw_nama').innerHTML = 'Nama    : '+$('#in_nama').val();
+				    		document.getElementById('viw_uname').innerHTML = 'Username    : '+$('#in_username').val();
+				    		document.getElementById('viw_pass').innerHTML = 'Password    : '+$('#in_pass').val();
+				    	}
 
-					        form.validate().settings.ignore = ":disabled,:hidden";
-					        return form.valid();
-					    },
-					    onFinishing: function (event, currentIndex)
-					    {
-					        form.validate().settings.ignore = ":disabled";
-					        return form.valid();
-					    },
-					    onFinished: function (event, currentIndex)
-					    {
-					    	$.ajax({ 
-					    		async: false,
-								type : 'POST',
-								url: '<?php  echo site_url('Users/addUser') ?>',
-								dataType: "JSON",
-								data:{ 
-									nama:$('#in_nama').val(),
-									nik:$('#in_nik').val(),
-									uname:$('#in_username').val(),
-									pass:$('#in_pass').val(),
-									dist:dist,
-									level: level,
-									shift: shift,
-									linemgr:$('#selectlinee').val()
+				        form.validate().settings.ignore = ":disabled,:hidden";
+        				return form.valid();
+				    },
+				    onFinishing: function (event, currentIndex)
+				    {
+				        form.validate().settings.ignore = ":disabled";
+				        return form.valid();
+				    },
+				    onFinished: function (event, currentIndex)
+				    {
+				    	$.ajax({ 
+				    		async: false,
+							type : 'POST',
+							url: '<?php  echo site_url('Users/addUser') ?>',
+							dataType: "JSON",
+							data:{ 
+								nama:$('#in_nama').val(),
+								nik:$('#in_nik').val(),
+								uname:$('#in_username').val(),
+								pass:$('#in_pass').val(),
+								dist:dist,
+								level: level,
+								shift: shift,
+								linemgr:$('#selectlinee').val()
 
-								},
-								success: function(response){
-									// console.log(response);
-									if (response) {
-										Swal.fire({ 
-										  type: 'success',
-										  title: 'Berhasil Menambah Users', 
-										});
-										// document.getElementById('fom_newusr').reset();
-	 									// show();
-									}else {
-										Swal.fire({
-										  type: 'error',
-										  title: 'Oops...',
-										  text: 'Something went wrong!'
-										})
-									}
-									show();
-									document.getElementById('container_home').style.display = 'block';
-	 								document.getElementById('container_newuser').style.display = 'none';
-								}
-							});
-
-					    }
-					}).validate({
-						rules: {
-							in_nama: {
-								required: true
 							},
-							in_nik: {
-								required: true
+							success: function(response){
+								// console.log(response);
+								if (response) {
+									Swal.fire({ 
+									  type: 'success',
+									  title: 'Berhasil Menambah Users', 
+									}).then(function(){
+										location.reload(true);
+									});
+								}else {
+									Swal.fire({
+									  type: 'error',
+									  title: 'Oops...',
+									  text: 'Something went wrong!'
+									}).then(function(){
+										location.reload(true);
+									});
+								} 
 							}
+						});
 
-						}
-					});
+				    }
+				});
 
 				// init
 					$('#selectlinee').select2({ 
