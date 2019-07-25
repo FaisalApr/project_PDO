@@ -54,95 +54,105 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <!-- main container -->
 <div class="main-container">
-	<div class="pd-ltr-20 customscroll customscroll-5-p height-100-p xs-pd-5-10">
+	<div class="pd-ltr-20 customscroll customscroll-5-p height-50-p xs-pd-5-10">
 		
 		<!-- HOME Container -->
 		<div id="container_home" >
 			<!-- Top Widget -->
 			<div class="row clearfix progress-box">
 				 <div class="col-md-2 col-sm-12 mb-30" style="margin-left: -10px; margin-right: -20px">
-					<div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
-						<div class="project-info clearfix">
-							<div class="project-info-left">
-								<div class="icon box-shadow bg-blue text-white">
+					<div class="bg-white pd-20 box-shadow border-radius-5 height-50-p" style="height: 180px">
+						<div class="project-info clearfix" style="margin-top: 10px">
+							<div class="text-center">
+								<p class="weight-400 font-18" style="font-size: 22px">Users Total</p>
+							</div>
+							<div class=" text-center project-info-left">
+								<div class="icon box-shadow bg-blue text-white" style="margin-left: 15px">
 									<i class="icon-copy fa fa-address-card-o"></i>
 								</div>
 							</div>
-							<div class="project-info-right">
-								<span class="no text-blue weight-500 font-24" id="u_tot"></span>
-								<p class="weight-400 font-18">Users Total</p>
+							<div class=" text-center project-info">
+								<span class="no text-blue weight-500 font-24" style="font-size: 50px" id="u_tot"></span>
 							</div>
 						</div> 
 					</div>
 				 </div>
 
 				 <div class="col-md-2 col-sm-12 mb-30" style="margin-left: 0px; margin-right: -20px">
-					<div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
-						<div class="project-info clearfix">
-							<div class="project-info-left">
-								<div class="icon box-shadow bg-light-orange text-white">
+					<div class="bg-white pd-20 box-shadow border-radius-5 height-50-p" style="height: 180px">
+						<div class="project-info clearfix" style="margin-top: 10px">
+							<div class="text-center">
+								<p class="weight-400 font-18" style="font-size: 22px">Shift A Total</p>
+							</div>
+							<div class="text-center project-info-left">
+								<div class="icon box-shadow bg-light-orange text-white" style="margin-left: 15px">
 									<i class="icon-copy fa fa-font" aria-hidden="true"></i>
 								</div>
 							</div>
-							<div class="project-info-right">
-								<span class="no text-light-orange weight-500 font-24" id="tot_a"></span>
-								<p class="weight-400 font-18">Shift A Total</p>
-
+							<div class="text-center project-info">
+								
+								<span class="no text-light-orange weight-500 font-24" style="font-size: 50px" id="tot_a"></span>
 							</div>
 						</div> 
 					</div>
 				 </div>
 
 				 <div class="col-md-2 col-sm-12 mb-30" style="margin-left: 0px; margin-right: -20px">
-					<div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
-						<div class="project-info clearfix">
-							<div class="project-info-left">
-								<div class="icon box-shadow bg-dark text-white">
+					<div class="bg-white pd-20 box-shadow border-radius-5 height-50-p" style="height: 180px">
+						<div class="project-info clearfix" style="margin-top: 10px">
+							<div class="text-center">
+								<p class="weight-400 font-18" style="font-size: 22px">Shift B Total</p>
+							</div>
+							<div class="text-center project-info-left">
+								<div class="icon box-shadow bg-dark text-white" style="margin-left: 15px">
 									<i class="icon-copy fa fa-bold" aria-hidden="true"></i>
 								</div>
 							</div>
-							<div class="project-info-right">
-								<span class="no text-light-dark weight-500 font-24" id="tot_b"></span>
-								<p class="weight-400 font-18">Shift B Total</p>
+							<div class="text-center project-info">
+								<span class="no text-light-dark weight-500 font-24" id="tot_b" style="font-size: 50px"></span>
 							</div>
 						</div> 
 					</div>
 				 </div>
 	  			
 				 <div class="col-md-2 col-sm-12 mb-30" style="margin-left: 0px; margin-right: -20px">
-					<div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
-						<div class="project-info clearfix">
-							<div class="project-info-left">
-								<div class="icon box-shadow bg-light-green text-white">
+					<div class="bg-white pd-20 box-shadow border-radius-5 height-50-p" style="height: 180px">
+						<div class="project-info clearfix" style="margin-top: 10px">
+							<div class="text-center">
+								<p class="weight-400 font-18" style="font-size: 22px">Line Leader Total</p>
+							</div>
+							<div class="text-center project-info-left">
+								<div class="icon box-shadow bg-light-green text-white" style="margin-left: 15px">
 									<i class="icon-copy fa fa-user" aria-hidden="true"></i>
 								</div>
 							</div>
-							<div class="project-info-right">
-								<span class="no text-light-dark weight-500 font-24" id="tot_ll"></span>
-								<p class="weight-400 font-18">Line Leader</p>
+							<div class="text-center project-info">
+								<span class="no text-light-green weight-500 font-24" id="tot_ll" style="font-size: 50px"></span>
 							</div>
 						</div> 
 					</div>
 				 </div>
 
 				 <div class="col-md-2 col-sm-12 mb-30" style="margin-left: 0px; margin-right: -20px">
-					<div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
-						<div class="project-info clearfix">
-							<div class="project-info-left">
-								<div class="icon box-shadow bg-light-purple text-white">
+					<div class="bg-white pd-20 box-shadow border-radius-5 height-50-p" style="height: 180px">
+						<div class="project-info clearfix" style="margin-top: 10px">
+							<div class="text-center">
+								<p class="weight-400 font-18" style="font-size: 21px">Group Leader Total</p>
+							</div>
+							<div class="text-center project-info-left">
+								<div class="icon box-shadow bg-light-purple text-white" style="margin-left: 15px">
 									<i class="icon-copy fa fa-users" aria-hidden="true"></i>
 								</div>
 							</div>
-							<div class="project-info-right">
-								<span class="no text-light-dark weight-500 font-24" id="tot_gl"></span>
-								<p class="weight-400 font-18">Group Leader</p>
+							<div class="text-center project-info">
+								<span class="no text-light-purple weight-500 font-24" id="tot_gl" style="font-size: 50px"></span>
 							</div>
 						</div> 
 					</div>
 				 </div>
 
 				 <div class="col-md-3 col-sm-12 mb-30" style="margin-left: 0px; margin-right: -19px">
-					<div id="chart_userab" style="height: 200px;padding: -25px;">
+					<div id="chart_userab" style="height: 180px;padding: -25px;">
 							
 					</div>
 				 </div>
@@ -157,7 +167,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<p class="font-14">Daftar data seluruh user</p>
 					</div>
 					<div class="pull-right">
-						<a href="#" class="btn btn-success" id="btn_addusr" style="width: 150px"><span class="fa fa-plus"></span> Tambah </a>
+						<a href="#" class="btn btn-success" id="btn_addusr" style="width: 190px"><span class="fa fa-plus"></span> Tambah </a>
 					</div>
 				</div> 
 				<div class="row">
