@@ -448,8 +448,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         if (res) { 
                             id_pdo = res.id;
 
+                            // jika admin
+                            var lv  = <?php echo $ses['level'] ?>; 
+
                           // cek jika itu bukan miliknya
-                            if ($('#id_user').val()==res.id_users) { 
+                            if ($('#id_user').val()==res.id_users || lv==1) { 
                               console.log('MILIKNYA');
                               showIsYou();
                             }else { 

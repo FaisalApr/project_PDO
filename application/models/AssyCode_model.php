@@ -65,6 +65,15 @@ class AssyCode_model extends CI_Model {
         return $query->result();
 	}
 
+	public function getAssyCodeWhereArray($arr)
+	{
+		foreach ($arr as $key => $value) {
+			$this->db->where($value['key'],$value['value']);
+		}
+		$q = $this->db->get('assembly');
+		return $q->result();
+	}
+
 }
 
 /* End of file assyCode_model.php */

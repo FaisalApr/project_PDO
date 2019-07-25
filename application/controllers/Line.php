@@ -6,11 +6,12 @@ class Line extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('LineModel');
+		$this->load->model('LineManagerModel');
 	}
 
 	public function index()
 	{
-		$this->load->view('Line/Line_temp');
+		$this->load->view('Line/Line_home');
 	}
 
 	public function newLine()
@@ -35,10 +36,35 @@ class Line extends CI_Controller {
 		echo json_encode($output);
 	}
 
+	public function getLineBasic()
+	{
+		$core = $this->LineModel->getBasicLine();
+
+		echo json_encode($core);
+	}
+
 	public function getLine()
 	{
 		# code...
-		$data = $this->LineModel->getLine();
+		$core = $this->LineModel->getLine();
+		$data = array();
+
+		foreach ($core as $key) { 
+			$ln = $this->LineManagerModel->getRecordById($key->id_liscarline);	
+			$t_umh = $this->LineManagerModel->getTotUmhByCarline($key->id_liscarline);
+			$d = array(
+					'id_dis' => $key->id_dis,
+					'nama_dis' => $key->nama,
+					'id_carline' => $key->id_carline,
+					'nama_carline' => $key->nama_carline,
+					'id_listcarline' => $key->id_liscarline,
+					'nama_line' => $key->nama_line,
+					'tot_umh' => $t_umh->tot_umh,
+					'data_assy' => $ln
+				);
+			array_push($data, $d);
+		} 
+
 		echo json_encode($data);
 	}
 

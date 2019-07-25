@@ -142,18 +142,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				 </div>
 
 				 <div class="col-md-3 col-sm-12 mb-30" style="margin-left: 0px; margin-right: -19px">
-					<div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
-						<div class="project-info clearfix">
-							<div class="project-info-left">
-								<div class="icon box-shadow bg-light-purple text-white">
-									<i class="icon-copy fa fa-angle-down" aria-hidden="true"></i>
-								</div>
-							</div>
-							<div class="project-info-right">
-								<span class="no text-light-dark weight-500 font-24" id="tot_b"></span>
-								<p class="weight-400 font-18">Grafik</p>
-							</div>
-						</div> 
+					<div id="chart_userab" style="height: 200px;padding: -25px;">
+							
 					</div>
 				 </div>
 
@@ -351,10 +341,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 								</div>
 								<div class="col-md-6">
-									<div class="form-group" id="fom_iusername">
+									<div class="form-group" id="fom_iusername1">
 										<label class="form-control-label">Username</label>
 										<input id="ie_user" name="ie_user" type="text" class="form-control">
-										<div id="tipsss" style="display: none;" class="form-control-feedback">maaf, username ini sudah digunakan. Coba yang lain?</div> 
+										<div id="tipsss1" style="display: none;" class="form-control-feedback">maaf, username ini sudah digunakan. Coba yang lain?</div> 
 									</div>
 
 									<div class="form-group">
@@ -468,6 +458,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?php echo base_url() ?>assets/src/plugins/select2/dist/js/select2.min.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/jquery-validation-1.19.1/dist/jquery.validate.min.js"></script>
 
+	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
+	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script> 
+
 	<script> 
 		$('document').ready(function(){ 
 			// confG
@@ -478,6 +471,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					var id_pdo = 0;
 					var balance_awal=0;
 					var id_target =0;
+					var ieditt;
+					var totA ;
+					var totB ;
 
 				// variabel global	
 					// deklarasi nama bulan
@@ -784,8 +780,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				});
  
  
-			function show() {
-				// console.log('show called :');
+			function show() { 
 				$("#t_user").DataTable().destroy(); 
 				$('#body_user').html('');
 
@@ -801,6 +796,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						var bb = response['bb'];
 						var ll = response['ll'];
 						var gl = response['gl'];
+
+						//  
+						totA = aa.length;
+						totB = bb.length;
+						// Show Chart
+						showChart();
 
 						document.getElementById('u_tot').innerHTML = data.length;
 						document.getElementById('tot_a').innerHTML = aa.length;
@@ -849,6 +850,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						});
 					}
 				});
+
+				
 			}
 
 
@@ -929,10 +932,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	 				});
 				}
+				// edit
+				document.getElementById("ie_user").onchange = function() {myFunction()};
+				function myFunction() {
+					var uname = $('#ie_user').val();
+					$.ajax({ 
+	 					type: 'POST',
+	 					url: '<?php echo site_url("Users/searchUsername") ?>',
+	 					dataType: "JSON",
+	 					data:{
+	 						uname: uname
+	 					},
+	 					success: function(data){
+	 						console.log(data);
+	 						if (data.length==0) { 
+	 							document.getElementById("fom_iusername1").classList.remove("has-danger");
+	 							document.getElementById("ie_user").classList.remove("form-control-danger");
+	 							document.getElementById("ie_user").classList.add("form-control-success"); 
+	 							document.getElementById("tipsss1").style.display= 'none';
+	 						}else{
+	 							if (data[0].id!=ieditt) {
+	 								document.getElementById("ie_user").classList.remove("form-control-success");
+		 							document.getElementById("ie_user").classList.add("form-control-danger");
+		 							document.getElementById("fom_iusername1").classList.add("has-danger");
+		 							document.getElementById("tipsss1").style.display= 'block';
+	 							}else{
+	 								document.getElementById("ie_user").classList.add("form-control-success");
+	 							}
+	 						}
+	 					}
+
+	 				});
+				}
  			
 			// =====   START EDIT USER  ==============
 				$('#t_user').on('click','.item_edit',function(){
 					// memasukkan data dari row terpilih kedalam id inputa di modal
+					ieditt = $(this).data('idu');
 					$('#id_u').val( $(this).data('idu') );
 					$('#ie_nik').val( $(this).data('nik') );
 					$('#ie_nama').val( $(this).data('nama') );
@@ -1047,6 +1083,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							}); 
 					    }
 
+					document.getElementById("fom_iusername1").classList.remove("has-danger");
 	 				$('#modal_edit_user').modal('show');
 				}); 
 				// validasi
@@ -1274,6 +1311,67 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				});	
 			// ===== END DELETE  USERS  ======
 
+
+			// SHOW CHART
+			function showChart() {
+
+				var opt_indef = {
+							title: {
+						        text: 'Shift A & B'
+						    }, 
+						    chart: {
+						        renderTo: 'chart_userab',
+						        type: 'column'
+						    },
+						    xAxis: {
+						        type: 'category'
+						    },
+						    yAxis: {
+						        title: {
+						            text: 'Man Power'
+						        } 
+						    },
+						    legend: {
+						        enabled: false
+						    }, 
+						    plotOptions: {
+						        series: {
+						            borderWidth: 0,
+						            dataLabels: {
+						                enabled: true,
+						                format: '{point.y}'
+						            }
+						        }
+						    }, 
+						    tooltip: {
+						        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+						        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b><br/>'
+						    }, 
+						    series: [
+						        {
+						            name: "Users",
+						            data: (function(){
+									        	var da = [{
+						                    				name: 'Shift A',
+						                    				y: totA,
+						                    				color: '#F46867'
+					                    				},
+					                    				{
+						                    				name: 'Shift B',
+						                    				y: totB,
+						                    				color: '#343A40'
+					                    				}
+					                    				]; 
+
+									        	return da;
+								        	}()
+								        )  
+						        }
+						    ],
+		            	}; 
+
+				var chart_user = new Highcharts.Chart(opt_indef); 
+			}
  			
 			// FUnc OPT
 				// isi DATA DROPDOWN LINE

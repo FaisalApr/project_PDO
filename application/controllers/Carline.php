@@ -42,7 +42,20 @@ class Carline extends CI_Controller {
 	{
 		# code...
 		$data = $this->CarlineModel->getCarline();
-		echo json_encode($data);
+		$arr_data = array();
+		foreach ($data as $key => $value) {
+			// isi
+			$data = $this->CarlineModel->getRecordById($value->id_carline);
+			array_push($arr_data, array(
+									'id_carline' => $value->id_carline,
+									'id_district' => $value->id_district,
+									'nama' => $value->nama,
+									'nama_carline' => $value->nama_carline,
+									'data_cr' => $data
+									));	
+		}
+
+		echo json_encode($arr_data);
 	}
 
 	public function updateCarline()
@@ -66,24 +79,26 @@ class Carline extends CI_Controller {
 // detail carline
 
 	public function newLC()
-	{
-		# code...
+	{ 
 		// init
 		$output = array('error' => false);
+		$selc_mgr = $this->input->post('id_line');
+		$id_cr = $this->input->post('id_carline');
+		foreach ($selc_mgr as $key => $value) {
+			$data_LC = array(
+				'id_carline' => $id_cr,
+				'id_line' => $value
+			);
+			// insert data new defect
+			$result = $this->CarlineModel->create($data_LC);
 
-		// data new
-		$data_LC = array(
-			'id_carline' => $this->input->post('id_carline'),
-			'id_line' => $this->input->post('id_line')
-		);
-		// insert data new defect
-		$result = $this->CarlineModel->create($data_LC);
-		if($result){
-			$output ['status'] = "ok";
-			
-		}else{
-			$output['error'] = true;
-		}
+			if($result){
+				$output ['status'] = "ok";
+				
+			}else{
+				$output['error'] = true;
+			}
+		}   
 		echo json_encode($output);
 	}
 
@@ -108,10 +123,31 @@ class Carline extends CI_Controller {
 		echo json_encode($data);
 	}
 	public function getLine()
-	{
-		# code...
-		$data = $this->CarlineModel->getLine();
-		echo json_encode($data);
+	{ 
+		$selted_line = $this->input->post('data');
+		$arr_where = [];
+
+		// jika ini array
+		if (is_array($selted_line)) {  
+			foreach ($selted_line as $key) {
+				$tmp = array(
+					'key' => 'id !=',
+					'value' => $key['id_line']
+					);
+				array_push($arr_where, $tmp);
+			}
+		}
+		$data = $this->CarlineModel->getLineArrWhere($arr_where);
+
+		$arr_dat = array();
+		foreach ($data as $key => $val) {  
+			array_push($arr_dat, array(
+										 'id' => $val->id,
+					      				'text' => $val->nama_line
+									));
+		} 
+ 		
+		echo json_encode($arr_dat);
 	}
 
 }

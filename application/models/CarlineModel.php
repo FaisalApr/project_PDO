@@ -26,7 +26,7 @@ class CarlineModel extends CI_Model {
 	public function getCarline()
 	{
 		# code...
-		$query = $this->db->query('SELECT carline.id as id_carline, carline.nama_carline, district.id as id_district , district.nama from carline join district on carline.id_district=district.id');
+		$query = $this->db->query('SELECT carline.id as id_carline, carline.nama_carline, district.id as id_district , district.nama from carline join district on carline.id_district=district.id order by carline.nama_carline asc');
 		return $query->result();
 	}
 
@@ -78,8 +78,7 @@ class CarlineModel extends CI_Model {
 		return $result;
 	}
 	public function getLine()
-	{
-		# code...
+	{ 
 		// urut berdasarkan abjad
 		$this->db->order_by('nama_line','asc');
 		// get data
@@ -87,6 +86,14 @@ class CarlineModel extends CI_Model {
 		return $query->result();
 	}
 
+	public function getLineArrWhere($arr)
+	{
+		foreach ($arr as $key => $value) {
+			$this->db->where($value['key'],$value['value']);
+		}
+		$q = $this->db->get('line');
+		return $q->result();
+	}
 
 	public function getCarlineByDistric($dis)
 	{

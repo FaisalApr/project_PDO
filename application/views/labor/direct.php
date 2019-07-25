@@ -881,7 +881,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   id_pdo = res.id;
 
                                 // cek jika itu bukan miliknya
-                                  if ($('#id_user').val()==res.id_users) { 
+                                var lv  = <?php echo $ses['level'] ?>; 
+                                
+                                  if ($('#id_user').val()==res.id_users || lv==1) { 
                                     console.log('MILIKNYA') 
                                     isyou(id_pdo)  
                                     isi_dropdown(res.id); 

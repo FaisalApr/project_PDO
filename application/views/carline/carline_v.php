@@ -123,9 +123,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		        <div class="modal fade" id="i_line-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		          <div class="modal-dialog modal-dialog-centered">
 		            <div class="modal-content">
-		              <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+		              <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
 		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		                <h2 class="text-center mb-30">Carline</h2>
+		                <h2 class="text-center mb-30">Carline Baru</h2>
 		                <!-- form start -->
 		                <form id="form_input_carline">
 		                  <!-- input -->
@@ -143,14 +143,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<input type="text" class="form-control" placeholder="Nama Line " id="i_nama" required>
 								<div class="valid-feedback"></div>
 	    						
-							</div>
-		
-		                  
+							</div>  
 		                  <!-- button submit -->
 		                  <div class="row">
 								<div class="col-sm-12">
 									<div class="input-group">	
-										<a class="btn btn-primary btn-lg btn-block" href="#" id="btn_line_submit">Submit</a>
+										<a class="btn btn-primary btn-lg btn-block" href="#" id="btn_line_submit">Buat Craline</a>
 									</div>
 								</div>
 							</div>
@@ -165,7 +163,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			      <div class="modal fade" id="CLModalUpdt" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 			        <div class="modal-dialog modal-dialog-centered">
 			          <div class="modal-content">
-			            <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+			            <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
 			              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			              <h2 class="text-center mb-30">Update Line</h2>
 			              <!-- form start -->
@@ -228,25 +226,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<!-- kumpulan modal -->
 			<!-- modal input -->
 		        <div class="modal fade" id="i_line2-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		          <div class="modal-dialog modal-dialog-centered">
+		          <div class="modal-dialog modal-dialog-lg">
 		            <div class="modal-content">
-		              <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+		              <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
 		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		                <h2 class="text-center mb-30">Line</h2>
+		                <h2 class="text-center mb-30">Tambahkan Line </h2>
 		                <!-- form start -->
 		                <form id="form_input_line2">
 		                 <!-- input -->
-		                  	<div class="input-group custom input-group-lg">
-								<select class="custom-select col-12" name="i_line" id="pilihline">
-									
+		                  	<div class="input-group custom input-group-lg"> 
+		                  		<label>Pilih Line :</label>
+								<select class="select2 js-states form-control" id="pilihline_forcarline" name="pilihline_forcarline" multiple="multiple" style="width: 100%;height: 400px;">
+  
 								</select>
 							</div>
-		                  
+		                  	<p id="txt_totlineselect">Total Line : 200</p>
 		                  <!-- button submit -->
 		                  <div class="row">
 								<div class="col-sm-12">
 									<div class="input-group">	
-										<a class="btn btn-primary btn-lg btn-block" href="#" id="btn_line2_submit">Submit</a>
+										<a class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit_foraddline">Tambahkan Line</a>
 									</div>
 								</div>
 							</div>
@@ -261,7 +260,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			      <div class="modal fade" id="updt_line_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 			        <div class="modal-dialog modal-dialog-centered">
 			          <div class="modal-content">
-			            <div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+			            <div class="bg-white box-shadow pd-ltr-20 border-radius-5">
 			              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			              <h2 class="text-center mb-30">Update Line</h2>
 			              <!-- form start -->
@@ -357,134 +356,103 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					var id_tgl = $('#id_tgl').val();
 					var id_pdo = 0;
 					var balance_awal=0;
-					var id_target =0;
-				// variabel global	
-					// deklarasi nama bulan
-		 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-		 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+					var id_target =0; 
+					var carline_id;
+					var mData;
+				// ConFiG
+					// variabel global	
+						// deklarasi nama bulan
+			 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+			 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 
-		 			var today = new Date(id_tgl);
-					var currentMonth = today.getMonth();
-					var currentYear = today.getFullYear();
-					var currDate = today.getDate();
-					// Set this month
-					var daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
-					var awalDay =1;
-				// aditional PICKER DATE  
-					// SETTING DEFAULT DATE
-		 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
-		            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
+			 			var today = new Date(id_tgl);
+						var currentMonth = today.getMonth();
+						var currentYear = today.getFullYear();
+						var currDate = today.getDate();
+						// Set this month
+						var daysInMonth = 32 - new Date(currentYear, currentMonth, 32).getDate();
+						var awalDay =1;
+					// aditional PICKER DATE  
+						// SETTING DEFAULT DATE
+			 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
+			            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
 
 
-					$(".inputs").keyup(function () {
-					    if (this.value.length == this.maxLength) {
-					      $(this).select();
-					      $(this).next('.inputs').focus();  
-					    }
-					});
+						$(".inputs").keyup(function () {
+						    if (this.value.length == this.maxLength) {
+						      $(this).select();
+						      $(this).next('.inputs').focus();  
+						    }
+						});
 
-					$("input").click(function () {
-					   $(this).select();
-					}); 	 
-				// TrigGER PIlih TANGGAL
-					$('.date-pickerrr').datepicker({   
-						language: "en",
-						firstDay: 1,  
-					    onSelect: function(selected, d, calendar) {   
-					    	// jika yang dipilih sama 
-					    	if (selected=='') { 
-					    		var tod = new Date(id_tgl);  
+						$("input").click(function () {
+						   $(this).select();
+						}); 	 
+					// TrigGER PIlih TANGGAL
+						$('.date-pickerrr').datepicker({   
+							language: "en",
+							firstDay: 1,  
+						    onSelect: function(selected, d, calendar) {   
+						    	// jika yang dipilih sama 
+						    	if (selected=='') { 
+						    		var tod = new Date(id_tgl);  
 
-					    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-					    		calendar.hide();
-					    		return ;
-					    	}else{
-					    		// post data additional
-					    		id_tgl = new Date(selected);
-					    		var tod = new Date(selected); 
-						    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-						    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+						    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+						    		calendar.hide();
+						    		return ;
+						    	}else{
+						    		// post data additional
+						    		id_tgl = new Date(selected);
+						    		var tod = new Date(selected); 
+							    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+							    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
 
-						    	// post new data additional
-						    	updateOpt();
-					    	} 
-					    	calendar.hide();
+							    	// post new data additional
+							    	updateOpt();
+						    	} 
+						    	calendar.hide();
 
-					    	// refresh 
-					    	// showplanning();
-				    		// cariDataPdo();
-				    		// cekHariini(); 
-					    }
-					});
-				// TRIGGEr line Change
-					$('#select_line').on('select2:select',function(e){
-						var data = e.params.data;
-						
-						id_line = data.id ;
-						// update opt to server
-						updateOpt();  
-						// cekHariini();
-						// console.log(data); 
-						// console.log('ln:'+id_line+'|sf:'+id_shift); 
-					});
-				// PILIH SHIFTY 
-					$('#drop_shiftt').on('click','.pilih_sf',function(){
-						var ssf = $(this).data('value'); 
-		 
-						if (ssf==1) {
-							document.getElementById('id_sifname').innerHTML= 'A';
-							document.getElementById('sf_a').classList.add("aktip");
-							document.getElementById('sf_b').classList.remove("aktip"); 	
-						} else{
-							document.getElementById('id_sifname').innerHTML= 'B';
-							document.getElementById('sf_b').classList.add("aktip");	
-							document.getElementById('sf_a').classList.remove("aktip");	
-						}
+						    	// refresh 
+						    	// showplanning();
+					    		// cariDataPdo();
+					    		// cekHariini(); 
+						    }
+						});
+					// TRIGGEr line Change
+						$('#select_line').on('select2:select',function(e){
+							var data = e.params.data;
+							
+							id_line = data.id ;
+							// update opt to server
+							updateOpt();  
+							// cekHariini();
+							// console.log(data); 
+							// console.log('ln:'+id_line+'|sf:'+id_shift); 
+						});
+					// PILIH SHIFTY 
+						$('#drop_shiftt').on('click','.pilih_sf',function(){
+							var ssf = $(this).data('value'); 
+			 
+							if (ssf==1) {
+								document.getElementById('id_sifname').innerHTML= 'A';
+								document.getElementById('sf_a').classList.add("aktip");
+								document.getElementById('sf_b').classList.remove("aktip"); 	
+							} else{
+								document.getElementById('id_sifname').innerHTML= 'B';
+								document.getElementById('sf_b').classList.add("aktip");	
+								document.getElementById('sf_a').classList.remove("aktip");	
+							}
 
-						id_shift = ssf; 
-						id_line = $('#select_line').val();
+							id_shift = ssf; 
+							id_line = $('#select_line').val();
 
-						// update opt to server
-						updateOpt();   
-					});
+							// update opt to server
+							updateOpt();   
+						});
 				
 				// ====  AUTOLOAD =====  
 				loadDropdown();
-				show();
-
-				// datatable
-					$('.data-table-export').DataTable({
-						scrollCollapse: true,
-						autoWidth: false,
-						responsive: true,
-						columnDefs: [{
-							targets: "datatable-nosort",
-							orderable: false,
-						}],
-						"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-						"language": {
-							"info": "_START_-_END_ of _TOTAL_ entries",
-							searchPlaceholder: "Search"
-						},
-						dom: 'Bfrtip',
-						buttons: [
-						'copy', 'csv', 'pdf', 'print'
-						]
-					});
-					var table = $('.select-row').DataTable();
-					$('.select-row tbody').on('click', 'tr', function () {
-						if ($(this).hasClass('selected')) {
-							$(this).removeClass('selected');
-						}
-						else {
-							table.$('tr.selected').removeClass('selected');
-							$(this).addClass('selected');
-						}
-					});
-					var multipletable = $('.multiple-select-row').DataTable();
-					$('.multiple-select-row tbody').on('click', 'tr', function (){
-						$(this).toggleClass('selected');
-					});
+				show(); 
 
 				// crud view 1
 					// create
@@ -522,7 +490,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					            type  : 'ajax',
 					            url   : '<?php echo base_url();?>index.php/carline/getCarline',
 					            dataType : 'JSON',
-					            success : function(data){
+					            success : function(data){ 
 						            var html = '';
 						            var i;
 						            var a=0;
@@ -535,28 +503,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						                '<th style="vertical-align: middle; text-align: center;">'+data[i].nama_carline+'</th>'+
 						                '<th style="vertical-align: middle; text-align: center;">'+data[i].nama+'</th>'+
 						                '<th style="vertical-align: middle; text-align: center;">';
-						                $.ajax({
-								            async :false,
-								            type  : 'post',
-								            url   : '<?php echo base_url();?>index.php/Carline/getUserById',
-								            dataType : 'JSON',
-								            data :{id:data[i].id_carline },
-								            success : function(respon){
-								            		var limit = 0;
-								            		if(respon.length>5){
-								            			limit = 5;
-								            		}else{
-								            			limit = respon.length;
-								            		}
-								            		for(var j=0;j<limit; j++){
-								            			html +=
-								            			respon[j].nama_line+ ' , ';
-								            		}
-								            		html+=
-								            		' ('+respon.length+')';
+						                	// 
+						                		var limit = 0;
+						                		var isover = false;
 
-								            	}
-								            });
+							            		if(data[i].data_cr.length>5){
+							            			limit = 5;
+							            			isover = true;
+							            		}else{
+							            			limit = data[i].data_cr.length;
+							            		}
+							            			// perulang
+								            		for(var j=0;j<limit; j++){
+								            			if (j==(limit-1)) { 
+								            				// 
+								            				if (isover==true) {
+									            				html +=
+									            				data[i].data_cr[j].nama_line+ ', ...';
+									            			}else {
+									            				html +=
+									            				data[i].data_cr[j].nama_line;
+									            			} 
+								            			}else {
+								            				html +=
+								            				data[i].data_cr[j].nama_line+ ` , `;	
+								            			}  
+								            		}
+							            		// total
+							            		html+=
+							            		' ('+data[i].data_cr.length+')';
+						                	// 
 						                html +='</th>'+
 						                '<th>'+
 						                  '<div class="dropdown" style="vertical-align: middle; text-align: center;">'+
@@ -564,10 +540,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						                        '<i class="fa fa-ellipsis-h"></i>'+
 						                      '</a>'+                     
 						                      '<div class="dropdown-menu dropdown-menu-right">'+
+						                      	'<a class="dropdown-item item_view" href="#" data-nama="'+data[i].nama_carline+'" data-id="'+data[i].id_carline+'"><i class="fa fa-eye"></i> Detail </a>'+
 						                        '<a class="dropdown-item item_edit" href="#" data-id_district="'+data[i].id_district+'" data-nama_d="'+data[i].nama+'" data-id_carline="'+data[i].id_carline+'" data-nama_carline="'+data[i].nama_carline+'"><i class="fa fa-pencil"></i> Edit </a>'+
-						                        '<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id_carline+'"><i class="fa fa-trash"></i> Hapus </a>'+
-						                        '<a class="dropdown-item item_view" href="#" data-nama="'+data[i].nama_carline+'" data-id="'+data[i].id_carline+'"><i class="fa fa-eye"></i> Detail </a>'+
-						                      
+						                        '<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id_carline+'"><i class="fa fa-trash"></i> Hapus </a>'+ 						                      
 						                      '</div>'+
 						                    '</div>'+
 						                '</th>'+
@@ -674,16 +649,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				            });
 
 				// crud view 2
-				    // view
-				    	var coba;
+				    // view 
 						 $('#tbl_body').on('click','.item_view',function(){
 						 	var nama = $(this).data('nama');
-						 	coba = $(this).data('id');
-						 	// alert(coba);
+						 	carline_id = $(this).data('id');
+						 	// alert(carline_id);
 						 	document.getElementById('v_nama').innerHTML = ' Carline ' + nama;
 						 	document.getElementById('cont_1').style.display="none";
 						 	document.getElementById('cont_2').style.display="block";
-						 	sv();
+						 	showIsiCarline();
 						 });
 					// button back
 						$('#btn_back').click(function(){
@@ -692,22 +666,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							 show();
 						});
 					// create
-						$('#btn_line2_submit').click(function(){
+						$('#btn_submit_foraddline').click(function(){
 
-							var id_carline = coba;
-							var id_line = $('#pilihline').val()
-							
+							var id_carline = carline_id;
+							var id_line = $('#pilihline_forcarline').val()
+							 
+							//
 							$.ajax({
 								async : false,
 								type : "POST",
-								url : "<?php echo base_url() ?>index.php/Carline/newLC",
-							
+								url : "<?php echo base_url() ?>index.php/Carline/newLC", 
 								dataType : "JSON",
-								data : {
-									
+								data : { 
 									id_carline:id_carline,
-									id_line: id_line
-									
+									id_line: id_line 
 								},
 								success : function(response){
 									$('#i_line2-modal').modal('hide');
@@ -719,90 +691,85 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									document.getElementById("form_input_line2").reset();
 								}
 							});
-							sv();
+							showIsiCarline();
 						});
 					// read
-						function sv(){
-								// alert(coba);
+						function showIsiCarline(){ 
 						 		var dataline ;
+
 								$.ajax({
 								    async :false,
 							        type  : 'post',
 						            url   : '<?php echo base_url();?>index.php/Carline/getListById',
 						            dataType : 'JSON',
-						            data : {id:coba},
+						            data : {id:carline_id},
 						            success : function(data){
-						            dataline = data;
-						            var html = '';
-						            var i;
-						            var a=0;
-						            // var data = data_lm.data_lm;
-						            for(i=0; i<data.length; i++){
-
-
-
-						              html += 
-							            '<tr>'+
-						                '<th style="vertical-align: middle; text-align: center;">'+(i+1)+'</th>'+  
-								         '<th style="vertical-align: middle; text-align: center;">'+data[i].nama_line+'</th>'+
-								        '<th>'+
-								        '<div class="dropdown" style="vertical-align: middle; text-align: center;">'+
-								          '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
-								            '<i class="fa fa-ellipsis-h"></i>'+
-								          '</a>'+                     
-								          '<div class="dropdown-menu dropdown-menu-right">'+
-								          '<a class="dropdown-item item_delete2" href="#" data-id2="'+data[i].id_list+'"><i class="fa fa-trash"></i> Hapus </a>'+
-								                      
-								          '</div>'+
-								        '</div>'+
-								        '</th>'+
-							            '</tr>';
-
-								            }		  
-								            $('#ta_user').DataTable().destroy();          
-								            $('#tbl_body2').html(html);  
-								            $('#ta_user').DataTable({
-												scrollCollapse: true,
-												autoWidth: false,
-												responsive: true,
-												columnDefs: [{
-													targets: "datatable-nosort",
-													orderable: false,
-												}],
-												"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-												"language": {
-													"info": "_START_-_END_ of _TOTAL_ entries",
-													searchPlaceholder: "Search"
-												},
-											});
+							            	mData = data;
+							            	console.log(data); 
+								            var html = '';
+								            var i;
+								            var a=0;
+							            // var data = data_lm.data_lm;
+							            for(i=0; i<data.length; i++){  
+							              	html += 
+									            '<tr>'+
+								                '<th style="vertical-align: middle; text-align: center;">'+(i+1)+'</th>'+  
+										         '<th style="vertical-align: middle; text-align: center;">'+data[i].nama_line+'</th>'+
+										        '<th>'+
+										        '<div class="dropdown" style="vertical-align: middle; text-align: center;">'+
+										          '<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
+										            '<i class="fa fa-ellipsis-h"></i>'+
+										          '</a>'+                     
+										          '<div class="dropdown-menu dropdown-menu-right">'+
+										          '<a class="dropdown-item item_delete2" href="#" data-id2="'+data[i].id_list+'"><i class="fa fa-trash"></i> Hapus </a>'+
+										                      
+										          '</div>'+
+										        '</div>'+
+										        '</th>'+
+									            '</tr>'; 
+							            }		  
+							            $('#ta_user').DataTable().destroy();          
+							            $('#tbl_body2').html(html);  
+							            $('#ta_user').DataTable({
+											scrollCollapse: true,
+											autoWidth: false,
+											responsive: true,
+											columnDefs: [{
+												targets: "datatable-nosort",
+												orderable: false,
+											}],
+											"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+											"language": {
+												"info": "_START_-_END_ of _TOTAL_ entries",
+												searchPlaceholder: "Search"
+											},
+										});
 								    }
 
 								});
 
+
+								// dropdown select
 								$.ajax({
 					                    async : false,
-					                    type  : 'ajax',
+					                    type  : 'POST',
 					                    url   : '<?php echo base_url();?>index.php/Carline/getLine',
 					                    dataType : 'JSON',
+					                    data:{
+					                    	data:mData
+					                    },
 					                    success : function(dat){ 
-					                    	html = '<option disabled selected> Pilih Line </option>';
-					 
-					                    	// mengulang jika ada yang sama dengan column head 
-					                		for (var i = 0; i < dat.length; i++) { 
-					                			var skip = false;
-					                			for (var ii = 0; ii < dataline.length; ii++) {  
-						                			// jika ada assy yang sama dengan header tidak ditampilkan
-						                			if (dat[i].nama_line==dataline[ii].nama_line) {
-						                				skip = true;
-						                			}
-						                		}
-						                		if (skip==false) { 
-					                				html +='<option value="'+dat[i].id+'">'+dat[i].nama_line+'</option>';
-					                			}  
-					                    	}  
-
-											$('#pilihline').html(html);
-											// $('#pilihasy1').html(html);
+					                     	// console.log(dat);
+					                     	document.getElementById('txt_totlineselect').innerHTML= 'Sisa Line : '+dat.length;
+					                     	$('#pilihline_forcarline').empty();
+											$('#pilihline_forcarline').select2({ 
+								 				placeholder: 'Pilih Line ',
+								 				// allowClear: true, 
+								 				closeOnSelect: false,
+								 				tags: true,
+								 				data: dat 
+								 			});
+					                     	 
 					                    }
 					                });
 							 }
@@ -840,7 +807,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				                        $('#confirmation2-modal').modal('hide');
 				                        // refresh()
 				                        
-				                sv();
+				                showIsiCarline();
 				                    }
 				                });
 				                return false;
@@ -849,73 +816,73 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 				// FUnc OPT
-				// isi DATA DROPDOWN LINE
-					function loadDropdown() {
-						var idu = $('#id_user').val();
-						var lv  = <?php echo $ses['level'] ?>; 
+					// isi DATA DROPDOWN LINE
+						function loadDropdown() {
+							var idu = $('#id_user').val();
+							var lv  = <?php echo $ses['level'] ?>; 
 
-						// jika admin
-						if (lv==1) {
-							var id_district = <?php echo $ses['id_district'] ?>; 
+							// jika admin
+							if (lv==1) {
+								var id_district = <?php echo $ses['id_district'] ?>; 
 
-							$.ajax({
-								type: 'POST',
-								url: '<?php echo site_url("Users/getListLineCarlineByAdmin");?>',
-								dataType: "JSON",
-								data:{
-									id_district: id_district
-								},
-								success: function(data){ 
-			 						$('#select_line').empty();
-			 						$('#select_line').select2({ 
-						 				placeholder: 'Pilih Line ',
-						 				minimumResultsForSearch: -1,
-						 				data:data
+								$.ajax({
+									type: 'POST',
+									url: '<?php echo site_url("Users/getListLineCarlineByAdmin");?>',
+									dataType: "JSON",
+									data:{
+										id_district: id_district
+									},
+									success: function(data){ 
+				 						$('#select_line').empty();
+				 						$('#select_line').select2({ 
+							 				placeholder: 'Pilih Line ',
+							 				minimumResultsForSearch: -1,
+							 				data:data
 
-						 			});
-								}
+							 			});
+									}
 
-							});
-						}else {
-							$.ajax({
-								type: 'POST',
-								url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
-								dataType: "JSON",
-								data:{
-									id_user:idu
-								},
-								success: function(data){  
-			 						
-			 						$('#select_line').empty();
-			 						$('#select_line').select2({ 
-						 				placeholder: 'Pilih Line ',
-						 				minimumResultsForSearch: -1,
-						 				data:data
+								});
+							}else {
+								$.ajax({
+									type: 'POST',
+									url: '<?php echo site_url("Users/getListLineCarlineByUser");?>',
+									dataType: "JSON",
+									data:{
+										id_user:idu
+									},
+									success: function(data){  
+				 						
+				 						$('#select_line').empty();
+				 						$('#select_line').select2({ 
+							 				placeholder: 'Pilih Line ',
+							 				minimumResultsForSearch: -1,
+							 				data:data
 
-						 			});
-								}
+							 			});
+									}
 
-							});
-						}  
+								});
+							}  
 
-					}
-				// UPDATE isi Sesion
-					function updateOpt() {
-						$.ajax({ 
-			                type  : 'POST',
-			                url   : '<?php echo site_url();?>/Login/updateDataOpt',
-			                dataType : 'JSON',  
-			                data:{
-			                	tgl: id_tgl,
-			                	sif: id_shift,
-			                	line: id_line
-			                },
-			                success : function(res){   
-								console.log(res);
-			                }
+						}
+					// UPDATE isi Sesion
+						function updateOpt() {
+							$.ajax({ 
+				                type  : 'POST',
+				                url   : '<?php echo site_url();?>/Login/updateDataOpt',
+				                dataType : 'JSON',  
+				                data:{
+				                	tgl: id_tgl,
+				                	sif: id_shift,
+				                	line: id_line
+				                },
+				                success : function(res){   
+									console.log(res);
+				                }
 
-			            });
-					}
+				            });
+						}
 
 				// Import FIle
 					$('#import_form').on('submit', function(event){

@@ -88,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
-					<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+					<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 						<!-- <img src="vendors/images/login-img.png" alt="login" class="login-img"> -->
 
@@ -113,11 +113,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="input-group">
-										<!--
-											use code for form submit
-											<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
-										-->
+									<div class="input-group"> 
 										<a class="btn btn-primary btn-lg btn-block" href="#" id="btn_submit">Submit</a>
 									</div>
 								</div>
@@ -133,11 +129,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="modal fade" id="Modal_upd" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
-					<div class="login-box bg-white box-shadow pd-ltr-20 border-radius-5">
+					<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 						<!-- <img src="vendors/images/login-img.png" alt="login" class="login-img"> -->
 
-						<h2 class="text-center mb-30">Assembly Code</h2>
+						<h2 class="text-center mb-30">Update Assembly Code</h2>
 						<form id="formupdate">
 							<div class="input-group custom input-group-lg">
 								
@@ -157,16 +153,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="row">
 								<div class="col-sm-12">
-									<div class="input-group">
-										<!--
-											use code for form submit
-											<input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
-										-->
-										<a id="btn_update" type="submit" class="btn btn-primary btn-lg btn-block" href="#" >Update</a>
+									<div class="input-group"> 
+										<a class="btn btn-primary btn-lg btn-block" href="#" id="btn_update">Update</a>
 									</div>
 								</div>
-							</div>
-						
+							</div>  
 						</form>
 					</div>
 				</div>
@@ -390,7 +381,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									'</td>'+
 								'</tr>';    
                             }
-                            $('#tbl_body').html(html);    
+                            $('.data-table').DataTable().destroy();
+                            $('#tbl_body').html(html);  
+                            $('.data-table').DataTable({
+								scrollCollapse: true,
+								autoWidth: false,
+								responsive: true,
+								columnDefs: [{
+									targets: "datatable-nosort",
+									orderable: false,
+								}],
+								"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+								"language": {
+									"info": "_START_-_END_ of _TOTAL_ entries",
+									searchPlaceholder: "Search"
+								},
+							});  
                             
                         }
                     });
@@ -427,25 +433,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 				});
 				show();
-			});
-
-			
-
-
-			$('.data-table').DataTable({
-				scrollCollapse: true,
-				autoWidth: false,
-				responsive: true,
-				columnDefs: [{
-					targets: "datatable-nosort",
-					orderable: false,
-				}],
-				"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-				"language": {
-					"info": "_START_-_END_ of _TOTAL_ entries",
-					searchPlaceholder: "Search"
-				},
-			});
+			}); 
 
 
 			

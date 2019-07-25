@@ -10,32 +10,32 @@ class LineManager extends CI_Controller {
 	}
 
 	public function index()
-	{
-		// $data['data_line'] = $this->LineManagerModel->getLine();
-		// $data['data_assy'] = $this->LineManagerModel->getAssy();
-		// $this->load->view('LineManager/LineMgr', $data);
-		$this->load->view('Line/Line_temp');
+	{ 
+		$this->load->view('lineManager/Line_mgr');
 	}
 
 	public function newLM()
-	{
-		# code...
+	{ 
 		// init
-		$output = array('error' => false);
+		$output['error'] = false;
 
-		// data new
-		$dataLM = array(
-			'id_line' => $this->input->post('id_line'),
-			'id_assy' => $this->input->post('id_assy')
-		);
-		// insert data new defect
-		$result = $this->LineManagerModel->create($dataLM);
-		if($result){
-			// $output ['status'] = "ok";
-			
-		}else{
-			$output['error'] = true;
+		$crline = $this->input->post('id_carline');
+		$arr_mgr = $this->input->post('assymgr');
+		
+		$err = array();
+		foreach ($arr_mgr as $key => $value) {
+			$dataLM = array(
+				'id_list_carline' => $crline,
+				'id_assy' => $value
+			);
+			$res = $this->LineManagerModel->create($dataLM);
+			if (!$res) {
+				array_push($err, $dataLM );
+				$output['error'] = true;
+			}
 		}
+		$output['lst_err'] = $err;
+
 		echo json_encode($output);
 	}
 

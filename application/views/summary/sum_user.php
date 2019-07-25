@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<div class="pull-right" style="text-align: center;">
 				Sisa Balance Bulan ini : <br>
-				<label style="font-size: 28px;" id="id_sisa_balance">-18</label>
+				<label style="font-size: 28px;" id="id_sisa_balance">0</label>
 				<!-- <a href="#" id="btn_changesped" ><i class="fa fa-cog" aria-hidden="true"></i></a> -->
 			</div>
 			<div id="planres" style="height: 350px;padding: 10px;"></div>

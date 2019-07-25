@@ -103,6 +103,41 @@ class Assycode extends CI_Controller {
 		echo json_encode($result);
 	}
 
+
+	public function getAssyCodeLineAssy()
+	{ 
+		$pilih = $this->input->post('data');
+		$arr_where = [];
+
+		// jika ini array
+		if (is_array($pilih)) {  
+			foreach ($pilih as $key) {
+				$tmp = array(
+					'key' => 'id !=',
+					'value' => $key['id']
+					);
+				array_push($arr_where, $tmp);
+			}
+		}
+		$data = $this->AssyCode_model->getAssyCodeWhereArray($arr_where);
+ 
+ 		
+ 		// ======================
+		$arr_dat = array();
+		foreach ($data as $key => $val) {
+			$txt = $val->kode_assy." (".$val->umh.")";
+
+			$tmp = array(
+					 'id' => $val->id,
+      				'text' => $txt
+				);
+			array_push($arr_dat, $tmp);
+		} 
+
+		echo json_encode($arr_dat);
+	}
+
+
 }
 
 /* End of file assycode.php */

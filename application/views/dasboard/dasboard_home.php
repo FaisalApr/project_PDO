@@ -651,7 +651,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<h5 class="text-center weight-500">MH Out</h5>
 							</div>
 							<div class="project-info-right" style="margin-top: -23px">
-								<a href="#" id="trigger_mhout" class="text-right"><i class="fa fa-cog fa-spin" aria-hidden="true"></i></a>	
+								<a href="#" id="trigger_mhout" class="text-right"><i class="fa fa-cog fa-spin" aria-hidden="true"></i></a>
 							</div>
 						</div>
 						
@@ -679,7 +679,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<h5 class="text-center weight-500">MH IN</h5>
 							</div>
 							<div class="project-info-right" style="margin-top: -23px">
-								<a href="#" class="text-right" id="triger_mhin"><i class="fa fa-cog fa-spin" aria-hidden="true"></i></a>	
+								<a href="#" class="text-right" id="triger_mhin"><i class="fa fa-cog fa-spin" aria-hidden="true"></i></a>
 							</div>
 						</div>
 						<div class="card-body"> 
@@ -713,7 +713,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 
 							<div class="project-info-right" style="margin-top: -23px">
-								<a href="#" id="trigger_eff" class="text-right"><i class="fa fa-cog fa-spin" aria-hidden="true"></i></a>	
+								<a href="#" id="trigger_eff" class="text-right"><i class="fa fa-cog fa-spin" aria-hidden="true"></i></a>
 							</div>
 						</div> 
 						<div class="card-body"> 
@@ -797,20 +797,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<p class="mb-30 font-14">Step Wizard PDO</p>
 			</div>
 			<div class="wizard-content">
-				<form class="tab-wizard wizard-circle wizard">
+				<form class="tab-wizard wizard-circle wizard" id="fom_new_pdo">
 					<h5>Direct Labor Info</h5>
 					<section>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label >Standart DL :</label>
-									<input class="form-control" type="number" id="f_std_dl" value="0" min="0" max="200">
+									<input class="form-control" type="number" id="f_std_dl" name="f_std_dl" value="0" min="1" max="200">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label >Reg DL :</label>
-									<input class="form-control" type="number" id="f_reg_dl" value="0" min="0" max="200">
+									<input class="form-control" type="number" id="f_reg_dl" name="f_reg_dl" value="0" min="0" max="200">
 								</div>
 							</div>
 						</div>
@@ -818,13 +818,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Jam Overtime :</label>
-									<input class="form-control" type="number" id="f_jam_ot" value="0" min="0" max="4">
+									<input class="form-control" type="number" id="f_jam_ot" name="f_jam_ot" value="0" min="0" max="4">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>DL Overtime :</label>
-									<input class="form-control" type="number" id="f_dl_ot" value="0" min="0" max="4">
+									<input class="form-control" type="number" id="f_dl_ot" name="f_dl_ot" value="0" min="0" max="4">
 								</div>
 							</div>
 						</div> 
@@ -837,13 +837,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-md-6">
 								<div class="form-group">
 									<label >Standart IDL :</label>
-									<input class="form-control" type="number" id="f_std_idl" value="0" min="0" max="50">
+									<input class="form-control" type="number" id="f_std_idl" name="f_std_idl" value="0" min="0" max="50">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label >Reg IDL :</label>
-									<input class="form-control" type="number" id="f_reg_idl" value="0" min="0" max="50">
+									<input class="form-control" type="number" id="f_reg_idl" name="f_reg_idl" value="0" min="0" max="50">
 								</div>
 							</div>
 						</div>
@@ -851,13 +851,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Jam Overtime :</label>
-									<input class="form-control" type="number" id="f_jam_ot_idl" value="0" min="0" max="4">
+									<input class="form-control" type="number" id="f_jam_ot_idl" name="f_jam_ot_idl" value="0" min="0" max="4">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>IDL Overtime :</label>
-									<input class="form-control" type="number" id="f_idl_ot" value="0" min="0" max="4">
+									<input class="form-control" type="number" id="f_idl_ot" name="f_idl_ot" value="0" min="0" max="4">
 								</div>
 							</div>
 						</div> 
@@ -967,6 +967,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<script src="<?php echo base_url() ?>assets/src/plugins/select2/dist/js/select2.min.js"></script>
 		<!-- DATE PICKER -->
 		<script src="<?php echo base_url() ?>assets/src/plugins/daterangepicker/daterangepicker.js"></script>
+		<script src="<?php echo base_url() ?>assets/src/plugins/jquery-validation-1.19.1/dist/jquery.validate.min.js"></script>
 
 	<script> 
 		$('document').ready(function(){ 
@@ -3154,7 +3155,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 
-			// ===== WIZARD PDO WEEELLLCOOMEEEE ===
+		// ===== WIZARD PDO WEEELLLCOOMEEEE ===
 			// ARRAY new direct Activity 
 				var activ = []; 
 				 
@@ -3183,7 +3184,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		        }
 
 			// init wizard
-				$(".tab-wizard").steps({
+				var form = $("#fom_new_pdo");
+				form.validate({
+				    errorPlacement: function errorPlacement(error, element) { element.before(error); },
+				    rules: {
+				        f_std_dl: { 
+				        	required: true
+				        },
+				        f_reg_dl:{
+				        	required: true
+				        },
+				        f_jam_ot:{
+				        	required: true
+				        },
+				        f_dl_ot:{
+				        	required: true
+				        },
+				        f_std_idl:{
+				        	required: true
+				        },
+				        f_reg_idl:{
+				        	required: true
+				        },
+				        f_jam_ot_idl:{
+				        	required: true
+				        },
+				        f_idl_ot:{
+				        	required: true
+				        }
+				    }
+				});	
+				form.steps({
 					headerTag: "h5",
 					bodyTag: "section",
 					transitionEffect: "fade",
@@ -3191,9 +3222,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					labels: {
 						finish: "Create"
 					},
-					onStepChanged: function (event, currentIndex, priorIndex) {
+					onStepChanging: function (event, currentIndex, newIndex)
+					{
 						$('.steps .current').prevAll().addClass('disabled');
+						form.validate().settings.ignore = ":disabled,:hidden";
+        				return form.valid();
 					},
+					onFinishing: function (event, currentIndex)
+				    {
+				        form.validate().settings.ignore = ":disabled";
+				        return form.valid();
+				    },
 					onFinished: function (event, currentIndex) {
 						if (document.getElementById("ini_pernyataan").checked==true) {
 							// dl
@@ -3286,7 +3325,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 					}
 				});
-	// ======== TRIGER 
+		// ======== TRIGER 
 			// tombol buat pdo plann baru 
 				$('#btn_newplan').click(function()
 				{    

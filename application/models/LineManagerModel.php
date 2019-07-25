@@ -49,8 +49,14 @@ class LineManagerModel extends CI_Model {
 	public function getRecordById($id)
 	{
 		# code...
-		$q = $this->db->query('SELECT * FROM line_manager join assembly on line_manager.id_assy=assembly.id where line_manager.id_list_carline='.$id);
+		$q = $this->db->query('SELECT *,line_manager.id as id_lnmgr FROM line_manager join assembly on line_manager.id_assy=assembly.id where line_manager.id_list_carline='.$id);
 		return $q->result();
+	}
+
+	public function getTotUmhByCarline($id)
+	{ 
+		$q = $this->db->query('SELECT COALESCE(sum(assembly.umh),0) as tot_umh FROM line_manager join assembly on line_manager.id_assy=assembly.id where line_manager.id_list_carline='.$id);
+		return $q->first_row();
 	}
 
 	public function getLineManById($id)
