@@ -62,16 +62,32 @@ class Users_model extends CI_Model {
 
 	public function getAllUserA()
 	{
-		$query = $this->db->get_where('users',array('id_shift'=>1));
+		$query = $this->db->get_where('users',array('id_shift'=>1, 'level!='=>1, 'active'=>1));
         return $query->result();
 	}
 
 	public function getAllUserB()
 	{
-		$query = $this->db->get_where('users',array('id_shift' =>2));
+		$query = $this->db->get_where('users',array('id_shift' =>2, 'level!='=>1, 'active'=>1));
         return $query->result();
 	}
- 
+ 	
+	public function getAllUserLL()
+	{
+		# code...
+		$query = $this->db->get_where('users',array('level'=>2, 'active'=>1));
+        return $query->result();
+	}
+
+	public function getAllUserGL()
+	{
+		# code...
+		$this->db->where("(level=3 or level=4)",null,false);
+		$this->db->where("active=1");
+		$query = $this->db->get('users');
+        return $query->result();
+	}
+
 	public function getUserJobLine($idu)
 	{
 		$q = $this->db->query("SELECT * 

@@ -60,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div id="container_home" >
 			<!-- Top Widget -->
 			<div class="row clearfix progress-box">
-				 <div class="col-lg-2 col-md-4 col-sm-12 mb-30">
+				 <div class="col-md-2 col-sm-12 mb-30" style="margin-left: -10px; margin-right: -20px">
 					<div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
 						<div class="project-info clearfix">
 							<div class="project-info-left">
@@ -76,28 +76,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 				 </div>
 
-				 <div class="col-lg-2 col-md-4 col-sm-12 mb-30">
+				 <div class="col-md-2 col-sm-12 mb-30" style="margin-left: 0px; margin-right: -20px">
 					<div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
 						<div class="project-info clearfix">
 							<div class="project-info-left">
 								<div class="icon box-shadow bg-light-orange text-white">
-									<i class="icon-copy fa fa-sun-o" aria-hidden="true"></i>
+									<i class="icon-copy fa fa-font" aria-hidden="true"></i>
 								</div>
 							</div>
 							<div class="project-info-right">
 								<span class="no text-light-orange weight-500 font-24" id="tot_a"></span>
 								<p class="weight-400 font-18">Shift A Total</p>
+
 							</div>
 						</div> 
 					</div>
 				 </div>
 
-				 <div class="col-lg-2 col-md-4 col-sm-12 mb-30">
+				 <div class="col-md-2 col-sm-12 mb-30" style="margin-left: 0px; margin-right: -20px">
 					<div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
 						<div class="project-info clearfix">
 							<div class="project-info-left">
 								<div class="icon box-shadow bg-dark text-white">
-									<i class="icon-copy fa fa-moon-o" aria-hidden="true"></i>
+									<i class="icon-copy fa fa-bold" aria-hidden="true"></i>
 								</div>
 							</div>
 							<div class="project-info-right">
@@ -107,7 +108,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div> 
 					</div>
 				 </div>
-	  
+	  			
+				 <div class="col-md-2 col-sm-12 mb-30" style="margin-left: 0px; margin-right: -20px">
+					<div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
+						<div class="project-info clearfix">
+							<div class="project-info-left">
+								<div class="icon box-shadow bg-light-green text-white">
+									<i class="icon-copy fa fa-user" aria-hidden="true"></i>
+								</div>
+							</div>
+							<div class="project-info-right">
+								<span class="no text-light-dark weight-500 font-24" id="tot_ll"></span>
+								<p class="weight-400 font-18">Line Leader</p>
+							</div>
+						</div> 
+					</div>
+				 </div>
+
+				 <div class="col-md-2 col-sm-12 mb-30" style="margin-left: 0px; margin-right: -20px">
+					<div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
+						<div class="project-info clearfix">
+							<div class="project-info-left">
+								<div class="icon box-shadow bg-light-purple text-white">
+									<i class="icon-copy fa fa-users" aria-hidden="true"></i>
+								</div>
+							</div>
+							<div class="project-info-right">
+								<span class="no text-light-dark weight-500 font-24" id="tot_gl"></span>
+								<p class="weight-400 font-18">Group Leader</p>
+							</div>
+						</div> 
+					</div>
+				 </div>
+
+				 <div class="col-md-3 col-sm-12 mb-30" style="margin-left: 0px; margin-right: -19px">
+					<div class="bg-white pd-20 box-shadow border-radius-5 height-100-p">
+						<div class="project-info clearfix">
+							<div class="project-info-left">
+								<div class="icon box-shadow bg-light-purple text-white">
+									<i class="icon-copy fa fa-angle-down" aria-hidden="true"></i>
+								</div>
+							</div>
+							<div class="project-info-right">
+								<span class="no text-light-dark weight-500 font-24" id="tot_b"></span>
+								<p class="weight-400 font-18">Grafik</p>
+							</div>
+						</div> 
+					</div>
+				 </div>
+
 			</div>
 			<!-- Tabel -->
 			<!-- Simple Datatable start -->
@@ -168,7 +217,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-md-6">
 									<div class="form-group">
 										<label for="in_nik" >NIK :</label>
-										<input id="in_nik" name="in_nik" type="Number" class=" form-control" minlength="5">
+										<input id="in_nik" name="in_nik" type="Number" class=" form-control" minlength="1">
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -748,12 +797,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					success: function(response){   
 						// console.log(response); 
 						var data = response['all'];
-						// var aa = response['aa'];
-						// var bb = response['bb'];
+						var aa = response['aa'];
+						var bb = response['bb'];
+						var ll = response['ll'];
+						var gl = response['gl'];
 
 						document.getElementById('u_tot').innerHTML = data.length;
-						// document.getElementById('tot_a').innerHTML = aa.length;
-						// document.getElementById('tot_b').innerHTML = bb.length;
+						document.getElementById('tot_a').innerHTML = aa.length;
+						document.getElementById('tot_b').innerHTML = bb.length;
+						document.getElementById('tot_ll').innerHTML = ll.length;
+						document.getElementById('tot_gl').innerHTML = gl.length;
 
 						// user tabel update proses
 						for (var i = 0; i < data.length; i++) { 

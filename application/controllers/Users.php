@@ -125,9 +125,10 @@ class Users extends CI_Controller {
 	public function showUser()
 	{
 		$all = $this->Users_model->getAllUser();
-		
-		// $result['aa'] = $this->Users_model->getAllUserA();
-		// $result['bb'] = $this->Users_model->getAllUserB();
+		$result['ll'] = $this->Users_model->getAllUserLL();
+		$result['gl'] = $this->Users_model->getAllUserGL();
+		$result['aa'] = $this->Users_model->getAllUserA();
+		$result['bb'] = $this->Users_model->getAllUserB();
 
 		$dataUsr = array();
 		foreach ($all as $key) {
