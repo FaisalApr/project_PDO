@@ -651,7 +651,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<h5 class="text-center weight-500">MH Out</h5>
 							</div>
 							<div class="project-info-right" style="margin-top: -23px">
-								<a href="#" id="trigger_mhout" class="text-right"><i class="fa fa-cog" aria-hidden="true"></i></a>	
+								<a href="#" id="trigger_mhout" class="text-right"><i class="fa fa-cog fa-spin" aria-hidden="true"></i></a>	
 							</div>
 						</div>
 						
@@ -679,7 +679,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<h5 class="text-center weight-500">MH IN</h5>
 							</div>
 							<div class="project-info-right" style="margin-top: -23px">
-								<a href="#" class="text-right" id="triger_mhin"><i class="fa fa-cog" aria-hidden="true"></i></a>	
+								<a href="#" class="text-right" id="triger_mhin"><i class="fa fa-cog fa-spin" aria-hidden="true"></i></a>	
 							</div>
 						</div>
 						<div class="card-body"> 
@@ -713,7 +713,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 
 							<div class="project-info-right" style="margin-top: -23px">
-								<a href="#" id="trigger_eff" class="text-right"><i class="fa fa-cog" aria-hidden="true"></i></a>	
+								<a href="#" id="trigger_eff" class="text-right"><i class="fa fa-cog fa-spin" aria-hidden="true"></i></a>	
 							</div>
 						</div> 
 						<div class="card-body"> 
