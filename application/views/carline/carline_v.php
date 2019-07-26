@@ -11,6 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<!-- CSS -->
 		<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/jquery.dataTables.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
@@ -346,6 +347,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.bootstrap4.js"></script>
 		<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.responsive.js"></script>
 		<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/responsive.bootstrap4.js"></script>
+		<!-- add sweet alert js & css in footer -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>
 
 	<!-- ajax -->
 		<script> 
@@ -471,8 +474,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									id_district:company,
 									nama_carline:nama
 								},
+								beforeSend: function(){
+									Swal.showLoading();
+								},
 								success : function(response){
-										  $('#i_line-modal').modal('hide');
+									Swal.close();
+									$('#i_line-modal').modal('hide');
 									if(response.error){
 										// alert('error');
 									}else{
@@ -601,8 +608,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				                    		nama_carline:namaup,
 				                    		id_district:id_D
 				                    		},
-
+				                    beforeSend: function(){
+										Swal.showLoading();
+									},
 				                    success: function(data){
+				                    	Swal.close();
 				                    	$('#CLModalUpdt').modal('hide'); 
 				                        // refresh();
 				                        show();
@@ -637,7 +647,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				                    url  : "<?php echo site_url(); ?>/Carline/delCarline",
 				                    dataType : "JSON",
 				                    data : {id:id_dc_delete},
+				                    beforeSend: function(){
+										Swal.showLoading();
+									},
 				                    success: function(){
+				                        Swal.close();
 				                        $('[name="id_dc_delete"]').val("");
 				                        $('#confirmation-modal').modal('hide');
 				                        // refresh()
@@ -681,7 +695,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									id_carline:id_carline,
 									id_line: id_line 
 								},
+								beforeSend: function(){
+									Swal.showLoading();
+								},
 								success : function(response){
+									Swal.close();
 									$('#i_line2-modal').modal('hide');
 									if(response.error){
 										// alert('error');
@@ -802,7 +820,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				                    url  : "<?php echo site_url(); ?>/Carline/delLC",
 				                    dataType : "JSON",
 				                    data : {id:id_dc_delete},
+				                    beforeSend: function(){
+										Swal.showLoading();
+									},
 				                    success: function(){
+				                        Swal.close();
 				                        $('[name="id_dc_delete2"]').val("");
 				                        $('#confirmation2-modal').modal('hide');
 				                        // refresh()
@@ -877,7 +899,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				                	sif: id_shift,
 				                	line: id_line
 				                },
+				                beforeSend: function(){
+									Swal.showLoading();
+								},
 				                success : function(res){   
+									Swal.close();
 									console.log(res);
 				                }
 
@@ -895,7 +921,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							contentType:false,
 							cache:false,
 							processData:false,
+							beforeSend: function(){
+								Swal.showLoading();
+							},
 							success:function(data){
+								Swal.close();
 								$('#file').val('');
 								console.log(data);
 								$('#modal_importexcl').modal('hide');

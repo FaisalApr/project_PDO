@@ -11,6 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
@@ -538,7 +539,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								id_carline: id_carline,
 								assymgr: id_assy
 							},
+							beforeSend: function(){
+								Swal.showLoading();
+							},
 							success : function(response){
+								Swal.close();
 								// console.log(response.error); 
 								$('#i_line2-modal').modal('hide');
 								if(response.error){
@@ -573,7 +578,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                    url  : "<?php echo site_url(); ?>/LineManager/delLM",
 			                    dataType : "JSON",
 			                    data : {id:id_dc_delete},
+			                    beforeSend: function(){
+									Swal.showLoading();
+								},
 			                    success: function(data){
+			                    	Swal.close();
 			                    	console.log('sukses');
 
 			                        $('#id_del_assyline').val("");

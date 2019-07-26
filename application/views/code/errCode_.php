@@ -11,6 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	
 	<!-- CSS -->
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
@@ -180,6 +181,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <!-- Script Start -->
 <script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script>
+
+	<!-- add sweet alert js & css in footer -->
+	<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>
 
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.bootstrap4.js"></script>
@@ -384,8 +388,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							def_code:def_code,
 							def_ket:def_ket
 						},
+						beforeSend: function(){
+	                		Swal.showLoading();
+	                	},
 						success : function(response){
-								  $('#login-modal').modal('hide');
+							Swal.close();
+							// Swal.hideLoading();
+							$('#login-modal').modal('hide');
 							if(response.error){
 								// alert('error');
 							}else{

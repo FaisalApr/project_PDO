@@ -12,6 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/jquery.dataTables.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/responsive.dataTables.css">
@@ -148,6 +149,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 	<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script>
+	<!-- add sweet alert js & css in footer -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.bootstrap4.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.responsive.js"></script>
@@ -357,8 +360,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						data : {
 							nama_line:nama
 						},
+						beforeSend: function(){
+	                		Swal.showLoading();
+	                	},
 						success : function(response){
-							
+							Swal.close();
+							// Swal.hideLoading();	
 							$('#i_line-modal').modal('hide');
 							if(response.error){
 								// alert('error');

@@ -422,8 +422,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						def_code:def_code,
 						def_umh:def_umh
 					},
+					beforeSend: function(){
+						Swal.showLoading();
+					},
 					success : function(response){
-							  $('#login-modal').modal('hide');
+						Swal.close();
+						$('#login-modal').modal('hide');
 						if(response.error){
 							// alert('error');
 						}else{
@@ -466,7 +470,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     url  : "<?php echo site_url(); ?>/AssyCode/delAssyCode",
                     dataType : "JSON",
                     data : {id:id_dc_delete},
+                    beforeSend: function(){
+						Swal.showLoading();
+					},
                     success: function(){
+                        Swal.close();
                         $('[name="id_dc_delete"]').val("");
                         $('#confirmation-modal').modal('hide');
                         // refresh()
@@ -539,8 +547,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     		id:idkode,
                     		kode_assy:kodeup,
                     		umh:umhup},
-
+                    beforeSend: function(){
+						Swal.showLoading();
+					},
                     success: function(data){
+                    	Swal.close();
                     	$('#Modal_upd').modal('hide'); 
                         // refresh();
                         show();
@@ -650,7 +661,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                	sif: id_shift,
 		                	line: id_line
 		                },
+		                beforeSend: function(){
+							Swal.showLoading();
+						},
 		                success : function(res){   
+							Swal.close();
 							console.log(res);
 		                }
 
@@ -669,7 +684,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					contentType:false,
 					cache:false,
 					processData:false,
+					beforeSend: function(){
+						Swal.showLoading();
+					},
 					success:function(data){
+						Swal.close();
 						$('#file').val('');
 						console.log(data);
 						$('#modal_importexcl').modal('hide');

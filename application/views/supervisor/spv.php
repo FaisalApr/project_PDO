@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 	<!-- CSS -->
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
 		<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/jquery.dataTables.css">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/datatables/media/css/dataTables.bootstrap4.css">
@@ -349,6 +350,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <!-- grup script -->
 	<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script>
+	<!-- add sweet alert js & css in footer -->
+		<script src="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.bootstrap4.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/datatables/media/js/dataTables.responsive.js"></script>
@@ -574,7 +577,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								nama:nama,
 								passcode,passcode
 							},
+							beforeSend: function(){
+								Swal.showLoading();
+							},
 							success : function(response){
+							  	Swal.close();
 							  	$('#i_line-modal').modal('hide');
 								if(response.error){
 									// alert('error');
@@ -698,8 +705,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                    		nik:nik,
 			                    		passcode:passcode
 			                    		},
-
+			                    	beforeSend: function(){
+										Swal.showLoading();
+									},
 			                    success: function(data){
+			                    	Swal.close();
 			                    	$('#CLModalUpdt').modal('hide'); 
 			                        // refresh();
 			                        show();
@@ -734,7 +744,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                    url  : "<?php echo site_url(); ?>/Supervisor/delSpv",
 			                    dataType : "JSON",
 			                    data : {id:id_dc_delete},
+			                    beforeSend: function(){
+									Swal.showLoading();
+								},
 			                    success: function(){
+			                        Swal.close();
 			                        $('[name="id_dc_delete"]').val("");
 			                        $('#confirmation-modal').modal('hide');
 			                        // refresh()
@@ -780,7 +794,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								id_spv:id_spv,
 								linemgr: id_line 
 							},
+							beforeSend: function(){
+								Swal.showLoading();
+							},
 							success : function(response){
+								Swal.close();
 								$('#i_line2-modal').modal('hide');
 								console.log('sukses:');
 								console.log(response);
@@ -877,7 +895,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                    url  : "<?php echo site_url(); ?>/Supervisor/delSM",
 			                    dataType : "JSON",
 			                    data : {id:id_dc_delete},
+			                    beforeSend: function(){
+									Swal.showLoading();
+								},
 			                    success: function(){
+			                        Swal.close();
 			                        $('[name="id_dc_delete2"]').val("");
 			                        $('#confirmation2-modal').modal('hide');
 			                        // refresh()
@@ -998,7 +1020,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                	sif: id_shift,
 			                	line: id_line
 			                },
+			                beforeSend: function(){
+								Swal.showLoading();
+							},
 			                success : function(res){   
+								Swal.close();
 								console.log(res);
 			                }
 

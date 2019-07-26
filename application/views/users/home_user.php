@@ -895,7 +895,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 						sif: sif,
 	 						ln: ln
 	 					},
+	 					beforeSend: function(){
+							Swal.showLoading();
+						},
 	 					success: function(data){
+	 						Swal.close();
 	 						if (data) {
 	 							document.getElementById('fom_addusr').reset();
 	 							show();
@@ -1159,8 +1163,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								shift: i_sf,
 								linemgr:i_ln
 							},
+							beforeSend: function(){
+								Swal.showLoading();
+							},
 							success: function(response){ 
-
+								Swal.close();
 								if (!response.error) {
 									Swal.fire({ 
 									  type: 'success',
@@ -1296,7 +1303,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 					data:{
 	 						idu: idu
 	 					},
+	 					beforeSend: function(){
+							Swal.showLoading();
+						},
 	 					success: function(data){ 
+	 						swal.close();
 	 						show(); 
 
 	 						if (data) { 
@@ -1445,7 +1456,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                	sif: id_shift,
 			                	line: id_line
 			                },
+			                beforeSend: function(){
+								Swal.showLoading();
+							},
 			                success : function(res){   
+								swal.close();
 								console.log(res);
 			                }
 
