@@ -295,8 +295,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						                    	id_line:id_line
 						                    },
 						                    success : function(res){   
-						                    	console.log('ini res this month');
-						                    	console.log(res);
+						                    	// console.log('ini res this month');
+						                    	// console.log(res);
 						                    	if (res) {    
 						                    		// BALANCE SETTING
 						                    		document.getElementById('btn_changebalance').style.display = 'inline';
@@ -314,7 +314,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						                    		balance_awal=0;
 						                    		document.getElementById('btn_changebalance').style.display = 'none';
 						                    	}
-						                    	console.log(da);
+						                    	// console.log(da);
 						                    }
 						                });  
 
@@ -369,13 +369,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						                    	tgl: id_tgl,
 						                    	id_line:id_line
 						                    }, 
-						                    success : function(res){  
+						                    success : function(res){ 
+						                    console.log('ini data eff B:');
+						                    console.log(res) ;
+
 						                    	for (var i = 0 ; i < res.length ; i++) { 
 										        		//parsing tanggal
-										        		const tgl = new Date(res[i].tanggal);
+										        		const tgl = new Date(res[i].tanggal).getTime();
 
-										    var a = [Date.UTC(tgl.getFullYear(),(tgl.getMonth()+1),tgl.getDate()), parseFloat(res[i].direct_eff) ]; 
-	 
+													    var a = [tgl, parseFloat(res[i].direct_eff) ]; 
+	
 										        		da.push(a);
 										        }	
 						                    }
@@ -745,7 +748,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											        }	
 							                    }
 							                });
-								        	console.log(defA);
+								        	// console.log(defA);
 
 								        	return da;
 							        	}()
@@ -802,7 +805,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											        }	
 							                    }
 							                });
-								        	console.log(defB);
+								        	// console.log(defB);
 
 								        	return da;
 							        	}()

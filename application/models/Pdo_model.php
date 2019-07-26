@@ -44,12 +44,34 @@ class Pdo_model extends CI_Model {
 	{
 		$query = $this->db->query("SELECT *,main_pdo.id as id_pdo 
 									FROM main_pdo  
-										JOIN shift on main_pdo.id_shift=shift.id  
+										JOIN shift on main_pdo.id_shift=shift.id 
 									WHERE 
 										date(tanggal)=date('$date') AND 
 									    main_pdo.id_listcarline=$line AND
-									    main_pdo.id_shift=$sif");
-		return $query->first_row();
+									    main_pdo.id_shift=$sif"); 
+		if ($query->num_rows()>=1) {
+			return $query->first_row();
+		}else{
+			return false;
+		}
+	}
+
+	public function getDataPdoExport($date,$sif,$line)
+	{
+		$query = $this->db->query("SELECT *,main_pdo.id as id_pdo 
+									FROM main_pdo  
+										JOIN shift on main_pdo.id_shift=shift.id
+										JOIN list_carline on main_pdo.id_listcarline= list_carline.id
+										JOIN line on list_carline.id_line=line.id
+									WHERE 
+										date(tanggal)=date('$date') AND 
+									    main_pdo.id_listcarline=$line AND
+									    main_pdo.id_shift=$sif"); 
+		if ($query->num_rows()>=1) {
+			return $query->first_row();
+		}else{
+			return false;
+		}
 	}
 
 	public function pdoById($id_pdo) 

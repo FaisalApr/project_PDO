@@ -251,7 +251,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				var id_shift = $('#id_shift').val();
 				var id_tgl = $('#id_tgl').val();
 				var id_pdo = 0;
-
 			// variabel global	
 				// deklarasi nama bulan
 	 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
@@ -362,17 +361,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								if (res) { 
 									id_pdo = res.id;
 
-									// admin bebas
+									// CEK LEVEL
 									var lv  = <?php echo $ses['level'] ?>; 
+									// APA SAYA GL
+									if (lv==4 || lv==3) {
+										console.log('Ternyata saya GL');
+										// apa ini punya sif SAYA
+										var sif_ori = <?php echo $ses['id_shift'] ?>;
+										 
+										if (sif_ori==id_shift) {  // --> INI SIFNYA DIA
+											console.log('MILIKNYA');
+		                    				show(res.id); 
 
-									// cek jika itu bukan miliknya
-		                    		if ($('#id_user').val()==res.id_users || lv==1) { 
-		                    			console.log('MILIKNYA')  
+										}else{ // ---> BUKAN PUNYA SAYA 
+											console.log('not YOU');  
+		                    				showNotYou(res.id);
+										} 
+									}else{ //--> LL & ADMIN BEBAS MASUK  
+										console.log('ADMIN LL BEBAS');
 		                    			show(res.id);  
-		                    		}else { 
-		                    			console.log('not YOU');  
-		                    			showNotYou(res.id);
-		                    		}     
+									}
+
 		                    		// isi Dropdown jam ke
 		                    		isi_dropdown(res.id);
 

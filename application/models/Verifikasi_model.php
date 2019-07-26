@@ -29,6 +29,25 @@ class Verifikasi_model extends CI_Model {
 		}
 	}
 
+	public function cariAssyUmh0($ln,$sf)
+	{
+		$q = $this->db->query("SELECT * 
+								FROM main_pdo 
+									JOIN build_assy ON build_assy.id_pdo= main_pdo.id
+								    JOIN assembly ON build_assy.id_assy=assembly.id
+								WHERE 
+									main_pdo.id_listcarline=$ln AND
+								    main_pdo.id_shift=$sf AND
+									tanggal>=(now() - INTERVAL 21 DAY) AND
+								    assembly.umh=0
+								    ");
+		if ($q->num_rows()>0) {
+			return $q->first_row();
+		}else{
+			return false;
+		}
+	}
+
 }
 
 /* End of file verifikasi_model.php */

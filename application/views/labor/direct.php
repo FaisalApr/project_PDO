@@ -880,19 +880,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               if (res) { 
                                   id_pdo = res.id;
 
-                                // cek jika itu bukan miliknya
-                                var lv  = <?php echo $ses['level'] ?>; 
-                                
-                                  if ($('#id_user').val()==res.id_users || lv==1) { 
-                                    console.log('MILIKNYA') 
-                                    isyou(id_pdo)  
-                                    isi_dropdown(res.id); 
-                                    // show_regout();
-                                  }else { 
-                                    console.log('not YOU');  
-                                    notyou(res.id); 
-                                    // show_regout();
-                                  }      
+                                  // CEK LEVEL
+                                  var lv  = <?php echo $ses['level'] ?>; 
+                                  // APA SAYA GL
+                                  if (lv==4 || lv==3) {
+                                    console.log('Ternyata saya GL');
+                                    // apa ini punya sif SAYA
+                                    var sif_ori = <?php echo $ses['id_shift'] ?>;
+                                     
+                                    if (sif_ori==id_shift) {  // --> INI SIFNYA DIA
+                                        console.log('MILIKNYA') 
+                                        isyou(id_pdo)  
+                                        isi_dropdown(res.id); 
+
+                                    }else{ // ---> BUKAN PUNYA SAYA 
+                                        console.log('not YOU');  
+                                        notyou(res.id); 
+                                    } 
+                                  }else{ //--> LL & ADMIN BEBAS MASUK 
+                                      console.log('ADMIN LL BEBAS');
+                                      isyou(id_pdo)  
+                                      isi_dropdown(res.id); 
+                                  }  
+
                                   // show
                                   document.getElementById('no_pdodata').style.display = 'none';
                                   document.getElementById('container_maindata').style.display = 'block';

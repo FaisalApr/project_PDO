@@ -319,105 +319,102 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script> 
 		$('document').ready(function(){
-			// VAR CORE
-				var id_line = $('#id_line').val();
-				var id_shift = $('#id_shift').val();
-				var id_tgl = $('#id_tgl').val();
-				var id_pdo = 0;
+			// COnFG
+				// VAR CORE
+					var id_line = $('#id_line').val();
+					var id_shift = $('#id_shift').val();
+					var id_tgl = $('#id_tgl').val();
+					var id_pdo = 0;
+				// variabel global	
+					// deklarasi nama bulan
+		 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+		 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 
-			// variabel global	
-				// deklarasi nama bulan
-	 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-	 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-
-	 			var today = new Date(id_tgl);
-				var currentMonth = today.getMonth();
-				var currentYear = today.getFullYear();
-				var currDate = today.getDate();
-				var submited = false;		 
-			// aditional PICKER DATE  
-				// SETTING DEFAULT DATE
-	 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
-	            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
+		 			var today = new Date(id_tgl);
+					var currentMonth = today.getMonth();
+					var currentYear = today.getFullYear();
+					var currDate = today.getDate();
+					var submited = false;		 
+				// aditional PICKER DATE  
+					// SETTING DEFAULT DATE
+		 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
+		            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
 
 
-				$(".inputs").keyup(function () {
-				    if (this.value.length == this.maxLength) {
-				      $(this).select();
-				      $(this).next('.inputs').focus();  
-				    }
-				});
+					$(".inputs").keyup(function () {
+					    if (this.value.length == this.maxLength) {
+					      $(this).select();
+					      $(this).next('.inputs').focus();  
+					    }
+					});
 
-				$("input").click(function () {
-				   $(this).select();
-				}); 
- 
-			
-			// TrigGER PIlih TANGGAL
-				$('.date-pickerrr').datepicker({   
-					language: "en",
-					firstDay: 1,  
-				    onSelect: function(selected, d, calendar) {   
-				    	// jika yang dipilih sama 
-				    	if (selected=='') { 
-				    		var tod = new Date(id_tgl);  
+					$("input").click(function () {
+					   $(this).select();
+					}); 	
+				// TrigGER PIlih TANGGAL
+					$('.date-pickerrr').datepicker({   
+						language: "en",
+						firstDay: 1,  
+					    onSelect: function(selected, d, calendar) {   
+					    	// jika yang dipilih sama 
+					    	if (selected=='') { 
+					    		var tod = new Date(id_tgl);  
 
-				    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-				    		calendar.hide();
-				    		return ;
-				    	}else{
-				    		// post data additional
-				    		id_tgl = new Date(selected);
-				    		var tod = new Date(selected); 
-					    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-					    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+					    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+					    		calendar.hide();
+					    		return ;
+					    	}else{
+					    		// post data additional
+					    		id_tgl = new Date(selected);
+					    		var tod = new Date(selected); 
+						    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+						    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
 
-					    	// post new data additional
-					    	updateOpt();
-				    	} 
-				    	calendar.hide();
+						    	// post new data additional
+						    	updateOpt();
+					    	} 
+					    	calendar.hide();
 
-				    	// refresh 
-				    	cekHariini(); 
-				    }
-				});
-			// TRIGGEr line Change
-				$('#select_line').on('select2:select',function(e){
-					var data = e.params.data;
-					
-					id_line = data.id ;
-					// update opt to server
-					updateOpt(); 
-					cekHariini(); 
-				});
-			// PILIH SHIFTY 
-				$('#drop_shiftt').on('click','.pilih_sf',function(){
-					var ssf = $(this).data('value'); 
-	 
-					if (ssf==1) {
-						document.getElementById('id_sifname').innerHTML= 'A';
-						document.getElementById('sf_a').classList.add("aktip");
-						document.getElementById('sf_b').classList.remove("aktip"); 	
-					} else{
-						document.getElementById('id_sifname').innerHTML= 'B';
-						document.getElementById('sf_b').classList.add("aktip");	
-						document.getElementById('sf_a').classList.remove("aktip");	
-					}
+					    	// refresh 
+					    	cekHariini(); 
+					    }
+					});
+				// TRIGGEr line Change
+					$('#select_line').on('select2:select',function(e){
+						var data = e.params.data;
+						
+						id_line = data.id ;
+						// update opt to server
+						updateOpt(); 
+						cekHariini(); 
+					});
+				// PILIH SHIFTY 
+					$('#drop_shiftt').on('click','.pilih_sf',function(){
+						var ssf = $(this).data('value'); 
+		 
+						if (ssf==1) {
+							document.getElementById('id_sifname').innerHTML= 'A';
+							document.getElementById('sf_a').classList.add("aktip");
+							document.getElementById('sf_b').classList.remove("aktip"); 	
+						} else{
+							document.getElementById('id_sifname').innerHTML= 'B';
+							document.getElementById('sf_b').classList.add("aktip");	
+							document.getElementById('sf_a').classList.remove("aktip");	
+						}
 
-					id_shift = ssf; 
-					id_line = $('#select_line').val();
+						id_shift = ssf; 
+						id_line = $('#select_line').val();
 
-					// update opt to server
-					updateOpt(); 
-					cekHariini();
-				});
+						// update opt to server
+						updateOpt(); 
+						cekHariini();
+					});
 			
 
 			// ====  AUTOLOAD =====
 				// var name_shift = document.getElementById('id_sifname').innerHTML;
 				loadDropdown();
-				cekHariini();
-				// cariDataPdo();
+				cekHariini(); 
 
 
 			// CEK Hari INI
@@ -435,21 +432,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							if (res) { 
 								id_pdo = res.id;
 
-								// jika admin bebas
+								// CEK LEVEL
 								var lv  = <?php echo $ses['level'] ?>; 
+								// APA SAYA GL
+								if (lv==4 || lv==3) {
+									console.log('Ternyata saya GL');
+									// apa ini punya sif SAYA
+									var sif_ori = <?php echo $ses['id_shift'] ?>;
+									 
+									if (sif_ori==id_shift) {  // --> INI SIFNYA DIA
+										console.log('MILIKNYA') 
+		                    			document.getElementById('btn_adddown').style.display = 'block';
+		                    			show(res.id);  
 
-								// cek jika itu bukan miliknya
-	                    		if ($('#id_user').val()==res.id_users || lv==1) { 
-	                    			// console.log('MILIKNYA') 
+									}else{ // ---> BUKAN PUNYA SAYA 
+										document.getElementById('btn_adddown').style.display = 'none';
+	                    				show_notYou(res.id);  
+									} 
+								}else{ //--> LL & ADMIN BEBAS MASUK 
+									console.log('MILIKNYA') 
 	                    			document.getElementById('btn_adddown').style.display = 'block';
-	                    			show(res.id);  
-	                    		}else { 
-	                    			// console.log('not YOU');
-	                    			document.getElementById('btn_adddown').style.display = 'none';
-	                    			show_notYou(res.id);  
-	                    		}    
-	                    		isi_dropdown(res.id); 
-	                    		// console.log(res);
+	                    			show(res.id);    
+								}    
+	                    		isi_dropdown(res.id);  
 
 	                    		//  STATUS VERIFIKASI 	
 	                    		 if (res.status==1) {
@@ -468,45 +473,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                }
 
 	            }); 
-			}
-			// ======  MENCARI DATA PDO selected
-			// CARI PDO DI TANGGAL YANG DIPILIH
-				function cariDataPdo() { 
-
-					$.ajax({
-	                    async : false,
-	                    type  : 'POST',
-	                    url   : '<?php echo base_url();?>index.php/OutputControl/getDataCari',
-	                    dataType : 'JSON', 
-	                    data:{
-	                    	name_sif: name_shift,
-	                    	tgl: datetimeNow
-	                    },
-	                    success : function(res){   
-
-	                    	if (res) { 
-	                    		// cek jika itu bukan miliknya
-	                    		if ($('#id_users').val()==res.id_users) { 
-	                    			console.log('MILIKNYA') 
-	                    			document.getElementById('btn_adddown').style.display = 'block';
-	                    			show(res.id_pdo);  
-	                    		}else { 
-	                    			console.log('not YOU');
-	                    			document.getElementById('btn_adddown').style.display = 'none';
-	                    			show_notYou(res.id_pdo);  
-	                    		}   
-	                    		id_pdo = res.id_pdo;  
-	                    		isi_dropdown(res.id_pdo);
-	                    		console.log(res); 	
-	                    	}else {
-	                    		console.log('is null'); 
-	                    		show_nodata();
-	                    		document.getElementById('btn_adddown').style.display = 'none';
-	                    	}
-	                    	
-	                    }
-	                });	
-				}
+			} 
 
 			// ============== dropdown TIME
 				function isi_dropdown(id_pdo) {

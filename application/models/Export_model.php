@@ -14,6 +14,7 @@ class Export_model extends CI_Model {
 		$query= $this->db->query("SELECT * 
 									FROM main_pdo 
 									JOIN list_carline on main_pdo.id_listcarline=list_carline.id
+									JOIN carline ON list_carline.id_carline=carline.id
                                     JOIN line ON list_carline.id_line=line.id
 									JOIN direct_labor on main_pdo.id=direct_labor.id_pdo
 									JOIN shift on main_pdo.id_shift=shift.id

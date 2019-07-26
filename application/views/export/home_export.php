@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30 text" >  
 			<H2 class="text-center">Daily Summary QCD</H2>
 			<div class="pull-right" style="margin-top: -30px;" id="id_btndownloaddiv" style="display: none;">
-				<button id="donload_qcd" class="btn btn-primary btn-sm"><i class="icon-copy fa fa-download" aria-hidden="true"></i> Download</button>
+				<a id="donload_qcd" href="#"><button class="btn btn-primary btn-sm"><i class="icon-copy fa fa-download" aria-hidden="true"></i> Download</button></a>
 			</div>
 			<hr>
 			<h5 id="tgl_qcd">Tanggal : -</h5>
@@ -172,109 +172,110 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script> 
 		$('document').ready(function(){ 
-			// VAR CORE
-				var id_line = $('#id_line').val();
-				var id_shift = $('#id_shift').val();
-				var id_tgl = $('#id_tgl').val();
-				var id_pdo = 0;
+			// CONFIG
+				// VAR CORE
+					var id_line = $('#id_line').val();
+					var id_shift = $('#id_shift').val();
+					var id_tgl = $('#id_tgl').val();
+					var id_pdo = 0;
+					var nam_line ;
+					var tgl_pos;
+				// variabel global	
+					// deklarasi nama bulan
+		 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+		 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 
-			// variabel global	
-				// deklarasi nama bulan
-	 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-	 			const daysName = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-
-	 			var today = new Date(id_tgl);
-				var currentMonth = today.getMonth();
-				var currentYear = today.getFullYear();
-				var currDate = today.getDate();
-				var submited = false;		 
-			// aditional PICKER DATE  
-				// SETTING DEFAULT DATE
-	 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
-	            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
+		 			var today = new Date(id_tgl);
+					var currentMonth = today.getMonth();
+					var currentYear = today.getFullYear();
+					var currDate = today.getDate();
+					var submited = false;		 
+				// aditional PICKER DATE  
+					// SETTING DEFAULT DATE
+		 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
+		            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
 
 
-				$(".inputs").keyup(function () {
-				    if (this.value.length == this.maxLength) {
-				      $(this).select();
-				      $(this).next('.inputs').focus();  
-				    }
-				});
+					$(".inputs").keyup(function () {
+					    if (this.value.length == this.maxLength) {
+					      $(this).select();
+					      $(this).next('.inputs').focus();  
+					    }
+					});
 
-				$("input").click(function () {
-				   $(this).select();
-				}); 
- 
-			
-			// TrigGER PIlih TANGGAL
-				$('.date-pickerrr').datepicker({   
-					language: "en",
-					firstDay: 1,  
-				    onSelect: function(selected, d, calendar) {   
-				    	// jika yang dipilih sama 
-				    	if (selected=='') { 
-				    		var tod = new Date(id_tgl);  
+					$("input").click(function () {
+					   $(this).select();
+					}); 
+				// TrigGER PIlih TANGGAL
+					$('.date-pickerrr').datepicker({   
+						language: "en",
+						firstDay: 1,  
+					    onSelect: function(selected, d, calendar) {   
+					    	// jika yang dipilih sama 
+					    	if (selected=='') { 
+					    		var tod = new Date(id_tgl);  
 
-				    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-				    		calendar.hide();
-				    		return ;
-				    	}else{
-				    		// post data additional
-				    		id_tgl = new Date(selected);
-				    		var tod = new Date(selected); 
-					    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
-					    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
+					    		document.getElementById('slect_date').value=  daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+					    		calendar.hide();
+					    		return ;
+					    	}else{
+					    		// post data additional
+					    		id_tgl = new Date(selected);
+					    		var tod = new Date(selected); 
+						    	document.getElementById('slect_date').value= daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear();
+						    	id_tgl = tod.getFullYear()+'-'+(tod.getMonth()+1)+'-'+tod.getDate();
 
-					    	// post new data additional
-					    	updateOpt();
-				    	} 
-				    	calendar.hide(); 
+						    	// post new data additional
+						    	updateOpt();
+					    	} 
+					    	calendar.hide(); 
 
-				    	// refresh 
-				    	cariDataPdo();
-				    }
-				});
-			// TRIGGEr line Change
-				$('#select_line').on('select2:select',function(e){
-					var data = e.params.data;
-					
-					id_line = data.id ;
-					// update opt to server
-					updateOpt(); 
-					cariDataPdo();
-				});
-			// PILIH SHIFTY 
-				$('#drop_shiftt').on('click','.pilih_sf',function(){
-					var ssf = $(this).data('value'); 
-	 
-					if (ssf==1) {
-						document.getElementById('id_sifname').innerHTML= 'A';
-						document.getElementById('shift_qcd').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: A';
-						document.getElementById('shift_downtime').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: A';
+					    	// refresh 
+					    	cariDataPdo();
+					    }
+					});
+				// TRIGGEr line Change
+					$('#select_line').on('select2:select',function(e){
+						var data = e.params.data;
 						
-						document.getElementById('sf_a').classList.add("aktip");
-						document.getElementById('sf_b').classList.remove("aktip"); 	
-					} else{
-						document.getElementById('id_sifname').innerHTML= 'B';
-						document.getElementById('shift_qcd').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: B';
-						document.getElementById('shift_downtime').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: B';
-						document.getElementById('sf_b').classList.add("aktip");	
-						document.getElementById('sf_a').classList.remove("aktip");	
-					}
+						console.log(data);
+						id_line = data.id ;
+						// update opt to server
+						updateOpt(); 
+						cariDataPdo();
+					});
+				// PILIH SHIFTY 
+					$('#drop_shiftt').on('click','.pilih_sf',function(){
+						var ssf = $(this).data('value'); 
+		 
+						if (ssf==1) {
+							document.getElementById('id_sifname').innerHTML= 'A';
+							document.getElementById('shift_qcd').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: A';
+							document.getElementById('shift_downtime').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: A';
+							
+							document.getElementById('sf_a').classList.add("aktip");
+							document.getElementById('sf_b').classList.remove("aktip"); 	
+						} else{
+							document.getElementById('id_sifname').innerHTML= 'B';
+							document.getElementById('shift_qcd').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: B';
+							document.getElementById('shift_downtime').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: B';
+							document.getElementById('sf_b').classList.add("aktip");	
+							document.getElementById('sf_a').classList.remove("aktip");	
+						}
 
-					id_shift = ssf; 
-					id_line = $('#select_line').val();
+						id_shift = ssf; 
+						id_line = $('#select_line').val();
 
-					// update opt to server
-					updateOpt(); 
-					cariDataPdo() 
-				});
-			
+						// update opt to server
+						updateOpt(); 
+						cariDataPdo() 
+					});
+				
 
-			// ====  AUTOLOAD ===== 
+			// ====  AUTOLOAD =====  
+				loadDropdown();   
              	document.getElementById('shift_qcd').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: '+document.getElementById('id_sifname').innerHTML;
-				document.getElementById('shift_downtime').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: '+document.getElementById('id_sifname').innerHTML;
-				loadDropdown(); 
+				document.getElementById('shift_downtime').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: '+document.getElementById('id_sifname').innerHTML; 
 				cariDataPdo();
 
 
@@ -360,7 +361,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$.ajax({
 	                    async : false,
 	                    type  : 'POST',
-	                    url   : '<?php echo base_url();?>index.php/OutputControl/getDataCari',
+	                    url   : '<?php echo base_url();?>index.php/OutputControl/getDataCariExport',
 	                    dataType : 'JSON', 
 	                    data:{
 	                    	id_sif: id_shift,
@@ -398,6 +399,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    		// hidden nodata
 	                    		 document.getElementById('no_pdodata').style.display = 'none';
 	                    		 document.getElementById('main_containerexport').style.display = 'block'; 
+	                    		 // NAMA LINE
+	                    		 document.getElementById('line_qcd').innerHTML = 'Line &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: '+res.nama_line;
+	                    		 document.getElementById('line_downtime').innerHTML = 'Line &nbsp&nbsp&nbsp&nbsp&nbsp: '+res.nama_line;
+ 								
+ 								nam_line = res.nama_line;
+ 								var tg = new Date(res.tanggal);
+ 								tgl_pos = daysName[tg.getDay()]+' '+tg.getDate()+' '+monthName[tg.getMonth()]+' '+tg.getFullYear();
+
 
 	                    		 //  STATUS VERIFIKASI 	
 	                    		 if (res.status==1) {
@@ -406,7 +415,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    		 	document.getElementById('id_verif').style.display = 'none';
 	                    		 }
 
-
+	                    		console.log('ini data pdo');
 	                    		console.log(res); 	
 	                    		loadData();
 	                    	}else {
@@ -443,14 +452,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    async : false,
 	                    type  : 'POST',
 	                    url   : '<?php echo base_url();?>index.php/ExcelExport/downloadqcd', 
-	                    data: {
-	                    	id_pd:id_pdo
+	                    data: { 
+	                    	tgl: id_tgl,
+	                    	id_line:id_line,
+	                    	tgl_pos:tgl_pos,
+	                    	nam_line:nam_line
 	                    },
 	                    success : function(res){   
 	                    	window.location.href= res; 
 	                    } 
 	                });  
 				});
+
+
 
 	 		// FUnc OPT
 			// isi DATA DROPDOWN LINE
@@ -496,7 +510,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					 				placeholder: 'Pilih Line ',
 					 				minimumResultsForSearch: -1,
 					 				data:data
-
 					 			});
 							}
 

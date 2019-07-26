@@ -448,18 +448,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         if (res) { 
                             id_pdo = res.id;
 
-                            // jika admin
+                            // CEK LEVEL
                             var lv  = <?php echo $ses['level'] ?>; 
+                            // APA SAYA GL
+                            if (lv==4 || lv==3) {
+                              console.log('Ternyata saya GL');
+                              // apa ini punya sif SAYA
+                              var sif_ori = <?php echo $ses['id_shift'] ?>;
+                               
+                              if (sif_ori==id_shift) {  // --> INI SIFNYA DIA
+                                  console.log('MILIKNYA');
+                                  showIsYou();
 
-                          // cek jika itu bukan miliknya
-                            if ($('#id_user').val()==res.id_users || lv==1) { 
-                              console.log('MILIKNYA');
-                              showIsYou();
-                            }else { 
-                              console.log('not YOU'); 
-                              // show_notYou(res.id);  
-                              showNotYou();
-                            }    
+                              }else{ // ---> BUKAN PUNYA SAYA 
+                                  console.log('not YOU');  
+                                  showNotYou();
+                              } 
+                            }else{ //--> LL & ADMIN BEBAS MASUK 
+                                console.log('ADMIN LL BEBAS');
+                                showIsYou();
+                            }
                              
                             // show
                             document.getElementById('no_pdodata').style.display = 'none';

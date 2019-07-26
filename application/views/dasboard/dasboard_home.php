@@ -618,7 +618,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- main container -->
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll  xs-pd-20-10">
-		  
+		 
+		<!-- NO PDO DATA -->
+		<div class="pd-ltr-20 height-100-p xs-pd-20-10" id="no_pdodata" style="display: none;"> 
+			<center>
+				<div class="jumbotron">
+					<H1>Tidak Ada Data PDO Perpilih</H1>
+				</div>
+			</center>
+		</div>
+
+
 		<!-- Dasboard  -->
 		<div id="contain_dasboard" style="display: none;">
 			<!-- top icon dasboard -->
@@ -764,10 +774,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<!-- Tabel -->
 			<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" style="margin-top: -10px">  
 				<table class="table table-responsive table-striped table-bordered" style="padding-bottom: 25px;">
-					<thead id="thead_outputt"> 
+					<thead id="thead_outputt" style="text-align: center;"> 
 						 
 					</thead>
-					<tbody id="tbody_outputt">
+					<tbody id="tbody_outputt" style="text-align: center;">
 
 						 
 					</tbody> 
@@ -789,6 +799,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</center>
 			</div>
 		</div>
+
+		<!-- INFO UMH 000000 -->
+ 		<div class="bg-white box-shadow pd-30 border-radius-5" style="width: 60%;  margin: 0 auto; display: none;" id="info_umh0" >
+ 			<div class="alert alert-warning" role="alert" id="info_" >
+			 	<label id="infoo_umh0">Tanggal : Kamis, 27 Agustus 2019</label>
+			 	<br>
+			 	<label>Terdapat Assy Dengan UMH 0</label> 
+			</div>
+			<!-- <a href="" class="btn btn-outline-danger">Lihat</a> -->
+ 		</div>
 
 		<!-- NEw PDO WIZARD -->
 		<div id="panel_wizard" class="pd-20 bg-white border-radius-4 box-shadow mb-30" style="display: none;">
@@ -911,8 +931,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</section>
 				</form>
 			</div>
-		</div>
- 		
+		</div> 
 
  		<!-- Verifikasi Terlebih Dahulu -->
 		<div id="panel_infoverif" class="login-wrap customscroll align-items-center flex-wrap justify-content-center pd-20" style="display: none;">
@@ -930,18 +949,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</center>
 			</div>
 		</div>
-
-
-		<!-- NO PDO DATA -->
-		<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" id="no_pdodata" style="display: none;"> 
-			<center>
-				<div class="jumbotron">
-					<H1>Tidak Ada Data PDO Perpilih</H1>
-				</div>
-			</center>
-		</div>
-
-
+ 
 	</div>
 </div>
  
@@ -1130,8 +1138,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			var name_shift = document.getElementById('id_sifname').innerHTML;
 			loadDropdown();
 			cekHariini();
-			showplanning();
-
+			showplanning(); 
 
 		// isi DATA DROPDOWN LINE
 			function loadDropdown() {
@@ -1198,7 +1205,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 loss_output = 0;
 
-                // get data per pdo
+                // get data per pdo  JAM 1-8
 				$.ajax({
                     async : false,
                     type  : 'POST',
@@ -1207,7 +1214,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     data:{
                     	id_pdo:pdo_id
                     },
-                    success : function(res){  
+                    success : function(res){    
                         var html = '';
                         var t_plan=0;
                         var t_act=0;
@@ -1253,16 +1260,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			                dataType : "JSON",
 			                data : { id:pdo_id },
 			                success: function(response){  
+			                	console.log('ini data Header');
+                    			console.log(response);	
 			                	//isi db
 			                	db_head = response;
 
 			                	for (var a = 0; a < response.length; a++) { 
-				                		htmlhead1 +=
+			                			
+			                			// ======= JIKA UMH 0 MAKA KUNING ===
+			                			if (response[a].umh==0) {
+
+			                				htmlhead1 +=
 				                			'<th><a href="#" class="btn_changeassy" data-id_assy="'+response[a].id_assy+'" data-kode="'+response[a].kode_assy+'">'+response[a].kode_assy+'</a></th>';
-				                		htmlhead2 +=
-				                			'<th>'+response[a].umh+'</th>';
-				                		htmlhead3 +=
-				                			'<th scope="col" align="center" >A</th>';
+					                		htmlhead2 +=
+					                			'<th style="background-color: #EFDD02;">'+response[a].umh+'</th>';
+					                		htmlhead3 +=
+					                			'<th scope="col" align="center" >A</th>';
+			                			
+			                			}else {    				
+			                				htmlhead1 +=
+				                			'<th><a href="#" class="btn_changeassy" data-id_assy="'+response[a].id_assy+'" data-kode="'+response[a].kode_assy+'">'+response[a].kode_assy+'</a></th>';
+					                		htmlhead2 +=
+					                			'<th>'+response[a].umh+'</th>';
+					                		htmlhead3 +=
+					                			'<th scope="col" align="center" >A</th>';
+
+			                			}   
 			                		} 
 
 			                }
@@ -1315,11 +1338,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				                			// menyocokkan kolom table head 
 			                				if (db_head[ir].id_assy==response[a].id_assy ) {
-
-			                					tmphtml = 
-				                				'<td class="item_edit" data-actual="'+response[a].actual+'" data-ida="'+response[a].id+'">'+response[a].actual+'</td>'; 
-				                				// '<td class="inner">'+response[a].actual+'</td>'; 
 			                					
+			                					// JIKA ========== UMH 0 MAKA KUNINGGGG=======================
+			                					if (db_head[ir].umh==0) {
+			                						tmphtml = 
+				                					'<td style="background-color: #EFDD02;" class="item_edit" data-actual="'+response[a].actual+'" data-ida="'+response[a].id+'">'+response[a].actual+'</td>'; 
+			                					}else{
+			                						tmphtml = 
+				                					'<td class="item_edit" data-actual="'+response[a].actual+'" data-ida="'+response[a].id+'">'+response[a].actual+'</td>'; 
+			                					} 
 				                				found = true; 
 				                				// counter jumlah Act 
 				                				// membuat & insert total setiap jenis assy 
@@ -1327,7 +1354,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			                				} else if(db_head[ir].id_assy!=response[a].id_assy && found==false){
 
-			                					tmphtml =  '<td><a href="#" class="item_newassy btn btn-outline-success btn-sm" data-kodeassy="'+db_head[ir].kode_assy+'" data-baris="'+(i+1)+'" data-idrow="'+data[i].id+'" data-idcol="'+db_head[ir].id+'">+</a></td>'; 	
+			                					// JIKA ========== UMH 0 MAKA KUNINGGGG=======================
+			                					if (db_head[ir].umh==0) {
+			                						tmphtml =  '<td style="background-color: #EFDD02;" ><a href="#" class="item_newassy btn btn-outline-dark btn-sm" data-kodeassy="'+db_head[ir].kode_assy+'" data-baris="'+(i+1)+'" data-idrow="'+data[i].id+'" data-idcol="'+db_head[ir].id+'">+</a></td>'; 	
+
+			                					}else{
+			                						tmphtml =  '<td><a href="#" class="item_newassy btn btn-outline-success btn-sm" data-kodeassy="'+db_head[ir].kode_assy+'" data-baris="'+(i+1)+'" data-idrow="'+data[i].id+'" data-idcol="'+db_head[ir].id+'">+</a></td>'; 	
+
+			                					} 
+
 			                					found = true;
 			                				}
 			                				 
@@ -1782,11 +1817,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 
 			function showdataNotFound() { 
-
+				console.log('data notfound dipanggil');
 				// speed LINE 
-					// document.getElementById('btn_changesped').style.display = 'none';
-					// document.getElementById('id_speedline').style.display = 'none';
-
+				document.getElementById('dis_speedpdo').style.display = 'none';
+				document.getElementById('panel_newplann').style.display = 'none';
+				// UMH 0
+				document.getElementById('info_umh0').style.display = 'none'; 
 				// verif
 				document.getElementById('id_verif').style.display = 'none';
 
@@ -1822,6 +1858,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $('#tbody_outputt').html('');
                 $('#thead_outputt').html(''); 
                 $('#tbud').html('<div class="jumbotron"><h3 class="text-center">DATA TIDAK TERSEDIA </h3></div>');
+
+                document.getElementById('no_pdodata').display = 'block';
 			}
 
 		// tes TOolTiP
@@ -1889,8 +1927,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                	id_shift:id_shift,
 	                	id_tgl:id_tgl
 	                } ,
-	                success : function(res){   
-							if (res) { 
+	                success : function(res){ 
+	                		// console.log(res);
+	                		// jika ada data PDO
+							if (res) { //--->>>> masuk PDO TERSEDIA
 								id_pdo = res.id;
 
 								// Config Dispay
@@ -1900,21 +1940,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								// jika admin
 								var lv  = <?php echo $ses['level'] ?>; 
 
-								// cek jika itu bukan miliknya
-	                    		if ($('#id_user').val()==res.id_users || lv==1) {
-	                    			showdata(res.id);
+								// APA SAYA GL
+								if (lv==4 || lv==3) {
+									console.log('Ternyata saya GL');
+									// apa ini punya sif SAYA
+									var sif_ori = <?php echo $ses['id_shift'] ?>;
+
+									if (sif_ori==id_shift) {  // --> INI SIFNYA DIA
+										console.log('ini SIF SAYA Loh');
+										// ini miliknya
+										showdata(res.id);
+										// ganti speed miliknya
+		                    			document.getElementById('btn_changesped').style.display = 'contents';
+		                    			$("input[name='speed_edit_temp']").val(res.line_speed);
+
+									}else{ // ---> BUKAN PUNYA SAYA 
+										showdataBukanKamu(res.id);
+		                    			// ganti speed
+		                    			document.getElementById('btn_changesped').style.display = 'none';
+		                    			console.log('not YOU');
+									} 
+								}else{ //--> LL & ADMIN MASUK 
+									// ini miliknya
+									showdata(res.id);
 	                    			// ganti speed miliknya
 	                    			document.getElementById('btn_changesped').style.display = 'contents';
 	                    			$("input[name='speed_edit_temp']").val(res.line_speed);
 	                    			// ganti id PDO NYA 
-	                    			console.log('MILIKNYA') 
+	                    			console.log('MILIKNYA');
 
-	                    		}else {
-	                    			showdataBukanKamu(res.id);
-	                    			// ganti speed
-	                    			document.getElementById('btn_changesped').style.display = 'none';
-	                    			console.log('not YOU')
-	                    		} 
+								} 
 
 	                    		// speed line
 	                    		document.getElementById('dis_speedpdo').style.display = 'block';
@@ -1938,78 +1993,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    		document.getElementById('panel_infoverif').style.display = 'none';   
 								document.getElementById('panel_newplann').style.display = 'none';
 								document.getElementById('no_pdodata').style.display = 'none'; 
+								document.getElementById('info_umh0').style.display = 'none'; 
+
 
 								id_listcarline = res.id_listcarline ; 
-	                    		console.log(res);
-							}else{
-								console.log(res);
-								// cekVerif(); 
-								$.ajax({
-					                async : false,
-					                type  : 'POST',
-					                url   : '<?php echo base_url();?>index.php/Welcome/cekBelumVerifikasi',
-					                dataType : 'JSON',  
-					                data:{
-					                	id_line:id_line,
-					                	id_shift:id_shift,
-					                	id_tgl:id_tgl},
-					                success : function(res){ 
-					                		console.log('ini verif');
-											if (res) {
-												console.log(res);
-												// membuat tgl
-												$('#tglnotverif').val(res.tgl);
-												var tod = new Date(res.tgl); 
+	                    		// console.log(res);
+							}else{//--->>>> TIdak ADA DATA
+								console.log('hari ini tidak ada data pdo'); 
 
-												document.getElementById('infoo_verf').innerHTML= "Data Report PDO Kemarin Tanggal : <b>"+daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear()+"</b> Belum Di Verifikasi.<br><b>Silahkan Verifikasi Terlebih Dahulu.</b>";
+								// console.log(res);
+								var sif_ori = <?php echo $ses['id_shift'] ?>;
+								var lv  = <?php echo $ses['level'] ?>; 
 
-												document.getElementById('panel_infoverif').style.display = 'block';
+								// jika SAYA GL 
+								if (lv == 4 || lv == 3 ) {
+									console.log('Ternyata saya GL');
+									// apa ini punya sif SAYA
+									if (sif_ori==id_shift) {  // --> INI SIFNYA DIA
+										console.log('ini SIF SAYA Loh');
 
-												document.getElementById('contain_dasboard').style.display = 'none'; 
-												document.getElementById('dis_speedpdo').style.display = 'none';
-												document.getElementById('panel_newplann').style.display = 'none';
-												document.getElementById('no_pdodata').style.display = 'none'; 
-											}else{
-												console.log(res);
-												var todd = new Date();
-												var temptod = new Date(id_tgl);
+										cekVerif(); 
+									}else{ // ---> bukan SIF miliknya
+										console.log('Dan ini bukan sif saya'); 
 
-												if (temptod>todd) {
-													document.getElementById('no_pdodata').style.display = 'block'; 
+										showdataNotFound(); 
+										document.getElementById('no_pdodata').style.display = 'none'; 
+										document.getElementById('contain_dasboard').style.display = 'block'; //====> MAIN
+									}
+								}else{ //--> JIKA LL DAN ADMIN bebas
 
-													document.getElementById('contain_dasboard').style.display = 'none'; 
-													document.getElementById('dis_speedpdo').style.display = 'none';
-													document.getElementById('panel_newplann').style.display = 'none';
-													document.getElementById('panel_infoverif').style.display = 'none';
-												}else{
-													// Config Dispay
-													document.getElementById('panel_newplann').style.display = 'block';
-
-													document.getElementById('contain_dasboard').style.display = 'none'; 
-													document.getElementById('dis_speedpdo').style.display = 'none'; 
-													document.getElementById('panel_infoverif').style.display = 'none';
-													document.getElementById('no_pdodata').style.display = 'none'; 
-												}
-												
-											}
-											
-
-					                }
-
-					            });
-
-								// DASBOARD
-								console.log('is no data');
-	                    		showdataNotFound();   
-
+								   cekVerif(); 
+								}
 	                    		// null
 	                    		eff_actual=0;
 	                    		eff_excl =0;
 								tot_mhinall=0;
 								tot_mhout = 0;
-							}
-							
-
+								
+							} 
 	                }
 
 	            }); 
@@ -2029,12 +2050,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                	id_shift:id_shift,
 	                	id_tgl:id_tgl},
 	                success : function(res){ 
-	                		console.log('ini verif');
-							if (res) {
+	                		console.log('ini verif Called');
+							if (res.verif) {
 								console.log(res);
 								// membuat tgl
-								$('#tglnotverif').val(res.tgl);
-								var tod = new Date(res.tgl); 
+								$('#tglnotverif').val(res.verif.tgl);
+								var tod = new Date(res.verif.tgl); 
 
 								document.getElementById('infoo_verf').innerHTML= "Data Report PDO Kemarin Tanggal : <b>"+daysName[tod.getDay()]+', '+tod.getDate()+' '+monthName[tod.getMonth()]+' '+tod.getFullYear()+"</b> Belum Di Verifikasi.<br><b>Silahkan Verifikasi Terlebih Dahulu.</b>";
 
@@ -2044,25 +2065,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								document.getElementById('dis_speedpdo').style.display = 'none';
 								document.getElementById('panel_newplann').style.display = 'none';
 								document.getElementById('no_pdodata').style.display = 'none'; 
-							}else{
+
+								// CEK UMH 0
+								cekumh0();
+							}
+							else{
 								console.log(res);
-								var tod = new Date(); 
+								var toddd = new Date(res.tgl_now); 
+								var req = new Date(res.tgl_req);
 
-								if (today>tod) {
-									document.getElementById('no_pdodata').style.display = 'block'; 
+								if (req>toddd) {
+									console.log('tidak ada pdo anda melewati batas');
 
+									document.getElementById('id_verif').style.display = 'none';
 									document.getElementById('contain_dasboard').style.display = 'none'; 
 									document.getElementById('dis_speedpdo').style.display = 'none';
 									document.getElementById('panel_newplann').style.display = 'none';
 									document.getElementById('panel_infoverif').style.display = 'none';
+									document.getElementById('no_pdodata').style.display = 'block'; 
 								}else{
+									console.log('tambah pdo baru');
 									// Config Dispay
-									document.getElementById('panel_newplann').style.display = 'block';
-
+									document.getElementById('panel_newplann').style.display = 'block'; 
+									document.getElementById('id_verif').style.display = 'none';
 									document.getElementById('contain_dasboard').style.display = 'none'; 
 									document.getElementById('dis_speedpdo').style.display = 'none'; 
 									document.getElementById('panel_infoverif').style.display = 'none';
 									document.getElementById('no_pdodata').style.display = 'none'; 
+
+									// CEK UMH 0
+									cekumh0();
 								}
 								
 							}
@@ -2083,9 +2115,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	        	id_tgl =tgl;
 	        	updateOpt();
-	        	cekHariini();
+	        	cekHariini(); 
 	        });
 
+	       //CEK UMH 0
+	       function cekumh0() {
+	       		console.log('mencari umh 000 :');
+	       		$.ajax({
+	                async : false,
+	                type  : 'POST',
+	                url   : '<?php echo base_url();?>index.php/Welcome/cekUmh0',
+	                dataType : 'JSON',  
+	                data:{
+	                	id_line:id_line,
+	                	id_shift:id_shift
+	                },
+	                success : function(res){  
+	                	if (res) {
+	                		var tgl = new Date(res.tanggal);
+
+	                		document.getElementById('infoo_umh0').innerHTML='Tanggal : '+daysName[tgl.getDay()]+', '+tgl.getDate()+' '+monthName[tgl.getMonth()]+' '+tgl.getFullYear()+'.';
+	                		document.getElementById('info_umh0').style.display = 'block'; 
+	                	}else{
+ 							document.getElementById('info_umh0').style.display = 'none'; 
+	                	}
+
+	                }
+	            });
+	       }
 
 		// CEK PLANNING BULANAN
 			function showplanning() { 
@@ -2166,6 +2223,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                		id_pdo:id_pdo, 
 	                		id:ids
 	                	},
+	                beforeSend: function(){
+	                	Swal.fire({
+						    title: 'Sedang Diproses',
+						    allowEscapeKey: false,
+						    allowOutsideClick: false, 
+						    onOpen: () => {
+						      swal.showLoading();
+						    }
+						  });
+	                },
 	                success: function(response){ 
 	                	// jika sukses
 						if(response){  
@@ -2210,15 +2277,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                		id_old:ids,
 	                		id_new:new_assy
 	                	},
-	                success: function(response){ 
+	                beforeSend: function(){
+	                	 Swal.showLoading();
+	                }, 
+	                success: function(response){  
+	                	Swal.hideLoading();
 	                	// jika sukses
-						if(response){  
+						if(response){   
 							Swal.fire({
 							  title: 'Berhasil',
 							  text: 'Assy Telah Pindah',
 							  type: 'success',
-							  confirmButtonText: 'Ok',
-							  allowOutsideClick: false
+							  confirmButtonText: 'Ok'
 							})
 							// showdata($('#id_pdo').val());
 							cekHariini();
@@ -2228,11 +2298,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							  title: 'Error!',
 							  text: 'Gagal menghapus',
 							  type: 'error',
-							  confirmButtonText: 'Ok',
-							  allowOutsideClick: false
+							  confirmButtonText: 'Ok'
 							}) 
-						}
-
+						} 
 	                }
 	            });
 			});
@@ -2524,7 +2592,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 var idcolassy = $(this).data('idcol');
                 var baris = $(this).data('baris');
                 var kodeassy = $(this).data('kodeassy'); 
- 				// pemberitahuan new adassy
+ 				// pemberitahuan new adassy 
  				Swal.fire({
 				  title: 'Anda Yakin?',
 				  text: "anda akan menambahkan Assy("+kodeassy+") di Jam ke-"+baris,
@@ -2550,7 +2618,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                success: function(response){
 		                	if (response) { 
 		                		Swal.fire({
-		                			title:'Sukses ditambah sss!', 
+		                			title:'Assy `'+kodeassy+'` Sukses ditambah!', 
 							      type:'success',
 							      timer: 1000
 							  });

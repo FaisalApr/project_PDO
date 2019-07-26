@@ -62,7 +62,7 @@
   				<div class="dropdown">  
 					<div class="input-group custom input-group-sm" style="margin-top: 10px; margin-left: 15px;">
 						<div style="margin-top: -10px;"><font size="46">Line:</font> </div>
-						<select class="select2 js-states form-control" id="select_line" style="width: 100px; "> 
+						<select class="select2 js-states form-control" id="select_line" name="select_line" style="width: 100px; "> 
 							
 						</select> 
 					</div>

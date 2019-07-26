@@ -48,6 +48,17 @@ class OutputControl extends CI_Controller {
 			echo json_encode($result);
 		}
 
+		public function getDataCariExport()
+		{  
+			$sif = $this->input->post('id_sif');
+			$date = $this->input->post('tgl');
+			$line = $this->input->post('id_line');
+			
+			$result = $this->Pdo_model->getDataPdoExport($date,$sif,$line); 
+
+			echo json_encode($result);
+		}
+
 
 	public function getDataBuildAssy()
 	{

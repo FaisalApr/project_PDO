@@ -170,13 +170,26 @@ class Welcome extends CI_Controller {
  		$line = $this->input->post('id_line');
  		$shift = $this->input->post('id_shift');
 
- 		$result = $this->Verifikasi_model->cariNotVerif($date,$line,$shift);
-
+ 		$result['verif'] = $this->Verifikasi_model->cariNotVerif($date,$line,$shift);
+ 		$result['tgl_now'] = date("Y-m-d");
+ 		$result['tgl_req'] = $date;
  		echo json_encode($result);
  		# code...
  	}
-		// arr atcv
-		// $atcv_arr = $this->input->post('arr_actv'); 
+
+
+ 	public function cekUmh0()
+ 	{
+ 		
+ 		$lin = $this->input->post('id_line');
+ 		$sif = $this->input->post('id_shift');
+
+ 		$res = $this->Verifikasi_model->cariAssyUmh0($lin,$sif);
+
+ 		echo json_encode($res);
+ 	}
+
+
 
 }
 
