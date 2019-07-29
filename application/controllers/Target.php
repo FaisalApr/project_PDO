@@ -38,7 +38,8 @@ class Target extends CI_Controller {
 		$dat = $this->input->post('tgl');
 		$line = $this->input->post('id_line'); 
 
-		$data = $this->Target_model->getResultDataMonth($dat,$line); 
+		$data['all'] = $this->Target_model->getResultDataMonth($dat,$line); 
+		$data['res'] = $this->Target_model->getTargetResultNow($dat,$line); 
 
 		echo json_encode($data);
 	}
@@ -107,6 +108,19 @@ class Target extends CI_Controller {
 		echo json_encode($result);	
 	}
 
+	public function editPlanProd()
+	{
+		$st = $this->input->post('tgl_start');
+		$end = $this->input->post('tgl_end'); 
+
+		$dataedit = array( 
+			'plan_assy'	=> $this->input->post('plan')
+		);
+
+		$result = $this->Target_model->edittarget3($dataedit,$st,$end);
+		echo json_encode($result);	
+	}
+
 	public function editEff()
 	{  
 		$st = $this->input->post('tgl_start');
@@ -121,11 +135,27 @@ class Target extends CI_Controller {
 
 	public function editBalance()
 	{ 
-		$dataedit = array( 
-			'balance_awal'	=> $this->input->post('bal')
-		);
+		$line = $this->input->post('id_line');  
+		$tanggal = $this->input->post('tanggal');
 
-		$result = $this->Target_model->edittarget($dataedit);
+		$res = $this->Target_model->getDataProdBalance($tanggal,$line); 
+
+		if ($res) { //--> Jika data ditemukan
+			$dataedit = array( 
+				'balance'	=> $this->input->post('bal')
+			); 
+			$result = $this->Target_model->editBalanceProduksi($dataedit,$res->id);
+
+		}else{// Jika data tidak ada maka buat baru
+			$new = array( 
+				'id_listcarline' => $line,
+				'balance'	=> $this->input->post('bal'),
+				'tanggal' => $tanggal
+			); 
+
+			$result = $this->Target_model->newBalanceProduksi($new);
+		}
+		
 		echo json_encode($result);	
 	}
 

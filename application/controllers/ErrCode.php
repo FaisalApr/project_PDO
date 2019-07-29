@@ -6,10 +6,21 @@ class ErrCode extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('ErrorCode_model');
+
+		if (!$this->session->userdata('pdo_logged')) {
+			redirect('Login','refresh');
+		}	
 	}
 
 	public function index()
 	{
+		// get sesion
+		$ses_dat = $this->session->userdata('pdo_logged'); 
+
+		if ($ses_dat['level'] !=1) {
+			redirect('dasboard','refresh');
+		}
+		
 		$this->load->view('code/errcode_');
 	}
 

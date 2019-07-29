@@ -63,6 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<th class="table-plus datatable-nosort">No</th>
 						<th>Line</th> 
+						<th>Aktif</th> 
 						<th style="text-align: center;" class="datatable-nosort">Action</th>
 					</tr>
 				</thead>
@@ -469,6 +470,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							var tr = $('<tr>').append(
 										$('<td>').text((i+1)),
 										$('<td>').text(data[i].nama_line), 
+										$('<td>').html('Used <span class="badge badge-primary badge-pill">2</span>'),
 										$('<td>').html(
 											`<div class="dropdown" style="vertical-align: middle; text-align: center;">`+
                       							`<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">`+

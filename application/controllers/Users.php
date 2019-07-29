@@ -8,14 +8,20 @@ class Users extends CI_Controller {
 		$this->load->model('Users_model');   
 		$this->load->model('CarlineModel');
 		// jika tidak memiliki sesi		
-		// if (!$this->session->userdata('pdo_logged')) {
-		// 	redirect('Login','refresh');
-		// }		 
+		if (!$this->session->userdata('pdo_logged')) {
+			redirect('Login','refresh');
+		}		 
 	}
 
 	public function index()
 	{
-		// $data['line'] = $this->Users_model->getAllLine();
+		// get sesion
+		$ses_dat = $this->session->userdata('pdo_logged'); 
+
+		if ($ses_dat['level'] !=1) {
+			redirect('dasboard','refresh');
+		}
+		 
 		$this->load->view('users/home_user');	
 	}
 

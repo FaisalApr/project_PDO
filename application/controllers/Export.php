@@ -8,9 +8,14 @@ class Export extends CI_Controller {
         $this->load->model('Pdo_model');  
         $this->load->model('Export_model');
         // jika tidak memiliki sesi     
-        // if (!$this->session->userdata('pdo_logged')) {
-        //  redirect('Login','refresh');
-        // }         
+        if (!$this->session->userdata('pdo_logged')) {
+            $ses = $this->session->userdata('pdo_logged');
+            
+            // jika dia bukan admin
+            if ($ses['level'] !=1) {
+                redirect('Login','refresh');
+            } 
+        }         
     }
 
     public function index() 

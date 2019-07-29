@@ -11,9 +11,9 @@ class DirectLabor extends CI_Controller {
 		$this->load->model('Losstime_model');
 		$this->load->model('Defect_model');
 
-		// if (!$this->session->userdata('pdo_logged')) {
-		// 	redirect('Login','refresh');
-		// }   
+		if (!$this->session->userdata('pdo_logged')) {
+			redirect('Login','refresh');
+		}   
 	}
 
 	public function index()

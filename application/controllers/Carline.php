@@ -6,10 +6,22 @@ class Carline extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('CarlineModel');
+
+		// jika tidak memiliki sesi		
+		if (!$this->session->userdata('pdo_logged')) {
+			redirect('Login','refresh');
+		}	
 	}
 
 	public function index()
 	{
+		// get sesion
+		$ses_dat = $this->session->userdata('pdo_logged'); 
+
+		if ($ses_dat['level'] !=1) {
+			redirect('dasboard','refresh');
+		}
+		
 		$data['data_com'] = $this->CarlineModel->get_all_level();
 		$data['data_line'] = $this->CarlineModel->get_all_level_2();
 		$this->load->view('carline/carline_v', $data);	

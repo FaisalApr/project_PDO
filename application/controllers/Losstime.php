@@ -10,10 +10,10 @@ class Losstime extends CI_Controller {
 		$this->load->model('DirectLabor_Model');
 		$this->load->model('Losstime_model');
 		$this->load->model('Defect_model');
-
-		// if (!$this->session->userdata('pdo_logged')) {
-		// 	redirect('Login','refresh');
-		// }
+		// Jika tidak memiliki sesion
+		if (!$this->session->userdata('pdo_logged')) {
+			redirect('Login','refresh');
+		}
 	}
 
 	public function index()

@@ -7,10 +7,21 @@ class LineManager extends CI_Controller {
 		parent::__construct();
 		$this->load->model('LineManagerModel');
 		
+		// jika tidak memiliki sesi		
+		if (!$this->session->userdata('pdo_logged')) {
+			redirect('Login','refresh');
+		}	
 	}
 
 	public function index()
 	{ 
+		// get sesion
+		$ses_dat = $this->session->userdata('pdo_logged'); 
+
+		if ($ses_dat['level'] !=1) {
+			redirect('dasboard','refresh');
+		}
+		
 		$this->load->view('lineManager/Line_mgr');
 	}
 

@@ -22,6 +22,23 @@ class Target_model extends CI_Model {
 		}
 	}
 
+	public function getDataProdBalance($dat,$ln)
+	{
+		$query= $this->db->query("SELECT * 
+									FROM balance_produksi 
+									WHERE 
+										YEAR(tanggal)=YEAR('$dat') AND
+									    MONTH(tanggal)=MONTH('$dat') AND
+									    id_listcarline=$ln
+									    ");
+        
+        if ($query->num_rows()>=1) {
+			return $query->first_row();  
+		}else{
+			return false;
+		}
+	}
+
 	public function getResultDataMonth($dat,$ln)
 	{ 
 		$query= $this->db->query("SELECT * FROM target 
@@ -33,6 +50,21 @@ class Target_model extends CI_Model {
         
         if ($query->num_rows()>=1) {
 			return $query->result();  
+		}else{
+			return false;
+		}
+	}
+
+	public function getTargetResultNow($dat,$ln)
+	{ 
+		$query= $this->db->query("SELECT * FROM target 
+									WHERE 
+										periode='$dat' AND  
+										id_list_carline='$ln' 
+									order by periode ASC");
+        
+        if ($query->num_rows()>=1) {
+			return $query->first_row();  
 		}else{
 			return false;
 		}
@@ -61,6 +93,17 @@ class Target_model extends CI_Model {
 		$this->db->where('periode<=',$end);
 		return $this->db->update('target',$data);
 	} 
+
+	public function editBalanceProduksi($data,$id)
+	{
+		$this->db->where('id',$id);
+		return $this->db->update('balance_produksi',$data);
+	}
+
+	public function newBalanceProduksi($data)
+	{ 
+		return $this->db->insert('balance_produksi',$data);
+	}
 
 	public function cariDataTarget($dat,$ln)
 	{

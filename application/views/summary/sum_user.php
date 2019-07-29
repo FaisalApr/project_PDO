@@ -15,6 +15,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 <!-- CSS -->
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/vendors/styles/style.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/src/plugins/dist_sweetalert2/sweetalert2.min.css">
+	<!-- DATE PICKERS -->
+	<link rel="stylesheet" href="<?php echo base_url() ?>assets/src/plugins/daterangepicker/daterangepicker.css">
 	 
 	<style type="text/css">
  		.select2-selection__rendered {
@@ -26,6 +28,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		.select2-selection__arrow {
 		    height: 50px !important;
 		}
+
+		/* REMOVE SECOND CALENDAR */
+		.drp-calendar.right thead>tr:nth-child(2) {
+		    display: none;
+		}
+		.drp-calendar.right tbody {
+		    display: none;
+		}
+		.daterangepicker.ltr .ranges, .daterangepicker.ltr .drp-calendar {
+		    float: none !important;
+		}
+		.daterangepicker .drp-calendar.right .daterangepicker_input {
+		    position: absolute;
+		    top: 45px;
+		    left: 15px;
+		    width: 230px;
+		}
+		.drp-calendar.left .drp-calendar-table {
+		    margin-top: 45px;
+		}
+
+		.daterangepicker .drp-calendar.right {
+		    display: none;
+		    right: 0 !important;
+		    top: 0 !important;
+		}
+		/* REMOVE SECOND CALENDAR */
  	</style>
 
 </head>
@@ -55,17 +84,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 
 		<!-- PRODUCTION PLAN & RESULT -->
-		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">  
-			<div class="pull-left" style="text-align: center;">
-				Balance Bulan Sebelumnya : <br>
-				<label style="font-size: 28px" id="id_awal_balance">0</label>
-				<a href='#' id="btn_changebalance" ><i class="fa fa-cog" aria-hidden="true"></i></a>
-			</div>
-			<div class="pull-right" style="text-align: center;">
-				Sisa Balance Bulan ini : <br>
-				<label style="font-size: 28px;" id="id_sisa_balance">0</label>
-				<!-- <a href="#" id="btn_changesped" ><i class="fa fa-cog" aria-hidden="true"></i></a> -->
-			</div>
+		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30" style="text-align: center;">  
+			<div class="row">
+				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+					<div class="pull-left" style="text-align: center;">
+						Balance Bulan Sebelumnya : <br>
+						<label style="font-size: 28px" id="id_awal_balance">0</label>
+						<a href='#' id="btn_changebalance" ><i class="fa fa-spin fa-cog" aria-hidden="true"></i></a>
+					</div> 
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					<div class="">
+						<font size="6">Production Plan</font>
+						<a data-toggle="modal" href='#modal_edit_plan'><i class="fa fa-spin fa-cog"></i></a>
+					</div>  
+				</div>
+				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+					<div class="pull-right" style="text-align: center;">
+						Sisa Balance Bulan ini : <br>
+						<label style="font-size: 28px;" id="id_sisa_balance">0</label> 
+					</div>
+				</div>  
+			</div> 
 			<div id="planres" style="height: 350px;padding: 10px;"></div>
 			<br><br>
 		</div>
@@ -117,8 +157,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 	      </div>
 	    </div>
-	</div>
+	</div> 
 
+	<!-- Modal Edit Plan  BULAN-->
+		<div class="modal fade" id="modal_edit_plan" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+						<h2 class="text-center mb-30">Edit Production Plan</h2>
+						<form> 
+							<div class="modal-body"> 
+								<div class="form-group">
+									<label>Tanggal  :</label>
+									<input class="form-control rangepick" type="text">
+								</div>
+								<div class="form-group">
+									<label>Plan Bulan Ini</label>
+									<input type="number" class="form-control" name="edit_target" id="edit_target">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="input-group"> 
+										<a class="btn btn-primary btn-lg btn-block" id="btn_submit_planprod" href="#">update</a>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div> 
 
 </body>
 	<!-- Script Main -->
@@ -128,6 +198,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!-- Spedometer charts -->
 	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
 	<script src="<?php echo base_url() ?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script> 
+	<!-- DATE PICKER -->
+	<script src="<?php echo base_url() ?>assets/src/plugins/daterangepicker/daterangepicker.js"></script>
 
 	<script> 
 		$('document').ready(function(){
@@ -139,6 +211,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					var id_pdo = 0;
 					var balance_awal=0;
 					var id_target =0;
+
+					var tgl_start =0;
+					var tgl_end=0;
+
 				// variabel global	
 					// deklarasi nama bulan
 		 			const monthName = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
@@ -155,7 +231,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					// SETTING DEFAULT DATE
 		 			var datetimeNow = currentYear+'-'+(currentMonth+1)+'-'+currDate;
 		            document.getElementById('slect_date').value= daysName[today.getDay()]+', '+currDate+' '+monthName[currentMonth]+' '+currentYear;
-
+		            
+		            $('.rangepick').val('01/'+(currentMonth+1)+'/'+currentYear+' - '+daysInMonth+'/'+(currentMonth+1)+'/'+currentYear);
+					tgl_start = currentYear+'-'+(currentMonth+1)+'-1';
+					tgl_end = currentYear+'-'+(currentMonth+1)+'-'+daysInMonth;
 
 					$(".inputs").keyup(function () {
 					    if (this.value.length == this.maxLength) {
@@ -166,6 +245,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					$("input").click(function () {
 					   $(this).select();
+					});
+				// DAtepickers
+					$('.rangepick').daterangepicker({
+					    "showWeekNumbers": false,
+					    "linkedCalendars": false,  
+					    "minDate": "01/7/2019",
+					    "maxDate": "31/7/2019",
+					    locale: {
+				            format: 'DD/MM/YYYY'
+				        }
+					}, function(start, end, label) {
+					  	console.log('start :' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+					  	tgl_start = start.format('YYYY-MM-DD');
+					  	tgl_end = end.format('YYYY-MM-DD');
 					}); 
 				// TrigGER PIlih TANGGAL
 					$('.date-pickerrr').datepicker({   
@@ -192,9 +285,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					    	calendar.hide();
 
 					    	// refresh 
-					    	// showplanning();
-				    		// cariDataPdo();
-				    		// cekHariini();
+					    	$('.rangepick').val('01/'+(currentMonth+1)+'/'+currentYear+' - '+daysInMonth+'/'+(currentMonth+1)+'/'+currentYear);
+							tgl_start = currentYear+'-'+(currentMonth+1)+'-1';
+							tgl_end = currentYear+'-'+(currentMonth+1)+'-'+daysInMonth;
 				    		show();
 					    }
 					});
@@ -297,12 +390,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						                    success : function(res){   
 						                    	// console.log('ini res this month');
 						                    	// console.log(res);
-						                    	if (res) {    
-						                    		// BALANCE SETTING
-						                    		document.getElementById('btn_changebalance').style.display = 'inline';
-						                    		// balance_awal = res.balance_awal;
-						                    		// id_target = res.id; 
-						                    		
+						                    	if (res) {     
+
 										        	for (var i = 0; i < res.length; i++) {  
 										        		var tgl = new Date(res[i].periode).getTime();
 
@@ -310,8 +399,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										        		da.push(a);
 										        	} 
 
-						                    	}else {
-						                    		balance_awal=0;
+						                    	}else { 
 						                    		document.getElementById('btn_changebalance').style.display = 'none';
 						                    	}
 						                    	// console.log(da);
@@ -370,8 +458,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						                    	id_line:id_line
 						                    }, 
 						                    success : function(res){ 
-						                    console.log('ini data eff B:');
-						                    console.log(res) ;
+						                    // console.log('ini data eff B:');
+						                    // console.log(res) ;
 
 						                    	for (var i = 0 ; i < res.length ; i++) { 
 										        		//parsing tanggal
@@ -419,40 +507,53 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            	var chart = new Highcharts.Chart(options); 
 
             	// Plan & RESULT
-            		// isis data balance
-           			//bal += Number(balance_awal);
-	             		//$.ajax({ 
-			        		// async : false,
-		       	              //type  : 'POST',
-		                    // url   : '<?php echo base_url();?>index.php/Summary/getProdBalance',
-		                    // dataType : 'JSON', 
-		                    // data:{
-		                    	// tanggal: id_tgl,
-		                    	// id_line:id_line
-		                    // },
-		                    // success : function(result){   
+            		// isis data balance 
+	             		$.ajax({ 
+			        		async : false,
+		       	            type  : 'POST',
+		                    url   : '<?php echo base_url();?>index.php/Summary/getProdBalance',
+		                    dataType : 'JSON', 
+		                    data:{
+		                    	tanggal: id_tgl,
+		                    	id_line:id_line
+		                    },
+		                    success : function(result){
+		                    	console.log('isi prod balance');
+		                    	console.log(result);
 
-						   //  	for (var i =0 ; i < result.length ; i++) {   
-					    //     		const tgl = new Date(result[i].tanggal); 
+		                    	// BALANCE SETTING
+		                    		document.getElementById('btn_changebalance').style.display = 'inline';
+		                    		balance_awal = 0;
 
-									// var pro = {
-									// 	 tanggal: (tgl.getFullYear()+'-'+tgl.getMonth()+'-'+tgl.getDate()), 
-									// 	 sisa: bal,
-									// 	 balance: Number(result[i].balance)+bal,
-									// 	 to_plan: result[i].to_plan,
-									// 	 to_act: result[i].to_actual
-										 
-									// 	};
-					    //     		bal = Number(result[i].balance)+bal;
+		                    		if (result.balance) {
+		                    			balance_awal = result.balance.balance;
+		                    			bal = result.balance.balance;  
+		                    		}  
 
-					    //     		prodPlan.push(pro);
-					    //     	} 
-		                    // }
-		                // }); 
+						    	for (var i =0 ; i < result.all.length ; i++) {  
+						    		var gmt = new Date(result.all[i].tanggal); 
+						        	point_gmt = gmt.getFullYear()+'-'+gmt.getMonth()+'-'+gmt.getDate(); 
 
+									var pro = {
+										 tanggal: point_gmt,
+										 sisa: bal,
+										 balance: (Number(result.all[i].balance)+Number(bal)),
+										 to_plan: result.all[i].to_plan,
+										 to_act: result.all[i].to_actual 
+										};
+
+					        		bal = Number(result.all[i].balance)+Number(bal);
+
+					        		prodPlan.push(pro);
+					        	} 
+		                    
+		                    }
+		                }); 
+	             	console.log('ini data prod plan');
+	             	console.log(prodPlan);
 		            // CNAGE VAlue BalanCE
-	            	// document.getElementById('id_awal_balance').innerHTML = balance_awal;
-	            	// document.getElementById('id_sisa_balance').innerHTML = bal;
+	            	document.getElementById('id_awal_balance').innerHTML = balance_awal;
+	            	document.getElementById('id_sisa_balance').innerHTML = bal;
 
             	// config chart
         		    var panres ={
@@ -505,11 +606,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							                    	id_line:id_line
 							                    },
 							                    success : function(res){  
-							                    	if (res) {  
-							                    		for (var i = 0; i < res.length; i++) {  
-											        		var tgl = new Date(res[i].periode).getTime();
+							                    	if (res.all) {
 
-											        		var a = [tgl , parseFloat(res[i].plan_assy) ];  
+							                    		$('#edit_target').val(res.res.plan_assy);
+
+							                    		for (var i = 0; i < res.all.length; i++) {  
+											        		var tgl = new Date(res.all[i].periode).getTime();
+
+											        		var a = [tgl , parseFloat(res.all[i].plan_assy) ];  
 											        		da.push(a);
 											        	} 
 							                    	} 
@@ -605,7 +709,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						        	if (!pointData) {
 						        		pointData ={
 						        			balance: 'data not found',
-						        			sisa:bal,
+						        			sisa: 'no data',//bal,
 						        			to_plan: 'data not found',
 						        			to_act: 'data not found'
 						        		};
@@ -927,6 +1031,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					$('#btn_conf_balance').modal('show');
 				});
+
 				$('#btn_update_balance').click(function(){
 					var ball = $('#in_balance').val();
 					var id = $('#id_balance_editfom').val();
@@ -936,8 +1041,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						type: "POST",
 						url: "<?php echo site_url('Target/editBalance') ?>",
 						data: {
-							id:id,
-							bal:ball
+							id_line: id_line,
+							tanggal: id_tgl,
+							bal: ball
 						},
 						success: function(data){
 							console.log(data);
@@ -946,8 +1052,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					});
 
 					$('#btn_conf_balance').modal('hide');
-				});
+				}); 
 
+				$('#btn_submit_planprod').on('click',function(){
+	 				var plan = $('input[name="edit_target"]').val();
+	 
+	 				$.ajax({
+						async : false,
+						type : "POST",
+						url : "<?php echo site_url('Target/editPlanProd') ?>",
+						dataType : "JSON",
+						data : {
+							plan:plan,
+							tgl_start:tgl_start,
+							tgl_end:tgl_end
+						},
+						beforeSend: function(){
+	                		Swal.showLoading();
+	                	},
+						success: function(data){ 
+							Swal.close();
+							if (data) {
+								Swal.fire(
+							      'Berhasil !',
+							      'Update MH-In',
+							      'success'
+							    ); 
+							}else{
+								Swal.fire({
+								  title: 'Error!',
+								  text: 'Gagal Update target',
+								  type: 'error',
+								  confirmButtonText: 'Ok',
+								  allowOutsideClick: false
+								}) 
+							}
+							show();
+							$('#modal_edit_plan').modal('hide');
+						}
+					}); 
+	 			});
 
 		// FUnc OPT
 			// isi DATA DROPDOWN LINE
