@@ -61,6 +61,7 @@
   			<div class="row">
   				<div class="dropdown">  
 					<div class="input-group custom input-group-sm" style="margin-top: 10px; margin-left: 15px;">
+						
 						<div style="margin-top: -10px;"><font size="46">Line:</font> </div>
 						<select class="select2 js-states form-control" id="select_line" name="select_line" style="width: 100px; "> 
 							
@@ -83,10 +84,15 @@
 	  			<div style="margin-left: 50px;" class="<?php echo $this->uri->segment(1) != 'Dasboard' ? 'hidenn': '' ?>" id="dis_speedpdo">
 	  				<font size="46">Speed:</font> 
 					<span class="col-sm-12 align-content-center text-blue weight-800" style="margin-left: -10px;"><font size="56" id="id_speedline"></font><a href="#" id="btn_changesped" ><i class="fa fa-cog fa-spin" aria-hidden="true"></i></a></span>
+
 	  			</div>	
- 
+ 				
+				
+					<div style="margin-top: 25px;" >
+						<input type="text" placeholder="Textbox Scanner" id="input" >
+		  			</div>
+
   			</div>
-  			 
 			
 
 		</div>

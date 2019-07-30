@@ -34,5 +34,5 @@ class Dasboard extends CI_Controller {
 		$result = $this->Pdo_model->cariPdo($username,$shift,$tanggal);
 	}
 
-
+	
 }

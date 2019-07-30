@@ -985,6 +985,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				var id_shift = $('#id_shift').val();
 				var id_tgl = $('#id_tgl').val();
 				var id_pdo = 0;
+				var id_oc = 0;
 				var id_listcarline = 0;
 
 				var tgl_start =0;
@@ -1294,7 +1295,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						// membuat data per rows / jamke-
 						jum_jam = data.length; //untuk mengetahui jumlah data jam ke
                         for(var i=0; i<data.length; i++){ 
-
+                        	id_oc = data[i].id;
                         	html +=  
                             '<tr>'+
 								'<th scope="row" colspan="2" style="text-align: center;">'+data[i].jam_ke+'</th>';
@@ -3547,6 +3548,74 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					// update gauge
 					$('#spd_cv_newpdo').highcharts().series[0].points[0].update(spd);
 				});  
+		
+				//scan oninput
+
+
+
+				// function myFun(val){
+				// 	  document.getElementById("in_scan").innerHTML = val;
+				// 	  alert(val); 
+				// }
+			input.onchange = function() {
+			    // result.innerHTML = input.value;
+			    var kode_assy = this.value.slice(2,6);
+			    // alert(kode_assy);
+			    
+			    $.ajax({
+	                async :false,
+	                type  : 'POST',
+	                url   : '<?php echo base_url();?>index.php/Scan/getIdBuild',
+	                dataType : 'json',
+	                data : {kode_assy:kode_assy,
+	                		id_pdo:id_pdo,
+	                		id_oc:id_oc
+	                	   },
+	                success : function(respon){
+	                   console.log(respon);
+	                   if(respon){
+	                   		var idu = respon.id_build;
+							var actu = Number(respon.actual)+1; 
+							// alert(idu);
+							// return;
+			 				// ajax upload
+			 				$.ajax({
+			                    async : false,
+				                type : "POST",
+				                url   : '<?php echo site_url("OutputControl/updateDataBuildAssy");?>',
+				                dataType : "JSON",
+				                data : { 
+				                	id_a:idu,
+				                	act:actu,
+				                	id_pdo:id_pdo
+				                 },
+				                success: function(response){
+				                	if (response) { 
+										console.log("Semua senang");
+				                	}else{
+				                		Swal.fire({
+										  title: 'Error!',
+										  text: 'Gagal Update',
+										  type: 'error',
+										  confirmButtonText: 'Ok',
+										  allowOutsideClick: false
+										})
+										console.log("Ada error");
+				                	}
+				                }
+				            });
+							cekHariini();
+	                   }else{
+
+	                   }
+
+	                }
+	            });
+
+			};
 		});
+
+
+
 	</script>
 </html>
