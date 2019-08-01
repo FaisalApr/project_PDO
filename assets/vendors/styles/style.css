@@ -20376,3 +20376,60 @@ textarea.form-control {
 @media (max-width: 660px) {
   .docs-buttons .btn-group-crop {
     display: block; } }
+
+/*      HEader*/
+    .signature-pad { 
+      font-size: 10px;
+      max-width: 700px;
+      max-height: 460px;
+      border: 1px solid #e8e8e8;
+      background-color: #fff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 40px rgba(0, 0, 0, 0.08) inset;
+      border-radius: 4px;
+      padding: 16px; 
+    }
+    .select2-selection__rendered {
+        line-height: 55px !important;
+    }
+    .select2-container .select2-selection--single {
+        height: 50px !important;
+    }
+    .select2-selection__arrow {
+        height: 50px !important;
+    }
+
+    /* REMOVE SECOND CALENDAR */
+    .drp-calendar.right thead>tr:nth-child(2) {
+        display: none;
+    }
+    .drp-calendar.right tbody {
+        display: none;
+    }
+    .daterangepicker.ltr .ranges, .daterangepicker.ltr .drp-calendar {
+        float: none !important;
+    }
+    .daterangepicker .drp-calendar.right .daterangepicker_input {
+        position: absolute;
+        top: 45px;
+        left: 15px;
+        width: 230px;
+    }
+    .drp-calendar.left .drp-calendar-table {
+        margin-top: 45px;
+    }
+
+    .daterangepicker .drp-calendar.right {
+        display: none;
+        right: 0 !important;
+        top: 0 !important;
+    }
+
+
+
+
+
+
+
+
+
+

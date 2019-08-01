@@ -1,0 +1,155 @@
+SELECT * from output_control JOIN main_pdo ON output_control.id_pdo=main_pdo.id JOIN line ON main_pdo.id_line=line.id JOIN shift on main_pdo.id_shift=shift.id
+WHERE YEAR(main_pdo.tanggal)=YEAR('2019-07-02') AND MONTH(main_pdo.tanggal)=MONTH('2019-07-02') AND main_pdo.id_line='8' AND shift.keterangan='A' ORDER BY main_pdo.tanggal ASC
+
+//// TOTal p & A tiap LINE. //////
+
+SELECT 
+	output_control.time,sum(output_control.plan)as to_plan,sum(output_control.actual)as to_actual
+FROM output_control 
+	JOIN main_pdo ON output_control.id_pdo=main_pdo.id
+    JOIN line ON main_pdo.id_line=line.id
+    JOIN shift on main_pdo.id_shift=shift.id
+WHERE
+    line.id=8
+GROUP BY DAY(output_control.time) 
+ORDER BY output_control.time ASC
+
+//normal pengurangan
+SELECT 
+	output_control.time,sum(output_control.plan)as to_plan,sum(output_control.actual)as to_actual, 
+    (
+		(sum(output_control.plan))-(sum(output_control.actual))
+    )
+    
+FROM output_control 
+	JOIN main_pdo ON output_control.id_pdo=main_pdo.id
+    JOIN line ON main_pdo.id_line=line.id
+    JOIN shift on main_pdo.id_shift=shift.id
+WHERE
+    line.id=8
+GROUP BY DAY(output_control.time) 
+ORDER BY output_control.time ASC
+
+/// fix with keterangan
+SELECT 
+	output_control.time,sum(output_control.plan)as to_plan,sum(output_control.actual)as to_actual, 
+    (
+		(sum(output_control.plan))-(sum(output_control.actual))
+    ) as balance,
+    (
+      if( (sum(output_control.plan))<(sum(output_control.actual)),"S","B"  )
+    ) as ket,
+    (
+      if( (sum(output_control.plan))<(sum(output_control.actual)),(sum(output_control.actual))-(sum(output_control.plan)), (sum(output_control.actual))-(sum(output_control.plan))  )
+    ) as Balance_fix
+    
+    
+FROM output_control 
+	JOIN main_pdo ON output_control.id_pdo=main_pdo.id
+    JOIN line ON main_pdo.id_line=line.id
+    JOIN shift on main_pdo.id_shift=shift.id
+WHERE
+    line.id=8
+GROUP BY DAY(output_control.time) 
+ORDER BY output_control.time ASC
+
+// FIX 
+SELECT 
+	output_control.time,sum(output_control.plan)as to_plan,sum(output_control.actual)as to_actual,  
+    (
+      if( (sum(output_control.plan))<(sum(output_control.actual)),(sum(output_control.actual))-(sum(output_control.plan)), (sum(output_control.actual))-(sum(output_control.plan))  )
+    ) as balance
+    
+FROM output_control 
+	JOIN main_pdo ON output_control.id_pdo=main_pdo.id
+    JOIN line ON main_pdo.id_line=line.id
+    JOIN shift on main_pdo.id_shift=shift.id
+WHERE
+    line.id=8 AND
+    YEAR(output_control.time)=YEAR('2019-07-01') AND
+    MONTH(output_control.time)=MONTH('2019-07-01')
+    
+GROUP BY DAY(output_control.time) 
+ORDER BY output_control.time ASC
+
+
+// Jam EFFEctive
+SELECT (SELECT jam_kerja FROM main_pdo WHERE id=20)-(select (select COALESCE(SUM(menit),0) FROM indirect_activity WHERE id_pdo=20)/60)
+
+// mh in dl
+SELECT 
+(
+  (
+    SELECT (SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=1 AND id_pdo=20)
+    +
+    (SELECT COALESCE(SUM(total),0) FROM direct_labor WHERE id_pdo=20)
+  )
+  -(SELECT COALESCE(SUM(total),0) FROM absen_pegawai WHERE id_pdo=20)
+  -(SELECT COALESCE(SUM(total),0) FROM indirect_activity WHERE id_pdo=20)
+  -(SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=2 AND id_pdo=20)
+) as mhin
+
+
+//hitung total direct labor a
+SELECT
+(
+  (select (SELECT jam_kerja FROM main_pdo WHERE id=20)-(select (select COALESCE(SUM(menit),0) FROM indirect_activity WHERE id_pdo=20)/60))*(SELECT reg_dl FROM direct_labor WHERE id_pdo=20)+
+  (SELECT 
+    (SELECT jam_ot FROM direct_labor WHERE id_pdo=20)*(SELECT dl_ot FROM direct_labor WHERE id_pdo=20)
+  )
+)
+
+// MHIN EXCLUDE
+SELECT 
+(
+  (
+    SELECT (SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=1 AND id_pdo=20)
+    +
+    (
+      SELECT
+        (
+          (select (SELECT jam_kerja FROM main_pdo WHERE id=20)-(select (select COALESCE(SUM(menit),0) FROM indirect_activity WHERE id_pdo=20)/60))*(SELECT reg_dl FROM direct_labor WHERE id_pdo=20)+
+          (SELECT 
+            (SELECT jam_ot FROM direct_labor WHERE id_pdo=20)*(SELECT dl_ot FROM direct_labor WHERE id_pdo=20)
+          )
+        )
+    )
+  )
+  -(SELECT COALESCE(SUM(total),0) FROM absen_pegawai WHERE id_pdo=20)
+  -(SELECT COALESCE(SUM(total),0) FROM indirect_activity WHERE id_pdo=20)
+  -(SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=2 AND id_pdo=20)
+) as mhin_excl
+
+
+// TOTAL MH OUT
+SELECT COALESCE(SUM(actual*umh),0) 
+FROM build_assy 
+JOIN assembly ON id_assy=assembly.id
+WHERE id_pdo=20
+
+//EFFISIENSI EXCLUDE
+SELECT
+    (SELECT COALESCE(SUM(actual*umh),0) 
+        FROM build_assy 
+        JOIN assembly ON id_assy=assembly.id
+        WHERE id_pdo=20
+    )/
+    (
+        (
+            SELECT 
+                (SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=1 AND id_pdo=20)
+                +
+                (
+                  SELECT
+                    (
+                      (select (SELECT jam_kerja FROM main_pdo WHERE id=20)-(select (select COALESCE(SUM(menit),0) FROM indirect_activity WHERE id_pdo=20)/60))*(SELECT reg_dl FROM direct_labor WHERE id_pdo=20)+
+                      (SELECT 
+                        (SELECT jam_ot FROM direct_labor WHERE id_pdo=20)*(SELECT dl_ot FROM direct_labor WHERE id_pdo=20)
+                      )
+                    )
+                )
+        )
+        -(SELECT COALESCE(SUM(total),0) FROM absen_pegawai WHERE id_pdo=20)
+         -(SELECT COALESCE(SUM(total),0) FROM indirect_activity WHERE id_pdo=20)
+        -(SELECT COALESCE(SUM(total),0) FROM regulasi WHERE id_jenisreg=2 AND id_pdo=20)
+    )*100 as eff_excl
