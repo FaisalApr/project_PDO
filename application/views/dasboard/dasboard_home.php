@@ -1982,8 +1982,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                	id_tgl:id_tgl
 	                } ,
 	                success : function(res){ 
-	                		// console.log('ini isi: ');
-	                		// console.log(res);
+	                		console.log('ini isi: ');
+	                		console.log(res);
 	                		// jika ada data PDO
 							if (res) { //--->>>> masuk PDO TERSEDIA
 								id_pdo = res.id;
@@ -2061,8 +2061,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										autoplan.push(Math.floor(sum_sis));
 										x++;
 									}
-								console.log('isi autoplan');
-								console.log(autoplan);
+								// console.log('isi autoplan');
+								// console.log(autoplan);
 								$('#jum_plann').val(autoplan[jam_pos]);  
 
 

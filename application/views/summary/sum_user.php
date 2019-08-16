@@ -260,9 +260,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					  	tgl_start = start.format('YYYY-MM-DD');
 					  	tgl_end = end.format('YYYY-MM-DD');
 					}); 
-				// TrigGER PIlih TANGGAL
+				// TrigGER PIlih TANGGAL 
 					$('.date-pickerrr').datepicker({   
 						language: "en",
+						format: 'yyyy-mm-dd',
+						setDate: id_tgl,
+						todayHighlight: true,
 						firstDay: 1,  
 					    onSelect: function(selected, d, calendar) {   
 					    	// jika yang dipilih sama 
@@ -290,7 +293,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							tgl_end = currentYear+'-'+(currentMonth+1)+'-'+daysInMonth;
 				    		show();
 					    }
-					});
+					}); 
 				// TRIGGEr line Change
 					$('#select_line').on('select2:select',function(e){
 						var data = e.params.data;
@@ -322,8 +325,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						// update opt to server
 						updateOpt(); 
-						show();
-						// cekHariini();
+						show(); 
 					});
 			
 			// ====  AUTOLOAD =====  

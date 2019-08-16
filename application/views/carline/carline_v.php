@@ -141,7 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div> 
 		                  <!-- input -->
 							<div class="input-group custom input-group-lg">
-								<input type="text" class="form-control" placeholder="Nama Line " id="i_nama" required>
+								<input type="text" class="form-control" placeholder="Nama Carline " id="i_nama" required>
 								<div class="valid-feedback"></div>
 	    						
 							</div>  

@@ -52,11 +52,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30 text" >  
 			<H2 class="text-center">Daily Summary QCD</H2>
 			<div class="pull-right" style="margin-top: -30px;" id="id_btndownloaddiv" style="display: none;">
-				<a id="donload_qcd" href="#"><button class="btn btn-primary btn-sm"><i class="icon-copy fa fa-download" aria-hidden="true"></i> Download</button></a>
+				<a href="#modal_downloadAll" class="btn btn-primary btn-sm" data-toggle="modal"  style="margin-right: 30px"> 
+					<i class="icon-copy fa fa-download" aria-hidden="true"></i> Download ALL Carline
+				</a> 
+				<a id="donload_qcd" href="#">
+					<button class="btn btn-primary btn-sm"><i class="icon-copy fa fa-download" aria-hidden="true" download></i> Download</button>
+				</a>
 			</div>
 			<hr>
-			<h5 id="tgl_qcd">Tanggal : -</h5>
-			<h5 id="shift_qcd">Shift &nbsp&nbsp&nbsp&nbsp&nbsp: -</h5>
+			<h5 id="tgl_qcd">Tanggal : -</h5> 
 			<h5 id="line_qcd">Line &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: -</h5>
 			<h5 id="status_qcd">Status  &nbsp&nbsp: -</h5> 
 			 <br>
@@ -105,8 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="pd-20 bg-white border-radius-4 box-shadow mb-30 text" >  
 			<H2 class="text-center">Daily Summary Downtime</H2> 
 			<hr>
-			<h5 id="tgl_downtime">Tanggal : Rabu, 10 July 2019</h5>
-			<h5 id="shift_downtime">Shift &nbsp&nbsp&nbsp&nbsp&nbsp: A</h5>
+			<h5 id="tgl_downtime">Tanggal : Rabu, 10 July 2019</h5> 
 			<h5 id="line_downtime">Line &nbsp&nbsp&nbsp&nbsp&nbsp: 1B</h5>
 			<h5 id="status_downtime">Status  &nbsp&nbsp: Checked</h5> 
 			 <br>
@@ -162,7 +165,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 
 </div>
- 
+<!-- ======   ALLL MODAL  ====== -->
+<div>  
+
+	<div class="modal fade" id="modal_downloadAll">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Download All Carline</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+				</div>
+				<div class="modal-body">
+					<p>Anda Akan Mendownload QCD semua Carline ?</p>
+				</div>
+				 <center>
+					<button id="btn_dlallb"  class="btn btn-info" style="margin-right: 50px;">SAI B</button> 
+					<button id="btn_dlallt"  class="btn btn-primary">SAI T</button>
+				</center> 
+				<br>
+			</div>
+		</div>
+	</div>	
+
+</div>
+<!-- ======   ALLL MODAL  ====== -->
+
 </body>
 	<!-- Script Main -->
 	<script src="<?php echo base_url() ?>assets/vendors/scripts/script.js"></script> 
@@ -249,16 +276,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						var ssf = $(this).data('value'); 
 		 
 						if (ssf==1) {
-							document.getElementById('id_sifname').innerHTML= 'A';
-							document.getElementById('shift_qcd').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: A';
-							document.getElementById('shift_downtime').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: A';
+							document.getElementById('id_sifname').innerHTML= 'A';  
 							
 							document.getElementById('sf_a').classList.add("aktip");
 							document.getElementById('sf_b').classList.remove("aktip"); 	
 						} else{
-							document.getElementById('id_sifname').innerHTML= 'B';
-							document.getElementById('shift_qcd').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: B';
-							document.getElementById('shift_downtime').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: B';
+							document.getElementById('id_sifname').innerHTML= 'B';  
 							document.getElementById('sf_b').classList.add("aktip");	
 							document.getElementById('sf_a').classList.remove("aktip");	
 						}
@@ -273,9 +296,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				
 
 			// ====  AUTOLOAD =====  
-				loadDropdown();   
-             	document.getElementById('shift_qcd').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: '+document.getElementById('id_sifname').innerHTML;
-				document.getElementById('shift_downtime').innerHTML= 'Shift &nbsp&nbsp&nbsp&nbsp&nbsp: '+document.getElementById('id_sifname').innerHTML; 
+				loadDropdown();     
 				cariDataPdo();
 
 
@@ -446,7 +467,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
  			// BTN DOWNLOAD
+ 				// 1hari
 	 			$('#donload_qcd').on('click',function(){ 
+	 				document.getElementById('donload_qcd').disabled=true;
+	 				 
 	 				console.log('isi pdo:'+id_pdo);
 					$.ajax({
 	                    async : false,
@@ -457,12 +481,87 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	                    	id_line:id_line,
 	                    	tgl_pos:tgl_pos,
 	                    	nam_line:nam_line
-	                    },
+	                    },beforeSend: function(){
+		                	Swal.fire({ 
+							    allowEscapeKey: false,
+							    allowOutsideClick: false,
+							    title: "", 
+							    showConfirmButton: false,
+							    onOpen: () => {
+							      swal.showLoading();
+							    }
+							  });
+		                }, 
 	                    success : function(res){   
 	                    	window.location.href= res; 
+	                    	document.getElementById('donload_qcd').disabled=false;
+	                    	swal.hideLoading();
+							Swal.close();
 	                    } 
 	                });  
 				});
+
+	 			// All Carline
+					$('#btn_dlallt').on('click',function(){  
+						$.ajax({
+		                    async : false,
+		                    type  : 'POST',
+		                    url   : '<?php echo base_url();?>index.php/ExcelExport/downloadallcarlineqcd', 
+		                    data: { 
+		                    	tgl: id_tgl,
+		                    	id_line:id_line,
+		                    	tgl_pos:tgl_pos,
+		                    	nam_line:nam_line,
+		                    	dis:1
+		                    },beforeSend: function(){
+			                	Swal.fire({ 
+								    allowEscapeKey: false,
+								    allowOutsideClick: false,
+								    title: "", 
+								    showConfirmButton: false,
+								    onOpen: () => {
+								      swal.showLoading();
+								    }
+								  });
+			                }, 
+		                    success : function(res){   
+		                    	window.location.href= res;  
+		                    	swal.hideLoading();
+								Swal.close();
+								$('#modal_downloadAll').modal('hide');
+		                    } 
+		                });  
+					});
+					$('#btn_dlallb').on('click',function(){   
+						$.ajax({
+		                    async : false,
+		                    type  : 'POST',
+		                    url   : '<?php echo base_url();?>index.php/ExcelExport/downloadallcarlineqcd', 
+		                    data: { 
+		                    	tgl: id_tgl,
+		                    	id_line:id_line,
+		                    	tgl_pos:tgl_pos,
+		                    	nam_line:nam_line,
+		                    	dis:2
+		                    },beforeSend: function(){
+			                	Swal.fire({ 
+								    allowEscapeKey: false,
+								    allowOutsideClick: false,
+								    title: "", 
+								    showConfirmButton: false,
+								    onOpen: () => {
+								      swal.showLoading();
+								    }
+								  });
+			                }, 
+		                    success : function(res){   
+		                    	window.location.href= res;  
+		                    	swal.hideLoading();
+								Swal.close();
+								$('#modal_downloadAll').modal('hide');
+		                    } 
+		                });  
+					});
 
 
 

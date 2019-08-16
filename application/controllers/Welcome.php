@@ -4,11 +4,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Welcome extends CI_Controller {
  	
  	function __construct(){
-		parent::__construct();		
-		$this->load->model('Pdo_model');  
-		$this->load->model('Verifikasi_model');  
-		$this->load->model('DirectLabor_Model');
+		parent::__construct();		   
+		$this->load->model('Verifikasi_model');   
 		$this->load->model('InDirectLabor_Model');
+		$this->load->model('Pdo_model');
+		$this->load->model('OutputControl_model');
+		$this->load->model('DirectLabor_Model');
+		$this->load->model('Losstime_model');
+		$this->load->model('Defect_model');
 		date_default_timezone_set("Asia/Jakarta");
 		
 		// jika tidak memiliki sesi		
@@ -161,6 +164,11 @@ class Welcome extends CI_Controller {
  		$tanggal = $this->input->post('id_tgl');
 
  		$result = $this->Pdo_model->cariHariIni($line,$shift,$tanggal);
+ 		if ($result) {
+ 			$refresh = $this->Pdo_model->refreshData( $result->id );
+ 			
+ 			$result = $this->Pdo_model->cariHariIni($line,$shift,$tanggal);
+ 		} 
 
  		echo json_encode($result);
  	}

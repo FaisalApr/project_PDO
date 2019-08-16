@@ -22,6 +22,17 @@ class Export_model extends CI_Model {
         return $query->first_row();
 	}
 
+	public function cariDataCarlineByDis($dis)
+	{
+		$q = $this->db->query("SELECT *,list_carline.id
+								FROM list_carline
+									JOIN carline ON list_carline.id_carline=carline.id
+								    JOIN district on carline.id_district=district.id
+								    JOIN line ON list_carline.id_line=line.id
+								WHERE
+									district.id=$dis");
+		return $q->result();
+	}
 
 
 }
