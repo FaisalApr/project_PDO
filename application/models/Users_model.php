@@ -147,13 +147,20 @@ class Users_model extends CI_Model {
 	}
 
 	// admin carline
-	public function getAdminCarlineGroup($dist)
+	public function getAdminCarlineGroup($dist) //sai district
 	{ 
+		// $que = $this->db->query("SELECT *  
+		// 						FROM list_carline
+		// 						JOIN carline on list_carline.id_carline=carline.id
+
+		// 						WHERE carline.id_district=1 and carline.status=1
+		// 						GROUP BY list_carline.id_carline 
+		// 						ORDER BY carline.nama_carline ASC");
 		$que = $this->db->query("SELECT *  
 								FROM list_carline
-								JOIN carline on list_carline.id_carline=carline.id
+								left JOIN  carline on list_carline.id_carline=carline.id
 
-								WHERE carline.id_district=1 and carline.status=1
+								WHERE carline.status=1
 								GROUP BY list_carline.id_carline 
 								ORDER BY carline.nama_carline ASC");
 		return $que->result();

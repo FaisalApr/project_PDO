@@ -58,7 +58,7 @@ class Pdo_model extends CI_Model {
 
 	public function getDataPdoExport($date,$sif,$line)
 	{
-		$query = $this->db->query("SELECT *,main_pdo.id as id_pdo 
+		$query = $this->db->query("SELECT *,main_pdo.id as id_pdo,main_pdo.status
 									FROM main_pdo  
 										JOIN shift on main_pdo.id_shift=shift.id
 										JOIN list_carline on main_pdo.id_listcarline= list_carline.id

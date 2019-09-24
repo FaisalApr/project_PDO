@@ -54,7 +54,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
  
 				<div class="pull-right" style="margin-right: 25px; margin-top: -50px;">
-					<a href="#" class="btn btn-success" data-toggle="modal" data-target="#login-modal" style="width: 193px">
+					<a class="btn btn-primary" data-toggle="modal" href='#modal_importexcl' style="margin-right: 25px;">Import File .Xlsx</a>
+					<a href="#" class="btn btn-success" data-toggle="modal" data-target="#new_modal" style="width: 193px">
 						<span class="fa fa-plus"></span> Tambah </a>
 				</div> 	 
 				<br>
@@ -63,8 +64,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<thead>
 						<tr>
 							<th class="table-plus datatable-nosort" >No</th>
-							<th>Kode</th>
+							<th>Downtime Code</th>
+							<th>Pasi Code</th>
 							<th>Keterangan Error</th>
+							<th>Responsible</th>
 							<th class="datatable-nosort">Action</th>
 						</tr>
 					</thead>
@@ -77,28 +80,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <!-- start modal -->
-	<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
+	<!-- new  -->
+	<div class="modal fade" id="new_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
 				<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					<h2 class="text-center mb-30">Error Code</h2>
 					
 					<form id="form_errorCode">
-						
-						<div class="input-group custom input-group-lg">
-							<input type="text" class="form-control" placeholder="Kode" id="i_code" name="i_code">
-							<div class="input-group-append custom">
-								<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+						<div class="row">
+							<div class="col-md-6">
+								<label>Kode Downtime</label>
+								<div class="input-group custom input-group-lg">
+									<input type="text" class="form-control" placeholder="Kode" id="i_code" name="i_code">
+									<div class="input-group-append custom">
+										<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+									</div>
+								</div>		
+							</div>
+							<div class="col-md-6">
+								<label class="form-control-label">Kodepasi :</label>
+								<div class="input-group custom input-group-lg">
+									<input type="text" class="form-control" placeholder="kodepasi" id="kodepasi_new" name="kodepasi_new">
+									<div class="input-group-append custom"> 
+										<span class="input-group-text"><i class="fa fa-info" aria-hidden="true"></i></span>
+									</div>
+								</div>
 							</div>
 						</div>
-
-						<div class="input-group custom input-group-lg">
-							<input type="text" class="form-control" placeholder="Keterangan Error" id="i_ket" name="i_ket">
-							<div class="input-group-append custom">
-								<span class="input-group-text"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+						<div class="row">
+							<div class="col-md-6">
+								<label>Keterangan</label>
+								<div class="input-group custom input-group-lg">
+									<input type="text" class="form-control" placeholder="Keterangan Error" id="i_ket" name="i_ket">
+									<div class="input-group-append custom">
+										<span class="input-group-text"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+									</div>
+								</div>
 							</div>
-						</div>
+							<div class="col-md-6">
+								<label class="form-control-label">Responsible :</label>
+								<div class="input-group custom input-group-lg">
+									<input type="text" class="form-control" placeholder="responsible" id="responsible_new" name="responsible_new">
+									<div class="input-group-append custom"> 
+										<span class="input-group-text"><i class="fa fa-info" aria-hidden="true"></i></span>
+									</div>
+								</div>
+							</div>
+						</div> 
 						
 						<div class="row">
 							<div class="col-sm-12">
@@ -120,7 +150,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 <!-- update modal --> 
 	<div class="modal fade" id="Modal_upd" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
 			<div class="modal-content">
 				<div class="bg-white box-shadow pd-ltr-20 border-radius-5">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -128,21 +158,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<h2 class="text-center mb-30">Edit Error Code</h2>
 					<form id="formupdate_err">
-						<div class="input-group custom input-group-lg">
-							
-							<input type="text" class="form-control" placeholder="Defect Code" name="kodeupdt" id="kodeupdt">
-							<input type="hidden" class="form-control" placeholder="Defect Code" name="id_k" id="id_k">
-							<div class="input-group-append custom">
-								<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+
+						<div class="row">
+							<div class="col-md-6">
+								<label>Kode Downtime :</label>
+								<div class="input-group custom input-group-lg">  
+									<input type="text" class="form-control" placeholder="Defect Code" name="kodeupdt" id="kodeupdt">
+									<input type="hidden" class="form-control" placeholder="Defect Code" name="id_k" id="id_k">
+									<div class="input-group-append custom">
+										<span class="input-group-text"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+									</div>
+								</div>
+							</div>	
+							<div class="col-md-6">
+								<label class="form-control-label">Kodepasi :</label>
+								<div class="input-group custom input-group-lg">
+									<input type="text" class="form-control" placeholder="kodepasi" id="kodepasi_up" name="kodepasi_up">
+									<div class="input-group-append custom"> 
+										<span class="input-group-text"><i class="fa fa-info" aria-hidden="true"></i></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label>Keterangan :</label>
+								<div class="input-group custom input-group-lg">
+									<input type="text" class="form-control" placeholder="Keterangan" id="keterangan_name" name="keterangan_name">
+									<div class="input-group-append custom"> 
+										<span class="input-group-text"><i class="fa fa-info" aria-hidden="true"></i></span>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<label class="form-control-label">Responsible :</label>
+								<div class="input-group custom input-group-lg">
+									<input type="text" class="form-control" placeholder="responsible" id="responsible_up" name="responsible_up">
+									<div class="input-group-append custom"> 
+										<span class="input-group-text"><i class="fa fa-info" aria-hidden="true"></i></span>
+									</div>
+								</div>
 							</div>
 						</div>
 						
-						<div class="input-group custom input-group-lg">
-							<input type="text" class="form-control" placeholder="Keterangan" id="keterangan_name" name="keterangan_name">
-							<div class="input-group-append custom"> 
-								<span class="input-group-text"><i class="fa fa-info" aria-hidden="true"></i></span>
-							</div>
-						</div>
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="input-group"> 
@@ -175,6 +233,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+<!-- IMPORT FILE --> 
+	<div class="modal fade" id="modal_importexcl">
+		<div class="modal-dialog modal-lg modal-dialog-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Import File EXCEL (.Xlsx)</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+				</div>
+				<div class="modal-body">
+					<form method="post" id="import_form" enctype="multipart/form-data"> 
+						<div class="alert alert-warning" role="alert">
+							Pastikan Data .Xlsx Yang dimasukkan Sesuai Dengan Format.
+							<img src="<?php echo base_url()?>/assets/src/images/format_downtime.png">
+						</div>
+						<p><label>Select Excel File</label>
+						<input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
+						<br />
+						<input type="submit" name="import" value="Import" class="btn btn-info" />
+					</form>
+
+				</div> 
 			</div>
 		</div>
 	</div>
@@ -324,14 +406,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 '<tr>'+
 									'<td class="table-plus">'+(i+1)+'</td>'+
 									'<td>'+ data[i].kode+'</td>'+
+									'<td>'+ data[i].kodepasi+'</td>'+
 									'<td>'+data[i].keterangan+'</td>'+
+									'<td>'+ data[i].responsible+'</td>'+
 									'<td>'+
 										'<div class="dropdown">'+
 											'<a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">'+
 												'<i class="fa fa-ellipsis-h"></i>'+
 											'</a>'+											
 											'<div class="dropdown-menu dropdown-menu-right">'+
-												'<a class="dropdown-item item_edit" href="#" data-id ="'+data[i].id+'" data-kode_defect="'+data[i].kode+'" data-keterangan ="'+data[i].keterangan+'"><i class="fa fa-pencil"></i> Edit </a>'+
+												'<a class="dropdown-item item_edit" href="#" data-id ="'+data[i].id+'" data-kode_defect="'+data[i].kode+'" data-keterangan ="'+data[i].keterangan+'" data-responsible="'+data[i].responsible+'" data-kodepasi="'+data[i].kodepasi+'"><i class="fa fa-pencil"></i> Edit </a>'+
 												'<a class="dropdown-item item_delete" href="#" data-id="'+data[i].id+'"><i class="fa fa-trash"></i> Hapus </a>'+
 											'</div>'+
 										'</div>'+
@@ -368,6 +452,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				    },
 				    i_ket: {
 				    	required: true
+				    },
+				    kodepasi_new: {
+				    	required: true
+				    },
+				    responsible_new: {
+				    	required: true
 				    }
 				  }
 				});
@@ -376,8 +466,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	   					return;
 	   				}
 					var def_code = document.getElementById("i_code").value;
-					var def_ket = document.getElementById("i_ket").value;
-					// alert(def_code+","+def_ket);
+					var def_ket = document.getElementById("i_ket").value; 
+					var pasi = $('[name="kodepasi_new"]').val();
+					var resp = $('[name="responsible_new"]').val();
 
 					$.ajax({
 						async : false,
@@ -386,7 +477,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						dataType : "JSON",
 						data : {
 							def_code:def_code,
-							def_ket:def_ket
+							def_ket:def_ket,
+							pasi: pasi,
+							resp: resp
 						},
 						beforeSend: function(){
 	                		Swal.showLoading();
@@ -394,7 +487,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						success : function(response){
 							Swal.close();
 							// Swal.hideLoading();
-							$('#login-modal').modal('hide');
+							$('#new_modal').modal('hide');
 							if(response.error){
 								// alert('error');
 							}else{
@@ -484,12 +577,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                var idd = $(this).data('id');
 		                var kode = $(this).data('kode_defect'); 
 		                var ket = $(this).data('keterangan');
+		                var pasi = $(this).data('kodepasi');
+		                var res = $(this).data('responsible');
 
 		                // memasukkan data ke form updatean
 		                // name inputan . variabel
 						$('[name="id_k"]').val(idd);
 						$('[name="kodeupdt"]').val(kode);
-						$('[name="keterangan_name"]').val(ket); 
+						$('[name="keterangan_name"]').val(ket);
+						$('[name="kodepasi_up"]').val(pasi);
+						$('[name="responsible_up"]').val(res); 
 
 		                $('#Modal_upd').modal('show'); 
 		            });
@@ -500,6 +597,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					      required: true
 					    },
 					    keterangan_name: {
+					    	required: true
+					    },
+					    kodepasi_up: {
+					    	required: true
+					    },
+					    responsible_up: {
 					    	required: true
 					    }
 					  }
@@ -513,6 +616,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                var idkode = $('[name="id_k"]').val();
 						var kodeup = $('[name="kodeupdt"]').val();
 						var ketup = $('[name="keterangan_name"]').val();
+						var pasi = $('[name="kodepasi_up"]').val();
+						var resp = $('[name="responsible_up"]').val();
 						
 						// alert(ketup);
 		                $.ajax({
@@ -523,8 +628,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		                    	//post controller : variabel
 		                    		id:idkode,
 		                    		code:kodeup,
-		                    		keterangan:ketup},
-
+		                    		keterangan:ketup,
+		                    		pasi: pasi,
+		                    		resp:resp
+		                    	},
 		                    success: function(data){
 		                    	$('#Modal_upd').modal('hide'); 
 		                        // refresh();
@@ -605,6 +712,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			            });
 					}
 
+			// IMPORT FILE
+				$('#import_form').on('submit', function(event){
+					event.preventDefault();
+					$.ajax({
+						async: false,
+						url:"<?php echo site_url(); ?>/Excel_import/importjeniserror",
+						method:"POST",
+						data:new FormData(this),
+						contentType:false,
+						cache:false,
+						processData:false,
+						beforeSend: function(){
+							Swal.showLoading();
+						},
+						success:function(data){
+							Swal.close();
+							$('#file').val('');
+							console.log(data);
+							$('#modal_importexcl').modal('hide');
+
+							Swal.fire({
+							  position: 'center',
+							  title: 'Selesai Menambahkan',
+							  type: 'success', 
+							});
+
+							show(); 
+						}
+					})
+				});
 
 		});
 	</script>

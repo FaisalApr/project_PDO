@@ -189,28 +189,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  	
  	<!-- import file -->
 	<div class="modal fade" id="modal_importexcl">
-				<div class="modal-dialog modal-dialog-lg">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title">Import File EXCEL (.Xlsx)</h4>
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
-						</div>
-						<div class="modal-body">
-							<form method="post" id="import_form" enctype="multipart/form-data"> 
-								<div class="alert alert-warning" role="alert">
-									Pastikan Data .Xlsx Yang dimasukkan Sesuai Dengan Format.
-									<img src="<?php echo base_url()?>/assets/src/images/format_assycode.png">
-								</div>
-								<p><label>Select Excel File</label>
-								<input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
-								<br />
-								<input type="submit" name="import" value="Import" class="btn btn-info" />
-							</form>
-
-						</div> 
-					</div>
+		<div class="modal-dialog modal-dialog-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Import File EXCEL (.Xlsx)</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
 				</div>
+				<div class="modal-body">
+					<form method="post" id="import_form" enctype="multipart/form-data"> 
+						<div class="alert alert-warning" role="alert">
+							Pastikan Data .Xlsx Yang dimasukkan Sesuai Dengan Format.
+							<img src="<?php echo base_url()?>/assets/src/images/format_assycode.png">
+						</div>
+						<p><label>Select Excel File</label>
+						<input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
+						<br />
+						<input type="submit" name="import" value="Import" class="btn btn-info" />
+					</form>
+
+				</div> 
 			</div>
+		</div>
+	</div>
 
 </div>
 

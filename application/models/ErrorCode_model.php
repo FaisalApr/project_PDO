@@ -30,12 +30,14 @@ class ErrorCode_model extends CI_Model {
 		return $result;
 	}
 	
-	public function updateEcode($id,$code,$ket)
+	public function updateEcode($id,$code,$ket,$pasi,$resp)
 	{
 		# code...
 		$data = array(
 			'kode' => $code,
-			'keterangan' => $ket
+			'keterangan' => $ket,
+			'kodepasi' => $pasi,
+			'responsible' => $resp
 		);
 		$this->db->where('id',$id);
 		return $this->db->update('jenis_error',$data);

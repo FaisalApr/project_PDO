@@ -492,7 +492,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							    }
 							  });
 		                }, 
-	                    success : function(res){   
+	                    success : function(res){  
+	                    	// console.log(res);
+	                    	// return;
+	                    	
 	                    	window.location.href= res; 
 	                    	document.getElementById('donload_qcd').disabled=false;
 	                    	swal.hideLoading();

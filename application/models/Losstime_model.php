@@ -37,7 +37,7 @@ class Losstime_model extends CI_Model {
     {
     	# code...
     	$q = $this->db->query("SELECT 
-                                    lost_time.id, output_control.jam_ke, jenis_error.kode, jenis_error.keterangan as problem, jenis_losttime.keterangan as jenis, lost_time.keterangan, lost_time.durasi ,
+                                    lost_time.id, output_control.jam_ke, jenis_error.kode, jenis_error.kodepasi, jenis_error.keterangan as problem, jenis_losttime.keterangan as jenis, lost_time.keterangan, lost_time.durasi ,
                                     lost_time.id_error as id_err,jenis_losttime.id  as id_jenlos, output_control.id  as id_oc
                                 from lost_time 
                                     join jenis_error on lost_time.id_error=jenis_error.id 

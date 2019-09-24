@@ -191,6 +191,35 @@ class DirectLabor_Model extends CI_Model {
 	}
 
 
+// For PDO EXPORT
+	public function getindrectactiv($pdo)
+	{
+		$res = $this->db->query(" SELECT COALESCE(SUM(total),0) as tot FROM `indirect_activity` WHERE id_pdo=$pdo ");
+		return $res->first_row();
+	}
 
-// indirect act
+	public function getnonoprthours($pdo)
+	{
+		$res = $this->db->query(" SELECT COALESCE(SUM(total),0) as tot FROM `absen_pegawai` WHERE id_pdo=$pdo ");
+		return $res->first_row();
+	}
+
+	public function getDataDirectLab($pdo)
+	{
+		$res = $this->db->query(" SELECT * FROM `direct_labor` WHERE id_pdo=$pdo ");
+		return $res->first_row();
+	}
+
+	public function getRegulasiIn($pdo)
+	{
+		$res = $this->db->query(" SELECT COALESCE(SUM(total),0) as tot FROM `regulasi` WHERE id_jenisreg=1 AND id_pdo=$pdo ");
+		return $res->first_row();
+	}
+
+	public function getRegulasiOut($pdo)
+	{
+		$res = $this->db->query(" SELECT COALESCE(SUM(total),0) as tot FROM `regulasi` WHERE id_jenisreg=2 AND id_pdo=$pdo ");
+		return $res->first_row();
+	}
+
 } 

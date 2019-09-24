@@ -29,6 +29,17 @@ class Excel_import_model extends CI_Model {
 		}
 	}
 
+	public function cekerrorcode($kode)
+	{ 
+		# code...
+		$query = $this->db->query('SELECT * FROM jenis_error where kode="'.$kode.'"');
+		if($query->num_rows()>0){
+			return $query->first_row();
+		}else{
+			return false;
+		}
+	}
+
 	public function cekline($nama)
 	{
 		# code...

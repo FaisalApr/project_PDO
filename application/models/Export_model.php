@@ -11,7 +11,7 @@ class Export_model extends CI_Model {
 
 	public function getDataQcd($id)
 	{
-		$query= $this->db->query("SELECT * 
+		$query= $this->db->query("SELECT * ,main_pdo.status
 									FROM main_pdo 
 									JOIN list_carline on main_pdo.id_listcarline=list_carline.id
 									JOIN carline ON list_carline.id_carline=carline.id

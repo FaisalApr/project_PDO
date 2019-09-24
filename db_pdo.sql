@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 01 Agu 2019 pada 04.37
+-- Waktu pembuatan: 24 Sep 2019 pada 09.59
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 5.6.40
 
@@ -37,13 +37,6 @@ CREATE TABLE `absen_leader` (
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `absen_leader`
---
-
-INSERT INTO `absen_leader` (`id`, `id_pdo`, `item`, `qty`, `jam`, `total`) VALUES
-(1, 24, 'pwr', 2, 2, 4);
-
 -- --------------------------------------------------------
 
 --
@@ -58,16 +51,6 @@ CREATE TABLE `absen_pegawai` (
   `jam` double NOT NULL,
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `absen_pegawai`
---
-
-INSERT INTO `absen_pegawai` (`id`, `id_pdo`, `item`, `qty`, `jam`, `total`) VALUES
-(1, 24, 'qw', 2, 1, 2),
-(2, 26, 'ty', 2, 3, 6),
-(3, 26, 'ds', 2, 2, 4),
-(4, 26, 'tr', 2, 3, 6);
 
 -- --------------------------------------------------------
 
@@ -405,118 +388,6 @@ CREATE TABLE `build_assy` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `build_assy`
---
-
-INSERT INTO `build_assy` (`id`, `id_outputcontrol`, `id_pdo`, `id_assy`, `actual`, `time`) VALUES
-(43, 31, 20, 1199, 12, '2019-07-18 21:11:12'),
-(44, 32, 20, 1199, 7, '2019-07-18 21:12:53'),
-(45, 33, 20, 1199, 7, '2019-07-25 13:25:38'),
-(46, 34, 20, 1199, 8, '2019-07-18 23:16:39'),
-(47, 35, 20, 1199, 19, '2019-07-18 23:17:05'),
-(48, 36, 20, 1199, 19, '2019-07-18 23:17:36'),
-(49, 37, 20, 1199, 19, '2019-07-18 23:18:09'),
-(50, 38, 20, 1199, 28, '2019-07-18 23:18:46'),
-(51, 38, 20, 1200, 22, '2019-07-18 23:19:01'),
-(52, 39, 21, 1289, 3, '2019-07-19 08:11:50'),
-(53, 39, 21, 1322, 11, '2019-07-19 08:12:22'),
-(54, 40, 22, 1322, 5, '2019-07-19 08:12:27'),
-(55, 39, 21, 1334, 11, '2019-07-19 08:12:40'),
-(56, 40, 22, 1467, 17, '2019-07-19 08:12:51'),
-(57, 41, 21, 1289, 1, '2019-07-19 08:14:13'),
-(58, 41, 21, 1334, 4, '2019-07-19 08:14:21'),
-(59, 41, 21, 1385, 3, '2019-07-19 08:14:59'),
-(60, 41, 21, 1468, 16, '2019-07-19 08:15:59'),
-(61, 42, 22, 1467, 2, '2019-07-19 08:25:35'),
-(62, 42, 22, 1469, 8, '2019-07-19 08:25:58'),
-(63, 43, 21, 1470, 4, '2019-07-19 08:28:48'),
-(64, 44, 22, 1469, 12, '2019-07-19 08:29:03'),
-(65, 43, 21, 1292, 6, '2019-07-19 08:29:04'),
-(66, 43, 21, 1301, 1, '2019-07-19 08:29:19'),
-(67, 44, 22, 1470, 15, '2019-07-19 08:29:22'),
-(68, 45, 22, 1470, 5, '2019-07-19 08:30:16'),
-(69, 45, 22, 1292, 2, '2019-07-19 08:30:48'),
-(70, 46, 21, 1468, 3, '2019-07-19 08:31:44'),
-(71, 45, 22, 1301, 0, '2019-07-19 08:31:59'),
-(72, 45, 22, 1301, 9, '2019-07-19 08:32:00'),
-(73, 46, 21, 1301, 25, '2019-07-19 08:32:05'),
-(74, 45, 22, 1323, 9, '2019-07-19 08:32:20'),
-(75, 47, 21, 1289, 25, '2019-07-19 08:37:24'),
-(76, 48, 21, 1289, 27, '2019-07-19 08:38:03'),
-(77, 49, 21, 1289, 27, '2019-07-19 08:39:16'),
-(78, 50, 21, 1289, 26, '2019-07-19 08:40:48'),
-(79, 51, 22, 1323, 11, '2019-07-19 08:41:40'),
-(80, 51, 22, 1476, 12, '2019-07-19 08:42:19'),
-(81, 52, 22, 1232, 6, '2019-07-19 08:44:04'),
-(82, 53, 22, 1231, 26, '2019-07-19 08:44:53'),
-(83, 54, 23, 1230, 20, '2019-07-19 08:45:30'),
-(84, 55, 22, 1231, 2, '2019-07-19 08:45:39'),
-(85, 56, 23, 1230, 18, '2019-07-19 08:46:02'),
-(86, 52, 22, 1231, 20, '2019-07-19 08:48:37'),
-(87, 57, 23, 1230, 19, '2019-07-19 08:48:48'),
-(88, 58, 23, 1230, 17, '2019-07-19 08:50:51'),
-(89, 59, 23, 1230, 16, '2019-07-19 08:52:56'),
-(90, 60, 23, 1230, 19, '2019-07-19 08:53:51'),
-(91, 61, 24, 1230, 25, '2019-07-19 08:53:53'),
-(92, 63, 23, 1230, 20, '2019-07-19 08:54:28'),
-(93, 62, 24, 1231, 7, '2019-07-19 08:54:32'),
-(94, 62, 24, 1230, 20, '2019-07-19 08:54:35'),
-(95, 64, 23, 1230, 21, '2019-07-19 08:55:01'),
-(96, 65, 24, 1231, 15, '2019-07-19 08:55:16'),
-(97, 65, 24, 1233, 9, '2019-07-19 08:55:29'),
-(98, 66, 25, 1231, 20, '2019-07-19 08:56:52'),
-(99, 67, 24, 1233, 26, '2019-07-19 08:58:12'),
-(100, 68, 24, 1233, 26, '2019-07-19 09:51:49'),
-(101, 69, 24, 1235, 20, '2019-07-19 09:52:43'),
-(102, 70, 24, 1235, 10, '2019-07-19 09:53:27'),
-(103, 70, 24, 1234, 5, '2019-07-19 09:53:40'),
-(104, 71, 24, 1234, 11, '2019-07-30 11:50:52'),
-(105, 72, 26, 1231, 27, '2019-07-22 07:48:42'),
-(106, 73, 26, 1230, 25, '2019-07-22 08:22:26'),
-(107, 74, 26, 1232, 2, '2019-07-22 08:24:18'),
-(108, 74, 26, 1230, 10, '2019-07-22 08:24:21'),
-(109, 74, 26, 1236, 10, '2019-07-22 08:24:40'),
-(110, 75, 26, 1236, 15, '2019-07-22 08:30:15'),
-(111, 75, 26, 1234, 6, '2019-07-22 08:30:37'),
-(112, 75, 26, 1238, 0, '2019-07-22 08:31:56'),
-(113, 76, 26, 1238, 6, '2019-07-22 08:32:53'),
-(114, 76, 26, 1237, 7, '2019-07-22 08:33:15'),
-(115, 76, 26, 1239, 11, '2019-07-22 08:33:41'),
-(116, 77, 26, 1237, 20, '2019-07-22 08:36:03'),
-(117, 78, 26, 1239, 16, '2019-07-22 09:22:03'),
-(118, 78, 26, 1241, 5, '2019-07-22 09:22:09'),
-(119, 79, 26, 1231, 4, '2019-07-22 09:23:19'),
-(120, 79, 26, 1230, 4, '2019-07-22 09:23:30'),
-(121, 79, 26, 1232, 4, '2019-07-22 09:23:39'),
-(122, 79, 26, 1234, 4, '2019-07-22 09:23:46'),
-(123, 79, 26, 1239, 4, '2019-07-22 09:23:53'),
-(124, 80, 27, 1199, 2, '2019-07-25 13:42:04'),
-(125, 81, 28, 1199, 20, '2019-07-25 15:23:48'),
-(126, 82, 28, 1199, 18, '2019-07-25 15:24:16'),
-(127, 83, 28, 1199, 19, '2019-07-25 15:24:43'),
-(128, 84, 28, 1199, 17, '2019-07-25 15:25:16'),
-(129, 85, 28, 1199, 20, '2019-07-25 15:26:17'),
-(133, 89, 28, 1199, 3, '2019-07-25 08:33:35'),
-(135, 92, 28, 1199, 20, '2019-07-25 14:11:26'),
-(136, 93, 29, 1199, 16, '2019-07-25 09:53:26'),
-(137, 94, 29, 1200, 20, '2019-07-25 09:53:56'),
-(138, 95, 30, 1199, 20, '2019-07-25 13:53:05'),
-(139, 96, 31, 1200, 20, '2019-07-25 14:02:59'),
-(140, 97, 31, 1200, 18, '2019-07-25 14:03:22'),
-(141, 98, 31, 1200, 11, '2019-07-25 14:03:51'),
-(143, 98, 31, 1199, 2, '2019-07-25 14:04:00'),
-(144, 99, 31, 1199, 10, '2019-07-25 14:04:27'),
-(145, 100, 31, 1199, 11, '2019-07-25 14:05:05'),
-(146, 101, 28, 1199, 20, '2019-07-25 14:11:53'),
-(147, 102, 31, 1199, 14, '2019-07-25 14:13:03'),
-(148, 103, 31, 1200, 10, '2019-07-25 14:13:35'),
-(149, 104, 31, 1199, 20, '2019-07-25 14:14:20'),
-(150, 101, 28, 1198, 1, '2019-07-26 14:38:58'),
-(153, 71, 24, 1201, 0, '2019-07-30 11:50:46'),
-(154, 107, 33, 1201, 40, '2019-07-30 14:20:48'),
-(160, 111, 32, 1200, 30, '2019-07-31 16:23:01');
-
---
 -- Trigger `build_assy`
 --
 DELIMITER $$
@@ -573,6 +444,38 @@ INSERT INTO `carline` (`id`, `id_district`, `nama_carline`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `departement`
+--
+
+CREATE TABLE `departement` (
+  `id` int(11) NOT NULL,
+  `code_depart` varchar(10) NOT NULL,
+  `departement` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `departement`
+--
+
+INSERT INTO `departement` (`id`, `code_depart`, `departement`) VALUES
+(1, 'PA', ''),
+(2, 'FA', ''),
+(3, 'FAE', ''),
+(4, 'PAE', ''),
+(5, 'GA-GS', ''),
+(6, 'DE', ''),
+(7, 'PPC', ''),
+(8, 'EXIM', ''),
+(9, 'W/H', ''),
+(10, 'IC', ''),
+(11, 'QA-QC', ''),
+(12, 'NYS', ''),
+(13, 'PP', ''),
+(14, 'PUCHASING', '');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `direct_labor`
 --
 
@@ -588,26 +491,6 @@ CREATE TABLE `direct_labor` (
   `mh_ot` int(11) NOT NULL,
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `direct_labor`
---
-
-INSERT INTO `direct_labor` (`id`, `id_pdo`, `std_dl`, `reg_dl`, `jam_reg`, `jam_ot`, `dl_ot`, `mh_reg`, `mh_ot`, `total`) VALUES
-(17, 20, 60, 59, 8, 0, 0, 472, 0, 472),
-(18, 21, 59, 59, 8, 0, 0, 472, 0, 472),
-(19, 22, 59, 59, 8, 0, 0, 472, 0, 472),
-(20, 23, 57, 57, 8, 0, 0, 456, 0, 456),
-(21, 24, 59, 59, 8, 0, 0, 472, 0, 472),
-(22, 25, 57, 57, 8, 0, 0, 456, 0, 456),
-(23, 26, 59, 59, 8, 0, 0, 472, 0, 472),
-(24, 27, 59, 59, 8, 0, 0, 472, 0, 472),
-(25, 28, 59, 59, 8, 0, 0, 472, 0, 472),
-(26, 29, 58, 58, 8, 0, 0, 464, 0, 464),
-(27, 30, 58, 58, 8, 0, 0, 464, 0, 464),
-(28, 31, 50, 50, 8, 0, 0, 400, 0, 400),
-(29, 32, 60, 60, 8, 0, 0, 480, 0, 480),
-(30, 33, 59, 59, 8, 0, 0, 472, 0, 472);
 
 -- --------------------------------------------------------
 
@@ -660,42 +543,6 @@ CREATE TABLE `indirect_activity` (
   `total` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `indirect_activity`
---
-
-INSERT INTO `indirect_activity` (`id`, `id_pdo`, `item`, `qty_mp`, `menit`, `total`) VALUES
-(36, 20, '5S + Yoidon', 59, 5, 4.91667),
-(37, 20, 'Home Position', 59, 4, 3.93333),
-(38, 20, 'Brefing', 59, 15, 14.75),
-(39, 21, '5S + Yoidon', 59, 7, 6.88333),
-(40, 21, 'Home Position', 59, 3, 2.95),
-(41, 22, '5S + Yoidon', 59, 8, 7.86667),
-(42, 22, 'Home Position', 59, 5, 4.91667),
-(43, 23, '5S + Yoidon', 57, 9, 8.55),
-(44, 23, 'Home Position', 57, 3, 2.85),
-(45, 24, '5S + Yoidon', 59, 2, 1.96667),
-(46, 24, 'Home Position', 59, 2, 1.96667),
-(47, 25, '5S + Yoidon', 57, 5, 4.75),
-(48, 25, 'Home Position', 57, 3, 2.85),
-(49, 26, '5S + Yoidon', 59, 2, 1.96667),
-(50, 26, 'Home Position', 59, 2, 1.96667),
-(51, 26, 'asd', 59, 4, 3.93333),
-(52, 27, '5S + Yoidon', 59, 4, 3.93333),
-(53, 27, 'Home Position', 59, 3, 2.95),
-(54, 28, '5S + Yoidon', 59, 5, 4.91667),
-(55, 28, 'Home Position', 59, 4, 3.93333),
-(56, 29, '5S + Yoidon', 58, 3, 2.9),
-(57, 29, 'Home Position', 58, 6, 5.8),
-(58, 30, '5S + Yoidon', 58, 5, 4.83333),
-(59, 30, 'Home Position', 58, 3, 2.9),
-(60, 31, '5S + Yoidon', 50, 5, 4.16667),
-(61, 31, 'Home Position', 50, 3, 2.5),
-(62, 32, '5S + Yoidon', 60, 5, 5),
-(63, 32, 'Home Position', 60, 5, 5),
-(64, 33, '5S + Yoidon', 59, 6, 5.9),
-(65, 33, 'Home Position', 59, 5, 4.91667);
-
 -- --------------------------------------------------------
 
 --
@@ -714,26 +561,6 @@ CREATE TABLE `indirect_labor` (
   `mh_ot` int(11) NOT NULL,
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `indirect_labor`
---
-
-INSERT INTO `indirect_labor` (`id`, `id_pdo`, `std_idl`, `reg_idl`, `jam_reg`, `jam_ot`, `dl_ot`, `mh_reg`, `mh_ot`, `total`) VALUES
-(17, 20, 2, 2, 8, 0, 0, 16, 0, 16),
-(18, 21, 12, 15, 8, 0, 0, 120, 0, 120),
-(19, 22, 13, 16, 8, 0, 0, 128, 0, 128),
-(20, 23, 12, 14, 8, 0, 0, 112, 0, 112),
-(21, 24, 13, 16, 8, 0, 0, 128, 0, 128),
-(22, 25, 12, 12, 8, 0, 0, 96, 0, 96),
-(23, 26, 13, 14, 8, 0, 0, 112, 0, 112),
-(24, 27, 4, 2, 8, 0, 0, 16, 0, 16),
-(25, 28, 4, 4, 8, 0, 0, 32, 0, 32),
-(26, 29, 4, 3, 8, 0, 0, 24, 0, 24),
-(27, 30, 3, 3, 8, 0, 0, 24, 0, 24),
-(28, 31, 4, 4, 8, 0, 0, 32, 0, 32),
-(29, 32, 10, 10, 8, 0, 0, 80, 0, 80),
-(30, 33, 10, 10, 8, 0, 0, 80, 0, 80);
 
 -- --------------------------------------------------------
 
@@ -766,197 +593,201 @@ INSERT INTO `jenis_deffect` (`id`, `code`, `keterangan`) VALUES
 CREATE TABLE `jenis_error` (
   `id` int(11) NOT NULL,
   `kode` varchar(50) NOT NULL,
-  `keterangan` varchar(250) NOT NULL
+  `keterangan` varchar(250) NOT NULL,
+  `kodepasi` varchar(220) NOT NULL,
+  `responsible` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `jenis_error`
 --
 
-INSERT INTO `jenis_error` (`id`, `kode`, `keterangan`) VALUES
-(2, '1A', '4M (MANPOWER BARU)'),
-(3, '1B', '4M (PENGGANTI MP ABSEN)'),
-(4, '1C', 'BELUM CUTTING / OP RUMP UP (<3 BULAN)'),
-(5, '1D', 'BELUM CUTTING  / OP RUMP UP (>3 BULAN)'),
-(6, '1E', 'PROSES PENGERJAAN KANBAN TIDAK FIFO'),
-(7, '1F', 'BELUM PROSES MANUAL TWIST'),
-(8, '1G', 'BELUM PROSES MANUAL SHIELD'),
-(9, '1H', 'BELUM PROSES MANUAL BONDER'),
-(10, '1I', 'BELUM PROSES MANUAL RAYCAM'),
-(11, '1J', 'BELUM PROSES MANUAL JOINT'),
-(12, '1K', 'BELUM PROSES MANUAL CRIMPING'),
-(13, '0', 'Zero Downtime'),
-(14, '3AA', 'TERMINAL JUMPER INSTALASI BENT'),
-(15, '2T', 'TPO'),
-(16, '3T', 'SENSOR RUSAK'),
-(17, '1Z', 'OTHER PRE ASSY DOWN TIME'),
-(18, '3V', 'PIN EC FIXTURE KOTOR/BERKARAT'),
-(19, '3Z', 'PROGRAM C/B ERROR'),
-(20, '3W', 'PIN EC FIXTURE MACET'),
-(21, '3AC', 'YC MASTER ERROR'),
-(22, '1L', 'BELUM PROSES MANUAL MANTAP'),
-(23, '1M', 'BELUM PROSES MANUAL FERRITE'),
-(24, '1N', 'KANBAN HILANG'),
-(25, '1O', 'MISSING MARKING TERMINAL'),
-(26, '1P', 'SALAH BONDER'),
-(27, '1Q', 'SALAH WIRE'),
-(28, '1R', 'SALAH CUTTING LENGTH'),
-(29, '1S', 'SALAH KANBAN'),
-(30, '1T', 'SALAH TERMINAL'),
-(31, '1U', 'TUNGGU SUPPLY TUBE DARI CUTTING TUBE'),
-(32, '1V', 'KAPASITAS RUANG'),
-(33, '1W', 'INSPEKSI KETETER'),
-(34, '1X', 'CSU PRE ASSY KETETER'),
-(35, '1Y', 'SALAH SUPPLY CIRCUIT'),
-(36, '2A', 'SUB ASSY KETETER'),
-(37, '2B', 'TAPING KETETER'),
-(38, '2C', 'SETTING KETETER'),
-(39, '2D', 'CSU KETETER'),
-(40, '2E', 'MSP KETETER'),
-(42, '2F', 'OFFLINE KETETER'),
-(43, '2G', 'SP KETETER'),
-(44, '2H', 'TPO KETETER'),
-(45, '2I', 'EC KETETER'),
-(46, '2J', 'DIM KETETER'),
-(47, '2K', 'VIS KETETER'),
-(48, '2L', 'GROMET KETETER'),
-(49, '2M', 'CROSS CCT / WRONG CAVITY'),
-(50, '2N', 'DAMAGE INSULATION'),
-(51, '2O', 'DAMAGE CONNECTOR / PROTECTOR'),
-(52, '2P', 'DAMAGE SEAL RUBBER'),
-(53, '2Q', 'DAMAGE CLIP'),
-(54, '2R', 'MISSING PART'),
-(55, '2S', 'TERMINAL BENT'),
-(56, '2U', 'CCT TEGANG'),
-(57, '2V', 'CCT MEMBELIT'),
-(58, '2W', 'NAMEPLATE RUSAK'),
-(59, '2X', 'WRONG DIMENSI'),
-(60, '2Y', 'WRONG METHODE'),
-(61, '2Z', 'WRONG ORIENTASI'),
-(62, '2AA', 'SILICON BOCOR / GANTI CAIRAN SILIKON'),
-(63, '2AB', 'BALANCING JOB'),
-(64, '2AC', 'TRAINING 4M TRANSISI'),
-(65, '2AD', 'DELAY SUB ASSY AIRBAG'),
-(66, '2AE', 'SIAGE KETETER'),
-(67, '2AF', 'MISSING INSERT'),
-(68, '2AG', 'TUNGGU VERIFIKASI TOOLING OLEH LEADER'),
-(69, '2AH', 'DELAY SUB ASSY BT'),
-(70, '2AI', 'OTHER FINAL ASSY DOWNTIME'),
-(71, '3A', 'CCT JUMPER INSTALASI PUTUS'),
-(72, '3B', 'CONNECTOR INSTALASI PROBLEM'),
-(73, '3C', 'PROBLEM KARAKURI SUB'),
-(74, '3D', 'LAMPU LED NAVIGASI PROBLEM'),
-(75, '3E', 'MATTING PART PROBLEM'),
-(76, '3F', 'PROBLEM KARAKURI W/H'),
-(77, '3G', 'LAMPU STATION PROBLEM'),
-(78, '3H', 'M/C EXPANDER GROMET PROBLEM'),
-(79, '3I', 'PERBAIKAN FORK / MATTING PART JIG BOARD'),
-(80, '3J', 'TORQUE PROBLEM (KARAKURI MSU PROBLEM)'),
-(81, '3K', 'ANDON PROBLEM'),
-(82, '3L', 'ROLLER KERETA PROBLEM'),
-(83, '3M', 'DUDUKAN SENSOR KENDOR'),
-(84, '3N', 'GIGI KERETA TERSANGKUT'),
-(85, '3O', 'PENGUNGKIT LOCK KERETA TERSANGKUT'),
-(86, '3P', 'LOCK KERETA TIDAK MEMBUKA'),
-(87, '3Q', 'RANTAI CONVEYOR KENDOR/PUTUS'),
-(88, '3R', 'OVERLOAD MOTOR'),
-(89, '3S', 'RODA KERETA RUSAK'),
-(90, '3U', 'INSTALLASI CONVEYOR PROBLEM'),
-(91, '3X', 'PIN EC FIXTURE MUNDUR'),
-(92, '3Y', 'PIN EC FIXTURE PATAH'),
-(93, '3AB', 'TERMINAL JUMPER INSTALASI KOTOR'),
-(94, '3AD', 'CPU PROBLEM'),
-(95, '3AE', 'I/O PROBLEM'),
-(96, '3AF', 'INSTALASI FOTO FUSE PROBLEM'),
-(97, '3AG', 'BOX FUSE PROBLEM'),
-(98, '3AH', 'SWITCH FOTO FUSE PROBLEM'),
-(99, '3AI', 'PROGRAM MESIN FOTO FUSE PROBLEM'),
-(100, '3AJ', 'PENAMBAHAN LIBRARY'),
-(101, '3AK', 'LAMPU BARCODE PROBLEM'),
-(102, '3AL', 'MESIN ARM CHECK TROUBLE'),
-(103, '3AM', 'MESIN WG-30 TROUBLE'),
-(104, '3AN', 'PERBAIKAN CHECKER FIXTURE'),
-(105, '3AO', 'STAMP PROBLEM'),
-(106, '3AP', 'TUNGGU TEKNISI DATANG'),
-(107, '3AQ', 'PROBLREM KARAKURI MSU'),
-(108, '3AR', 'CORNER CONVEYOR PROBLEM'),
-(109, '3AS', 'STOPPER KERETA CORNER PROBLEM'),
-(110, '3AT', 'OTHER FAE DOWNTIME'),
-(111, '4A', 'CRIMPING STANDARD PROBLEM'),
-(112, '4B', 'INSTALL M/C PRE ASSY'),
-(113, '4C', 'M/C AC PROBLEM'),
-(114, '4D', 'M/C BONDER PROBLEM'),
-(115, '4E', 'M/C CUTTING KODERA PROBLEM'),
-(116, '4F', 'M/C JOINT TAPING PROBLEM'),
-(117, '4G', 'M/C KODERA CASTING PROBLEM'),
-(118, '4H', 'M/C KOMAX PROBLEM'),
-(119, '4I', 'M/C KOMPRESOR ANGIN BOCOR'),
-(120, '4J', 'M/C PRESS FIT PROBLEM'),
-(121, '4K', 'M/C RAYCHEM PROBLEM'),
-(122, '4L', 'M/C STRIPING PROBLEM'),
-(123, '4M', 'M/C TWIST PROBLEM'),
-(124, '4N', 'M/C YCM PROBLEM'),
-(125, '4O', 'PERUBAHAN CRIMPING STANDART'),
-(126, '4P', 'TUNGGU MTC DATANG'),
-(127, '4Q', 'OTHER PAE DOWNTIME'),
-(128, '5A', 'PERBAIKAN LAMPU'),
-(129, '5B', 'PANEL LAMPU MATI'),
-(130, '5C', 'KATERING TERLAMBAT'),
-(131, '5D', 'ATAP BOCOR'),
-(132, '5E', 'OTHER GA DOWNTIME'),
-(133, '6A', 'ADJUSMENT CL TEGANG'),
-(134, '6B', 'CCT KEPANJANGAN'),
-(135, '6C', 'DRAWING PROBLEM'),
-(136, '6D', 'TUNGGU DRAWING'),
-(137, '7A', 'DESIGN CHANGE PROBLEM'),
-(138, '7B', 'SALAH SETTING CIK'),
-(139, '7C', 'ABNORMAL LOADING'),
-(140, '7D', 'DELAY SUPPLY LABEL'),
-(141, '7E', 'SALAH SUPPLY LABEL'),
-(142, '7F', 'TUNGGU SETTING CIK'),
-(143, '7G', 'TUNGGU HEIKINKA'),
-(144, '7H', 'TERLAMBAT MENURUNKAN LIST BONDER'),
-(145, '7I', 'SALAH INPUT PKO'),
-(146, '7J', 'SALAH ORDER COMPONENT PACKING'),
-(147, '7K', 'TUNGGU NAME PLATE'),
-(148, '7L', 'OTHER PPC DOWNTIME'),
-(149, '8B', 'TUNGGU TUTUP BOX PACKING'),
-(150, '8C', 'TUNGGU SEGITIGA PACKING'),
-(151, '8D', 'TUNGGU PACKER'),
-(152, '8E', 'TUNGGU POLYTAINER'),
-(153, '8F', 'SALAH STO COMPONENT PACKING'),
-(154, '8G', 'OTHER EXIM DOWNTIME'),
-(155, '9A', 'PART TERCAMPUR'),
-(156, '9B', 'SALAH SUPPLY DARI W/H'),
-(157, '9C', 'TUNGGU MATERIAL DARI W/H'),
-(158, '9D', 'TUNGGU TERMINAL'),
-(159, '9E', 'TUNGGU TUBE/COT/VO DARI WAREHOUSE'),
-(160, '9F', 'TUNGGU WIRE'),
-(161, '9G', 'OTHER W/H DOWNTIME'),
-(162, '10A', 'SHORTAGE MATERIAL'),
-(163, '11A', 'TUNGGU VERIFIKASI'),
-(164, '11B', 'TUNGGU SAMPAI BUZZER'),
-(165, '11C', 'DOUBLE CHECK PROBLEM'),
-(166, '11D', 'MATERIAL PROBLEM QA RECEIVING'),
-(167, '11E', 'OTHER QA-QC PROBLEM'),
-(168, '12A', 'KANBAN PROBLEM'),
-(169, '12B', 'KANBAN PROBLEM'),
-(170, '12C', 'SALAH MATRIK BONDER'),
-(171, '12D', 'MACHINE LOADING BELUM RELEASE'),
-(172, '12E', 'MACHINE LOADING PROBLEM'),
-(173, '12F', 'PROBLEM PREPARATION PRE-ASSY'),
-(174, '12G', 'OVERLOAD MACHINE LOADING'),
-(175, '12H', 'DELAY RELEASE CIK'),
-(176, '12I', 'OTHER NYS PROBLEM'),
-(177, '13A', 'KANBAN BELUM RELEASE'),
-(178, '13B', 'KANBAN PROBLEM'),
-(179, '13C', 'SALAH MATRIK'),
-(180, '13D', 'PROBLEM SWCT'),
-(181, '13E', 'SALAH DRAWING SAKIHAME'),
-(182, '13F', 'OTHER PP PROBLEM'),
-(183, '14A', 'DELAY KEDATANGAN COMPONENT PACKING '),
-(184, '14B', 'SALAH KEDATANGAN COMPONENT PACKING'),
-(185, '14C', 'SALAH ORDER COMPONENT PACKING');
+INSERT INTO `jenis_error` (`id`, `kode`, `keterangan`, `kodepasi`, `responsible`) VALUES
+(2, '1A', '4M (MANPOWER BARU)', 'PREPARATION TIME', 'PA'),
+(3, '1B', '4M (PENGGANTI MP ABSEN)', 'PREPARATION TIME', 'PA'),
+(4, '1C', 'BELUM CUTTING', 'DELAY IN WORK', 'PA'),
+(5, '1D', 'BELUM PROSES MANUAL', 'DELAY IN WORK', 'PA'),
+(6, '1E', 'KANBAN HILANG ', 'DELAY IN WORK', 'PA'),
+(7, '1F', 'MISSING MARKING TERMINAL', 'DEFECT OCCURENCE', 'PA'),
+(8, '1G', 'SALAH BONDER', 'DEFECT OCCURENCE', 'PA'),
+(9, '1H', 'SALAH WIRE', 'DEFECT OCCURENCE', 'PA'),
+(10, '1I', 'SALAH CUTTING LENGTH', 'DEFECT OCCURENCE', 'PA'),
+(11, '1J', 'SALAH KANBAN', 'DEFECT OCCURENCE', 'PA'),
+(12, '1K', 'SALAH TERMINAL', 'DEFECT OCCURENCE', 'PA'),
+(13, '0', 'Zero Downtime', '-', '-'),
+(14, '3AA', 'TERMINAL JUMPER INSTALASI BENT', 'MACHINE STOPPAGE', 'FAE'),
+(15, '2T', 'TPO', 'DEFECT OCCURENCE', 'FA'),
+(16, '3T', 'SENSOR RUSAK', 'MACHINE STOPPAGE', 'FAE'),
+(17, '1Z', 'OTHER PRE ASSY DOWN TIME', '0', '0'),
+(18, '3V', 'PIN EC FIXTURE KOTOR/BERKARAT', 'MACHINE STOPPAGE', 'FAE'),
+(19, '3Z', 'PROGRAM C/B ERROR', 'MACHINE STOPPAGE', 'FAE'),
+(20, '3W', 'PIN EC FIXTURE MACET', 'MACHINE STOPPAGE', 'FAE'),
+(21, '3AC', 'YC MASTER ERROR', 'MACHINE STOPPAGE', 'FAE'),
+(22, '1L', 'TUNGGU SUPPLY TUBE DARI CUTTING TUBE', 'DELAY IN WORK', 'PA'),
+(23, '1M', 'OTHER PRE ASSY DOWN TIME', 'DELAY IN WORK', 'PA'),
+(24, '1N', 'KANBAN HILANG', '0', '0'),
+(25, '1O', 'MISSING MARKING TERMINAL', '0', '0'),
+(26, '1P', 'SALAH BONDER', '0', '0'),
+(27, '1Q', 'SALAH WIRE', '0', '0'),
+(28, '1R', 'SALAH CUTTING LENGTH', '0', '0'),
+(29, '1S', 'SALAH KANBAN', '0', '0'),
+(30, '1T', 'SALAH TERMINAL', '0', '0'),
+(31, '1U', 'TUNGGU SUPPLY TUBE DARI CUTTING TUBE', '0', '0'),
+(32, '1V', 'KAPASITAS RUANG', '0', '0'),
+(33, '1W', 'INSPEKSI KETETER', '0', '0'),
+(34, '1X', 'CSU PRE ASSY KETETER', '0', '0'),
+(35, '1Y', 'SALAH SUPPLY CIRCUIT', '0', '0'),
+(36, '2A', 'SUB ASSY KETETER', 'DELAY IN WORK', 'FA'),
+(37, '2B', 'TAPING KETETER', 'DELAY IN WORK', 'FA'),
+(38, '2C', 'SETTING KETETER', 'DELAY IN WORK', 'FA'),
+(39, '2D', 'CSU KETETER', 'DELAY IN WORK', 'FA'),
+(40, '2E', 'MSP KETETER', 'DELAY IN WORK', 'FA'),
+(42, '2F', 'OFFLINE KETETER', 'DELAY IN WORK', 'FA'),
+(43, '2G', 'SP KETETER', 'DELAY IN WORK', 'FA'),
+(44, '2H', 'TPO KETETER', 'DELAY IN WORK', 'FA'),
+(45, '2I', 'EC KETETER', 'DELAY IN WORK', 'FA'),
+(46, '2J', 'DIM KETETER', 'DELAY IN WORK', 'FA'),
+(47, '2K', 'VIS KETETER', 'DELAY IN WORK', 'FA'),
+(48, '2L', 'GROMET KETETER', 'DELAY IN WORK', 'FA'),
+(49, '2M', 'CROSS CCT/ WRONG CAVITY', 'DEFECT OCCURENCE', 'FA'),
+(50, '2N', 'DAMAGE INSULATION', 'DEFECT OCCURENCE', 'FA'),
+(51, '2O', 'DAMAGE CONNECTOR/PROTECTOR', 'DEFECT OCCURENCE', 'FA'),
+(52, '2P', 'DAMAGE SEAL RUBBER', 'DEFECT OCCURENCE', 'FA'),
+(53, '2Q', 'DAMAGE CLIP', 'DEFECT OCCURENCE', 'FA'),
+(54, '2R', 'MISSING PART ', 'DEFECT OCCURENCE', 'FA'),
+(55, '2S', 'TERMINAL BENT', 'DEFECT OCCURENCE', 'FA'),
+(56, '2U', 'CCT TEGANG', 'DEFECT OCCURENCE', 'FA'),
+(57, '2V', 'CCT MEMBELIT', 'DEFECT OCCURENCE', 'FA'),
+(58, '2W', 'NAMEPLATE RUSAK', 'DEFECT OCCURENCE', 'FA'),
+(59, '2X', 'WRONG DIMENSI', 'DEFECT OCCURENCE', 'FA'),
+(60, '2Y', 'WRONG METHODE', 'DEFECT OCCURENCE', 'FA'),
+(61, '2Z', 'WRONG ORIENTASI', 'DEFECT OCCURENCE', 'FA'),
+(62, '2AA', 'SILICON BOCOR / GANTI CAIRAN SILIKON', 'MACHINE STOPPAGE', 'FA'),
+(63, '2AB', 'BALANCING JOB', 'PREPARATION TIME', 'FA'),
+(64, '2AC', 'TRAINING 4M TRANSISI ', 'PREPARATION TIME', 'FA'),
+(65, '2AD', 'DELAY SUB ASSY AIRBAG', 'DELAY IN WORK', 'FA'),
+(66, '2AE', 'SIAGE KETETER', 'DELAY IN WORK', 'FA'),
+(67, '2AF', 'MISSING INSERT', 'DELAY IN WORK', 'FA'),
+(68, '2AG', 'TUNGGU VERIFIKASI TOOLING OLEH LEADER', 'DELAY IN WORK', 'FA'),
+(69, '2AH', 'OTHER FINAL ASSY DOWNTIME', 'DELAY IN WORK', 'FA'),
+(70, '2AI', 'OTHER FINAL ASSY DOWNTIME', '0', '0'),
+(71, '3A', 'CCT JUMPER INSTALASI PUTUS', 'MACHINE STOPPAGE', 'FAE'),
+(72, '3B', 'CONNECTOR INSTALASI PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(73, '3C', 'PROBLEM KARAKURI SUB', 'MACHINE STOPPAGE', 'FAE'),
+(74, '3D', 'LAMPU LED NAVIGASI PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(75, '3E', 'MATTING PART PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(76, '3F', 'PROBLEM KARAKURI W/H', 'MACHINE STOPPAGE', 'FAE'),
+(77, '3G', 'LAMPU STATION PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(78, '3H', 'M/C EXPANDER GROMET PROBLEM ', 'MACHINE STOPPAGE', 'FAE'),
+(79, '3I', 'PERBAIKAN FORK / MATTING PART JIG BOARD', 'MACHINE STOPPAGE', 'FAE'),
+(80, '3J', 'TORQUE PROBLEM(KARAKURI MSU PROBLEM)', 'MACHINE STOPPAGE', 'FAE'),
+(81, '3K', 'ANDON PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(82, '3L', 'ROLLER KERETA PROBLEM ', 'MACHINE STOPPAGE', 'FAE'),
+(83, '3M', 'DUDUKAN SENSOR KENDOR', 'MACHINE STOPPAGE', 'FAE'),
+(84, '3N', 'GIGI KERETA TERSANGKUT', 'MACHINE STOPPAGE', 'FAE'),
+(85, '3O', 'PENGUNGKIT LOCK KERETA TERSANGKUT', 'MACHINE STOPPAGE', 'FAE'),
+(86, '3P', 'LOCK KERETA TIDAK MEMBUKA', 'MACHINE STOPPAGE', 'FAE'),
+(87, '3Q', 'RANTAI CONVEYOR KENDOR / PUTUS', 'MACHINE STOPPAGE', 'FAE'),
+(88, '3R', 'OVERLOAD MOTOR', 'MACHINE STOPPAGE', 'FAE'),
+(89, '3S', 'RODA KERETA RUSAK', 'MACHINE STOPPAGE', 'FAE'),
+(90, '3U', 'INSTALLASI CONVEYOR PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(91, '3X', 'PIN EC FIXTURE MUNDUR', 'MACHINE STOPPAGE', 'FAE'),
+(92, '3Y', 'PIN EC FIXTURE PATAH', 'MACHINE STOPPAGE', 'FAE'),
+(93, '3AB', 'TERMINAL JUMPER INSTALASI KOTOR', 'MACHINE STOPPAGE', 'FAE'),
+(94, '3AD', 'CPU PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(95, '3AE', 'I/O PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(96, '3AF', 'INSTALLASI FOTO FUSE PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(97, '3AG', 'BOX FUSE PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(98, '3AH', 'SWITCH FOTO FUSE PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(99, '3AI', 'PROGRAM MESIN FOTO FUSE PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(100, '3AJ', 'PENAMBAHAN LIBRARY', 'MACHINE STOPPAGE', 'FAE'),
+(101, '3AK', 'LAMPU BARCODE PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(102, '3AL', 'MESIN ARM CHECK TROUBLE', 'MACHINE STOPPAGE', 'FAE'),
+(103, '3AM', 'MESIN WG-30 TROUBLE', 'MACHINE STOPPAGE', 'FAE'),
+(104, '3AN', 'PERBAIKAN CHECKER FIXTURE', 'MACHINE STOPPAGE', 'FAE'),
+(105, '3AO', 'STAMP PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(106, '3AP', 'TUNGGU TEKNISI DATANG', 'DELAY IN WORK', 'FAE'),
+(107, '3AQ', 'PROBLEM KARAKURI MSU', 'MACHINE STOPPAGE', 'FAE'),
+(108, '3AR', 'CORNER CONVEYOR PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(109, '3AS', 'STOPPER KERETA CORNER PROBLEM', 'MACHINE STOPPAGE', 'FAE'),
+(110, '3AT', 'OTHER FAE DOWNTIME', 'DELAY IN WORK', 'FAE'),
+(111, '4A', 'CRIMPING STANDARD PROBLEM', 'MACHINE STOPPAGE', 'PAE'),
+(112, '4B', 'INSTAL M/C PRE ASSY', 'MACHINE STOPPAGE', 'PAE'),
+(113, '4C', 'M/C AC PROBLEM', 'MACHINE STOPPAGE', 'PAE'),
+(114, '4D', 'M/C BONDER PROBLEM', 'MACHINE STOPPAGE', 'PAE'),
+(115, '4E', 'M/C CUTTING KODERA PROBLEM', 'MACHINE STOPPAGE', 'PAE'),
+(116, '4F', 'M/C JOINT TAPING PROBLEM', 'MACHINE STOPPAGE', 'PAE'),
+(117, '4G', 'M/C KODERA CASTING PROBLEM', 'MACHINE STOPPAGE', 'PAE'),
+(118, '4H', 'M/C KOMAX PROBLEM', 'MACHINE STOPPAGE', 'PAE'),
+(119, '4I', 'M/C KOMPRESOR ANGIN BOCOR', 'MACHINE STOPPAGE', 'PAE'),
+(120, '4J', 'M/C PRESS FIT PROBLEM', 'MACHINE STOPPAGE', 'PAE'),
+(121, '4K', 'M/C RAYCHEM PROBLEM', 'MACHINE STOPPAGE', 'PAE'),
+(122, '4L', 'M/C STRIPING PROBLEM', 'MACHINE STOPPAGE', 'PAE'),
+(123, '4M', 'M/C TWIST PROBLEM', 'MACHINE STOPPAGE', 'PAE'),
+(124, '4N', 'M/C YCM PROBLEM', 'MACHINE STOPPAGE', 'PAE'),
+(125, '4O', 'PERUBAHAN CRIMPING STANDARD', 'MACHINE STOPPAGE', 'PAE'),
+(126, '4P', 'TUNGGU MTC DATANG', 'DELAY IN WORK', 'PAE'),
+(127, '4Q', 'OTHER PAE DOWN TIME', 'DELAY IN WORK', 'PAE'),
+(128, '5A', 'PERBAIKAN LAMPU', 'MACHINE STOPPAGE', 'GA-GS'),
+(129, '5B', 'PANEL LAMPU MATI', 'MACHINE STOPPAGE', 'GA-GS'),
+(130, '5C', 'KATERING TERLAMBAT', 'DELAY IN WORK', 'GA-GS'),
+(131, '5D', 'ATAP BOCOR', 'MACHINE STOPPAGE', 'GA-GS'),
+(132, '5E', 'OTHER GA DOWN TIME', 'DELAY IN WORK', 'GA-GS'),
+(133, '6A', 'ADJUSTMENT CL TEGANG', 'DEFECT OCCURENCE', 'DE'),
+(134, '6B', 'CCT KEPANJANGAN', 'DEFECT OCCURENCE', 'DE'),
+(135, '6C', 'DRAWING PROBLEM', 'DEFECT OCCURENCE', 'DE'),
+(136, '6D', 'TUNGGU DRAWING', 'DELAY IN WORK', 'DE'),
+(137, '7A', 'DESIGN CHANGE PROBLEM', 'DELAY IN WORK', 'PPC'),
+(138, '7B', 'SALAH SETTING CIK', 'MISSING ORDER', 'PPC'),
+(139, '7C', 'ABNORMAL LOADING', 'MISSING ORDER', 'PPC'),
+(140, '7D', 'DELAY SUPPLY LABEL', 'MISSING ORDER', 'PPC'),
+(141, '7E', 'SALAH SUPPLY LABEL', 'MISSING ORDER', 'PPC'),
+(142, '7F', 'TUNGGU SETTING CIK', 'MISSING ORDER', 'PPC'),
+(143, '7G', 'TUNGGU HEIKINKA', 'MISSING ORDER', 'PPC'),
+(144, '7H', 'TERLAMBAT MENURUNKAN LIST BONDER', 'MISSING ORDER', 'PPC'),
+(145, '7I', 'SALAH INPUT PKO', 'MISSING ORDER', 'PPC'),
+(146, '7J', 'SALAH ORDER COMPONENT PACKING', 'MISSING ORDER', 'PPC'),
+(147, '7K', 'OTHER PPC DOWN TIME', 'MISSING ORDER', 'PPC'),
+(148, '7L', 'OTHER PPC DOWNTIME', '0', '0'),
+(149, '8B', 'TUNGGU TUTUP BOX PACKING', 'WAITING MATERIAL', 'EXIM'),
+(150, '8C', 'TUNGGU SEGI TIGA PACKING', 'WAITING MATERIAL', 'EXIM'),
+(151, '8D', 'TUNGGU PACKER', 'WAITING MATERIAL', 'EXIM'),
+(152, '8E', 'TUNGGU POLYTAINER', 'WAITING MATERIAL', 'EXIM'),
+(153, '8F', 'SALAH STO COMPONENT PACKING', 'WAITING MATERIAL', 'EXIM'),
+(154, '8G', 'OTHER EXIM DOWN TIME', 'WAITING MATERIAL', 'EXIM'),
+(155, '9A', 'PART TERCAMPUR', 'WAITING MATERIAL', 'W/H'),
+(156, '9B', 'SALAH SUPPLY DARI W/H', 'WAITING MATERIAL', 'W/H'),
+(157, '9C', 'TUNGGU MATERIAL DARI W/H', 'WAITING MATERIAL', 'W/H'),
+(158, '9D', 'TUNGGU NAME PLATE', 'WAITING MATERIAL', 'W/H'),
+(159, '9E', 'TUNGGU TERMINAL', 'WAITING MATERIAL', 'W/H'),
+(160, '9F', 'TUNGGU TUBE/COT/VO DARI WAREHOUSE', 'WAITING MATERIAL', 'W/H'),
+(161, '9G', 'TUNGGU WIRE', 'WAITING MATERIAL', 'W/H'),
+(162, '10A', 'SHORTAGE MATERIAL', 'WAITING MATERIAL', 'IC'),
+(163, '11A', 'TUNGGU VERIFIKASI ', 'DELAY IN WORK', 'QA-QC'),
+(164, '11B', 'TUNGGU SAMPLE BUZZER', 'DELAY IN WORK', 'QA-QC'),
+(165, '11C', 'DOUBLE CHECK PROBLEM', 'MACHINE STOPPAGE', 'QA-QC'),
+(166, '11D', 'MATERIAL PROBLEM QA RECEIVING', 'WAITING MATERIAL', 'QA-QC'),
+(167, '11E', 'OTHER QA-QC PROBLEM', 'DELAY IN WORK', 'QA-QC'),
+(168, '12A', 'KANBAN BELUM RELEASE', 'MISSING ORDER', 'NYS'),
+(169, '12B', 'KANBAN PROBLEM', 'MISSING ORDER', 'NYS'),
+(170, '12C', 'SALAH MATRIK BONDER', 'MISSING ORDER', 'NYS'),
+(171, '12D', 'MACHINE LOADING BELUM RELEASE', 'MISSING ORDER', 'NYS'),
+(172, '12E', 'MACHINE LOADING PROBLEM', 'MISSING ORDER', 'NYS'),
+(173, '12F', 'PROBLEM PREPARATION PRE-ASSY', 'MISSING ORDER', 'NYS'),
+(174, '12G', 'OVERLOAD MACHINE LOADING', 'MISSING ORDER', 'NYS'),
+(175, '12H', 'DELAY RELEASE CIK', 'MISSING ORDER', 'NYS'),
+(176, '12I', 'OTHER NYS PROBLEM', 'MISSING ORDER', 'NYS'),
+(177, '13A', 'KANBAN BELUM RELEASE', 'MISSING ORDER', 'PP'),
+(178, '13B', 'KANBAN PROBLEM', 'MISSING ORDER', 'PP'),
+(179, '13C', 'SALAH MATRIK', 'MISSING ORDER', 'PP'),
+(180, '13D', 'PROBLEM SWCT', 'MISSING ORDER', 'PP'),
+(181, '13E', 'SALAH DRAWING SAKIHAME', 'MISSING ORDER', 'PP'),
+(182, '13F', 'OTHER PP PROBLEM', 'MISSING ORDER', 'PP'),
+(183, '14A', 'DELAY KEDATANGAN COMPONENT PACKING', 'DELAY IN WORK', 'PUCHASING'),
+(184, '14B', 'SALAH KEDATANGAN COMPONENT PACKING', 'MISSING ORDER', 'PUCHASING'),
+(185, '14C', 'SALAH ORDER COMPONENT PACKING', 'MISSING ORDER', 'PUCHASING'),
+(186, '8A', 'TUNGGU LAYER PACKING', 'WAITING MATERIAL', 'EXIM'),
+(187, '9H', 'OTHER W/H DOWN TIME', 'WAITING MATERIAL', 'W/H');
 
 -- --------------------------------------------------------
 
@@ -976,6 +807,29 @@ CREATE TABLE `jenis_losttime` (
 INSERT INTO `jenis_losttime` (`id`, `keterangan`) VALUES
 (1, 'Losstime'),
 (2, 'Exclude');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `jenis_pasi`
+--
+
+CREATE TABLE `jenis_pasi` (
+  `id` int(11) NOT NULL,
+  `Kodepasi` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `jenis_pasi`
+--
+
+INSERT INTO `jenis_pasi` (`id`, `Kodepasi`) VALUES
+(3, 'DEFECT OCCURENCE'),
+(2, 'DELAY IN WORK'),
+(7, 'MACHINE STOPPAGE'),
+(10, 'MISSING ORDER'),
+(1, 'PREPARATION TIME'),
+(11, 'WAITING MATERIAL');
 
 -- --------------------------------------------------------
 
@@ -1122,69 +976,70 @@ INSERT INTO `line_manager` (`id`, `id_list_carline`, `id_assy`) VALUES
 CREATE TABLE `list_carline` (
   `id` int(11) NOT NULL,
   `id_carline` int(11) NOT NULL,
-  `id_line` int(11) NOT NULL
+  `id_line` int(11) NOT NULL,
+  `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `list_carline`
 --
 
-INSERT INTO `list_carline` (`id`, `id_carline`, `id_line`) VALUES
-(12, 4, 29),
-(13, 5, 30),
-(14, 5, 31),
-(15, 5, 32),
-(16, 6, 33),
-(17, 6, 34),
-(18, 6, 35),
-(19, 7, 36),
-(20, 7, 37),
-(21, 8, 38),
-(22, 9, 39),
-(23, 9, 40),
-(24, 9, 41),
-(25, 9, 42),
-(26, 9, 43),
-(27, 10, 44),
-(28, 10, 45),
-(29, 11, 46),
-(30, 11, 47),
-(31, 11, 48),
-(32, 11, 49),
-(33, 11, 50),
-(34, 12, 51),
-(35, 13, 52),
-(36, 13, 32),
-(37, 13, 53),
-(38, 14, 36),
-(39, 14, 54),
-(40, 14, 34),
-(41, 14, 55),
-(42, 15, 35),
-(43, 16, 56),
-(44, 16, 57),
-(45, 17, 58),
-(46, 17, 59),
-(47, 18, 60),
-(48, 18, 61),
-(50, 20, 63),
-(51, 20, 39),
-(52, 20, 64),
-(54, 21, 42),
-(55, 21, 38),
-(56, 21, 65),
-(57, 21, 66),
-(58, 21, 67),
-(59, 22, 68),
-(60, 22, 69),
-(61, 22, 70),
-(62, 22, 71),
-(63, 22, 72),
-(64, 22, 73),
-(65, 22, 74),
-(69, 26, 30),
-(70, 27, 32),
-(71, 27, 33);
+INSERT INTO `list_carline` (`id`, `id_carline`, `id_line`, `status`) VALUES
+(12, 4, 29, 1),
+(13, 5, 30, 1),
+(14, 5, 31, 1),
+(15, 5, 32, 1),
+(16, 6, 33, 1),
+(17, 6, 34, 1),
+(18, 6, 35, 1),
+(19, 7, 36, 1),
+(20, 7, 37, 1),
+(21, 8, 38, 1),
+(22, 9, 39, 1),
+(23, 9, 40, 1),
+(24, 9, 41, 1),
+(25, 9, 42, 1),
+(26, 9, 43, 1),
+(27, 10, 44, 1),
+(28, 10, 45, 1),
+(29, 11, 46, 1),
+(30, 11, 47, 1),
+(31, 11, 48, 1),
+(32, 11, 49, 1),
+(33, 11, 50, 1),
+(34, 12, 51, 1),
+(35, 13, 52, 1),
+(36, 13, 32, 1),
+(37, 13, 53, 1),
+(38, 14, 36, 1),
+(39, 14, 54, 1),
+(40, 14, 34, 1),
+(41, 14, 55, 1),
+(42, 15, 35, 1),
+(43, 16, 56, 1),
+(44, 16, 57, 1),
+(45, 17, 58, 1),
+(46, 17, 59, 1),
+(47, 18, 60, 1),
+(48, 18, 61, 1),
+(50, 20, 63, 1),
+(51, 20, 39, 1),
+(52, 20, 64, 1),
+(54, 21, 42, 1),
+(55, 21, 38, 1),
+(56, 21, 65, 1),
+(57, 21, 66, 1),
+(58, 21, 67, 1),
+(59, 22, 68, 1),
+(60, 22, 69, 1),
+(61, 22, 70, 1),
+(62, 22, 71, 1),
+(63, 22, 72, 1),
+(64, 22, 73, 1),
+(65, 22, 74, 1),
+(69, 26, 30, 1),
+(70, 27, 32, 1),
+(71, 27, 33, 1);
 
 -- --------------------------------------------------------
 
@@ -1201,82 +1056,6 @@ CREATE TABLE `lost_time` (
   `keterangan` varchar(250) NOT NULL,
   `durasi` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `lost_time`
---
-
-INSERT INTO `lost_time` (`id`, `id_pdo`, `id_error`, `id_oc`, `id_jenisloss`, `keterangan`, `durasi`) VALUES
-(31, 20, 13, 31, 1, 'Zero Downtime', 0),
-(32, 20, 2, 32, 1, 'Aha', 1.8),
-(33, 20, 13, 33, 1, 'Zero Downtime', 0),
-(34, 20, 13, 34, 1, 'Zero Downtime', 0),
-(35, 20, 13, 35, 1, 'Zero Downtime', 0),
-(36, 20, 13, 36, 1, 'Zero Downtime', 0),
-(37, 20, 13, 37, 1, 'Zero Downtime', 0),
-(38, 20, 13, 38, 1, 'Zero Downtime', 0),
-(39, 21, 13, 39, 1, 'Zero Downtime', 0),
-(40, 21, 2, 41, 1, 'J.245(L) Proses TB', 2.2),
-(41, 22, 14, 40, 1, 'Open u.22 prog 1138', 5.4),
-(43, 21, 16, 41, 1, 'CV Trouble', 4.54),
-(44, 22, 14, 42, 1, 'Ganti c/f u.22', 37),
-(45, 22, 13, 44, 1, 'Zero Downtime', 0),
-(46, 21, 17, 43, 1, 'T.111A(W)(R) ', 3.5),
-(47, 21, 18, 43, 1, 'ec. ope u. 617/u.24 (B)', 1.1),
-(48, 22, 21, 45, 1, 'Delay T.111A', 6.1),
-(49, 21, 13, 46, 1, 'Zero Downtime', 0),
-(50, 21, 13, 47, 1, 'Zero Downtime', 0),
-(51, 21, 13, 48, 1, 'Zero Downtime', 0),
-(52, 21, 13, 49, 1, 'Zero Downtime', 0),
-(53, 21, 13, 50, 1, 'Zero Downtime', 0),
-(54, 22, 3, 51, 1, 'baru', 4.5),
-(55, 22, 13, 52, 1, 'Zero Downtime', 0),
-(56, 22, 13, 53, 1, 'Zero Downtime', 0),
-(57, 23, 13, 54, 1, 'Zero Downtime', 0),
-(59, 22, 13, 55, 1, 'Zero Downtime', 0),
-(60, 23, 13, 56, 1, 'Zero Downtime', 0),
-(61, 23, 13, 57, 1, 'Zero Downtime', 0),
-(62, 23, 13, 58, 1, 'Zero Downtime', 0),
-(63, 23, 13, 59, 1, 'Zero Downtime', 0),
-(64, 23, 13, 60, 1, 'Zero Downtime', 0),
-(65, 24, 13, 61, 1, 'Zero Downtime', 0),
-(66, 23, 13, 63, 1, 'Zero Downtime', 0),
-(67, 24, 13, 62, 1, 'Zero Downtime', 0),
-(68, 23, 13, 64, 1, 'Zero Downtime', 0),
-(69, 24, 12, 65, 1, 'Delay T.111A', 2.15),
-(70, 25, 13, 66, 1, 'Zero Downtime', 0),
-(71, 24, 13, 67, 1, 'Zero Downtime', 0),
-(72, 24, 13, 68, 1, 'Zero Downtime', 0),
-(73, 24, 13, 69, 1, 'Zero Downtime', 0),
-(74, 24, 13, 70, 1, 'Zero Downtime', 0),
-(75, 24, 13, 71, 1, 'Zero Downtime', 0),
-(76, 24, 12, 71, 1, 'lll', 9),
-(77, 26, 13, 72, 1, 'Zero Downtime', 0),
-(78, 26, 13, 73, 1, 'Zero Downtime', 0),
-(79, 26, 13, 74, 1, 'Zero Downtime', 0),
-(80, 26, 13, 75, 1, 'Zero Downtime', 0),
-(81, 26, 13, 76, 1, 'Zero Downtime', 0),
-(82, 26, 13, 77, 1, 'Zero Downtime', 0),
-(83, 26, 13, 78, 1, 'Zero Downtime', 0),
-(84, 28, 13, 81, 1, 'Zero Downtime', 0),
-(85, 28, 13, 82, 1, 'Zero Downtime', 0),
-(86, 28, 13, 83, 1, 'Zero Downtime', 0),
-(87, 28, 13, 84, 1, 'Zero Downtime', 0),
-(88, 28, 13, 85, 1, 'Zero Downtime', 0),
-(92, 28, 13, 89, 1, 'Zero Downtime', 0),
-(94, 29, 13, 93, 1, 'Zero Downtime', 0),
-(95, 30, 13, 95, 1, 'Zero Downtime', 0),
-(96, 31, 13, 96, 1, 'Zero Downtime', 0),
-(97, 31, 13, 97, 1, 'Zero Downtime', 0),
-(98, 31, 13, 98, 1, 'Zero Downtime', 0),
-(99, 31, 59, 99, 1, 'Salah Ukrn', 2),
-(100, 28, 13, 92, 1, 'Zero Downtime', 0),
-(101, 28, 13, 101, 1, 'Zero Downtime', 0),
-(102, 31, 13, 100, 1, 'Zero Downtime', 0),
-(103, 31, 13, 102, 1, 'Zero Downtime', 0),
-(104, 31, 13, 103, 1, 'Zero Downtime', 0),
-(105, 31, 13, 104, 1, 'Zero Downtime', 0),
-(106, 26, 13, 79, 1, 'Zero Downtime', 0);
 
 -- --------------------------------------------------------
 
@@ -1306,26 +1085,6 @@ CREATE TABLE `main_pdo` (
   `waktu` datetime DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `main_pdo`
---
-
-INSERT INTO `main_pdo` (`id`, `id_shift`, `id_listcarline`, `id_users`, `tanggal`, `mh_out`, `mh_in_dl`, `mh_in_idl`, `direct_eff`, `total_productiv`, `jam_kerja`, `line_speed`, `loss_output`, `p_loss_time`, `jam_effective`, `dpm_fa`, `status`, `signature`, `waktu`) VALUES
-(20, 1, 59, 50, '2019-07-18 00:00:00', 302.0741949081421, 448.40000009536743, 16, 67.367126414785, 65.046122921212, 8, 110, 0, 0.39473684210526316, 7.6, 0, 1, 'image-signature/20190725-132705_20_123456.png', '2019-07-25 13:27:05'),
-(21, 2, 38, 32, '2019-07-10 00:00:00', 543.6631870269775, 462.1666667461395, 120, 117.63357813202, 93.386175829275, 8, 137, 18, 2.4127659574468088, 7.833333333333333, 0, 1, 'image-signature/20190719-084430_21_123456.png', '2019-07-19 08:44:30'),
-(22, 1, 38, 33, '2019-07-10 00:00:00', 441.98476004600525, 459.2166666984558, 128, 96.247543283579, 75.267747853787, 8, 129, 18, 11.349036402569594, 7.783333333333333, 0, 1, 'image-signature/20190719-085213_22_123456.png', '2019-07-19 08:52:13'),
-(23, 2, 38, 32, '2019-07-11 00:00:00', 421.6995120048523, 444.59999990463257, 112, 94.849193003893, 75.763476837425, 8, 107, 0, 0, 7.8, 0, 1, 'image-signature/20190719-085537_23_123456.png', '2019-07-19 08:55:37'),
-(24, 1, 38, 32, '2019-07-13 00:00:00', 501.0395140647888, 460.06665992736816, 124, 108.90585163113, 85.784645562049, 8, 130, 0, 2.342436974789916, 7.933333333333334, 0, 1, 'image-signature/20190730-115210_24_123456.png', '2019-07-30 11:52:10'),
-(25, 2, 38, 32, '2019-07-15 00:00:00', 56.498799324035645, 448.40000009536743, 96, 12.600089052636, 10.378177684449, 8, 110, 0, 0, 7.866666666666666, 50000, 0, NULL, NULL),
-(26, 1, 38, 33, '2019-07-22 00:00:00', 498.9999146461487, 454.13332986831665, 112, 109.87960623609, 88.141765962131, 8, 130, 0, 0, 7.866666666666666, 0, 1, 'image-signature/20190729-075949_26_123456.png', '2019-07-29 07:59:49'),
-(27, 1, 59, 32, '2019-07-25 00:00:00', 4.013999938964844, 465.11666655540466, 16, 0.86300926790949, 0.8343090601503, 8, 104, 16, 0, 7.883333333333334, 0, 0, NULL, '0000-00-00 00:00:00'),
-(28, 2, 28, 37, '2019-07-25 00:00:00', 274.9589958190918, 463.15000009536743, 32, 59.367158752559, 55.530444464533, 8, 106, 0, 0, 7.85, 0, 0, 'image-signature/20190726-155043_28_123456.png', '2019-07-26 15:50:43'),
-(29, 1, 28, 32, '2019-07-26 00:00:00', 89.6039981842041, 455.2999997138977, 24, 19.680210463543, 18.694762828644, 8, 104, 0, 0, 7.85, 0, 0, NULL, '0000-00-00 00:00:00'),
-(30, 1, 28, 32, '2019-07-25 00:00:00', 40.13999938964844, 456.2666664123535, 24, 8.7974867209282, 8.3578566235918, 8, 104, 0, 0, 7.866666666666666, 0, 0, NULL, '0000-00-00 00:00:00'),
-(31, 2, 28, 32, '2019-07-23 00:00:00', 284.00039434432983, 393.33333349227905, 32, 72.203490058364, 66.77125256384, 8, 104, 0, 0.423728813559322, 7.866666666666666, 0, 1, 'image-signature/20190725-141441_31_123456.png', '2019-07-25 14:14:41'),
-(32, 1, 27, 32, '2019-07-29 00:00:00', 86.23799800872803, 452, 80, 19.079203099276, 16.210150001641, 8, 100, 0, 0, 7.833333333333333, 0, 0, NULL, '0000-00-00 00:00:00'),
-(33, 1, 38, 32, '2019-07-30 00:00:00', 122.22000122070312, 461.1833333969116, 80, 26.501391609379, 22.583844268365, 8, 104, 0, 0, 7.816666666666666, 0, 0, NULL, '0000-00-00 00:00:00');
-
 -- --------------------------------------------------------
 
 --
@@ -1341,83 +1100,6 @@ CREATE TABLE `output_control` (
   `time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `output_control`
---
-
-INSERT INTO `output_control` (`id`, `id_pdo`, `plan`, `actual`, `jam_ke`, `time`) VALUES
-(31, 20, 12, 12, 1, '2019-07-18 21:08:37'),
-(32, 20, 8, 7, 2, '2019-07-18 21:12:50'),
-(33, 20, 5, 7, 3, '2019-07-18 23:14:14'),
-(34, 20, 7, 8, 4, '2019-07-18 23:16:37'),
-(35, 20, 15, 19, 5, '2019-07-18 23:17:03'),
-(36, 20, 18, 19, 6, '2019-07-18 23:17:33'),
-(37, 20, 19, 19, 7, '2019-07-18 23:18:06'),
-(38, 20, 21, 50, 8, '2019-07-18 23:18:43'),
-(39, 21, 25, 25, 1, '2019-07-19 08:11:03'),
-(40, 22, 25, 22, 1, '2019-07-19 08:12:15'),
-(41, 21, 27, 24, 2, '2019-07-19 08:14:06'),
-(42, 22, 27, 10, 2, '2019-07-19 08:25:28'),
-(43, 21, 27, 11, 3, '2019-07-19 08:27:43'),
-(44, 22, 27, 27, 3, '2019-07-19 08:28:55'),
-(45, 22, 28, 25, 4, '2019-07-19 08:30:04'),
-(46, 21, 27, 28, 4, '2019-07-19 08:31:26'),
-(47, 21, 25, 25, 5, '2019-07-19 08:37:14'),
-(48, 21, 27, 27, 6, '2019-07-19 08:37:55'),
-(49, 21, 27, 27, 7, '2019-07-19 08:39:12'),
-(50, 21, 26, 26, 8, '2019-07-19 08:40:06'),
-(51, 22, 25, 23, 5, '2019-07-19 08:41:27'),
-(52, 22, 20, 26, 6, '2019-07-19 08:43:55'),
-(53, 22, 25, 26, 7, '2019-07-19 08:44:46'),
-(54, 23, 20, 20, 1, '2019-07-19 08:45:25'),
-(55, 22, 2, 2, 8, '2019-07-19 08:45:34'),
-(56, 23, 18, 18, 2, '2019-07-19 08:45:58'),
-(57, 23, 19, 19, 3, '2019-07-19 08:46:32'),
-(58, 23, 16, 17, 4, '2019-07-19 08:50:42'),
-(59, 23, 15, 16, 5, '2019-07-19 08:52:51'),
-(60, 23, 19, 19, 6, '2019-07-19 08:53:46'),
-(61, 24, 25, 25, 1, '2019-07-19 08:53:47'),
-(62, 24, 27, 27, 2, '2019-07-19 08:54:22'),
-(63, 23, 20, 20, 7, '2019-07-19 08:54:24'),
-(64, 23, 20, 21, 8, '2019-07-19 08:54:57'),
-(65, 24, 25, 24, 3, '2019-07-19 08:55:11'),
-(66, 25, 20, 20, 1, '2019-07-19 08:56:47'),
-(67, 24, 26, 26, 4, '2019-07-19 08:58:06'),
-(68, 24, 25, 26, 5, '2019-07-19 09:45:45'),
-(69, 24, 20, 20, 6, '2019-07-19 09:52:36'),
-(70, 24, 15, 15, 7, '2019-07-19 09:53:23'),
-(71, 24, 10, 11, 8, '2019-07-19 09:54:26'),
-(72, 26, 27, 27, 1, '2019-07-22 07:48:36'),
-(73, 26, 25, 25, 2, '2019-07-22 08:22:19'),
-(74, 26, 22, 22, 3, '2019-07-22 08:24:10'),
-(75, 26, 21, 21, 4, '2019-07-22 08:30:11'),
-(76, 26, 24, 24, 5, '2019-07-22 08:32:46'),
-(77, 26, 20, 20, 6, '2019-07-22 08:35:57'),
-(78, 26, 21, 21, 7, '2019-07-22 09:21:58'),
-(79, 26, 20, 20, 8, '2019-07-22 09:23:14'),
-(80, 27, 18, 2, 1, '2019-07-25 13:41:27'),
-(81, 28, 20, 20, 1, '2019-07-25 15:22:40'),
-(82, 28, 18, 18, 2, '2019-07-25 15:24:08'),
-(83, 28, 19, 19, 3, '2019-07-25 15:24:33'),
-(84, 28, 17, 17, 4, '2019-07-25 15:25:00'),
-(85, 28, 20, 20, 5, '2019-07-25 15:26:10'),
-(89, 28, 3, 3, 6, '2019-07-25 08:33:10'),
-(92, 28, 20, 20, 7, '2019-07-25 08:41:55'),
-(93, 29, 15, 16, 1, '2019-07-25 09:53:17'),
-(94, 29, 20, 20, 2, '2019-07-25 09:53:48'),
-(95, 30, 20, 20, 1, '2019-07-25 13:52:54'),
-(96, 31, 20, 20, 1, '2019-07-25 14:02:49'),
-(97, 31, 18, 18, 2, '2019-07-25 14:03:14'),
-(98, 31, 13, 13, 3, '2019-07-25 14:03:41'),
-(99, 31, 10, 10, 4, '2019-07-25 14:04:20'),
-(100, 31, 11, 11, 5, '2019-07-25 14:04:56'),
-(101, 28, 20, 21, 8, '2019-07-25 14:11:44'),
-(102, 31, 14, 14, 6, '2019-07-25 14:12:56'),
-(103, 31, 10, 10, 7, '2019-07-25 14:13:26'),
-(104, 31, 15, 20, 8, '2019-07-25 14:14:11'),
-(107, 33, 20, 40, 1, '2019-07-30 11:52:52'),
-(111, 32, 30, 30, 1, '2019-07-31 16:22:53');
-
 -- --------------------------------------------------------
 
 --
@@ -1432,14 +1114,6 @@ CREATE TABLE `quality_control` (
   `keterangan` varchar(250) NOT NULL,
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `quality_control`
---
-
-INSERT INTO `quality_control` (`id`, `id_pdo`, `id_oc`, `id_jenisdeffect`, `keterangan`, `total`) VALUES
-(1, 25, 66, 3, 'Rusak', 1),
-(3, 26, 79, 9, '', 0);
 
 -- --------------------------------------------------------
 
@@ -1457,16 +1131,6 @@ CREATE TABLE `regulasi` (
   `jam` double NOT NULL,
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `regulasi`
---
-
-INSERT INTO `regulasi` (`id`, `id_pdo`, `id_jenisreg`, `id_oc`, `posisi`, `qty`, `jam`, `total`) VALUES
-(1, 24, 1, 71, 'tmp', 2, 3, 6),
-(2, 24, 2, 71, 'pid', 3, 4, 12),
-(3, 26, 1, 72, 'er', 3, 4, 12),
-(4, 26, 2, 72, 're', 2, 3, 6);
 
 -- --------------------------------------------------------
 
@@ -1647,21 +1311,21 @@ INSERT INTO `target` (`id`, `id_list_carline`, `mh_out`, `mh_in`, `efisiensi`, `
 (103, 28, 100, 100, 95, 120, '2019-07-29'),
 (104, 28, 100, 100, 95, 120, '2019-07-30'),
 (105, 28, 100, 100, 95, 120, '2019-07-31'),
-(106, 27, 200, 200, 95, 120, '2019-07-01'),
-(107, 27, 200, 200, 95, 120, '2019-07-02'),
-(108, 27, 200, 200, 95, 120, '2019-07-03'),
-(109, 27, 200, 200, 95, 120, '2019-07-04'),
-(110, 27, 200, 200, 95, 120, '2019-07-05'),
-(111, 27, 200, 200, 95, 120, '2019-07-06'),
-(112, 27, 200, 200, 95, 120, '2019-07-07'),
-(113, 27, 200, 200, 95, 120, '2019-07-08'),
-(114, 27, 200, 200, 95, 120, '2019-07-09'),
-(115, 27, 200, 200, 95, 120, '2019-07-10'),
-(116, 27, 200, 200, 95, 120, '2019-07-11'),
-(117, 27, 200, 200, 95, 120, '2019-07-12'),
-(118, 27, 200, 200, 95, 120, '2019-07-13'),
-(119, 27, 200, 200, 95, 120, '2019-07-14'),
-(120, 27, 200, 200, 95, 120, '2019-07-15'),
+(106, 27, 200, 200, 93, 120, '2019-07-01'),
+(107, 27, 200, 200, 93, 120, '2019-07-02'),
+(108, 27, 200, 200, 93, 120, '2019-07-03'),
+(109, 27, 200, 200, 93, 120, '2019-07-04'),
+(110, 27, 200, 200, 93, 120, '2019-07-05'),
+(111, 27, 200, 200, 93, 120, '2019-07-06'),
+(112, 27, 200, 200, 93, 120, '2019-07-07'),
+(113, 27, 200, 200, 93, 120, '2019-07-08'),
+(114, 27, 200, 200, 93, 120, '2019-07-09'),
+(115, 27, 200, 200, 93, 120, '2019-07-10'),
+(116, 27, 200, 200, 93, 120, '2019-07-11'),
+(117, 27, 200, 200, 93, 120, '2019-07-12'),
+(118, 27, 200, 200, 93, 120, '2019-07-13'),
+(119, 27, 200, 200, 93, 120, '2019-07-14'),
+(120, 27, 200, 200, 93, 120, '2019-07-15'),
 (121, 27, 200, 200, 95, 120, '2019-07-16'),
 (122, 27, 200, 200, 95, 120, '2019-07-17'),
 (123, 27, 200, 200, 95, 120, '2019-07-18'),
@@ -1677,7 +1341,68 @@ INSERT INTO `target` (`id`, `id_list_carline`, `mh_out`, `mh_in`, `efisiensi`, `
 (133, 27, 200, 200, 95, 120, '2019-07-28'),
 (134, 27, 200, 200, 95, 120, '2019-07-29'),
 (135, 27, 200, 200, 95, 120, '2019-07-30'),
-(136, 27, 200, 200, 95, 120, '2019-07-31');
+(136, 27, 200, 200, 95, 120, '2019-07-31'),
+(137, 28, 450, 430, 99, 400, '2019-08-01'),
+(138, 28, 450, 640, 99, 400, '2019-08-02'),
+(139, 28, 450, 640, 99, 400, '2019-08-03'),
+(140, 28, 450, 640, 99, 400, '2019-08-04'),
+(141, 28, 450, 640, 99, 400, '2019-08-05'),
+(142, 28, 450, 640, 99, 400, '2019-08-06'),
+(143, 28, 450, 640, 99, 400, '2019-08-07'),
+(144, 28, 450, 640, 99, 400, '2019-08-08'),
+(145, 28, 450, 640, 99, 400, '2019-08-09'),
+(146, 28, 450, 640, 99, 400, '2019-08-10'),
+(147, 28, 450, 640, 99, 400, '2019-08-11'),
+(148, 28, 450, 640, 99, 400, '2019-08-12'),
+(149, 28, 450, 640, 99, 400, '2019-08-13'),
+(150, 28, 450, 640, 99, 400, '2019-08-14'),
+(151, 28, 450, 640, 99, 400, '2019-08-15'),
+(152, 28, 450, 640, 99, 400, '2019-08-16'),
+(153, 28, 450, 640, 99, 400, '2019-08-17'),
+(154, 28, 450, 640, 99, 400, '2019-08-18'),
+(155, 28, 450, 640, 99, 400, '2019-08-19'),
+(156, 28, 450, 640, 99, 400, '2019-08-20'),
+(157, 28, 450, 640, 99, 400, '2019-08-21'),
+(158, 28, 450, 640, 99, 400, '2019-08-22'),
+(159, 28, 450, 640, 99, 400, '2019-08-23'),
+(160, 28, 450, 640, 99, 400, '2019-08-24'),
+(161, 28, 450, 640, 99, 400, '2019-08-25'),
+(162, 28, 450, 640, 99, 400, '2019-08-26'),
+(163, 28, 450, 640, 99, 400, '2019-08-27'),
+(164, 28, 450, 640, 99, 400, '2019-08-28'),
+(165, 28, 450, 640, 99, 400, '2019-08-29'),
+(166, 28, 450, 640, 99, 400, '2019-08-30'),
+(167, 28, 450, 640, 99, 400, '2019-08-31'),
+(168, 12, 280, 330, 93, 300, '2019-09-01'),
+(169, 12, 280, 330, 93, 300, '2019-09-02'),
+(170, 12, 280, 330, 93, 300, '2019-09-03'),
+(171, 12, 280, 330, 93, 300, '2019-09-04'),
+(172, 12, 280, 330, 93, 300, '2019-09-05'),
+(173, 12, 280, 330, 93, 300, '2019-09-06'),
+(174, 12, 280, 330, 93, 300, '2019-09-07'),
+(175, 12, 280, 330, 93, 300, '2019-09-08'),
+(176, 12, 280, 330, 93, 300, '2019-09-09'),
+(177, 12, 280, 330, 93, 300, '2019-09-10'),
+(178, 12, 280, 330, 93, 300, '2019-09-11'),
+(179, 12, 280, 330, 93, 300, '2019-09-12'),
+(180, 12, 280, 330, 93, 300, '2019-09-13'),
+(181, 12, 280, 330, 93, 300, '2019-09-14'),
+(182, 12, 280, 330, 93, 300, '2019-09-15'),
+(183, 12, 280, 330, 93, 300, '2019-09-16'),
+(184, 12, 280, 330, 93, 300, '2019-09-17'),
+(185, 12, 280, 330, 93, 300, '2019-09-18'),
+(186, 12, 280, 330, 93, 300, '2019-09-19'),
+(187, 12, 280, 330, 93, 300, '2019-09-20'),
+(188, 12, 280, 330, 93, 300, '2019-09-21'),
+(189, 12, 280, 330, 93, 300, '2019-09-22'),
+(190, 12, 280, 330, 93, 300, '2019-09-23'),
+(191, 12, 280, 330, 93, 300, '2019-09-24'),
+(192, 12, 280, 330, 93, 300, '2019-09-25'),
+(193, 12, 280, 330, 93, 300, '2019-09-26'),
+(194, 12, 280, 330, 95, 300, '2019-09-27'),
+(195, 12, 280, 330, 95, 300, '2019-09-28'),
+(196, 12, 280, 330, 95, 300, '2019-09-29'),
+(197, 12, 280, 330, 95, 300, '2019-09-30');
 
 -- --------------------------------------------------------
 
@@ -1702,9 +1427,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `nama`, `nik`, `username`, `password`, `level`, `id_shift`, `id_district`, `active`) VALUES
-(26, 'Andika Kangen', '212324', 'andk1', 'a', 2, 2, 1, 0),
-(27, 'angga putra', '445638', 'a3', 'a', 3, 2, 1, 0),
-(32, 'ana Admin', '124124', 'ana', 'a', 1, 1, 1, 1),
+(1, 'rra', '1212', 'rasy', 'rasy', 1, 1, 1, 1),
+(32, 'ana Admin', '124124', 'ana', 'a', 1, 1, 2, 1),
 (33, 'Wildan', '808080', 'wildan', 'a', 4, 1, 1, 1),
 (34, 'EKA', '8196', 'Eka8196', '180492', 4, 2, 1, 1),
 (35, 'DINI', '9249', 'Dewi9249', '9249', 3, 2, 1, 1),
@@ -2147,6 +1871,12 @@ ALTER TABLE `carline`
   ADD KEY `id_district` (`id_district`);
 
 --
+-- Indeks untuk tabel `departement`
+--
+ALTER TABLE `departement`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `direct_labor`
 --
 ALTER TABLE `direct_labor`
@@ -2190,13 +1920,21 @@ ALTER TABLE `jenis_deffect`
 -- Indeks untuk tabel `jenis_error`
 --
 ALTER TABLE `jenis_error`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `kode` (`kode`);
 
 --
 -- Indeks untuk tabel `jenis_losttime`
 --
 ALTER TABLE `jenis_losttime`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `jenis_pasi`
+--
+ALTER TABLE `jenis_pasi`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `Kodepasi` (`Kodepasi`);
 
 --
 -- Indeks untuk tabel `jenis_regulasi`
@@ -2334,7 +2072,7 @@ ALTER TABLE `absen_leader`
 -- AUTO_INCREMENT untuk tabel `absen_pegawai`
 --
 ALTER TABLE `absen_pegawai`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `assembly`
@@ -2352,7 +2090,7 @@ ALTER TABLE `balance_produksi`
 -- AUTO_INCREMENT untuk tabel `build_assy`
 --
 ALTER TABLE `build_assy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
 
 --
 -- AUTO_INCREMENT untuk tabel `carline`
@@ -2361,10 +2099,16 @@ ALTER TABLE `carline`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
+-- AUTO_INCREMENT untuk tabel `departement`
+--
+ALTER TABLE `departement`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
 -- AUTO_INCREMENT untuk tabel `direct_labor`
 --
 ALTER TABLE `direct_labor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT untuk tabel `district`
@@ -2382,13 +2126,13 @@ ALTER TABLE `history_pdo`
 -- AUTO_INCREMENT untuk tabel `indirect_activity`
 --
 ALTER TABLE `indirect_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT untuk tabel `indirect_labor`
 --
 ALTER TABLE `indirect_labor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT untuk tabel `jenis_deffect`
@@ -2400,13 +2144,19 @@ ALTER TABLE `jenis_deffect`
 -- AUTO_INCREMENT untuk tabel `jenis_error`
 --
 ALTER TABLE `jenis_error`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
 
 --
 -- AUTO_INCREMENT untuk tabel `jenis_losttime`
 --
 ALTER TABLE `jenis_losttime`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT untuk tabel `jenis_pasi`
+--
+ALTER TABLE `jenis_pasi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `jenis_regulasi`
@@ -2442,31 +2192,31 @@ ALTER TABLE `list_carline`
 -- AUTO_INCREMENT untuk tabel `lost_time`
 --
 ALTER TABLE `lost_time`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 
 --
 -- AUTO_INCREMENT untuk tabel `main_pdo`
 --
 ALTER TABLE `main_pdo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT untuk tabel `output_control`
 --
 ALTER TABLE `output_control`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
 
 --
 -- AUTO_INCREMENT untuk tabel `quality_control`
 --
 ALTER TABLE `quality_control`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `regulasi`
 --
 ALTER TABLE `regulasi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `shift`
@@ -2490,7 +2240,7 @@ ALTER TABLE `supervisor`
 -- AUTO_INCREMENT untuk tabel `target`
 --
 ALTER TABLE `target`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=198;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`

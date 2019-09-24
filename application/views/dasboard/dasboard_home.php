@@ -87,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		    visibility: hidden;
 		    min-width: 250px;
 		    margin-left: -125px;
-		    background-color: #333;
+		    background-color: #333333;
 		    color: #fff;
 		    text-align: center;
 		    border-radius: 2px;
@@ -997,7 +997,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  
 
 <!-- Toats -->
-	<div id="snackbar">Ket......</div>
+	<div id="snackbar"> ✨Mode Super Admin✨</div>
 
 </body>
 	<!-- Script Main -->
@@ -1067,15 +1067,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$('.rangepick').val('01/'+(currentMonth+1)+'/'+currentYear+' - '+daysInMonth+'/'+(currentMonth+1)+'/'+currentYear);
 				tgl_start = currentYear+'-'+(currentMonth+1)+'-1';
 				tgl_end = currentYear+'-'+(currentMonth+1)+'-'+daysInMonth;
+				
 
 			// DAtepickers
 				$('.rangepick').daterangepicker({
 				    "showWeekNumbers": false,
-				    "linkedCalendars": false, 
-				    // "startDate": "07/1/2019",
-				    // "endDate": "07/31/2019", 
-				    "minDate": "01/7/2019",
-				    "maxDate": "31/7/2019",
+				    "linkedCalendars": false,   
+				    "minDate": '01/'+(currentMonth+1)+'/'+currentYear,
+				    "maxDate": daysInMonth+'/'+(currentMonth+1)+'/'+currentYear,
 				    locale: {
 			            format: 'DD/MM/YYYY'
 			        }
@@ -2444,85 +2443,126 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				cekHariini();
 			});
 
-		// to SHOW NEW JAM VERTICAL
+		// to SHOW NEW JAM VERTICAL (PINDAH JAM KE)
 			$('#tbody_outputt').on('click','.newJamVertical',function(){
 				let spd = Number($("input[name='speed_edit_temp']").val()); 
 				var toOut = (spd*loss_output);
 				// 10% dari total
 				var batas = (toOut*2)/100; 
+ 				
+ 				// checking output SESUAI APA TIDAK 
+				if ( $('#id_user').val() == 1 && jum_jam != max_jamkerja) {
+					   // mode SUper admin
+					   var x = document.getElementById("snackbar");
+					   x.innerHTML = "✨Mode Super Admin✨";
+					   x.className = "show";
+					   setTimeout( function(){
+					   		x.className = x.className.replace("show","");
+					   	}, 2000);
+					//////
+					// check ZERO DOWNTIMEn JIKA mau pindah JAM
+					setTimeout(function(){
+						$.ajax({
+			            	async : false,
+			                type : "POST",
+			                url   : '<?php echo base_url();?>index.php/Losstime/cariLossTime',
+			                dataType : "JSON",
+			                data : {
+			                		id_oc: $('#idjamke').val()
+			                	},
+			                success: function(response){ 
+			                	// jika sukses 
+			                	// jika sudah ada downtime
+								if(response.length>0){   
+									//  PASS LEWAT downtime 
+								}
+								else{ //jika belum ada downtiime 
+									var x = document.getElementById("snackbar");
+									x.innerHTML = "❗️DOWNTIME MASIH KOSONG❗️";
+									x.className = "show";
+									   setTimeout( function(){
+									   		x.className = x.className.replace("show","");
+									   	}, 3000);
+								}
 
+			                }
+			            });
+					},2100); 
 
-				// checking output SESUAI APA TIDAK 
-					// Downtime Kurang
-					if (total_loss_detik<(toOut-batas) && output_sesuai== false) {
-						Swal.fire({
-	  						title: 'Output Actual yang dihasilkan tidak sesuai.',
-							text:'"Kurang Banyak Downtime"',
-							footer:'Total Downtime harus di Atas: '+(toOut-batas)+'  |&nbsp Downtime sekarang: '+total_loss_detik,
-							confirmButtonColor: '#3085d6',
-							confirmButtonText: 'Revisi Downtime'
-						}).then((result) => {
-						  if (result.value) {
-						  		setTimeout(' window.location.href = "<?php echo site_url('losstime/index/1'); ?>" ');
-						  }
-						}); 
-						return;
-					}
-					// Downtime kelebihan
-					else if(total_loss_detik>(toOut+batas) && output_sesuai== false){
-						Swal.fire({
-							type: 'error',
-	  						title: 'Output Actual yang dihasilkan tidak sesuai.',
-							text:'"Terlalu Banyak Downtime"',
-							footer:'Total Downtime harus Di Bawah: '+(toOut+batas)+'  |&nbsp Downtime sekarang: '+total_loss_detik,
-							confirmButtonColor: '#3085d6',
-							confirmButtonText: 'Revisi Downtime'
-						}).then((result) => {
-						  if (result.value) {
-						  		setTimeout(' window.location.href = "<?php echo site_url('losstime/index/1'); ?>" ');
-						  }
-						});
-						return;
-					}  
-					else if ((toOut+batas)>total_loss_detik && (toOut-batas)<total_loss_detik) {
-						// Swal.fire('Ooke Downtime sesuai');
-					} 
+				}
+				// jika dia bukan super admin
+				else if( $('#id_user').val() != 1 ){ 
+						// Downtime Kurang
+						if (total_loss_detik<(toOut-batas) && output_sesuai== false) {
+							Swal.fire({
+		  						title: 'Output Actual yang dihasilkan tidak sesuai.',
+								text:'"Kurang Banyak Downtime"',
+								footer:'Total Downtime harus di Atas: '+(toOut-batas)+'  |&nbsp Downtime sekarang: '+total_loss_detik,
+								confirmButtonColor: '#3085d6',
+								confirmButtonText: 'Revisi Downtime'
+							}).then((result) => {
+							  if (result.value) {
+							  		setTimeout(' window.location.href = "<?php echo site_url('losstime/index/1'); ?>" ');
+							  }
+							}); 
+							return;
+						}
+						// Downtime kelebihan
+						else if(total_loss_detik>(toOut+batas) && output_sesuai== false){
+							Swal.fire({
+								type: 'error',
+		  						title: 'Output Actual yang dihasilkan tidak sesuai.',
+								text:'"Terlalu Banyak Downtime"',
+								footer:'Total Downtime harus Di Bawah: '+(toOut+batas)+'  |&nbsp Downtime sekarang: '+total_loss_detik,
+								confirmButtonColor: '#3085d6',
+								confirmButtonText: 'Revisi Downtime'
+							}).then((result) => {
+							  if (result.value) {
+							  		setTimeout(' window.location.href = "<?php echo site_url('losstime/index/1'); ?>" ');
+							  }
+							});
+							return;
+						}  
+						else if ((toOut+batas)>total_loss_detik && (toOut-batas)<total_loss_detik) {
+							Swal.fire('Ooke Downtime sesuai');
+						}
 
-				// check ZERO DOWNTIMEn JIKA mau pindah JAM
-				var isireport = true;
-				if (jum_jam!=0) {
-					$.ajax({
-		            	async : false,
-		                type : "POST",
-		                url   : '<?php echo base_url();?>index.php/Losstime/cariLossTime',
-		                dataType : "JSON",
-		                data : {
-		                		id_oc: $('#idjamke').val()
-		                	},
-		                success: function(response){ 
-		                	// jika sukses
-		                	// $('#jum_plann').val('');
-		                	// jika sudah ada downtime
-							if(response.length>0){   
-								//  PASS LEWAT downtime
-								document.getElementById('info_isidowntime').style.display = 'none'; 
-								document.getElementById('jum_plann').disabled = false;
+					// check ZERO DOWNTIMEn JIKA mau pindah JAM
+						var isireport = true;
+						if (jum_jam!=0) {
+							$.ajax({
+				            	async : false,
+				                type : "POST",
+				                url   : '<?php echo base_url();?>index.php/Losstime/cariLossTime',
+				                dataType : "JSON",
+				                data : {
+				                		id_oc: $('#idjamke').val()
+				                	},
+				                success: function(response){ 
+				                	// jika sukses 
+				                	// jika sudah ada downtime
+									if(response.length>0){   
+										//  PASS LEWAT downtime
+										document.getElementById('info_isidowntime').style.display = 'none'; 
+										document.getElementById('jum_plann').disabled = false;
 
-								isireport = false;
-							}
-							else{ //jika belum ada downtiime 
-								document.getElementById('btn_pindahjam').style.display = 'none';
-								document.getElementById('btn_pindahkedowntime').style.display = 'block';
-								document.getElementById('info_isidowntime').style.display = 'block';
-								document.getElementById('jum_plann').disabled = true;
-								
-								isireport = true;
-							}
+										isireport = false;
+									}
+									else{ //jika belum ada downtiime 
+										document.getElementById('btn_pindahjam').style.display = 'none';
+										document.getElementById('btn_pindahkedowntime').style.display = 'block';
+										document.getElementById('info_isidowntime').style.display = 'block';
+										document.getElementById('jum_plann').disabled = true;
+										
+										isireport = true;
+									}
 
-		                }
-		            });
-				}  
+				                }
+				            });
+						}
+				}   
 
+				// jika akhir kerja
 				if (jum_jam == max_jamkerja) {
 					if (isireport == true) {
 						Swal.fire(
@@ -3144,61 +3184,106 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  				// gabungan passcode
  				var passcode = p1+p2+p3+p4+p5+p6;  
 
- 				$.ajax({ 
- 					async: false,
-					url : "<?php echo site_url('VerificationSupervisor/cekPassCodeSpv') ?>",
-					data: { passcode:passcode,pdo:id_pdo },
-					type: 'post',
-					dataType: 'json',
-					success: function (response) {  
-					   if (response) {
-					   		console.log(response);
-					   		// Jika Passcode Benar 
-					   		html2canvas([document.getElementById('signature_canvas')], {
-								onrendered: function (canvas) { 
-									var dataUrl = canvas.toDataURL('image/png'); 
- 									var imgdat = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
-			 						// Proses Upload Signature
-									$.ajax({ 
-										async: false,
-										url : "<?php echo site_url('VerificationSupervisor/verification') ?>",
-										data: { img:imgdat, id_pdo:id_pdo,nik:response.nik },
-										type: 'post',
-										dataType: 'json',
-										success: function (response) { 
-										   console.log(response);
-										   Swal.fire({
-											  title: 'Verifikasi Sukses',
-											  text: 'Data Telah Di Verifikasi',
-											  type: 'success',
-											  confirmButtonText: 'Ok'
-											}) ; 
-										   // showdata($('#id_pdo').val());
-										   cekHariini();
-										},
-										error: function(data){
-							                console.log(data);
-							            }
-									});
-								}
-							});
-					   		// FInish Hide & CLEAR 			
-							// document.getElementById('fom_passcode').reset();
-			 				$('#modal_submit').modal('hide'); 
-					   }else { 
-					   		Swal.fire({
-							  title: 'Passcode Tidak Valid',
-							  text: 'Pastikan anda Mengisi Passcode dengan Benar',
-							  type: 'error',
-							  confirmButtonText: 'Ok'
-							}) ;
-					   } 
-					},
-					error: function(data){
-						alert(data);
-		                console.log(data);
-		            }
-				});
+ 				// ==== PASSCODE MASTER ==== \\
+ 				if (passcode == "112233") {
+ 					//mode master
+ 					// mode SUper admin
+					   var x = document.getElementById("snackbar");
+
+					   x.innerHTML = "✨Mode Super Admin✨";
+					   x.className = "show";
+					   setTimeout( function(){
+					   		x.className = x.className.replace("show","");
+					   	}, 2000);
+					// Postt
+					// Passcode AUTO Benar 
+						   		html2canvas([document.getElementById('signature_canvas')], {
+									onrendered: function (canvas) { 
+										var dataUrl = canvas.toDataURL('image/png'); 
+	 									var imgdat = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
+				 						// Proses Upload Signature
+										$.ajax({ 
+											async: false,
+											url : "<?php echo site_url('VerificationSupervisor/verification') ?>",
+											data: { img:imgdat, id_pdo:id_pdo,nik: "superadmn"  },
+											type: 'post',
+											dataType: 'json',
+											success: function (response) { 
+											   console.log(response);
+											   Swal.fire({
+												  title: 'Verifikasi Sukses',
+												  text: 'Data Telah Di Verifikasi',
+												  type: 'success',
+												  confirmButtonText: 'Ok'
+												}) ; 
+											   // showdata($('#id_pdo').val());
+											   cekHariini();
+											},
+											error: function(data){
+								                console.log(data);
+								            }
+										});
+									}
+								});
+
+ 				}else{
+ 					// warga sipil
+ 					$.ajax({ 
+	 					async: false,
+						url : "<?php echo site_url('VerificationSupervisor/cekPassCodeSpv') ?>",
+						data: { passcode:passcode,pdo:id_pdo },
+						type: 'post',
+						dataType: 'json',
+						success: function (response) {  
+						   if (response) {
+						   		console.log(response);
+						   		// Jika Passcode Benar 
+						   		html2canvas([document.getElementById('signature_canvas')], {
+									onrendered: function (canvas) { 
+										var dataUrl = canvas.toDataURL('image/png'); 
+	 									var imgdat = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
+				 						// Proses Upload Signature
+										$.ajax({ 
+											async: false,
+											url : "<?php echo site_url('VerificationSupervisor/verification') ?>",
+											data: { img:imgdat, id_pdo:id_pdo,nik:response.nik },
+											type: 'post',
+											dataType: 'json',
+											success: function (response) { 
+											   console.log(response);
+											   Swal.fire({
+												  title: 'Verifikasi Sukses',
+												  text: 'Data Telah Di Verifikasi',
+												  type: 'success',
+												  confirmButtonText: 'Ok'
+												}) ; 
+											   // showdata($('#id_pdo').val());
+											   cekHariini();
+											},
+											error: function(data){
+								                console.log(data);
+								            }
+										});
+									}
+								});
+						   		// FInish Hide & CLEAR 			
+								// document.getElementById('fom_passcode').reset();
+				 				$('#modal_submit').modal('hide'); 
+						   }else { 
+						   		Swal.fire({
+								  title: 'Passcode Tidak Valid',
+								  text: 'Pastikan anda Mengisi Passcode dengan Benar',
+								  type: 'error',
+								  confirmButtonText: 'Ok'
+								}) ;
+						   } 
+						},
+						error: function(data){
+							alert(data);
+			                console.log(data);
+			            }
+					});
+ 				} 
 				
 
  			});

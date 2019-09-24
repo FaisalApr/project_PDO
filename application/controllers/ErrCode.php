@@ -33,7 +33,9 @@ class ErrCode extends CI_Controller {
 		// data new
 		$dataErrorCode = array(
 			'kode' => $this->input->post('def_code'),
-			'keterangan' => $this->input->post('def_ket')
+			'keterangan' => $this->input->post('def_ket'),
+			'kodepasi' => $this->input->post('pasi'),
+			'responsible' => $this->input->post('resp')
 		);
 
 		// insert data new defect
@@ -69,7 +71,10 @@ class ErrCode extends CI_Controller {
 		$id = $this->input->post('id');
 		$kode = $this->input->post('code');
 		$ket = $this->input->post('keterangan');
-		$result = $this->ErrorCode_model->updateEcode($id,$kode,$ket);
+		$pasi = $this->input->post('pasi');
+		$resp = $this->input->post('resp');
+
+		$result = $this->ErrorCode_model->updateEcode($id,$kode,$ket,$pasi,$resp);
 		echo json_encode($result);
 	}
 }

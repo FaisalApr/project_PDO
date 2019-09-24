@@ -11,6 +11,7 @@ class Excel_import extends CI_Controller {
 		$this->load->model('AssyCode_model');
 		$this->load->model('LineModel');
 		$this->load->model('CarlineModel');
+		$this->load->model('ErrorCode_model');
 
 		$this->load->library('excel');
 	}
@@ -225,6 +226,59 @@ class Excel_import extends CI_Controller {
 	}
 
 
+	// Import jenis Error
+	public function importjeniserror()
+	{
+		# code...
+		if(isset($_FILES["file"]["name"])){
+			$path = $_FILES["file"]["tmp_name"];
+			$object = PHPExcel_IOFactory::load($path);
+			$dat = array();
+
+			foreach($object->getWorksheetIterator() as $worksheet)
+			{
+				$arr = array();
+
+				$highestRow = $worksheet->getHighestRow();
+				$highestColumn = $worksheet->getHighestColumn();
+				for($row=4; $row<=$highestRow; $row++)
+				{ 
+					$resp = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+					$downcode = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+					$pasi = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+					$ket = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
+
+					$err = $this->excel_import_model->cekerrorcode($downcode);
+
+					if($err){
+						$id = $err->id;
+						// data UPDATE
+						$dataErrorCode = array(
+							'kode' => $downcode,
+							'keterangan' => $ket,
+							'kodepasi' => $pasi,
+							'responsible' => $resp
+						);
+						// update data
+						$this->ErrorCode_model->updateEcode($id,$downcode,$ket,$pasi,$resp);
+					}else{
+						// data new
+						$dataErrorCode = array(
+							'kode' => $downcode,
+							'keterangan' => $ket,
+							'kodepasi' => $pasi,
+							'responsible' => $resp
+						);
+						// insert data
+						$this->ErrorCode_model->createErrorCode($dataErrorCode);
+					}  
+					array_push( $arr, $dataErrorCode);
+				} 
+			} 
+			// echo json_encode('okk');
+			echo json_encode($arr);
+		}
+	}
 }
 
 /* End of file excel_import.php */
